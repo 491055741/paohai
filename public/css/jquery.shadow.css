@@ -1,0 +1,44 @@
+/**
+ * @preserve Copyright 2011 Syd Lawrence ( www.sydlawrence.com ).
+ * Version: 0.1
+ *
+ * Licensed under MIT and GPLv2.
+ *
+ * For use with jquery.shadow plugin
+ *
+ * Adapted from Nicholas Gallagher's CSS drop shadows without images demo
+ * http://nicolasgallagher.com/css-drop-shadows-without-images/demo/
+ *
+ */
+
+/* Shared styles */
+
+.jquery-shadow {
+	/*position:absolute;*/
+	-webkit-box-shadow:0px 0px 20px rgba(0, 0, 0, 1.0), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+	   -moz-box-shadow:0px 0px 20px rgba(0, 0, 0, 1.0), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	        box-shadow:0px 0px 20px rgba(0, 0, 0, 1.0), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.jquery-shadow-thumbnail {
+    /*position:absolute;*/
+    -webkit-box-shadow:0px 0px 10px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0px 0px 10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0px 0px 10px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.jquery-shadow-thumbnailselected {
+    /*position:absolute;*/
+    -webkit-box-shadow:0px 0px 10px rgba(188, 143, 88, 1.0), 0 0 60px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0px 0px 10px rgba(188, 143, 88, 1.0), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0px 0px 10px rgba(188, 143, 88, 1.0), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.jquery-shadow:before,
+.jquery-shadow:after {
+    content:"";
+    position:absolute; 
+    z-index:-2;
+}
+
+
