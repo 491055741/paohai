@@ -63,10 +63,11 @@ class WechatController extends AbstractActionController
                             <FuncFlag>0</FuncFlag>
                             </xml>";
                 $replyMsgType = "text";
-                if ($msgType == "event") {
-                    $event = $postObj->Event;
-                    $contentStr = "收到语音留言";
-                }
+                $contentStr = "收到语音留言";
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
+                echo $resultStr;
+                return;
+
             } else if ($msgType == "image") {
                 $newsTpl = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
