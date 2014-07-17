@@ -23,6 +23,9 @@ class Order
     public $postcardFileName;
     public $status;             // NOT NULL
     public $bank;
+    public $templateId;
+    public $offsetX;
+    public $offsetY;
 
     public function exchangeArray($data)
     {
@@ -42,5 +45,8 @@ class Order
         $this->senderMobile     = (isset($data['senderMobile'])) ? $data['senderMobile'] : null;
         $this->recipientMobile  = (isset($data['recipientMobile'])) ? $data['recipientMobile'] : null;
         $this->postcardFileName = (isset($data['postcardFileName'])) ? $data['postcardFileName'] : null;
+        $this->templateId = (isset($data['templateId'])) ? $data['templateId'] : null;
+        $this->offsetX    = (isset($data['offsetX'])) ? $data['offsetX'] : null;
+        $this->offsetY    = (isset($data['offsetY'])) ? $data['offsetY'] : null;
     }
 }

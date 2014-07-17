@@ -26,20 +26,12 @@ class WechatController extends AbstractActionController
         return $this->getResponse();
     }
 
-    public function validAction()
-    {
-        $echoStr = $_GET["echostr"];
-        //valid signature , option
-        if ($this->checkSignature()) {
-            echo $echoStr;
-            exit;
-        } else {
-            echo "checkSignature failed.";
-        }
-    }
-
     private function responseMsg()
     {
+        if (isset($_GET["echostr"])) {
+            return $this->validate();
+        }
+
         //get post data, May be due to the different environments
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
         // echo $postStr;
@@ -86,10 +78,6 @@ class WechatController extends AbstractActionController
                             </xml>";
 
                 $picUrl = $postObj->PicUrl;
-                // if (!mysql_query("INSERT INTO ".TABLENAME." (UserName, Pic) VALUES ('".$fromUsername."', '".$picUrl."')")) {
-                //     echo "INSERT INTO ".TABLENAME." (UserName, Pic) VALUES ('".$fromUsername."', '".$picUrl."')";
-                //     die('Could not insert: ' . mysql_error());
-                // }
                 $replyMsgType = "news";
                 $title = "我创建的明信片";
                 $desc = "点击图片完成创建";
@@ -175,11 +163,23 @@ class WechatController extends AbstractActionController
         return $msg;
     }
 
+    private function validate()
+    {
+        $echoStr = $this->getRequest()->getQuery('echostr');
+        //valid signature , option
+        if ($this->checkSignature()) {
+            echo $echoStr;
+            exit;
+        } else {
+            echo "checkSignature failed.";
+        }
+    }
+
     private function checkSignature()
     {
         $signature = $this->getRequest()->getQuery('signature');
         $timestamp = $this->getRequest()->getQuery('timestamp');
-        $nonce = $this->getRequest()->getQuery('nonce');
+        $nonce     = $this->getRequest()->getQuery('nonce');
 
         $token = TOKEN;
         $tmpArr = array($token, $timestamp, $nonce);

@@ -1,5 +1,5 @@
 <!DOCTYPE html  >
-<html manifest="/safari.manifest"><!--   -->
+<html><!-- manifest="/safari.manifest" -->
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +13,8 @@
         <script src="/js/jquery.google.fastbutton.js"></script>
         <script src="/js/jquery.event.move.js"></script>
         <script src="/js/jquery.shadow.js"></script>
-        <script src=<?php echo '"/js/kacha.js?' . $tag . '"'; ?> ></script>
+        <script src=<?php echo '"/js/util.js?' . $tag . '"'; ?> ></script>
+        <script src=<?php echo '"/js/editMessage.js?' . $tag . '"'; ?> ></script>
     </head>
 
     <body>
@@ -25,28 +26,6 @@
                 </div>
             </div>
 
-            <div data-role="page" id="uploadPhotoPage" data-title="制作明信片" class="page">
-                <div data-role="content" align="center">
-                    <div style="height:530px;">
-
-                        <?php for ($i = 1; $i <= 6; $i += 1) { ?>
-                            <img class="thumbnail" src='/images/small/templateVBg.png' style=<?php echo '"top:calc((' . $i . ' - 1)*85px + 15px);"'; ?> ></img>
-                            <img class="thumbnail" id=<?php echo 'templateThumbnail' . $i; ?>  data-index=<?php echo $i; ?> src=<?php echo '/images/small/template' . $i . '.png'; ?> style=<?php echo '"top:calc((' . $i . ' - 1)*85px + 15px);"'; ?> ></img>
-                        <?php } ?>
-
-                        <img class="postcard" src="/images/small/templateVBg.png"></img>
-                        <div class="postcard">
-                            <canvas id="userImg" style="position:absolute;"></canvas>
-                        </div>
-                        <img id="templateImg"   class="postcard"></img>
-                        <div id="touchLayer"    class="postcard" style="cursor:move;"></div>
-                    </div>
-                    <input id="submitPhotoButton" data-theme="e" value="下一步" type="button"></input>
-                    <input id="userName" type="hidden" value=<?echo $username ?> ></input>
-                    <input id="userPicUrl" type="hidden" value=<?echo $picurl ?> ></input>
-                </div>
-            </div>
-
             <div data-role="page" id="messagePage" data-title="留言" class="page">
                 <div data-role="content" align="left">
                     <div>想说的话</div>
@@ -55,6 +34,12 @@
                     <input type="text" id="nameinput" placeholder="你的姓名" style="" value="飞鸽"/>
                     <input id="voiceMessageButton" data-theme="e" value="语音留言" type="button"></input>
                     <input id="submitMessageButton" data-theme="e" value="下一步" type="button"></input>
+
+                    <input id="orderId" type="hidden" value=<?echo $orderId ?> ></input>
+                    <input id="picUrl" type="hidden" value=<?echo $picUrl ?> ></input>
+                    <input id="templateIndex" type="hidden" value=<?echo $templateIndex ?> ></input>
+                    <input id="offsetX" type="hidden" value=<?echo $offsetX ?> ></input>
+                    <input id="offsetY" type="hidden" value=<?echo $offsetY ?> ></input>
                 </div>
             </div>
 
@@ -92,38 +77,6 @@
                         </div>
                     </div>
                     <input id="previewConfirmButton" data-theme="e" value="下一步" type="button">
-                </div>
-            </div>
-
-            <div data-role='page' id='paymentPage' data-title='支付' class='page'>
-                <script src="/js/md5.js"></script>
-                <script src="/js/sha1.js"></script>
-                <div data-role="content" align="center">
-                        <input id="submitPaymentButton1" data-theme="e" value="立即付款 5 元" type="button">
-                        <input id="submitPaymentButton2" data-theme="e" value="兴业银行卡支付 1 元" type="button">
-                </div>
-            </div>
-
-            <div data-role='page' id='payingPage' data-title='支付' class='page'>
-                <div data-role="content" align="center">
-                    <img id="payImg" src="/images/small/paying.jpg" alt="paying.jpg" width="100%" height="100%" style="padding:0; margin:0; border:0;">
-                    <input id="submitPayDoneButton" data-theme="e" value="确 定" type="button">
-                </div>
-            </div>
-
-            <div data-role="page" id="completePage" data-title="完成" class="page">
-                <div data-role="content" align="center">
-                    <h3>明信片创建成功，很快将为你邮寄！</h3>
-
-                    <div class="bshare-custom">
-                        <a title="分享到QQ空间" class="bshare-qzone"></a>
-                        <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
-                        <a title="分享到腾讯微博" class="bshare-qqmb"></a>
-                        <!-- <a title="分享到QQ" class="bshare-qqim"></a> -->
-                    </div>
-
-                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=<你的UUID>&style=-1"></script>
-                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC3.js"></script>
                 </div>
             </div>
 

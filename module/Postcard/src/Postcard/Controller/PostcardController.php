@@ -8,16 +8,22 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Postcard\Model\Order;
 
-define("DEFAULT_PICURL", 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg');
-define("DEFAULT_MSG", '思念是一季的花香，漫过山谷，笼罩你我，而祝福是无边的关注，溢出眼睛，直到心底，愿愉快伴你一生。');
-define("DEFAULT_BANK", 'other');
-define("DEFAULT_USER", "ocKsTuKbE4QqHbwGEXmVnuLHO_sY"); // default user is me
-// order status 待支付，已支付，已打印，已发货，已收货，退款状态
-define("UNPAY", 100);
-define("PAYED", 101);
-define("PRINTED", 102);
-define("SHIPPED", 103);
+define('DEFAULT_PICURL', 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg');
+define('DEFAULT_MSG', '思念是一季的花香，漫过山谷，笼罩你我，而祝福是无边的关注，溢出眼睛，直到心底，愿愉快伴你一生。');
+define('DEFAULT_BANK', 'other');
+define('DEFAULT_USER', 'ocKsTuKbE4QqHbwGEXmVnuLHO_sY'); // default user is me
+define('DEFAULT_ZIPCODE', '518000');
+define('DEFAULT_SENDER', 'sender');
+define('DEFAULT_ADDRESS', 'address');
+define('DEFAULT_RECIPIENT', 'recipient');
 
+// order status 待支付，已支付，已打印，已发货，已收货，退款状态
+define('UNPAY', 100);
+define('PAYED', 101);
+define('PRINTED', 102);
+define('SHIPPED', 103);
+
+define('JS_TAG', '20140717');
 
 class PostcardController extends AbstractActionController
 {
@@ -25,9 +31,9 @@ class PostcardController extends AbstractActionController
 
     public function voiceAction()
     {
-        $commonUtil = new CommonUtil();
-        $commonUtil->setServiceLocator($this->getServiceLocator());
-        $token = $commonUtil->getAccessToken();
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        $token = $util->getAccessToken();
 
         $args["host"] = 'api.weixin.qq.com';
         $args["url"] = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token;
@@ -40,21 +46,52 @@ class PostcardController extends AbstractActionController
                 'text'    => array('content' => '请说出你的语音留言' ),
                 ));
 
-        $result = json_decode($this->asyn_request($args));
+        $result = json_decode($util->asyn_request($args));
         $array = $this->object2array($result);
         return new JsonModel($array);
     }
 
     public function indexAction()
     {
-        return $this->newPostcard();
-    }
-
-    private function newPostcard()
-    {
         $viewModel =  new ViewModel(array(
             'picurl' => $this->getRequest()->getQuery('picurl', DEFAULT_PICURL),
             'username' => $this->getRequest()->getQuery('username', 'tester'),
+            'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
+        ));
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    public function editMessageAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            echo 'not valid order id';
+            // $viewModel =  new ViewModel();
+            // $viewModel->setTerminal(true); // disable layout template
+            // return $viewModel;
+            return;
+        }
+
+        $viewModel =  new ViewModel(array(
+            'orderId' => $orderId,
+            'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
+            'templateIndex' => $order->templateId,
+            'offsetX' => $order->offsetX,
+            'offsetY' => $order->offsetY,
+            'picUrl'  => $order->picUrl,
+        ));
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    public function payAction()
+    {
+        $this->confirmOrder();
+        $viewModel =  new ViewModel(array(
+            'picurl' => $this->getRequest()->getQuery('picurl', DEFAULT_PICURL),
+            'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
             'tag' => '201405291059', // if only want update 'kacha.js', modify the tag.   ????????   not work
         ));
         $viewModel->setTerminal(true); // disable layout template
@@ -113,25 +150,8 @@ class PostcardController extends AbstractActionController
 
     public function placeOrderAction()
     {
-        $args["host"] = $_SERVER['SERVER_NAME'];
-        $args["url"] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/makepicture';
-        $args["method"] = "POST";
-        $args["data"] = array(
-            'templateIndex' => $this->getRequest()->getPost('templateIndex', 1),
-            'offsetX'       => $this->getRequest()->getPost('offsetX', 0),
-            'offsetY'       => $this->getRequest()->getPost('offsetY', 0),
-            'userPicUrl'    => $this->getRequest()->getPost('userPicUrl', DEFAULT_PICURL),
-            'zipcode'       => $this->getRequest()->getPost('zipcode', '610041'),
-            'message'       => $this->getRequest()->getPost('message', DEFAULT_MSG),
-            'sender'        => $this->getRequest()->getPost('sender', 'sender'),
-            'address'       => $this->getRequest()->getPost('address', 'address'),
-            'recipient'     => $this->getRequest()->getPost('recipient', 'recipient'),
-            'userName'      => $this->getRequest()->getPost('userName', 'username')
-        );
-        $this->asyn_request($args);
-
         while (1) {
-            $orderId = date("ymd") . rand(1000, 9999);
+            $orderId = date("ymd") . rand(10000, 99999);
             if (!$this->getOrderTable()->getOrder($orderId)) {
                 break;
             }
@@ -139,15 +159,13 @@ class PostcardController extends AbstractActionController
 
         $order = new Order();
         $order->id         = $orderId;
-        $order->zipCode    = $this->getRequest()->getPost('zipcode', '610041');
-        $order->message    = $this->getRequest()->getPost('message', DEFAULT_MSG);
-        $order->sender     = $this->getRequest()->getPost('sender', 'sender');
-        $order->address    = $this->getRequest()->getPost('address', 'address');
-        $order->recipient  = $this->getRequest()->getPost('recipient', 'recipient');
-        $order->userName   = $this->getRequest()->getPost('userName', 'username');
+        $order->userName   = $this->getRequest()->getPost('userName',   DEFAULT_USER);
         $order->picUrl     = $this->getRequest()->getPost('userPicUrl', DEFAULT_PICURL);
+        $order->templateId = $this->getRequest()->getPost('templateIndex', '1');
+        $order->offsetX    = $this->getRequest()->getPost('offsetX', '0');
+        $order->offsetY    = $this->getRequest()->getPost('offsetY', '0');
         $order->status     = UNPAY;
-        $order->bank       = $this->getRequest()->getPost('bank', DEFAULT_BANK);
+
         // var_dump($order);
         $this->getOrderTable()->saveOrder($order);
 
@@ -158,11 +176,79 @@ class PostcardController extends AbstractActionController
         return new JsonModel($res);
     }
 
+    public function updateOrderAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            echo "order not exist!";
+        } else {
+            $zipCode    = $this->getRequest()->getPost('zipcode');
+            $message    = $this->getRequest()->getPost('message');
+            $sender     = $this->getRequest()->getPost('sender');
+            $address    = $this->getRequest()->getPost('address');
+            $recipient  = $this->getRequest()->getPost('recipient');
+            $userName   = $this->getRequest()->getPost('userName');
+            $picUrl     = $this->getRequest()->getPost('userPicUrl');
+            $bank       = $this->getRequest()->getPost('bank');
+
+            $zipcode   ? $order->zipCode = $zipCode : null;
+            $message   ? $order->message = $message : null;
+            $sender    ? $order->sender  = $sender : null;
+            $address   ? $order->address = $address : null;
+            $recipient ? $order->recipient = $recipient : null;
+            $userName  ? $order->userName  = $userName : null;
+            $picUrl    ? $order->picUrl  = $picUrl : null;
+            $status    ? $order->status  = $status : null;
+            $bank      ? $order->bank    = $bank : null;
+
+            // var_dump($order);
+            $this->getOrderTable()->saveOrder($order);
+            echo "order update success!";
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    private function confirmOrder()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            echo 'not valid order id';
+            return;
+        }
+
+        $args["host"] = $_SERVER['SERVER_NAME'];
+        $args["url"] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/makepicture';
+        $args["method"] = "POST";
+        $args["data"] = array(
+            'templateIndex' => $order->templateIndex,
+            'offsetX'       => $order->offsetX,
+            'offsetY'       => $order->offsetY,
+            'userPicUrl'    => $order->userPicUrl,
+            'zipcode'       => $order->zipcode,
+            'message'       => $order->message,
+            'sender'        => $order->sender,
+            'address'       => $order->address,
+            'recipient'     => $order->recipient,
+            'userName'      => $order->userName
+        );
+        $this->asyn_request($args);
+        // $res = array(
+        //     'code' => 0,
+        //     'msg' => 'success',
+        // );
+        // return new JsonModel($res);
+    }
+
     public function deleteAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
-        if (!$order) {
+        if ($orderId == '0' || !$order) {
             echo "order not exist!";
         } else {
             $this->getOrderTable()->deleteOrder($orderId);
@@ -174,20 +260,21 @@ class PostcardController extends AbstractActionController
         return $viewModel;
     }
 
-    public function updateAction()
+    public function changeStatusAction()
     {
         $orderId = $this->params()->fromRoute('id', 0);
         echo "orderId:" . $orderId . "</br>";
         $status = $this->params()->fromRoute('status');
         echo "new status:" . $status . "</br>";
         if (!$orderId || ($status != PRINTED && $status != SHIPPED && $status != PAYED)) {
-            echo "wrong para! status must be 102(PRINTED) or 103(SHIPPED)!";
+            echo "wrong para! status must be 101(PAYED), 102(PRINTED) or 103(SHIPPED)!";
         } else {
             $order = $this->getOrderTable()->getOrder($orderId);
             if (!$order) {
                 echo "order not exist!";
             } else {
                 $order->status = $status;
+                $order->payDate = date('Y-m-d H:i:s');
                 $this->getOrderTable()->saveOrder($order);
                 echo "update success";
             }
@@ -409,58 +496,6 @@ class PostcardController extends AbstractActionController
             $font_color,
             $font_file, 
             $__string);
-    }
-
-    private function asyn_request($args)
-    {
-        $host = $args["host"] ?  $args["host"] : "localhost";//主机
-        $method = $args["method"] == "POST" ? "POST" : "GET";//方法   
-        $url = $args["url"] ? $args["url"] : "http://".$host ;//地址
-        $data = is_array($args["data"]) ? $args["data"] : array();//请求参数   
-        $fp = @fsockopen($host, 80, $errno, $errstr, 30);
-        //错误
-        if (!$fp) {echo "$errstr ($errno)<br/>\n"; exit;}
-
-        $qstr = $method == "GET" ? urlencode($args["data"]) : $args["data"];
-        $params = '';
-        $params.= $method == "GET" ? "GET {$url}?{$qstr} HTTP/1.1\r\n" :  "POST {$url} HTTP/1.1\r\n";
-        $params.= "Host: ".$host."\r\n";
-        $params.= "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5\r\n";
-        $params.= "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
-        $params.= "Accept-Language: zh-cn,zh;q=0.5\r\n";
-        $params.= "Accept-Encoding: gzip,deflate\r\n";
-        $params.= "Accept-Charset: GB2312,utf-8;q=0.7,*;q=0.7\r\n";
-        $params.= "Keep-Alive: 300\r\n";
-        $params.= "Connection: keep-alive\r\n";
-        $params.= "Content-Type: application/x-www-form-urlencoded; charset=UTF-8;encoding=utf-8;\r\n";
-        // $params.= "Content-Type: application/json; encoding=utf-8\r\n";
-        $params.= "Content-Length: ".strlen($qstr)."\r\n\r\n";
-        $params.= $method == "GET" ? null :$qstr;
-
-        //file_put_contents("C:\\http.txt",$params);
-
-        fwrite($fp, $params);
-
-        // echo '<br>params:' . $params . '<br>';
-        //取得回應的內容
-        // $line = fgets($fp, 1024);
-        // echo "result:<br>";
-        // echo $line;
-        // if (!preg_match('/^HTTP/1.. 200/i', $line)) return;
-
-        $results = "";
-        $inheader = true;
-        while (!feof($fp)) {
-          $line = fgets($fp, 2048);
-          if ($inheader && ($line == "\n" || $line == "\r\n")) {
-            $inheader = false;
-          } else if (!$inheader) {
-            $results .= $line;
-          }
-        }
-        // echo '<br>results:' . $results . '<br>';
-        fclose($fp);
-        return $results;
     }
 
     /**************************************************************

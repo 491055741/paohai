@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2014-07-04 14:13
+# 2014-07-17 14:13
 
 #css
 /css/jquery.mobile-1.3.1.min.css
@@ -31,7 +31,10 @@ CACHE MANIFEST
 /js/components/mode-ecb-min.js
 /js/jquery.event.move.js
 /js/jquery.rotate-1.0.1.min.js
-/js/kacha.js
+/js/util.js
+/js/index.js
+/js/editMessage.js
+/js/pay.js
 
 NETWORK:
 *

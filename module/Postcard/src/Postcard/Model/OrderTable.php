@@ -48,6 +48,9 @@ class OrderTable
             'senderMobile'     => $order->senderMobile,
             'recipientMobile'  => $order->recipientMobile,
             'postcardFileName' => $order->postcardFileName,
+            'templateId'       => $order->templateId,
+            'offsetX'          => $order->offsetX,
+            'offsetY'          => $order->offsetY,
         );
 
         if ($this->getOrder($order->id)) {

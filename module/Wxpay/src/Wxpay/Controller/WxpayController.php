@@ -16,8 +16,6 @@ class WxpayController extends AbstractActionController
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $bank = $this->getRequest()->getQuery('bank', 'other');
-        $para = array(
-            'total_fee'   => ($bank == 'XingYe' ? 100 : 500),
             'order_id'    => $orderId,
         );
 
@@ -60,21 +58,20 @@ class WxpayController extends AbstractActionController
     public function resultAction()
     {
         // var_dump($GLOBALS['HTTP_RAW_POST_DATA']);
-        // $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
+        $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
         echo $postStr;
         // var_dump($_POST);
-        // $trade_state = $_POST['trade_state'];
-        // echo 'result result:<br>';
-        // echo '$trade_state='.$trade_state.'<br>';
-        // if ($trade_state == 0) {    // pay success
-        //     $out_trade_no = $_POST['out_trade_no'];
-        //     echo '$out_trade_no='.$out_trade_no;
-        //     // update order status to 'payed'
-        //     // $url = 'paohai.ikamobile.com/postcard/update/'.$out_trade_no.'/101';
-        //     // $html = file_get_contents($url);
-        //     // $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
-        // }
-
+        $trade_state = $_POST['trade_state'];
+        echo 'result result:<br>';
+        echo '$trade_state='.$trade_state.'<br>';
+        if ($trade_state == 0) {    // pay success
+            $out_trade_no = $_POST['out_trade_no'];
+            echo '$out_trade_no='.$out_trade_no;
+            // update order status to 'payed'
+            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/'.$out_trade_no.'/101';
+            $html = file_get_contents($url);
+            $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
+        }
         echo 'success'; // must respond 'success' to wxpay server
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
@@ -141,19 +138,19 @@ respend:
         if (!empty($postStr)) {
 
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $OpenId = $postObj->OpenId;
-            $AppId = $postObj->AppId;
-            $TimeStamp = $postObj->TimeStamp;
-            $MsgType = $postObj->MsgType;
+            $OpenId     = $postObj->OpenId;
+            $AppId      = $postObj->AppId;
+            $TimeStamp  = $postObj->TimeStamp;
+            $MsgType    = $postObj->MsgType;
             $FeedBackId = $postObj->FeedBackId;
-            $Reason = $postObj->Reason;
+            $Reason     = $postObj->Reason;
             $AppSignature = $postObj->AppSignature;
             $SignMethod = $postObj->SignMethod;
 
             if ($MsgType == 'request') {
-                $TransId = $postObj->TransId;
+                $TransId  = $postObj->TransId;
                 $Solution = $postObj->Solution;
-                $ExtInfo = $postObj->ExtInfo;
+                $ExtInfo  = $postObj->ExtInfo;
             }
 
             echo $MsgType . ' ' . $Reason;
