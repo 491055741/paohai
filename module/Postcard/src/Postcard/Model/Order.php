@@ -7,21 +7,22 @@ namespace Postcard\Model;
 
 class Order
 {
-    public $id;                 // NOT NULL
-    public $userName;           // NOT NULL
-    public $picUrl;             // NOT NULL
-    public $voiceUrl;
+    public $id;
+    public $userName;
+    public $picUrl;
+    public $voiceMediaId;
     public $message;
     public $zipCode;
-    public $address;            // NOT NULL
-    public $recipient;          // NOT NULL
+    public $address;
+    public $recipient;
     public $recipientMobile;
     public $sender;
     public $senderMobile;
     public $price;
+    public $orderDate;
     public $payDate;
     public $postcardFileName;
-    public $status;             // NOT NULL
+    public $status;
     public $bank;
     public $templateId;
     public $offsetX;
@@ -32,12 +33,13 @@ class Order
         $this->id        = (isset($data['id'])) ? $data['id'] : null;
         $this->userName  = (isset($data['userName'])) ? $data['userName'] : null;
         $this->picUrl    = (isset($data['picUrl'])) ? $data['picUrl'] : null;
-        $this->voiceUrl  = (isset($data['voiceUrl'])) ? $data['voiceUrl'] : null;
+        $this->voiceMediaId  = (isset($data['voiceMediaId'])) ? $data['voiceMediaId'] : null;
         $this->message   = (isset($data['message'])) ? $data['message'] : null;
         $this->zipCode   = (isset($data['zipCode'])) ? $data['zipCode'] : null;
         $this->address   = (isset($data['address'])) ? $data['address'] : null;
         $this->recipient = (isset($data['recipient'])) ? $data['recipient'] : null;
         $this->price     = (isset($data['price'])) ? $data['price'] : null;
+        $this->orderDate   = (isset($data['orderDate'])) ? $data['orderDate'] : null;
         $this->payDate   = (isset($data['payDate'])) ? $data['payDate'] : null;
         $this->status    = (isset($data['status'])) ? $data['status'] : null;
         $this->bank      = (isset($data['bank'])) ? $data['bank'] : null;

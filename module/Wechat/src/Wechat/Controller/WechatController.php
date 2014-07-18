@@ -5,12 +5,17 @@ include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.p
 use CommonUtil;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Postcard\Model\Order;
 
 define("TOKEN", "ademoforpaohai");
 ini_set("display_errors", true);
 
+session_start();
+
 class WechatController extends AbstractActionController
 {
+    protected $orderTable;
+
     public function indexAction()
     {
         $this->responseMsg();
@@ -46,6 +51,7 @@ class WechatController extends AbstractActionController
             $time = time();
 
             if ($msgType == "voice") {
+                $mediaId = $postObj->MediaId;
                 $textTpl = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
                             <FromUserName><![CDATA[%s]]></FromUserName>
@@ -55,7 +61,13 @@ class WechatController extends AbstractActionController
                             <FuncFlag>0</FuncFlag>
                             </xml>";
                 $replyMsgType = "text";
-                $contentStr = "收到语音留言";
+
+                $order = $this->getOrderTable()->getOrderByUserName($fromUsername);
+                if (!$order) {
+                    $contentStr = '请先上传照片';
+                } else {
+                    $contentStr = '已收到语音留言，<a href=http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard/editmessage?voiceMediaId='.$mediaId.'&orderId='.$order->id.'>继续编辑</a>';
+                }
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
                 echo $resultStr;
                 return;
@@ -79,9 +91,9 @@ class WechatController extends AbstractActionController
 
                 $picUrl = $postObj->PicUrl;
                 $replyMsgType = "news";
-                $title = "我创建的明信片";
+                $title = "点击创建明信片";
                 $desc = "点击图片完成创建";
-                $url = "http://paohai.ikamobile.com/postcard?picurl=".$picUrl."&username=".$fromUsername;
+                $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard?picurl='.$picUrl.'&username='.$fromUsername;
                 $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                 echo $resultStr;
                 return;
@@ -142,8 +154,7 @@ class WechatController extends AbstractActionController
                         $replyMsgType = "news";
                         $title = "支付测试";
                         $desc = "点击图片进入支付测试";
-                        $url = 'http://paohai.ikamobile.com/wxpay/pay/1234';
-                        // $url = 'http://paohai.ikamobile.com/wxpay/test';
+                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/wxpay/pay/1234';
                         $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                         echo $resultStr;
                         return;
@@ -161,6 +172,15 @@ class WechatController extends AbstractActionController
             echo $msg;
         }
         return $msg;
+    }
+
+    private function getOrderTable()
+    {
+        if (!$this->orderTable) {
+            $sm = $this->getServiceLocator();
+            $this->orderTable = $sm->get('Postcard\Model\orderTable');
+        }
+        return $this->orderTable;
     }
 
     private function validate()

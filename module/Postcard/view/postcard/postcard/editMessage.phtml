@@ -20,6 +20,13 @@
     <body>
         <div id="content" data-role="content">
 
+            <input id="orderId" type="hidden" value=<?echo $orderId ?> ></input>
+            <input id="picUrl" type="hidden" value=<?echo $picUrl ?> ></input>
+            <input id="templateIndex" type="hidden" value=<?echo $templateIndex ?> ></input>
+            <input id="offsetX" type="hidden" value=<?echo $offsetX ?> ></input>
+            <input id="offsetY" type="hidden" value=<?echo $offsetY ?> ></input>
+            <input id="voiceMediaId" type="hidden" value=<?echo $voiceMediaId ?> ></input>
+
             <div data-role='page' id='loadingPage' data-title='泡海明信片' class='page'>
                 <div align="center">
                     <p>加载中...</p>
@@ -34,12 +41,6 @@
                     <input type="text" id="nameinput" placeholder="你的姓名" style="" value="飞鸽"/>
                     <input id="voiceMessageButton" data-theme="e" value="语音留言" type="button"></input>
                     <input id="submitMessageButton" data-theme="e" value="下一步" type="button"></input>
-
-                    <input id="orderId" type="hidden" value=<?echo $orderId ?> ></input>
-                    <input id="picUrl" type="hidden" value=<?echo $picUrl ?> ></input>
-                    <input id="templateIndex" type="hidden" value=<?echo $templateIndex ?> ></input>
-                    <input id="offsetX" type="hidden" value=<?echo $offsetX ?> ></input>
-                    <input id="offsetY" type="hidden" value=<?echo $offsetY ?> ></input>
                 </div>
             </div>
 

@@ -44,7 +44,7 @@ class CommonUtil
         return $token;
     }
 
-    private function asyn_request($args)
+    public function asyn_request($args)
     {
         $host = $args["host"] ?  $args["host"] : "localhost";//主机
         $method = $args["method"] == "POST" ? "POST" : "GET";//方法   
@@ -91,11 +91,13 @@ class CommonUtil
             $results .= $line;
           }
         }
-        // echo '<br>results:' . $results . '<br>';
+        echo $results;
+        // $results = '{"errcode":0,"errmsg":"ok"}';
+
         fclose($fp);
         return $results;
     }
-    
+
     function saveAccessToken($token) {
         $para = new WxPara();
         $para->paraName = ACCESS_TOKEN_KEY;

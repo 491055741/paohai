@@ -7,15 +7,17 @@ if (!isset($_GET['date'])) {
     return;
 }
 
-$filename = './wlauth/'.$_GET['date'].'.data';
+$filename = './'.$_GET['date'].'.data';
 if (!file_exists($filename)) {
     $array = array('code' => 1, 'msg' => 'file '.$filename.' not exist!');
     echo json_encode($array);
     return;
 }
 
-$array = array('deviceNumber' => '你好1234567890abcdefg',
-             'authRealm'    => file_get_contents($filename));
+$array = array(
+            'code' => 0,
+            'deviceNumber' => '你好1234567890abcdefg',
+            'checkCode'    => file_get_contents($filename));
 
 /**************************************************************
 *
@@ -38,7 +40,7 @@ function arrayRecursive(&$array, $function, $apply_to_keys_also = false)
         } else {
             $array[$key] = $function($value);
         }
-  
+
         if ($apply_to_keys_also && is_string($key)) {
             $new_key = $function($key);
             if ($new_key != $key) {

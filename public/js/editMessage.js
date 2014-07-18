@@ -12,6 +12,7 @@ var canvas_h = 342;
 var pic_orig_w = 0;
 var pic_orig_h = 0;
 var userPicUrl = '';
+var voiceMediaId = '';
 
 function init() {
     $.mobile.changePage($("#messagePage"), {
@@ -24,8 +25,10 @@ $(function() {
     $("#messagePage").on("pageinit", function() {
 
         output("messagePage init");
+        orderId = $('#orderId').val();
         userPicUrl = $('#picUrl').val();
-
+        voiceMediaId = $('#voiceMediaId').val();
+// http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID
         userImage.onload = function(){
             pic_orig_w = userImage.width;
             pic_orig_h = userImage.height;
@@ -33,10 +36,9 @@ $(function() {
 
         userImage.src = userPicUrl;
 
-
         $("#voiceMessageButton").fastClick(function() {
 
-            var url = "http://" + window.location.hostname + "/postcard/voice?username=" + userName;
+            var url = "http://" + window.location.hostname + "/postcard/voice/" + orderId;
 
             $.get(
                 url,

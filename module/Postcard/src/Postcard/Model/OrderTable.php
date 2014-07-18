@@ -18,6 +18,19 @@ class OrderTable
         return $resultSet;
     }
 
+    public function getOrderByUserName($name)
+    {
+        $rowset = $this->tableGateway->select(array('userName' => $name, 'status' => '100'));//->order('orderDate');//->where('noble_title = :title');
+        if (!$rowset) {
+            return FALSE;
+        }
+        $lastRow = null;
+        foreach ($rowset as $row) {
+            $lastRow = $row;
+        }
+        return $lastRow;
+    }
+
     public function getOrder($id)
     {
         $id  = (int) $id;
@@ -35,7 +48,7 @@ class OrderTable
             'id'        => $order->id,
             'userName'  => $order->userName,
             'picUrl'    => $order->picUrl,
-            'voiceUrl'  => $order->voiceUrl,
+            'voiceMediaId' => $order->voiceMediaId,
             'message'   => $order->message,
             'zipCode'   => $order->zipCode,
             'address'   => $order->address,

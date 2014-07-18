@@ -16,6 +16,8 @@ class WxpayController extends AbstractActionController
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $bank = $this->getRequest()->getQuery('bank', 'other');
+        $para = array(
+            'total_fee'   => ($bank == 'XingYe' ? 100 : 500),
             'order_id'    => $orderId,
         );
 

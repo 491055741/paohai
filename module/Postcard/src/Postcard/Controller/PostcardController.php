@@ -25,12 +25,25 @@ define('SHIPPED', 103);
 
 define('JS_TAG', '20140717');
 
+
 class PostcardController extends AbstractActionController
 {
     protected $orderTable;
 
     public function voiceAction()
     {
+        $orderId = $this->params()->fromRoute('id', '0');
+
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            echo 'invalid order id';
+            // $viewModel =  new ViewModel();
+            // $viewModel->setTerminal(true); // disable layout template
+            // return $viewModel;
+            return;
+        }
+
+        var_dump($order);
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
         $token = $util->getAccessToken();
@@ -38,10 +51,10 @@ class PostcardController extends AbstractActionController
         $args["host"] = 'api.weixin.qq.com';
         $args["url"] = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token;
         $args["method"] = "POST";
-
+        // var_dump($order);
         // for Chinese value, don't use json_encode, otherwise Chinese will be convert to \u8bf7\u8bf4...
         $args["data"] = $this->JSON(array(
-                'touser'  => $this->getRequest()->getQuery('username', DEFAULT_USER),
+                'touser'  => $order->userName,
                 'msgtype' => 'text',
                 'text'    => array('content' => '请说出你的语音留言' ),
                 ));
@@ -55,7 +68,7 @@ class PostcardController extends AbstractActionController
     {
         $viewModel =  new ViewModel(array(
             'picurl' => $this->getRequest()->getQuery('picurl', DEFAULT_PICURL),
-            'username' => $this->getRequest()->getQuery('username', 'tester'),
+            'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
             'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
         ));
         $viewModel->setTerminal(true); // disable layout template
@@ -67,21 +80,29 @@ class PostcardController extends AbstractActionController
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            echo 'not valid order id';
-            // $viewModel =  new ViewModel();
-            // $viewModel->setTerminal(true); // disable layout template
-            // return $viewModel;
-            return;
+            echo 'invalid order id';
+            $viewModel =  new ViewModel();
+            $viewModel->setTerminal(true); // disable layout template
+            return $viewModel;
+        }
+        // mediaId will valid for 3 days
+        $voiceMediaId = $this->getRequest()->getQuery('voiceMediaId');
+        if ($voiceMediaId) {
+            $order->voiceMediaId = $voiceMediaId;
+            // var_dump($order);
+            $this->getOrderTable()->saveOrder($order);
         }
 
         $viewModel =  new ViewModel(array(
             'orderId' => $orderId,
-            'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
+            'tag' => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
             'templateIndex' => $order->templateId,
             'offsetX' => $order->offsetX,
             'offsetY' => $order->offsetY,
             'picUrl'  => $order->picUrl,
+            'voiceMediaId' => $order->voiceMediaId ? $order->voiceMediaId : '0',
         ));
+        // var_dump($viewModel);
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
@@ -165,7 +186,7 @@ class PostcardController extends AbstractActionController
         $order->offsetX    = $this->getRequest()->getPost('offsetX', '0');
         $order->offsetY    = $this->getRequest()->getPost('offsetY', '0');
         $order->status     = UNPAY;
-
+        $order->orderDate  = date('Y-m-d H:i:s');
         // var_dump($order);
         $this->getOrderTable()->saveOrder($order);
 
@@ -225,18 +246,19 @@ class PostcardController extends AbstractActionController
         $args["url"] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/makepicture';
         $args["method"] = "POST";
         $args["data"] = array(
-            'templateIndex' => $order->templateIndex,
+            'templateIndex' => $order->templateId,
             'offsetX'       => $order->offsetX,
             'offsetY'       => $order->offsetY,
-            'userPicUrl'    => $order->userPicUrl,
-            'zipcode'       => $order->zipcode,
+            'userPicUrl'    => $order->picUrl,
+            'zipcode'       => $order->zipCode,
             'message'       => $order->message,
             'sender'        => $order->sender,
             'address'       => $order->address,
             'recipient'     => $order->recipient,
             'userName'      => $order->userName
         );
-        $this->asyn_request($args);
+        $util = new CommonUtil();
+        $util->asyn_request($args);
         // $res = array(
         //     'code' => 0,
         //     'msg' => 'success',

@@ -14,6 +14,10 @@ function init() {
     $.mobile.changePage($("#uploadPhotoPage"), {
         transition: "none"
     });
+
+    userName   = $("#userName").val();
+    userPicUrl = $("#userPicUrl").val();
+    userImage.src = userPicUrl;
 }
 
 $(function() {
@@ -42,9 +46,6 @@ $(function() {
             }
         }
 
-        userName   = $("#userName").val();
-        userPicUrl = $("#userPicUrl").val();
-
         $("#touchLayer").shadow();
 
         userImage.onload = function(){
@@ -54,8 +55,6 @@ $(function() {
             changeTemplate(1);
             bindMove();
         }
-
-        userImage.src = userPicUrl;
     });
 
     function clickOnThumbnail(obj) {
@@ -193,7 +192,6 @@ $(function() {
     }
 
     function submitPhoto() {
-
         var url = "http://" + window.location.hostname + "/postcard/placeorder";
         var params = {
             templateIndex: selectedTemplateIndex,
