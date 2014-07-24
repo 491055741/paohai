@@ -319,6 +319,7 @@ class PostcardController extends AbstractActionController
             $picUrl     = $this->getRequest()->getPost('userPicUrl');
             $status     = $this->getRequest()->getPost('status');
             $bank       = $this->getRequest()->getPost('bank');
+            $mobile     = $this->getRequest()->getPost('mobile');
 
             $zipCode   ? $order->zipCode   = $zipCode   : null;
             $message   ? $order->message   = $message   : null;
@@ -329,7 +330,7 @@ class PostcardController extends AbstractActionController
             $picUrl    ? $order->picUrl    = $picUrl    : null;
             $status    ? $order->status    = $status    : null;
             $bank      ? $order->bank      = $bank      : null;
-
+            $mobile    ? $order->recipientMobile = $mobile : null;
             // var_dump($order);
             $this->getOrderTable()->saveOrder($order);
             $res = array(
