@@ -30,7 +30,7 @@ $wxPayHelper->setParameter("input_charset", "UTF-8");
                 WeixinJSBridge.log(res.err_msg);
                 if (res.err_msg == 'get_brand_wcpay_request:ok') {
                     self.location = "http://" + window.location.hostname + "/postcard#completePage";
-                } else {
+                } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // not user cancel
                     alert(res.err_msg);
                 }
             });

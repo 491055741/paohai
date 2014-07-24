@@ -17,12 +17,14 @@ $this->headTitle($title);
     <h1><?php echo $this->escapeHtml($title); ?></h1>
     <table class="table">
     <tr>
-        <th>orderId</th>
-        <th>UserName</th>
+        <th>id</th>
+        <th>orderDate</th>
+        <th>userName</th>
         <th>address</th>
         <th>recipient</th>
         <th>picUrl</th>
-        <th>Message</th>
+        <th>voiceMediaId</th>
+        <th>message</th>
         <th>status</th>
         <th>action</th>
         <!-- <th>&nbsp;</th> -->
@@ -30,14 +32,19 @@ $this->headTitle($title);
     <?php foreach ($orders as $order) : ?>
     <tr>
         <td><?php echo $this->escapeHtml($order->id);?></td>
+        <td><?php echo $this->escapeHtml($order->orderDate);?></td>
         <td><?php echo $this->escapeHtml($order->userName);?></td>
         <td><?php echo $this->escapeHtml($order->address);?></td>
         <td><?php echo $this->escapeHtml($order->recipient);?></td>
         <td><?php echo $this->escapeHtml($order->picUrl);?></td>
+        <td><?php echo $this->escapeHtml($order->voiceMediaId);?></td>
         <td><?php echo $this->escapeHtml($order->message);?></td>
         <td>
             <?php 
             switch ($order->status) {
+                case 99:
+                    $status = "已取消";
+                    break;
                 case 100:
                     $status = "待支付";
                     break;

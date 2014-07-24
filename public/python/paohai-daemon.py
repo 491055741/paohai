@@ -2,13 +2,20 @@
 #coding:utf-8
 
 import sys, os, time, string
-
+import requests
 from upload import *
+from paohailog import *
 
 def main():
     while 1:
         current_hour = time.strftime('%H', time.localtime(time.time()))
-        if (current_hour == '01'): # upload at 01:00 every night
+
+        # refresh access token every hour
+        r = requests.get('http://paohai.ikamobile.com/wechat/refreshaccesstoken')
+        write_log('AccessToken: %s' % (r.text))
+        # print r.text
+
+        if (current_hour == '01'): # upload pictures to pan.baidu.com at 01:00AM every day
             syncInNewThread()
         time.sleep(3600) # one hour
 

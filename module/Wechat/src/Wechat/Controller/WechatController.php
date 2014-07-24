@@ -24,10 +24,18 @@ class WechatController extends AbstractActionController
 
     public function refreshAccessTokenAction()
     {
-        $commonUtil = new CommonUtil();
-        $commonUtil->setServiceLocator($this->getServiceLocator());
-        $token = $commonUtil->refreshAccessToken();
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        $token = $util->refreshAccessToken();
         echo $token;
+        return $this->getResponse();
+    }
+
+    public function accessTokenAction()
+    {
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        echo $util->getAccessToken();
         return $this->getResponse();
     }
 
@@ -66,7 +74,15 @@ class WechatController extends AbstractActionController
                 if (!$order) {
                     $contentStr = '请先上传照片';
                 } else {
-                    $contentStr = '已收到语音留言，<a href=http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard/editmessage?voiceMediaId='.$mediaId.'&orderId='.$order->id.'>继续编辑</a>';
+                    // $args["host"] = $_SERVER['SERVER_NAME'];
+                    // $args["url"] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia';
+                    // $args["method"] = "GET";
+                    // $args["data"] = 'mediaId='.urlencode($mediaId);
+                    // $util = new CommonUtil();
+                    // $util->asyn_request($args);
+                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia?mediaId='.urlencode($mediaId);
+                    @file_get_contents($url);
+                    $contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editmessage/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
                 }
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
                 echo $resultStr;

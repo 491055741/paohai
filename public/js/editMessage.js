@@ -28,7 +28,13 @@ $(function() {
         orderId = $('#orderId').val();
         userPicUrl = $('#picUrl').val();
         voiceMediaId = $('#voiceMediaId').val();
-// http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id=MEDIA_ID
+
+        if (voiceMediaId == '0') {
+            $("#playVoiceMessageButton").parent("div").css("display","none");
+        } else {
+            $("#voiceMessageButton").val('重新录制语音留言');
+        }
+
         userImage.onload = function(){
             pic_orig_w = userImage.width;
             pic_orig_h = userImage.height;
@@ -38,8 +44,11 @@ $(function() {
 
         $("#voiceMessageButton").fastClick(function() {
 
-            var url = "http://" + window.location.hostname + "/postcard/voice/" + orderId;
+            output('voiceMessageButton clicked');
 
+            uploadOrder();
+
+            var url = "http://" + window.location.hostname + "/postcard/requestvoice/" + orderId;
             $.get(
                 url,
                 function success(data) {
@@ -55,6 +64,11 @@ $(function() {
                     }
                 }
             );
+        });
+
+        $("#playVoiceMessageButton").fastClick(function() {
+            var url = 'http://' + window.location.hostname + '/postcard/voice?mediaId=' + voiceMediaId;
+            self.location = url;
         });
 
         $("#submitMessageButton").fastClick(function() {
@@ -151,7 +165,9 @@ $(function() {
         output("previewPage init");
 
         $("#previewConfirmButton").fastClick(function() {
-            previewConfirm();
+            var url = "http://" + window.location.hostname + "/postcard/pay/" + orderId;
+            output(url);
+            self.location = url;
         });
 
         $('#previewUserImg').shadow();
@@ -160,30 +176,7 @@ $(function() {
     $("#previewPage").on("pageshow", function() {
 
         output("previewPage show");
-
-        var url = "http://" + window.location.hostname + "/postcard/updateorder/" + orderId;
-        var params = {
-            zipcode: zipcode,
-            address: address,
-            recipient: recipient,
-            mobile: mobile,
-            message: leaveMessage,
-            sender: senderName,
-        };
-
-        $.post(
-            url,
-            params,
-            function success(data) {
-                if (data.code != '0') {
-                    alert("Update order failed! code =" + data.code);
-                } else {
-                    alert("Update order success");
-                }
-            },
-            "json"
-        );
-
+        uploadOrder();
         initPreview();
     });
 
@@ -234,13 +227,27 @@ $(function() {
         $("#senderNamePreview").text('－' + senderName);
         $("#recipientPreview").text(recipient + ' ' + mobile);
     }
-
-    function previewConfirm() {
-        var url = "http://" + window.location.hostname + "/postcard/pay/" + orderId;
-        output(url);
-        self.location = url;
-    }
-
 });
 
+function uploadOrder() {
+    var url = "http://" + window.location.hostname + "/postcard/updateorder/" + orderId;
+    var params = {
+        zipcode: zipcode,
+        address: address,
+        recipient: recipient,
+        mobile: mobile,
+        message: leaveMessage,
+        sender: senderName,
+    };
 
+    $.post(
+        url,
+        params,
+        function success(data) {
+            if (data.code != '0') {
+                alert("Update order failed! code =" + data.code);
+            }
+        },
+        "json"
+    );
+}

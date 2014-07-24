@@ -1,15 +1,5 @@
-var userName = '';
-var selectedTemplateIndex = 0;
-var leaveMessage = '';
-var senderName = '';
-var address = '';
-var zipcode = '';
-var recipient = '';
-var mobile = '';
-var userImage = new Image();
-var imageOffsetX = 0;
-var imageOffsetY = 0;
-var userPicUrl = '';
+
+var orderId = '0';
 
 function init() {
     $.mobile.changePage($("#paymentPage"), {
@@ -22,9 +12,9 @@ $(function() {
     $("#paymentPage").on("pageinit", function() {
 
         output("paymentPage init");
+        orderId = $('#orderId').val();
 
         $("#submitPaymentButton1").fastClick(function() {
-            // self.location = "http://paohai.ikamobile.com/wxpaydemo.html";
             submitPayment(false);
         });
 
@@ -35,44 +25,9 @@ $(function() {
     });
 
     function submitPayment(isXingYeBank) {
-
-        // changePage("#payingPage");
-
-        var url = "http://" + window.location.hostname + "/postcard/placeorder";
         var bank = isXingYeBank? 'XingYe':'other';
-        var params = {
-            // templateIndex: selectedTemplateIndex,
-            // offsetX: imageOffsetX,
-            // offsetY: imageOffsetY,
-            // userName: userName,
-            // zipcode: zipcode,
-            // address: address,
-            // recipient: recipient,
-            // mobile: mobile,
-            // message: leaveMessage,
-            // sender: senderName,
-            // userPicUrl: userPicUrl,
-            bank: bank
-        };
-
-        $.mobile.showPageLoadingMsg("b", "请稍候", true);
-
-        $.post(
-            url,
-            params,
-            function success(data) {
-                // alert("post ok");
-                $.mobile.hidePageLoadingMsg();
-                if (data.code != '0') {
-                    alert("Place order failed! code =" + data.code);
-                } else {
-                    var url = 'http://' + window.location.hostname + '/wxpay/pay/' + data.orderId + '?bank=' + bank;
-                    // alert(url);
-                    self.location = url;
-                }
-            },
-            "json"
-        );
+        var url = 'http://' + window.location.hostname + '/wxpay/pay/' + orderId + '?bank=' + bank;
+        self.location = url;
     }
 });
 
@@ -103,18 +58,12 @@ $(function() {
 $(function() {
 
     $("#completePage").on("pageinit", function() {
-
         output("completePage init");
     });
 
     $("#completePage").on("pageshow", function() {
-
         output("completePage show");
-
-        var postcardurl = "http://" + window.location.hostname + "/postcard/preview?templateIndex="+selectedTemplateIndex+
-                        "&offsetX="+imageOffsetX+
-                        "&offsetY="+imageOffsetY+
-                        "&userPicUrl="+userPicUrl;
+        var postcardurl = "http://" + window.location.hostname + "/postcard/preview/" + orderId;
         bShare.addEntry({
             title: "我的泡海明信片",
             url: postcardurl,

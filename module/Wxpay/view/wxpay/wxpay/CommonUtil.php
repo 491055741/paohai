@@ -4,6 +4,7 @@
 use Postcard\Model\WxPara;
 
 include_once("WxPay.config.php");
+Require("class_qrcode.php");
 
 define('ACCESS_TOKEN_KEY', 'accessToken');
 
@@ -18,7 +19,14 @@ class CommonUtil
      */
     protected $wxParaTable;
     protected $serviceLocator;
-    public function setServiceLocator($sm) {
+
+    public function qrcode($str, $filename = false)
+    {
+        QRcode::png($str, $filename); //,$file,"Q",6,2
+    }
+
+    public function setServiceLocator($sm)
+    {
         $this->serviceLocator = $sm;
     }
 
@@ -34,7 +42,9 @@ class CommonUtil
         return $this->wxParaTable;
     }
 
-    public function getAccessToken() {
+    // must call '$util->setServiceLocator($this->getServiceLocator())' before call this function
+    public function getAccessToken()
+    {
         $wxpara = $this->getWxParaTable()->getWxPara(ACCESS_TOKEN_KEY);
         if (!$wxpara) {
             $token = $this->refreshAccessToken();
@@ -49,12 +59,13 @@ class CommonUtil
         $host = $args["host"] ?  $args["host"] : "localhost";//主机
         $method = $args["method"] == "POST" ? "POST" : "GET";//方法   
         $url = $args["url"] ? $args["url"] : "http://".$host ;//地址
-        $data = is_array($args["data"]) ? $args["data"] : array();//请求参数   
+
         $fp = @fsockopen($host, 80, $errno, $errstr, 30);
         //错误
         if (!$fp) {echo "$errstr ($errno)<br/>\n"; exit;}
+        // echo 'method:'.$method;
+        $qstr = isset($args["data"]) ? $args["data"] : ''; 
 
-        $qstr = $method == "GET" ? urlencode($args["data"]) : $args["data"];
         $params = '';
         $params.= $method == "GET" ? "GET {$url}?{$qstr} HTTP/1.1\r\n" :  "POST {$url} HTTP/1.1\r\n";
         $params.= "Host: ".$host."\r\n";
@@ -65,47 +76,58 @@ class CommonUtil
         $params.= "Accept-Charset: GB2312,utf-8;q=0.7,*;q=0.7\r\n";
         $params.= "Keep-Alive: 300\r\n";
         $params.= "Connection: keep-alive\r\n";
-        $params.= "Content-Type: application/x-www-form-urlencoded; charset=UTF-8;encoding=utf-8;\r\n";
+        $params.= "Content-Type: application/x-www-form-urlencoded; charset=UTF-8; encoding=utf-8;\r\n";
         // $params.= "Content-Type: application/json; encoding=utf-8\r\n";
         $params.= "Content-Length: ".strlen($qstr)."\r\n\r\n";
         $params.= $method == "GET" ? null :$qstr;
 
-        //file_put_contents("C:\\http.txt",$params);
-
         fwrite($fp, $params);
 
-        // echo '<br>params:' . $params . '<br>';
-        //取得回應的內容
-        // $line = fgets($fp, 1024);
-        // echo "result:<br>";
-        // echo $line;
-        // if (!preg_match('/^HTTP/1.. 200/i', $line)) return;
+        echo '<br>params:' . $params . '<br>';
+        $results = '';
 
-        $results = "";
-        $inheader = true;
-        while (!feof($fp)) {
-          $line = fgets($fp, 2048);
-          if ($inheader && ($line == "\n" || $line == "\r\n")) {
-            $inheader = false;
-          } else if (!$inheader) {
-            $results .= $line;
-          }
+        if ($method == "GET") {
+            fclose($fp);
+            return $results;
         }
-        echo $results;
-        // $results = '{"errcode":0,"errmsg":"ok"}';
 
+        // if not read the response, the post will fail. why?
+        while (!feof($fp)) {
+            $header = @fgets($fp);
+            $findstr = 'Content-Length:';
+            if (strpos($header, $findstr) !== false) {//获取内容长度
+                $limit = intval(substr($header, strlen($findstr)));
+            }
+            if ($header == "\r\n" || $header == "\n") {
+                break;
+            }
+        }
+        $stop = false;
+        //如果没有读到文件尾
+        while(!feof($fp) && !$stop) {
+            //看连接时限是否=0或者大于8192  =》8192  else =》limit  所读字节数
+            $data = fread($fp, ($limit == 0 || $limit > 8192 ? 8192 : $limit));
+            $results .= $data;
+            if($limit) {
+                $limit -= strlen($data);
+                $stop = $limit <= 0;
+            }
+        }
+        // echo $results;
         fclose($fp);
         return $results;
     }
 
-    function saveAccessToken($token) {
+    function saveAccessToken($token)
+    {
         $para = new WxPara();
         $para->paraName = ACCESS_TOKEN_KEY;
         $para->value = $token;
         $this->getWxParaTable()->savePara($para);
     }
 
-    function refreshAccessToken() {
+    function refreshAccessToken()
+    {
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.APPID.'&secret='.APPSERCERT;
         $obj = json_decode(file_get_contents($url));
         $access_token = $obj->access_token; // another para is "expires_in"
@@ -113,7 +135,8 @@ class CommonUtil
         return $access_token;
     }
 
-    function genAllUrl($toURL, $paras) {
+    function genAllUrl($toURL, $paras)
+    {
         $allUrl = null;
         if(null == $toURL){
             die("toURL is null");
@@ -127,7 +150,8 @@ class CommonUtil
         return $allUrl;
     }
 
-    function create_noncestr( $length = 16 ) {  
+    function create_noncestr( $length = 16 )
+    {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $str = "";
         for ( $i = 0; $i < $length; $i++ )  {  
@@ -143,7 +167,8 @@ class CommonUtil
      * @param token
      * @return
      */
-    function splitParaStr($src, $token) {
+    function splitParaStr($src, $token)
+    {
         $resMap = array();
         $items = explode($token,$src);
         foreach ($items as $item){
@@ -161,7 +186,8 @@ class CommonUtil
      * @param value
      * @return
      */
-    static function trimString($value){
+    static function trimString($value)
+    {
         $ret = null;
         if (null != $value) {
             $ret = $value;
@@ -172,7 +198,8 @@ class CommonUtil
         return $ret;
     }
     
-    function formatQueryParaMap($paraMap, $urlencode){
+    function formatQueryParaMap($paraMap, $urlencode)
+    {
         $buff = "";
         ksort($paraMap);
         foreach ($paraMap as $k => $v){
@@ -189,7 +216,9 @@ class CommonUtil
         }
         return $reqPar;
     }
-    function formatBizQueryParaMap($paraMap, $urlencode){
+    
+    function formatBizQueryParaMap($paraMap, $urlencode)
+    {
         $buff = "";
         ksort($paraMap);
         foreach ($paraMap as $k => $v){
@@ -206,6 +235,7 @@ class CommonUtil
         }
         return $reqPar;
     }
+    
     function arrayToXml($arr)
     {
         $xml = "<xml>";
@@ -222,7 +252,9 @@ class CommonUtil
         $xml.="</xml>";
         return $xml; 
     }
-    function httpPost($url, $data) {
+    
+    function httpPost($url, $data)
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -236,7 +268,6 @@ class CommonUtil
         else  
             return false;
     }
-
 }
 
 ?>

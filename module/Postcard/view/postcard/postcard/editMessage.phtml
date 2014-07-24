@@ -1,5 +1,5 @@
 <!DOCTYPE html  >
-<html><!-- manifest="/safari.manifest" -->
+<html manifest="/safari.manifest"><!--  -->
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,12 +34,14 @@
             </div>
 
             <div data-role="page" id="messagePage" data-title="留言" class="page">
+                <H1>内测调试中，还不能真正邮寄明信片哦</H1>
                 <div data-role="content" align="left">
                     <div>想说的话</div>
                     <textarea id="messageinput" rows="3" cols="20" placeholder="留言">思念是一季的花香，漫过山谷，笼罩你我，而祝福是无边的关注，溢出眼睛，直到心底，愿愉快伴你一生。</textarea>
                     <div>你的姓名</div>
                     <input type="text" id="nameinput" placeholder="你的姓名" style="" value="飞鸽"/>
-                    <input id="voiceMessageButton" data-theme="e" value="语音留言" type="button"></input>
+                    <input id="voiceMessageButton" data-theme="e" value="录制语音留言" type="button"></input>
+                    <input id="playVoiceMessageButton" data-theme="e" value="收听语音留言" type="button"></input>
                     <input id="submitMessageButton" data-theme="e" value="下一步" type="button"></input>
                 </div>
             </div>

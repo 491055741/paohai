@@ -20,7 +20,7 @@ class OrderTable
 
     public function getOrderByUserName($name)
     {
-        $rowset = $this->tableGateway->select(array('userName' => $name, 'status' => '100'));//->order('orderDate');//->where('noble_title = :title');
+        $rowset = $this->tableGateway->select(array('userName' => $name, 'status' => '100'));
         if (!$rowset) {
             return FALSE;
         }
@@ -45,25 +45,26 @@ class OrderTable
     public function saveOrder(Order $order)
     {
         $data = array(
-            'id'        => $order->id,
-            'userName'  => $order->userName,
-            'picUrl'    => $order->picUrl,
-            'voiceMediaId' => $order->voiceMediaId,
-            'message'   => $order->message,
-            'zipCode'   => $order->zipCode,
-            'address'   => $order->address,
-            'recipient' => $order->recipient,
-            'sender'    => $order->sender,
-            'price'     => $order->price,
-            'payDate'   => $order->payDate,
-            'status'    => $order->status,
-            'bank'      => $order->bank,
-            'senderMobile'     => $order->senderMobile,
-            'recipientMobile'  => $order->recipientMobile,
-            'postcardFileName' => $order->postcardFileName,
-            'templateId'       => $order->templateId,
-            'offsetX'          => $order->offsetX,
-            'offsetY'          => $order->offsetY,
+            'id'                => $order->id,
+            'userName'          => $order->userName,
+            'picUrl'            => $order->picUrl,
+            'voiceMediaId'      => $order->voiceMediaId,
+            'message'           => $order->message,
+            'zipCode'           => $order->zipCode,
+            'address'           => $order->address,
+            'recipient'         => $order->recipient,
+            'recipientMobile'   => $order->recipientMobile,
+            'sender'            => $order->sender,
+            'senderMobile'      => $order->senderMobile,
+            'price'             => $order->price,
+            'orderDate'         => $order->orderDate,
+            'payDate'           => $order->payDate,
+            'postcardFileName'  => $order->postcardFileName,
+            'status'            => $order->status,
+            'bank'              => $order->bank,
+            'templateId'        => $order->templateId,
+            'offsetX'           => $order->offsetX,
+            'offsetY'           => $order->offsetY,
         );
 
         if ($this->getOrder($order->id)) {

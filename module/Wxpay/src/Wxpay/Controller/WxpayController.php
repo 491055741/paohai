@@ -102,6 +102,8 @@ respend:
             }
 }
   */
+
+    // query order pay info from tencent server
     public function orderQueryAction()
     {
         // https://api.weixin.qq.com/pay/orderquery?access_token=xxxxxx
@@ -113,8 +115,8 @@ respend:
         // echo $postData;
 
         $util = new CommonUtil();
-        // $access_token = $util->getAccessToken();
-        $access_token = 'MgZ9JvuGhlWY7o8RhVOb8JSA6nY67bOZShTXBuwniejezzjdVctQXCN45Fv2LbEz0EknLvp4OwIjmkFQKpnfog';
+        $util->setServiceLocator($this->getServiceLocator());
+        $access_token = $util->getAccessToken();
         $url = "https://api.weixin.qq.com/pay/orderquery?access_token=".$access_token;
         $postResult = json_decode($util->httpPost($url, $postData));
         // echo $postResult;
