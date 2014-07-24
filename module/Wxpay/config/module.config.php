@@ -38,5 +38,8 @@ return array(
         'template_path_stack' => array(
             'wxpay' => __DIR__ . '/../view',
         ),
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
     ),
 );

@@ -127,6 +127,7 @@ class PostcardController extends AbstractActionController
             $viewModel->setTerminal(true); // disable layout template
             return $viewModel;
         }
+
         // update mediaId. Media will valid for 3 days on Tecent's server.
         $voiceMediaId = $this->getRequest()->getQuery('voiceMediaId');
         if ($voiceMediaId) {
@@ -136,13 +137,13 @@ class PostcardController extends AbstractActionController
         }
 
         $viewModel =  new ViewModel(array(
-            'orderId' => $orderId,
+            'order' => $order,
             'tag' => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
-            'templateIndex' => $order->templateId,
-            'offsetX' => $order->offsetX,
-            'offsetY' => $order->offsetY,
-            'picUrl'  => $order->picUrl,
-            'voiceMediaId' => $order->voiceMediaId ? $order->voiceMediaId : '0',
+            // 'templateIndex' => $order->templateId,
+            // 'offsetX' => $order->offsetX,
+            // 'offsetY' => $order->offsetY,
+            // 'picUrl'  => $order->picUrl,
+            // 'voiceMediaId' => $order->voiceMediaId ? $order->voiceMediaId : '0',
         ));
         // var_dump($viewModel);
         $viewModel->setTerminal(true); // disable layout template
@@ -302,8 +303,12 @@ class PostcardController extends AbstractActionController
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
+
         if ($orderId == '0' || !$order) {
-            echo "order not exist!";
+            $res = array(
+                    'code' => -1,
+                    'msg' => 'invalid order id',
+                );
         } else {
             $zipCode    = $this->getRequest()->getPost('zipcode');
             $message    = $this->getRequest()->getPost('message');
@@ -312,9 +317,10 @@ class PostcardController extends AbstractActionController
             $recipient  = $this->getRequest()->getPost('recipient');
             $userName   = $this->getRequest()->getPost('userName');
             $picUrl     = $this->getRequest()->getPost('userPicUrl');
+            $status     = $this->getRequest()->getPost('status');
             $bank       = $this->getRequest()->getPost('bank');
 
-            $zipcode   ? $order->zipCode   = $zipCode   : null;
+            $zipCode   ? $order->zipCode   = $zipCode   : null;
             $message   ? $order->message   = $message   : null;
             $sender    ? $order->sender    = $sender    : null;
             $address   ? $order->address   = $address   : null;
@@ -326,13 +332,12 @@ class PostcardController extends AbstractActionController
 
             // var_dump($order);
             $this->getOrderTable()->saveOrder($order);
-            echo "order update success!";
+            $res = array(
+                'code' => 0,
+                'msg' => 'success',
+            );
         }
 
-        $res = array(
-            'code' => 0,
-            'msg' => 'success',
-        );
         return new JsonModel($res);
     }
 
@@ -341,7 +346,7 @@ class PostcardController extends AbstractActionController
         // make picture
         $args["host"] = $_SERVER['SERVER_NAME'];
         $args["url"] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/makepicture/'.$order->id;
-        $args["method"] = "POST";
+        $args["method"] = "GET";
         $util = new CommonUtil();
         $util->asyn_request($args);
     }

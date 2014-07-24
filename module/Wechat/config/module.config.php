@@ -39,5 +39,8 @@ return array(
         'template_path_stack' => array(
             'wechat' => __DIR__ . '/../view',
         ),
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
     ),
 );

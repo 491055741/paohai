@@ -102,7 +102,6 @@ respend:
             }
 }
   */
-
     // query order pay info from tencent server
     public function orderQueryAction()
     {

@@ -83,8 +83,8 @@ class CommonUtil
 
         fwrite($fp, $params);
 
-        echo '<br>params:' . $params . '<br>';
-        $results = '';
+        // echo '<br>params:' . $params . '<br>';
+        $results = null;
 
         if ($method == "GET") {
             fclose($fp);

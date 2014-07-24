@@ -1,5 +1,4 @@
-var userName = '';
-var leaveMessage = '';
+var message = '';
 var senderName = '';
 var address = '';
 var zipcode = '';
@@ -29,11 +28,13 @@ $(function() {
         userPicUrl = $('#picUrl').val();
         voiceMediaId = $('#voiceMediaId').val();
 
-        if (voiceMediaId == '0') {
+        if (!voiceMediaId || voiceMediaId == '0') {
             $("#playVoiceMessageButton").parent("div").css("display","none");
         } else {
             $("#voiceMessageButton").val('重新录制语音留言');
         }
+
+
 
         userImage.onload = function(){
             pic_orig_w = userImage.width;
@@ -47,7 +48,7 @@ $(function() {
             output('voiceMessageButton clicked');
 
             uploadOrder();
-
+            return;
             var url = "http://" + window.location.hostname + "/postcard/requestvoice/" + orderId;
             $.get(
                 url,
@@ -78,14 +79,15 @@ $(function() {
     });
 
     function submitMessage() {
-        leaveMessage = $("#messageinput").val();
-        if (leaveMessage == "" || leaveMessage == null) {
+
+        getValueFromInput();
+
+        if (message == "" || message == null) {
             $.mobile.showPageLoadingMsg("b", "请填写留言", true);
             setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
             return false;
         }
 
-        senderName = $("#nameinput").val();
         if (senderName == "" || senderName == null) {
             $.mobile.showPageLoadingMsg("b", "请填写你的姓名", true);
             setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
@@ -107,46 +109,35 @@ $(function() {
             submitAddress();
         });
 
-        $("#cityinput").val("上海");
-        $("#streetinput").val("杨浦区淞沪路303号创智天地三期8号楼8楼");
-        $("#zipcodeinput").val("200082");
-        $("#recipientinput").val("泡泡海");
-        $("#mobileinput").val("4000621186");
+        // $("#addressinput").val("杨浦区淞沪路303号创智天地三期8号楼8楼");
+        // $("#zipcodeinput").val("200082");
+        // $("#recipientinput").val("泡泡海");
+        // $("#mobileinput").val("4000621186");
     });
 
     function submitAddress() {
-        var city = $("#cityinput").val();
-        if (city == "" || city == null) {
-            $.mobile.showPageLoadingMsg("b", "请填写城市", true);
+
+        getValueFromInput();
+
+        if (address == "" || address == null) {
+            $.mobile.showPageLoadingMsg("b", "请填写地址", true);
             setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
             return false;
         }
 
-        var street = $("#streetinput").val();
-        if (street == "" || street == null) {
-            $.mobile.showPageLoadingMsg("b", "请填写街道", true);
-            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
-            return false;
-        }
-
-        address = city + street;
-
-        zipcode = $("#zipcodeinput").val();
         if (zipcode == "" || zipcode == null) {
             $.mobile.showPageLoadingMsg("b", "请填写邮编", true);
             setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
             return false;
         }
 
-        recipient = $("#recipientinput").val();
         if (recipient == "" || recipient == null) {
             $.mobile.showPageLoadingMsg("b", "请填写收信人姓名", true);
             setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
             return false;
         }
 
-        mobile = $("#mobileinput").val();
-        if (recipient == "" || recipient == null) {
+        if (mobile == "" || mobile == null) {
             $.mobile.showPageLoadingMsg("b", "请填写收信人手机号码", true);
             setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
             return false;
@@ -187,8 +178,8 @@ $(function() {
         b = pic_orig_h;
 
         var selectedTemplateIndex = $("#templateIndex").val();
-        var imageOffsetX = $("#offsetX").val();;
-        var imageOffsetY = $("#offsetY").val();;
+        var imageOffsetX = $("#offsetX").val();
+        var imageOffsetY = $("#offsetY").val();
 
         if (selectedTemplateIndex > 3) {
             temp = a; a = b; b = temp;
@@ -221,7 +212,7 @@ $(function() {
             top: imageOffsetY * pic_h
         });
 
-        $("#messagePreview").text(leaveMessage);
+        $("#messagePreview").text(message);
         $("#addressPreview").text(address);
         $("#zipcodePreview").text(zipcode);
         $("#senderNamePreview").text('－' + senderName);
@@ -230,24 +221,52 @@ $(function() {
 });
 
 function uploadOrder() {
+
+    getValueFromInput();
+
     var url = "http://" + window.location.hostname + "/postcard/updateorder/" + orderId;
     var params = {
         zipcode: zipcode,
         address: address,
         recipient: recipient,
         mobile: mobile,
-        message: leaveMessage,
+        message: message,
         sender: senderName,
     };
+    // var params = {};
+    output('url: ' + url);
+    // $.post(
+    //     url,
+    //     params,
+    //     function success(data) {
+    //         if (data.code != '0') {
+    //             alert("Update order failed! code =" + data.code);
+    //         }
+    //     },
+    //     "json"
+    // );
 
-    $.post(
-        url,
-        params,
-        function success(data) {
-            if (data.code != '0') {
-                alert("Update order failed! code =" + data.code);
-            }
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data:params,
+        dataType: 'json',
+        timeout: 1000,
+        error: function(){
+            alert('update order failed!');
         },
-        "json"
-    );
+        success: function(result){
+            // alert('success! code:' + result.code + ' msg:' + result.msg);
+        }
+    });
+}
+
+function getValueFromInput()
+{
+    message = $("#messageinput").val();    
+    senderName = $("#nameinput").val();
+    address = $("#addressinput").val();
+    zipcode = $("#zipcodeinput").val();
+    recipient = $("#recipientinput").val();
+    mobile = $("#mobileinput").val();
 }
