@@ -48,13 +48,13 @@ $(function() {
             output('voiceMessageButton clicked');
 
             uploadOrder();
-            return;
+
             var url = "http://" + window.location.hostname + "/postcard/requestvoice/" + orderId;
             $.get(
                 url,
                 function success(data) {
 
-                    if (data.errcode != '0') {
+                    if (data.errcode != '0' && data.code != '0') {
                         alert("Send voice request failed! code =" + data.errcode + " msg=" + data.errmsg);
                     } else {
                         if (typeof WeixinJSBridge == "undefined") {
@@ -69,7 +69,12 @@ $(function() {
 
         $("#playVoiceMessageButton").fastClick(function() {
             var url = 'http://' + window.location.hostname + '/postcard/voice?mediaId=' + voiceMediaId;
-            self.location = url;
+            // self.location = url;
+            var audio = document.createElement("audio");
+            if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
+                audio.src = url;
+                audio.play();
+            }
         });
 
         $("#submitMessageButton").fastClick(function() {
@@ -108,11 +113,6 @@ $(function() {
         $("#submitAddressButton").fastClick(function() {
             submitAddress();
         });
-
-        // $("#addressinput").val("杨浦区淞沪路303号创智天地三期8号楼8楼");
-        // $("#zipcodeinput").val("200082");
-        // $("#recipientinput").val("泡泡海");
-        // $("#mobileinput").val("4000621186");
     });
 
     function submitAddress() {

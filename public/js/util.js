@@ -123,52 +123,6 @@ function output(text) {
     console.log(text);
 }
 
-function overlay() 
-{
-    if (art.dialog.list["overlay"]) {
-        return art.dialog.list["overlay"];
-    }
-    var originalContentCSS = {};
-    var originalMainCSS = {};
-    art.dialog({
-        id: "overlay",
-        padding: 0,
-        content: '<img src="./css/images/ajax-loader.gif" />',
-        lock: true,
-        drag: false,
-        resize: false,
-        fixed: true,
-        init: function() {
-            $(".aui_border tbody tr:nth-child(1)").hide();
-            $(".aui_border tbody tr:nth-child(3)").hide();
-            originalContentCSS.margin = $(".aui_content").css("margin");
-            originalContentCSS.padding = $(".aui_content").css("padding");
-            $(".aui_content").css({
-                "margin": "0",
-                "padding": "0"
-            });
-            originalMainCSS.paddingTop = $(".aui_main").css("padding-top");
-            $(".aui_main").css({
-                "padding-top": "0"
-            });
-        },
-        close: function () {
-            $(".aui_content").css(originalContentCSS);
-            $(".aui_main").css(originalMainCSS);
-        }
-    });
-
-    return art.dialog.list["overlay"];
-}
-
-function closeAllDialog()
-{
-    var list = art.dialog.list;
-    for (var i in list) {
-        list[i].close();
-    }
-}
-
 function changePage(pageName) {
     if (isAndroid()) {
         $.mobile.changePage($(pageName), {
