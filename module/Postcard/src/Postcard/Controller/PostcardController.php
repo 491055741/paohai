@@ -402,7 +402,7 @@ class PostcardController extends AbstractActionController
         return $this->orderTable;
     }
 
-    private function dstPath()
+    private function postcardsPath()
     {
         return dirname(__FILE__).'/../../../../../userdata/postcards/' . date('Ymd', time()) . '/';
     }
@@ -427,10 +427,10 @@ class PostcardController extends AbstractActionController
 
     private function makePicture($order)
     {
-        $dstpath = $this->dstPath();
+        $dstpath = $this->postcardsPath();
         if (!is_dir($dstpath)) {
             if (!mkdir($dstpath)) {
-                echo 'Create folder' . $dstpath . 'failed!';
+                echo 'Create folder '.$dstpath.' failed!';
                 return false;
             }
         }
@@ -439,7 +439,7 @@ class PostcardController extends AbstractActionController
         $canvas_w = 960.0;
         $canvas_h = 1440.0;
 
-        $image = $this->generateFront($order->templateId, $order->offsetX, $order->offsetY, $order->picUrl, $canvas_w, $canvas_h);
+        $image = $this->generateFront($order, $canvas_w, $canvas_h);
         if (!$image) {
             return false;
         }
@@ -449,30 +449,29 @@ class PostcardController extends AbstractActionController
 
         $canvas_w = 971.0;
         $canvas_h = 600.0;
-        $image = $this->generatePostcardBack($order->zipcode, $order->message, $order->sender, $order->address, $order->recipient, $canvas_w, $canvas_h);
-        // $image = generatePostcardBack('518000', '思念是一季的花香，漫过山谷，笼罩你我，而祝福是无边的关注，溢出眼睛，直到心底，愿愉快伴你一生。', '李生', '上海杨浦区淞沪路303号创智天地三期8号楼8楼', '泡泡海', $canvas_w, $canvas_h);
+        $image = $this->generatePostcardBack($order, $canvas_w, $canvas_h);
         imagepng($image, $dstpath.$order->id.'_backface.png');
         imagedestroy($image);
         return true;
     }
 
-    private function generateFront($templateIndex, $offsetX, $offsetY, $userPicUrl, $canvas_w, $canvas_h)
+    private function generateFront($order, $canvas_w, $canvas_h)
     {
-        if (abs($offsetX) >= 1 || abs($offsetY) >= 1) {
+        if (abs($order->offsetX) >= 1 || abs($order->offsetY) >= 1) {
             echo 'wrong offset!';
             return FALSE;
         }
 
-        $image_template = imagecreatefrompng('public/images/big/template' . $templateIndex . '.png');
+        $image_template = imagecreatefrompng('public/images/big/template' . $order->templateId . '.png');
         imagealphablending($image_template, false);
         imagesavealpha($image_template, true);
 
-        $image_user = imagecreatefromjpeg($userPicUrl);
+        $image_user = imagecreatefromjpeg($order->picUrl);
         if (!$image_user) {
             return FALSE;
         }
-
-        if ($templateIndex >= 3) {
+        // rotate
+        if ($order->templateId >= 3) {
             $image_user = imagerotate($image_user, -90, 0);
         }
 
@@ -499,8 +498,8 @@ class PostcardController extends AbstractActionController
         imagefill($image_dst, 0, 0, $white);
 
         // 用户照片缩放fitsize
-        $x = -$offsetX * imagesx($image_user);
-        $y = -$offsetY * imagesy($image_user);
+        $x = -$order->offsetX * imagesx($image_user);
+        $y = -$order->offsetY * imagesy($image_user);
 
         imagecopyresampled($image_dst, $image_user, 0, 0, $x, $y, $pic_w, $pic_h, $a, $b);
         imagecopyresampled($image_dst, $image_template, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($image_template), imagesy($image_template));
@@ -510,7 +509,7 @@ class PostcardController extends AbstractActionController
         return $image_dst;
     }
 
-    private function generatePostcardBack($zipcode, $message, $sender, $address, $recipient, $canvas_w, $canvas_h)
+    private function generatePostcardBack($order, $canvas_w, $canvas_h)
     {
         $dst = imagecreatetruecolor($canvas_w, $canvas_h);
 
@@ -525,7 +524,7 @@ class PostcardController extends AbstractActionController
 
         $text_color = imagecolorallocate($dst, 255, 255, 255);
         $pos['color'] = $text_color;
-        // $zipcode = "152000";   // can't use imagettftext because it can't adjust char spacing
+        // can't use imagettftext because it can't adjust char spacing
         $size = 40;
         $x = 85;
         $y = 95;
@@ -535,36 +534,37 @@ class PostcardController extends AbstractActionController
             echo 'Load font Schneidler-HTF-Titling.pfb failed.';
         }
         $zip_color = imagecolorallocate($dst, 0, 0, 0);
-        imagepstext($dst, $zipcode, $font, $size, $zip_color, $text_color, $x ,$y, $space, 870);
+        imagepstext($dst, $order->zipCode, $font, $size, $zip_color, $text_color, $x ,$y, $space, 870);
 
-        // $message = "思念是一季的花香，漫过山谷，笼罩你我，而祝福是无边的关注，溢出眼睛，直到心底，愿愉快伴你一生。";
         $pos['left']     = 30;
         $pos['top']      = 200;
         $pos['width']    = 450;
         $pos['fontsize'] = 20;
-        $this->draw_txt_to($dst, $pos, $message);
+        $this->draw_txt_to($dst, $pos, $order->message);
 
-        // $sender = "李生";
-        $sender = '－' . $sender;
         $pos['left']     = 350;
         $pos['top']      = 400;
         $pos['width']    = 300;
         $pos['fontsize'] = 20;
-        $this->draw_txt_to($dst, $pos, $sender);
+        $this->draw_txt_to($dst, $pos, '－'.$order->sender);
 
-        // $address = "上海杨浦区淞沪路303号创智天地三期8号楼8楼";
         $pos['left']     = 500;
         $pos['top']      = 250;
         $pos['width']    = 400;
         $pos['fontsize'] = 20;
-        $this->draw_txt_to($dst, $pos, $address);
+        $this->draw_txt_to($dst, $pos, $order->address);
 
-        // $recipient = "泡泡海";
         $pos['left']     = 600;
         $pos['top']      = 400;
         $pos['width']    = 600;
         $pos['fontsize'] = 30;
-        $this->draw_txt_to($dst, $pos, $recipient);
+        $this->draw_txt_to($dst, $pos, $order->recipient);
+
+        if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
+            $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
+            imagecopyresampled($dst, $image_pr, 150, 350, 0, 0, 150, 150, imagesx($image_pr), imagesy($image_pr));
+        }
+
         return $dst;
     }
 

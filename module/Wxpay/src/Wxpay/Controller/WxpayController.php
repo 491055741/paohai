@@ -73,6 +73,9 @@ class WxpayController extends AbstractActionController
             $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/'.$out_trade_no.'/101';
             $html = file_get_contents($url);
             $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
+
+            // copy pictures to 'payed' folder
+            $this->copyPicture($out_trade_no);
         }
         echo 'success'; // must respond 'success' to wxpay server
         $viewModel = new ViewModel();
@@ -87,6 +90,39 @@ class WxpayController extends AbstractActionController
         // $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
+
+    private function copyPicture($orderId)
+    {
+        $dstpath = $this->payedPicPath();
+        if (!is_dir($dstpath)) {
+            if (!mkdir($dstpath)) {
+                echo 'Create folder '.$dstpath.' failed!';
+                return false;
+            }
+        }
+
+        if (!copy($this->postcardsPath().$orderId.'_front.png', $this->payedPicPath().$orderId.'_front.png')) {
+            echo 'copy '.$this->postcardsPath().$orderId.'_front.png failed!';
+            return false;
+        }
+
+        if (!copy($this->postcardsPath().$orderId.'_backface.png', $this->payedPicPath().$orderId.'_backface.png')) {
+            echo 'copy '.$this->postcardsPath().$orderId.'_backface.png failed!';
+            return false;
+        }
+        return true;
+    }
+
+    private function postcardsPath()
+    {
+        return dirname(__FILE__).'/../../../../../userdata/postcards/' . date('Ymd', time()) . '/';
+    }
+
+    private function payedPicPath()
+    {
+        return dirname(__FILE__).'/../../../../../userdata/payed/' . date('Ymd', time()) . '/';
+    }
+
 
 /*
 post:
