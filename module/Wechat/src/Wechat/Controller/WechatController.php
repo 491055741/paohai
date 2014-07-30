@@ -72,14 +72,8 @@ class WechatController extends AbstractActionController
 
                 $order = $this->getOrderTable()->getOrderByUserName($fromUsername);
                 if (!$order) {
-                    $contentStr = '请先上传照片';
+                    $contentStr = '请先上传照片(内测调试中，不能真正邮寄明信片，敬请期待)';
                 } else {
-                    // $args["host"] = $_SERVER['SERVER_NAME'];
-                    // $args["url"] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia';
-                    // $args["method"] = "GET";
-                    // $args["data"] = 'mediaId='.urlencode($mediaId);
-                    // $util = new CommonUtil();
-                    // $util->asyn_request($args);
                     $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia?mediaId='.urlencode($mediaId);
                     @file_get_contents($url);
                     $contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editmessage/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";

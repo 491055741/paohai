@@ -85,19 +85,16 @@ function applicationCacheHandeler() {
     };
 
     applicationCache.oncached = function() {
-        closeAllDialog();
         output(" application cache cached");
         //        location.reload(true); // reload the whole web page
     };
 
     applicationCache.onupdateready = function() {
         output(" application cache update ready");
-        closeAllDialog();
         location.reload(true); // reload the whole web page
     };
 
     applicationCache.onerror = function() {
-        closeAllDialog();
         output(" application cache error");
     };
 }
