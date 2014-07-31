@@ -16,6 +16,8 @@ class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-        return new ViewModel();
+        $viewModel =  new ViewModel();
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
     }
 }
