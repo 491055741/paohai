@@ -192,7 +192,7 @@ $(function() {
     }
 
     function submitPhoto() {
-        var url = "http://" + window.location.hostname + "/postcard/placeorder";
+        var url = "http://" + window.location.host + "/postcard/placeorder";
         var params = {
             templateIndex: selectedTemplateIndex,
             offsetX: imageOffsetX,
@@ -211,7 +211,7 @@ $(function() {
                 } else {
                     // alert("Place order success");
                     var orderId = data.orderId;
-                    var url = "http://" + window.location.hostname + "/postcard/editmessage/" + orderId;
+                    var url = "http://" + window.location.host + "/postcard/editmessage/" + orderId;
                     output(url);
                     self.location = url;
                 }

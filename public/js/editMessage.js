@@ -49,7 +49,7 @@ $(function() {
 
             uploadOrder();
 
-            var url = "http://" + window.location.hostname + "/postcard/requestvoice/" + orderId;
+            var url = "http://" + window.location.host + "/postcard/requestvoice/" + orderId;
             $.get(
                 url,
                 function success(data) {
@@ -68,7 +68,7 @@ $(function() {
         });
 
         $("#playVoiceMessageButton").fastClick(function() {
-            var url = 'http://' + window.location.hostname + '/postcard/voice?mediaId=' + voiceMediaId;
+            var url = 'http://' + window.location.host + '/postcard/voice?mediaId=' + voiceMediaId;
             // self.location = url;
             var audio = document.createElement("audio");
             if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
@@ -156,7 +156,7 @@ $(function() {
         output("previewPage init");
 
         $("#previewConfirmButton").fastClick(function() {
-            var url = "http://" + window.location.hostname + "/postcard/pay/" + orderId;
+            var url = "http://" + window.location.host + "/postcard/pay/" + orderId;
             output(url);
             self.location = url;
         });
@@ -224,7 +224,7 @@ function uploadOrder() {
 
     getValueFromInput();
 
-    var url = "http://" + window.location.hostname + "/postcard/updateorder/" + orderId;
+    var url = "http://" + window.location.host + "/postcard/updateorder/" + orderId;
     var params = {
         zipcode: zipcode,
         address: address,

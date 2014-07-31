@@ -122,7 +122,7 @@ class PostcardController extends AbstractActionController
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            echo 'invalid order id';
+            echo 'invalid order id '.$orderId;
             $viewModel =  new ViewModel();
             $viewModel->setTerminal(true); // disable layout template
             return $viewModel;
