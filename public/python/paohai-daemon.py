@@ -4,7 +4,7 @@
 import sys, os, time, string
 import requests
 from upload import *
-from paohailog import *
+from paohai-log import *
 
 def main():
     while 1:

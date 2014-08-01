@@ -3,7 +3,7 @@
 
 import sys, os, time, threading
 from sendmail import *
-from paohailog import *
+from paohai-log import *
 
 def sync():
     os.system('nohup python bypy.py syncup ../../userdata/payed/ &');

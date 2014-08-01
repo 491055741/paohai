@@ -35,12 +35,11 @@ class PostcardController extends AbstractActionController
     {
         $mediaId = $this->getRequest()->getQuery('mediaId', '0');
         if ($mediaId == '0') {
-            echo 'Invalid mediaId';
-            return;
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'require media id'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
         }
-        // $this->qrcode('http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voiceqrcode&media_id='.$mediaId, './userdata/voice/'.$mediaId.'.png');
         $image = file_get_contents('./userdata/voice/'.$mediaId.'.png');
-        // var_dump($image);
         header("Content-type: image/png");
         echo $image;
         $viewModel = new ViewModel();
@@ -52,19 +51,17 @@ class PostcardController extends AbstractActionController
     {
         $mediaId = $this->getRequest()->getQuery('mediaId', '0');
         if ($mediaId == '0') {
-            echo 'Invalid mediaId';
-            return;
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'require media id'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
         }
-        // $this->qrcode('http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voiceqrcode&media_id='.$mediaId, './userdata/voice/'.$mediaId.'.png');
-        $fileName = $this->voicePath().$mediaId.'.mp3';
 
+        $fileName = $this->voicePath().$mediaId.'.mp3';
         if (!file_exists($fileName)) {
             echo 'file '.$fileName.' not exist!';
             return;
         }
-        // echo $fileName;
         $amr = file_get_contents($fileName);
-        // var_dump($amr);    
         header("Content-type: audio/mp3");
         echo $amr;
         $viewModel = new ViewModel();
@@ -78,11 +75,9 @@ class PostcardController extends AbstractActionController
 
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            echo 'invalid order id';
-            // $viewModel =  new ViewModel();
-            // $viewModel->setTerminal(true); // disable layout template
-            // return $viewModel;
-            return;
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
         }
 
         // var_dump($order);
@@ -121,11 +116,11 @@ class PostcardController extends AbstractActionController
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
+
         if ($orderId == '0' || !$order) {
-            echo 'invalid order id '.$orderId;
-            $viewModel =  new ViewModel();
-            $viewModel->setTerminal(true); // disable layout template
-            return $viewModel;
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
         }
 
         // update mediaId. Media will valid for 3 days on Tecent's server.
@@ -139,13 +134,7 @@ class PostcardController extends AbstractActionController
         $viewModel =  new ViewModel(array(
             'order' => $order,
             'tag' => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
-            // 'templateIndex' => $order->templateId,
-            // 'offsetX' => $order->offsetX,
-            // 'offsetY' => $order->offsetY,
-            // 'picUrl'  => $order->picUrl,
-            // 'voiceMediaId' => $order->voiceMediaId ? $order->voiceMediaId : '0',
         ));
-        // var_dump($viewModel);
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
@@ -155,8 +144,9 @@ class PostcardController extends AbstractActionController
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            echo 'not valid order id';
-            return;
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
         }
 
         $this->confirmOrder($order);
@@ -173,8 +163,9 @@ class PostcardController extends AbstractActionController
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            echo 'invalid order id';
-            return;
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
         }
 
         $canvas_w = 960.0;
@@ -209,8 +200,9 @@ class PostcardController extends AbstractActionController
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            echo "order not exist!";
-            return;
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
         }
 
         if (!$this->makePicture($order)) {
@@ -234,8 +226,9 @@ class PostcardController extends AbstractActionController
         $token = $util->getAccessToken();
         $mediaId = $this->getRequest()->getQuery('mediaId', '0');
         if ($mediaId == '0') {
-            echo 'invalid media id';
-            return;
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'require mediaId'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
         }
         $voiceContent = file_get_contents('http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId);
         $voiceFile = fopen($this->voicePath().$mediaId.'.amr', 'w') or die("Unable to open file!");
