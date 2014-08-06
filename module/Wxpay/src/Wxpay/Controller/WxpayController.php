@@ -17,7 +17,7 @@ class WxpayController extends AbstractActionController
         $orderId = $this->params()->fromRoute('id', '0');
         $bank = $this->getRequest()->getQuery('bank', 'other');
         $para = array(
-            'total_fee'   => ($bank == 'XingYe' ? 100 : 500),
+            'total_fee'   => ($bank == 'XingYe' ? 1 : 5), // 100, 500
             'order_id'    => $orderId,
         );
 
@@ -27,60 +27,78 @@ class WxpayController extends AbstractActionController
     }
 
 /* function resultAction()
-    支付通知 notify_url 处理  参见http://jingyan.baidu.com/article/da1091fbd4e6e4027849d607.html
-    先取$POST 这是常规的支付通知信息，形如：
-    array('bank_type' => '3006', 
-    'discount' => '0', 
-    'fee_type' => '1', 
-    'input_charset' => 'UTF-8', 
-    'notify_id' => 'YaNO6cznoNZK0aGb8nJWGgVUWssjt7Ze7gWRaRS0R_5w9oXgGNkRGxReEk0r45yk3I9a2_gzo9IqgqMYbap6bxC2T3p0o-2C', 
-    'out_trade_no' => '1214284731', 
-    'partner' => '12xxxxxxxx', 
-    'product_fee' => '3400', 
-    'sign' => '545FA0E8B594BBXXXX48XX142F084TY', 
-    'sign_type' => 'MD5', 
-    'time_end' => '20130223110224', 
-    'total_fee' => '3400', 
-    'trade_mode' => '1', 
-    'trade_state' => '0', 
-    'transaction_id' => '12XXX449012014XXX33174005XXX', 
-    'transport_fee' => '0',)
-
-    再用file_get_contents('php://input')读取额外的信息，形如：
-    <xml>
-    <OpenId><![CDATA[o0pd3jqHaN7b0tVPDFJPzJEkSCLw]]></OpenId>
-    <AppId><![CDATA[wxXXX06XX2cXXX88XX]]></AppId>
-    <IsSubscribe>1</IsSubscribe>
-    <TimeStamp>1400814743</TimeStamp>
-    <NonceStr><![CDATA[lqxwMsiY9EXRDpms]]></NonceStr>
-    <AppSignature><![CDATA[c2dxxxe186116b32b06axxxc1a688b671eexxx5e]]></AppSignature>
-    <SignMethod><![CDATA[sha1]]></SignMethod>
-    </xml>
+    支付通知 notify_url 处理  参见http://www.cnblogs.com/txw1958/p/weixin-pay-trade-notice.html
  */
     public function resultAction()
     {
-        // var_dump($GLOBALS['HTTP_RAW_POST_DATA']);
+
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
-        echo $postStr;
-        // var_dump($_POST);
-        $trade_state = $_POST['trade_state'];
-        echo 'result result:<br>';
-        echo '$trade_state='.$trade_state.'<br>';
+        $this->logger(json_encode($_GET).'  '.json_encode($postStr));
+
+        $trade_state = $this->getRequest()->getQuery('trade_state', 1);
         if ($trade_state == 0) {    // pay success
-            $out_trade_no = $_POST['out_trade_no'];
-            echo '$out_trade_no='.$out_trade_no;
+
+            $out_trade_no = $this->getRequest()->getQuery('out_trade_no');
+            $transId = $this->getRequest()->getQuery('transaction_id');
+
+            
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $openId  = $postObj->OpenId;
+
             // update order status to 'payed'
             $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/'.$out_trade_no.'/101';
             $html = file_get_contents($url);
-            $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
 
-            // copy pictures to 'payed' folder
+            // copy postcard pictures to 'payed' folder
             $this->copyPicture($out_trade_no);
+
+            // 假设这里直接自动发货成功，调用发货通知接口通知微信
+            $this->deliverNotify(array('orderid' => $out_trade_no,
+                                       'tansid' => $transId,
+                                       'openid' => $openId,
+                                        )
+                                );
         }
+
         echo 'success'; // must respond 'success' to wxpay server
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
+    }
+
+    public function testDeliverNotifyAction()
+    {
+        $data = array('orderid' => '14080598856',
+                     'transid' => '1219350001201408053164276949',
+                     'openid' => 'ocKsTuKbE4QqHbwGEXmVnuLHO_sY',
+                      );
+        $rc = $this->deliverNotify($data);
+
+        $view =  new ViewModel(array('code' => $rc->errcode, 'msg' => $rc->errmsg));
+        $view->setTemplate('postcard/postcard/error');
+        return $view;
+    }
+
+    public function deliverNotify($data)
+    {
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        $access_token = $util->getAccessToken();
+        $url = "https://api.weixin.qq.com/pay/delivernotify?access_token=".$access_token;
+
+        $wxPayHelper = new WxPayHelper();
+        $nativeObj['appid'] = APPID;
+        $nativeObj['openid'] = $data['openid'];
+        $nativeObj['transid'] = $data['transid'];
+        $nativeObj['out_trade_no'] = $data['orderid'];
+        $nativeObj['deliver_timestamp'] = $wxPayHelper->create_timestamp();
+        $nativeObj['deliver_status'] = '1';
+        $nativeObj['deliver_msg'] = 'ok';
+        $nativeObj["app_signature"] = $wxPayHelper->get_biz_sign($nativeObj);
+        $nativeObj["sign_method"] = SIGNTYPE;
+        $postResult = json_decode($util->httpPost($url, json_encode($nativeObj)));
+
+        return $postResult;
     }
 
     // pay test page. say 'pay' to paohai postcard in wechat, you will get the url of this page
@@ -89,6 +107,11 @@ class WxpayController extends AbstractActionController
         $viewModel = new ViewModel();
         // $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
+    }
+
+    private function logger($content)
+    {
+        file_put_contents($this->logFileName(), date('m/d H:i:s').' '.$content."\n", FILE_APPEND);
     }
 
     private function copyPicture($orderId)
@@ -111,6 +134,11 @@ class WxpayController extends AbstractActionController
             return false;
         }
         return true;
+    }
+
+    private function logFileName()
+    {
+        return dirname(__FILE__).'/../../../../../userdata/paohai_paying.log';
     }
 
     private function postcardsPath()
@@ -174,6 +202,8 @@ respend:
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
         // echo $postStr;
         // extract post data
+
+        // todo: 转发维权信息到客服邮箱
         if (!empty($postStr)) {
 
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
@@ -215,7 +245,7 @@ respend:
 // https://api.weixin.qq.com/payfeedback/update?access_token=xxxxx&openid=XXXX&feedbackid=xxxx
 
         }
-        echo "feedback recieved!  todo: notify customer service...";
+        echo "success";
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -230,7 +260,7 @@ respend:
 // <AppSignature><![CDA T A[f8164781a303f4d5a944a2dfc68411a8c7e4fbea]]></AppSignatur e>
 // <SignMethod><![CDA T A[sha1]]></SignMethod> </xml>
 
-        echo "alarm recieved! todo: notify adminstrator...";
+        echo "success";
         // 通知商户管理员 包括发货延迟 、调用失败、通知失败等情况
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template

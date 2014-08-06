@@ -26,7 +26,7 @@ class WxPayHelper
         return $this->parameters[$parameter];
     }
 
-    protected function create_timestamp() {
+    function create_timestamp() {
         return '' . time();
     }
 
@@ -49,7 +49,7 @@ class WxPayHelper
         return true;
     }
 
-    protected function get_cft_package(){
+    function get_cft_package(){
         try {
             
             if (null == PARTNERKEY || "" == PARTNERKEY ) {
@@ -66,9 +66,9 @@ class WxPayHelper
         {
             die($e->errorMessage());
         }
-
     }
-    protected function get_biz_sign($bizObj){
+
+    function get_biz_sign($bizObj){
          foreach ($bizObj as $k => $v){
              $bizParameters[strtolower($k)] = $v;
          }

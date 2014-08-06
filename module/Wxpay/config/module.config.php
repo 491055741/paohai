@@ -11,7 +11,7 @@ return array(
             'wxpay' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/wxpay[/][:action][/:id]',
+                    'route'    => '/wxpay[/][:action][/][/:id]', // '[/]' after '[:action]' is a workaround for wrong feedback url 'http://paohai.ikamobile.com/wxpay/feedback/' (extra '/' at tail)
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',

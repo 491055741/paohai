@@ -123,6 +123,12 @@ class PostcardController extends AbstractActionController
             return $view;
         }
 
+        if ($order->status == CANCEL) {
+            $view =  new ViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
         // update mediaId. Media will valid for 3 days on Tecent's server.
         $voiceMediaId = $this->getRequest()->getQuery('voiceMediaId');
         if ($voiceMediaId) {
@@ -333,6 +339,22 @@ class PostcardController extends AbstractActionController
         }
 
         return new JsonModel($res);
+    }
+
+    public function completeAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+
+        if ($orderId == '0' || !$order) {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
+        $viewModel = new ViewModel(array('orderId' => $orderId, 'tag' => JS_TAG));
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
     }
 
     private function confirmOrder($order)

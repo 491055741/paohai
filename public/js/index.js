@@ -192,6 +192,7 @@ $(function() {
     }
 
     function submitPhoto() {
+
         var url = "http://" + window.location.host + "/postcard/placeorder";
         var params = {
             templateIndex: selectedTemplateIndex,

@@ -83,7 +83,7 @@ $this->headTitle($title);
             }
 
             if ($status != '') {
-                echo "<a href=" . $this->url('postcard', array('action'=>'update', 'id' => $order->id, 'status' => $newStatus)).">Update</a>";
+                echo "<a href=" . $this->url('postcard', array('action'=>'update', 'id' => $order->id, 'status' => $newStatus)).'>'.$status.'</a>';
                 // echo "<input type='button' style='background:#fce3b1' value=".$status." onclick=updateStatus()>";
             }
             // echo $this->escapeHtml($status); <div style="border:1px solid #ccc;">

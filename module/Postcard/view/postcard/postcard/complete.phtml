@@ -14,7 +14,7 @@
         <script src="/js/jquery.event.move.js"></script>
         <script src="/js/jquery.shadow.js"></script>
         <script src=<?php echo '"/js/util.js?' . $tag . '"'; ?> ></script>`
-        <script src=<?php echo '"/js/pay.js?' . $tag . '"'; ?> ></script>
+        <script src=<?php echo '"/js/complete.js?' . $tag . '"'; ?> ></script>
     </head>
 
     <body>
@@ -28,12 +28,19 @@
                 </div>
             </div>
 
-            <div data-role='page' id='paymentPage' data-title='支付' class='page'>
-                <script src="/js/md5.js"></script>
-                <script src="/js/sha1.js"></script>
+            <div data-role="page" id="completePage" data-title="完成" class="page">
                 <div data-role="content" align="center">
-                        <input id="submitPaymentButton1" data-theme="e" value="立即付款 5 元" type="button">
-                        <input id="submitPaymentButton2" data-theme="e" value="兴业银行卡支付 1 元" type="button">
+                    <h3>明信片创建成功，我们将尽快为你邮寄！</h3>
+
+                    <div class="bshare-custom">
+                        <a title="分享到QQ空间" class="bshare-qzone"></a>
+                        <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+                        <a title="分享到腾讯微博" class="bshare-qqmb"></a>
+                        <!-- <a title="分享到QQ" class="bshare-qqim"></a> -->
+                    </div>
+
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=<你的UUID>&style=-1"></script>
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC3.js"></script>
                 </div>
             </div>
 
