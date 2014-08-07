@@ -55,54 +55,12 @@ class WxpayController extends AbstractActionController
 
             // copy postcard pictures to 'payed' folder
             $this->copyPicture($out_trade_no);
-
-            // 假设这里直接自动发货成功，调用发货通知接口通知微信
-            $this->deliverNotify(array('orderid' => $out_trade_no,
-                                       'tansid' => $transId,
-                                       'openid' => $openId,
-                                        )
-                                );
         }
 
         echo 'success'; // must respond 'success' to wxpay server
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
-    }
-
-    public function testDeliverNotifyAction()
-    {
-        $data = array('orderid' => '14080598856',
-                     'transid' => '1219350001201408053164276949',
-                     'openid' => 'ocKsTuKbE4QqHbwGEXmVnuLHO_sY',
-                      );
-        $rc = $this->deliverNotify($data);
-
-        $view =  new ViewModel(array('code' => $rc->errcode, 'msg' => $rc->errmsg));
-        $view->setTemplate('postcard/postcard/error');
-        return $view;
-    }
-
-    public function deliverNotify($data)
-    {
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-        $access_token = $util->getAccessToken();
-        $url = "https://api.weixin.qq.com/pay/delivernotify?access_token=".$access_token;
-
-        $wxPayHelper = new WxPayHelper();
-        $nativeObj['appid'] = APPID;
-        $nativeObj['openid'] = $data['openid'];
-        $nativeObj['transid'] = $data['transid'];
-        $nativeObj['out_trade_no'] = $data['orderid'];
-        $nativeObj['deliver_timestamp'] = $wxPayHelper->create_timestamp();
-        $nativeObj['deliver_status'] = '1';
-        $nativeObj['deliver_msg'] = 'ok';
-        $nativeObj["app_signature"] = $wxPayHelper->get_biz_sign($nativeObj);
-        $nativeObj["sign_method"] = SIGNTYPE;
-        $postResult = json_decode($util->httpPost($url, json_encode($nativeObj)));
-
-        return $postResult;
     }
 
     // pay test page. say 'pay' to paohai postcard in wechat, you will get the url of this page

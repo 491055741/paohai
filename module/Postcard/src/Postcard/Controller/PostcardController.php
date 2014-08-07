@@ -2,7 +2,9 @@
 namespace Postcard\Controller;
 
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
+include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
 use CommonUtil;
+use WxPayHelper;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
@@ -97,14 +99,14 @@ class PostcardController extends AbstractActionController
         //         ));
 
         // $result = json_decode($util->asyn_request($args));
-        $result = json_decode($util->httpPost('https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token,
+        $res = $util->httpPost('https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token,
                                 $this->JSON(array(
                                                 'touser'  => $order->userName,
                                                 'msgtype' => 'text',
                                                 'text'    => array('content' => '请说出你的语音留言' ),
-                                                ));
-                                ));
-        $array = $this->object2array($result);
+                                                ))
+                                );
+        $array = $this->object2array(json_decode($res));
         return new JsonModel($array);
     }
 
@@ -403,12 +405,55 @@ class PostcardController extends AbstractActionController
                 $order->payDate = date('Y-m-d H:i:s');
                 $this->getOrderTable()->saveOrder($order);
                 echo "update success";
+
+                if ($status == SHIPPED) {     // 调用发货通知接口通知微信
+                    $this->deliverNotify(array('orderid' => $out_trade_no,
+                                       'tansid' => $transId,
+                                       'openid' => $openId,
+                                        )
+                                );
+                }
             }
         }
 
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
+    }
+
+    public function testDeliverNotifyAction()
+    {
+        $data = array('orderid' => '14080598856',
+                     'transid' => '1219350001201408053164276949',
+                     'openid' => 'ocKsTuKbE4QqHbwGEXmVnuLHO_sY',
+                      );
+        $rc = $this->deliverNotify($data);
+
+        $view =  new ViewModel(array('code' => $rc->errcode, 'msg' => $rc->errmsg));
+        $view->setTemplate('postcard/postcard/error');
+        return $view;
+    }
+
+    public function deliverNotify($data)
+    {
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        $access_token = $util->getAccessToken();
+        $url = "https://api.weixin.qq.com/pay/delivernotify?access_token=".$access_token;
+
+        $wxPayHelper = new WxPayHelper();
+        $nativeObj['appid'] = APPID;
+        $nativeObj['openid'] = $data['openid'];
+        $nativeObj['transid'] = $data['transid'];
+        $nativeObj['out_trade_no'] = $data['orderid'];
+        $nativeObj['deliver_timestamp'] = $wxPayHelper->create_timestamp();
+        $nativeObj['deliver_status'] = '1';
+        $nativeObj['deliver_msg'] = 'ok';
+        $nativeObj["app_signature"] = $wxPayHelper->get_biz_sign($nativeObj);
+        $nativeObj["sign_method"] = SIGNTYPE;
+        $postResult = json_decode($util->httpPost($url, json_encode($nativeObj)));
+
+        return $postResult;
     }
 
     private function logger($content)

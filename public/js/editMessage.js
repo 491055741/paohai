@@ -131,14 +131,26 @@ $(function() {
             return false;
         }
 
+        if (zipcode.length != 6 || isNaN(zipcode)) {
+            $.mobile.showPageLoadingMsg("b", "邮编不正确", true);
+            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
+            return false;
+        }
+
         if (recipient == "" || recipient == null) {
             $.mobile.showPageLoadingMsg("b", "请填写收信人姓名", true);
             setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
             return false;
         }
 
-        if (mobile == "" || mobile == null) {
+        if (mobile.length == 0 || mobile == null) {
             $.mobile.showPageLoadingMsg("b", "请填写收信人手机号码", true);
+            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
+            return false;
+        }
+
+        if (mobile.length != 11 || isNaN(mobile)) {
+            $.mobile.showPageLoadingMsg("b", "手机号码不正确", true);
             setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
             return false;
         }
@@ -146,7 +158,6 @@ $(function() {
         output("submit address, goto previewPage");
         changePage("#previewPage");
     }
-
 });
 
 $(function() {
