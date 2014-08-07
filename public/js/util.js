@@ -72,7 +72,6 @@ function applicationCacheHandeler() {
     };
 
     applicationCache.ondownloading = function() {
-        overlay();
         output(" application cache downloading");
     };
 

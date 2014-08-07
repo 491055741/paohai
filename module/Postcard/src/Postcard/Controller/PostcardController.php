@@ -24,7 +24,7 @@ define('PAYED', 101);
 define('PRINTED', 102);
 define('SHIPPED', 103);
 
-define('JS_TAG', '20140717');
+define('JS_TAG', '20140807');
 
 
 class PostcardController extends AbstractActionController
@@ -85,18 +85,25 @@ class PostcardController extends AbstractActionController
         $util->setServiceLocator($this->getServiceLocator());
         $token = $util->getAccessToken();
 
-        $args["host"] = 'api.weixin.qq.com';
-        $args["url"] = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token;
-        $args["method"] = "POST";
-        // var_dump($order);
-        // for Chinese value, don't use json_encode, otherwise Chinese will be convert to \u8bf7\u8bf4...
-        $args["data"] = $this->JSON(array(
-                'touser'  => $order->userName,
-                'msgtype' => 'text',
-                'text'    => array('content' => '请说出你的语音留言' ),
-                ));
+        // $args["host"] = 'api.weixin.qq.com';
+        // $args["url"] = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token;
+        // $args["method"] = "POST";
+        // // var_dump($order);
+        // // for Chinese value, don't use json_encode, otherwise Chinese will be convert to \u8bf7\u8bf4...
+        // $args["data"] = $this->JSON(array(
+        //         'touser'  => $order->userName,
+        //         'msgtype' => 'text',
+        //         'text'    => array('content' => '请说出你的语音留言' ),
+        //         ));
 
-        $result = json_decode($util->asyn_request($args));
+        // $result = json_decode($util->asyn_request($args));
+        $result = json_decode($util->httpPost('https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token,
+                                $this->JSON(array(
+                                                'touser'  => $order->userName,
+                                                'msgtype' => 'text',
+                                                'text'    => array('content' => '请说出你的语音留言' ),
+                                                ));
+                                ));
         $array = $this->object2array($result);
         return new JsonModel($array);
     }
@@ -154,11 +161,11 @@ class PostcardController extends AbstractActionController
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
-
+        $this->logger('payAction');
         $this->confirmOrder($order);
         $viewModel =  new ViewModel(array(
             'orderId' => $orderId,
-            'tag' => '201405291059', // if only want update 'kacha.js', modify the tag.   ????????   not work
+            'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -359,12 +366,8 @@ class PostcardController extends AbstractActionController
 
     private function confirmOrder($order)
     {
-        // make picture
-        $args["host"] = $_SERVER['SERVER_NAME'];
-        $args["url"] = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/makepicture/'.$order->id;
-        $args["method"] = "GET";
         $util = new CommonUtil();
-        $util->asyn_request($args);
+        $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$order->id);
     }
 
     public function deleteAction()
@@ -408,6 +411,16 @@ class PostcardController extends AbstractActionController
         return $viewModel;
     }
 
+    private function logger($content)
+    {
+        file_put_contents($this->logFileName(), date('m/d H:i:s').' '.$content."\n", FILE_APPEND); // notice: use "\n", not '\n'
+    }
+
+    private function logFileName()
+    {
+        return '/tmp/paohai_error.log';
+    }
+
     private function getOrderTable()
     {
         if (!$this->orderTable) {
@@ -446,6 +459,7 @@ class PostcardController extends AbstractActionController
         if (!is_dir($dstpath)) {
             if (!mkdir($dstpath)) {
                 echo 'Create folder '.$dstpath.' failed!';
+                $this->logger('Create folder '.$dstpath.' failed!');
                 return false;
             }
         }
@@ -456,6 +470,7 @@ class PostcardController extends AbstractActionController
 
         $image = $this->generateFront($order, $canvas_w, $canvas_h);
         if (!$image) {
+            $this->logger('makePicture/generateFront failed!');
             return false;
         }
 

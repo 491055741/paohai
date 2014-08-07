@@ -12,8 +12,8 @@
         <script src="/js/jquery.google.fastbutton.js"></script>
         <script src="/js/jquery.event.move.js"></script>
         <script src="/js/jquery.shadow.js"></script>
-        <script src=<?php echo '"/js/util.js?' . $tag . '"'; ?> ></script>
-        <script src=<?php echo '"/js/index.js?' . $tag . '"'; ?> ></script>
+        <script src=<?php echo "/js/util.js?$tag" ?> ></script>
+        <script src=<?php echo "/js/index.js?$tag" ?> ></script>
     </head>
 
     <body>
@@ -34,7 +34,7 @@
 
                         <?php for ($i = 1; $i <= 6; $i += 1) { ?>
                             <img class="thumbnail" src='/images/small/templateVBg.png' style=<?php echo '"top:calc((' . $i . ' - 1)*85px + 15px);"'; ?> ></img>
-                            <img class="thumbnail" id=<?php echo 'templateThumbnail' . $i; ?>  data-index=<?php echo $i; ?> src=<?php echo '/images/small/template' . $i . '.png'; ?> style=<?php echo '"top:calc((' . $i . ' - 1)*85px + 15px);"'; ?> ></img>
+                            <img class="thumbnail" id=<?php echo "templateThumbnail$i" ?>  data-index=<?php echo $i ?> src=<?php echo "/images/small/template$i.png" ?> style=<?php echo '"top:calc((' . $i . ' - 1)*85px + 15px);"'; ?> ></img>
                         <?php } ?>
 
                         <img class="postcard" src="/images/small/templateVBg.png"></img>

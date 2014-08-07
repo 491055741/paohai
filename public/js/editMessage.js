@@ -263,10 +263,10 @@ function uploadOrder() {
 
 function getValueFromInput()
 {
-    message = $("#messageinput").val();    
+    message    = $("#messageinput").val();    
     senderName = $("#nameinput").val();
-    address = $("#addressinput").val();
-    zipcode = $("#zipcodeinput").val();
-    recipient = $("#recipientinput").val();
-    mobile = $("#mobileinput").val();
+    address    = $("#addressinput").val();
+    zipcode    = $("#zipcodeinput").val();
+    recipient  = $("#recipientinput").val();
+    mobile     = $("#mobileinput").val();
 }

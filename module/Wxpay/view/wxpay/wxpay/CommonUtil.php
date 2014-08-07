@@ -56,13 +56,15 @@ class CommonUtil
 
     public function asyn_request($args)
     {
+        $this->logger('asyn_request');
+
         $host = $args["host"] ?  $args["host"] : "localhost";//主机
         $method = $args["method"] == "POST" ? "POST" : "GET";//方法   
         $url = $args["url"] ? $args["url"] : "http://".$host ;//地址
 
-        $fp = @fsockopen($host, 80, $errno, $errstr, 30);
+        $fp = fsockopen($host, 80, $errno, $errstr, 30);
         //错误
-        if (!$fp) {echo "$errstr ($errno)<br/>\n"; exit;}
+        if (!$fp) {echo "$errstr ($errno)<br/>\n"; $this->logger("$errstr ($errno)"); exit;}
         // echo 'method:'.$method;
         $qstr = isset($args["data"]) ? $args["data"] : ''; 
 
@@ -80,6 +82,8 @@ class CommonUtil
         // $params.= "Content-Type: application/json; encoding=utf-8\r\n";
         $params.= "Content-Length: ".strlen($qstr)."\r\n\r\n";
         $params.= $method == "GET" ? null :$qstr;
+
+        $this->logger($params);
 
         fwrite($fp, $params);
 
@@ -255,6 +259,7 @@ class CommonUtil
     
     function httpPost($url, $data)
     {
+        $this->logger("httpPost:$url");
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -267,6 +272,30 @@ class CommonUtil
             return $res;
         else  
             return false;
+    }
+
+    function httpGet($url)
+    {
+        $this->logger("httpGet:$url");
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        $res = curl_exec($ch);
+        curl_close($ch);
+        if ($res)
+            return $res;
+        else  
+            return false;
+    }
+
+    private function logger($content)
+    {
+        file_put_contents($this->logFileName(), date('m/d H:i:s').' '.$content."\n", FILE_APPEND); // notice: use "\n", not '\n'
+    }
+
+    private function logFileName()
+    {
+        return '/tmp/paohai_error.log';
     }
 }
 

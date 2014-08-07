@@ -31,18 +31,22 @@ class WxpayController extends AbstractActionController
  */
     public function resultAction()
     {
-
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
-        $this->logger(json_encode($_GET).'  '.json_encode($postStr));
+
+        // $this->logger(json_encode($_GET).'  '.json_encode($postObj));
+        $para = '';
+        foreach ($_GET as $key => $value) {
+            $para = $para.$key.'='.$value.'&';
+        }
+        $para = rtrim($para,'&');
+        $this->logger('GET:'.$para.'  POST:'.$postStr);
 
         $trade_state = $this->getRequest()->getQuery('trade_state', 1);
-        if ($trade_state == 0) {    // pay success
-
+        if ($trade_state == 0 && $postStr != null) {    // pay success
+    
+            $postObj = @simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $out_trade_no = $this->getRequest()->getQuery('out_trade_no');
             $transId = $this->getRequest()->getQuery('transaction_id');
-
-            
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $openId  = $postObj->OpenId;
 
             // update order status to 'payed'
@@ -118,19 +122,19 @@ class WxpayController extends AbstractActionController
     {
         $dstpath = $this->payedPicPath();
         if (!is_dir($dstpath)) {
-            if (!mkdir($dstpath)) {
-                echo 'Create folder '.$dstpath.' failed!';
+            if (!@mkdir($dstpath)) {
+                $this->logger('Create folder '.$dstpath.' failed!');
                 return false;
             }
         }
 
-        if (!copy($this->postcardsPath().$orderId.'_front.png', $this->payedPicPath().$orderId.'_front.png')) {
-            echo 'copy '.$this->postcardsPath().$orderId.'_front.png failed!';
+        if (!@copy($this->postcardsPath($orderId).$orderId.'_front.png', $this->payedPicPath().$orderId.'_front.png')) {
+            $this->logger('copy '.$this->postcardsPath($orderId).$orderId.'_front.png failed!');
             return false;
         }
 
-        if (!copy($this->postcardsPath().$orderId.'_backface.png', $this->payedPicPath().$orderId.'_backface.png')) {
-            echo 'copy '.$this->postcardsPath().$orderId.'_backface.png failed!';
+        if (!@copy($this->postcardsPath($orderId).$orderId.'_backface.png', $this->payedPicPath().$orderId.'_backface.png')) {
+            $this->logger('copy '.$this->postcardsPath($orderId).$orderId.'_backface.png failed!');
             return false;
         }
         return true;
@@ -141,9 +145,11 @@ class WxpayController extends AbstractActionController
         return dirname(__FILE__).'/../../../../../userdata/paohai_paying.log';
     }
 
-    private function postcardsPath()
+    private function postcardsPath($orderId)
     {
-        return dirname(__FILE__).'/../../../../../userdata/postcards/' . date('Ymd', time()) . '/';
+        $orderDateStr = substr($orderId, 0, 6);
+        $orderDate = date('ymd', $orderDateStr);
+        return dirname(__FILE__).'/../../../../../userdata/postcards/' . date('Ymd', $orderDate) . '/';
     }
 
     private function payedPicPath()
