@@ -34,9 +34,7 @@ $(function() {
             $("#voiceMessageButton").val('重新录制语音留言');
         }
 
-
-
-        userImage.onload = function(){
+        userImage.onload = function() {
             pic_orig_w = userImage.width;
             pic_orig_h = userImage.height;
         }
@@ -110,6 +108,14 @@ $(function() {
 
         output("addressPage init");
 
+        $("#editAddressButton").fastClick(function() {
+            var time = new Date().getTime();
+            var redirect_uri = encodeURIComponent("http://paohai.ikamobile.com/wxpay/addr");
+            var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a41ea3d983b4538&redirect_uri="+redirect_uri+"&response_type=code&scope=snsapi_base&state="+time+"#wechat_redirect";
+            self.location = url;
+            return;
+        });
+
         $("#submitAddressButton").fastClick(function() {
             submitAddress();
         });
@@ -117,43 +123,43 @@ $(function() {
 
     function submitAddress() {
 
-        getValueFromInput();
+        // getValueFromInput();
 
-        if (address == "" || address == null) {
-            $.mobile.showPageLoadingMsg("b", "请填写地址", true);
-            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
-            return false;
-        }
+        // if (address == "" || address == null) {
+        //     $.mobile.showPageLoadingMsg("b", "请填写地址", true);
+        //     setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
+        //     return false;
+        // }
 
-        if (zipcode == "" || zipcode == null) {
-            $.mobile.showPageLoadingMsg("b", "请填写邮编", true);
-            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
-            return false;
-        }
+        // if (zipcode == "" || zipcode == null) {
+        //     $.mobile.showPageLoadingMsg("b", "请填写邮编", true);
+        //     setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
+        //     return false;
+        // }
 
-        if (zipcode.length != 6 || isNaN(zipcode)) {
-            $.mobile.showPageLoadingMsg("b", "邮编不正确", true);
-            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
-            return false;
-        }
+        // if (zipcode.length != 6 || isNaN(zipcode)) {
+        //     $.mobile.showPageLoadingMsg("b", "邮编不正确", true);
+        //     setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
+        //     return false;
+        // }
 
-        if (recipient == "" || recipient == null) {
-            $.mobile.showPageLoadingMsg("b", "请填写收信人姓名", true);
-            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
-            return false;
-        }
+        // if (recipient == "" || recipient == null) {
+        //     $.mobile.showPageLoadingMsg("b", "请填写收信人姓名", true);
+        //     setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
+        //     return false;
+        // }
 
-        if (mobile.length == 0 || mobile == null) {
-            $.mobile.showPageLoadingMsg("b", "请填写收信人手机号码", true);
-            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
-            return false;
-        }
+        // if (mobile.length == 0 || mobile == null) {
+        //     $.mobile.showPageLoadingMsg("b", "请填写收信人手机号码", true);
+        //     setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
+        //     return false;
+        // }
 
-        if (mobile.length != 11 || isNaN(mobile)) {
-            $.mobile.showPageLoadingMsg("b", "手机号码不正确", true);
-            setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
-            return false;
-        }
+        // if (mobile.length != 11 || isNaN(mobile)) {
+        //     $.mobile.showPageLoadingMsg("b", "手机号码不正确", true);
+        //     setTimeout("$.mobile.hidePageLoadingMsg()", 1000);
+        //     return false;
+        // }
 
         output("submit address, goto previewPage");
         changePage("#previewPage");
@@ -276,8 +282,8 @@ function getValueFromInput()
 {
     message    = $("#messageinput").val();    
     senderName = $("#nameinput").val();
-    address    = $("#addressinput").val();
-    zipcode    = $("#zipcodeinput").val();
-    recipient  = $("#recipientinput").val();
-    mobile     = $("#mobileinput").val();
+    // address    = $("#addressinput").val();
+    // zipcode    = $("#zipcodeinput").val();
+    // recipient  = $("#recipientinput").val();
+    // mobile     = $("#mobileinput").val();
 }

@@ -11,22 +11,16 @@ use Zend\View\Model\JsonModel;
 use Postcard\Model\Order;
 
 define('DEFAULT_PICURL', 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg');
-define('DEFAULT_MSG', '思念是一季的花香，漫过山谷，笼罩你我，而祝福是无边的关注，溢出眼睛，直到心底，愿愉快伴你一生。');
-define('DEFAULT_BANK', 'other');
 define('DEFAULT_USER', 'ocKsTuKbE4QqHbwGEXmVnuLHO_sY'); // default user is me
-define('DEFAULT_ZIPCODE', '518000');
-define('DEFAULT_SENDER', 'sender');
-define('DEFAULT_ADDRESS', 'address');
-define('DEFAULT_RECIPIENT', 'recipient');
 
-// order status 待支付，已支付，已打印，已发货，已收货，退款状态
-define('CANCEL', 99);
-define('UNPAY', 100);
-define('PAYED', 101);
-define('PRINTED', 102);
-define('SHIPPED', 103);
+// order status
+define('CANCEL', 99); // 已取消
+define('UNPAY', 100); // 待支付
+define('PAYED', 101); // 已支付
+define('PRINTED', 102); // 已打印
+define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '20140807');
+define('JS_TAG', '20140807'); // 好像不管用，待查
 
 
 class PostcardController extends AbstractActionController
@@ -146,9 +140,14 @@ class PostcardController extends AbstractActionController
             $this->getOrderTable()->saveOrder($order);
         }
 
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        $token = $util->getAccessToken();
+
         $viewModel =  new ViewModel(array(
             'order' => $order,
-            'tag' => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
+            'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
+            'token' => $token,
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -163,7 +162,6 @@ class PostcardController extends AbstractActionController
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
-        $this->logger('payAction');
         $this->confirmOrder($order);
         $viewModel =  new ViewModel(array(
             'orderId' => $orderId,
@@ -456,6 +454,28 @@ class PostcardController extends AbstractActionController
         return $postResult;
     }
 
+    // public function editShareAddressAction()
+    // {
+    //     $util = new CommonUtil();
+    //     $util->setServiceLocator($this->getServiceLocator());
+    //     $access_token = $util->getAccessToken();
+    //     $url = "https://api.weixin.qq.com/pay/delivernotify?access_token=".$access_token;
+
+    //     $wxPayHelper = new WxPayHelper();
+    //     $nativeObj['appid'] = APPID;
+    //     $nativeObj['openid'] = $data['openid'];
+    //     $nativeObj['transid'] = $data['transid'];
+    //     $nativeObj['out_trade_no'] = $data['orderid'];
+    //     $nativeObj['deliver_timestamp'] = $wxPayHelper->create_timestamp();
+    //     $nativeObj['deliver_status'] = '1';
+    //     $nativeObj['deliver_msg'] = 'ok';
+    //     $nativeObj["app_signature"] = $wxPayHelper->get_biz_sign($nativeObj);
+    //     $nativeObj["sign_method"] = SIGNTYPE;
+    //     $postResult = json_decode($util->httpPost($url, json_encode($nativeObj)));
+
+    //     return $postResult;
+    // }
+
     private function logger($content)
     {
         file_put_contents($this->logFileName(), date('m/d H:i:s').' '.$content."\n", FILE_APPEND); // notice: use "\n", not '\n'
@@ -487,14 +507,14 @@ class PostcardController extends AbstractActionController
 
     private function object2array($array)
     {
-      if (is_object($array)) {
-        $array = (array)$array;
-      }
-      if (is_array($array)) {
-        foreach($array as $key=>$value) {
-          $array[$key] = $this->object2array($value);
+        if (is_object($array)) {
+            $array = (array)$array;
         }
-      }
+        if (is_array($array)) {
+            foreach($array as $key=>$value) {
+            $array[$key] = $this->object2array($value);
+            }
+        }
       return $array;
     }
 

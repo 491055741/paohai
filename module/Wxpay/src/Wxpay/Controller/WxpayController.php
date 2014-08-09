@@ -31,15 +31,10 @@ class WxpayController extends AbstractActionController
  */
     public function resultAction()
     {
+        $getStr = $_SERVER['QUERY_STRING'];
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
 
-        // $this->logger(json_encode($_GET).'  '.json_encode($postObj));
-        $para = '';
-        foreach ($_GET as $key => $value) {
-            $para = $para.$key.'='.$value.'&';
-        }
-        $para = rtrim($para,'&');
-        $this->logger('GET:'.$para.'  POST:'.$postStr);
+        $this->logger('GET:'.$getStr.'  POST:'.$postStr);
 
         $trade_state = $this->getRequest()->getQuery('trade_state', 1);
         if ($trade_state == 0 && $postStr != null) {    // pay success
@@ -59,6 +54,36 @@ class WxpayController extends AbstractActionController
 
         echo 'success'; // must respond 'success' to wxpay server
         $viewModel = new ViewModel();
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    // 参考http://mp.weixin.qq.com/wiki/index.php?title=%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF
+    // 从授权页面重定向到此页面，用code换取oauth2_access_token
+    public function addrAction()
+    {
+        $code = $this->getRequest()->getQuery('code', '0');
+        if ($code == '0') {
+            $view =  new ViewModel(array('code' => 1, 'msg' => '需要从授权页面获取的code'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
+        $state = $this->getRequest()->getQuery('state', '0');
+        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx4a41ea3d983b4538&secret=424b9f967e50a2711460df2a9c9efaaa&code='.$code.'&grant_type=authorization_code';
+        $res = json_decode(file_get_contents($url));
+        if (isset($res->errcode)) {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'get access_token failed: '. $res->errmsg));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
+        $para = array(
+            'token' => $res->access_token,
+            'url'   => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+        );
+
+        $viewModel = new ViewModel($para);
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }

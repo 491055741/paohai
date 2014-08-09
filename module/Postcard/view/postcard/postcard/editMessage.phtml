@@ -1,4 +1,3 @@
-<!DOCTYPE html  >
 <html manifest="/safari.manifest"><!--  -->
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -48,11 +47,7 @@
             <div data-role="page" id="addressPage" data-title="收信地址" class="page">
                 <div data-role="content" align="left">
                     <div>收信人地址</div>
-                    <input type="text" id="addressinput" placeholder="地址" value=<?php echo $order->address ?> ></input>
-                    <input type="text" id="zipcodeinput" placeholder="邮编" value=<?php echo $order->zipCode ?> ></input>
-                    <input type="text" id="recipientinput" placeholder="收件人姓名 " value=<?php echo $order->recipient ?> ></input>
-                    <input type="text" id="mobileinput" placeholder="联系电话"  value=<?php echo $order->recipientMobile ?> ></input>
-
+                    <input id="editAddressButton" data-theme="e" value="编辑地址" type="button"></input>
                     <input id="submitAddressButton" data-theme="e" value="下一步" type="button"></input>
                 </div>
             </div>

@@ -134,8 +134,6 @@ class WechatController extends AbstractActionController
                             $contentStr = '拥有兴业银行卡的小伙伴们有福啊，送给只属于你的，独一无二的爱的咔嚓！支付时选择兴业银行，只要1元！就可以寄送你爱的明信片啦！';
                         } else if ($eventKey == "orders") { // 我的订单
                             $contentStr = '订单查询功能开发中！';
-                        } else if ($eventKey == "addressBook") { // 交换咔嚓
-                            $contentStr = '地址簿功能开发中！';
                         } else {
                             $contentStr = "请上传一张照片";
                         }
