@@ -1,0 +1,105 @@
+#board {
+    top:    57px;
+    left:   12px;
+    width:  296px;
+    height: 384px;
+    position: absolute;
+    background: #87bde3;
+    z-index:   0;
+}
+
+#senderboard {
+    top:    57px;
+    left:   12px;
+    width:  296px;
+    height: 298px;
+    position: absolute;
+    background: #87bde3;
+    z-index:   0;
+}
+
+#recipientInput {
+    top: 84px;
+    left: 34px;
+    width: 250px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+}
+
+#addressInput {
+    top: 134px;
+    left: 34px;
+    width: 250px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+}
+
+#senderNameInput {
+    top: 84px;
+    left: 34px;
+    width: 250px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+}
+
+#senderAddressInput {
+    top: 134px;
+    left: 34px;
+    width: 250px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+}
+
+#zipcodeInput {
+    top: 180px;
+    left: 34px;
+    width: 250px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+}
+
+#editAddressButton {
+    top: 240px;
+    left: 40px;
+    width: 140px;
+    height: 27px;
+    position: absolute;
+    z-index: 10;    
+}
+
+#submitAddressButton {
+    top: 360px;
+    left: 220px;
+    width: 80px;
+    height: 27px;
+    position: absolute;
+    z-index: 10;
+}
+
+#previewButton {
+    top: 311px;
+    left: 12px;
+    width: 148px;
+    height: 40px;
+    position: absolute;
+    z-index: 10;
+}
+
+#gotoPayButton {
+    top: 311px;
+    left: 160px;
+    width: 148px;
+    height: 40px;
+    position: absolute;
+    z-index: 10;
+}

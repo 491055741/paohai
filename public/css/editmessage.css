@@ -1,0 +1,58 @@
+
+#board {
+    top:    57px;
+    left:   12px;
+    width:  296px;
+    height: 384px;
+    position: absolute;
+    background: #87bde3;
+    z-index:   0;
+}
+
+#salutationInput {
+    top: 84px;
+    left: 34px;
+    width: 250px;
+    position: absolute;
+    min-height: 2em;
+    font-size: 16px;
+    z-index: 10;
+}
+
+#messageInput {
+    top: 134px;
+    left: 34px;
+    width: 250px;
+    min-height: 6em;
+    position: absolute;
+    background: white;
+    z-index: 10;
+}
+
+#signatureInput {
+    top: 270px;
+    left: 162px;
+    width: 120px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+}
+
+#voiceMessageButton {
+    top: 250px;
+    left: 34px;
+    width: 76px;
+    height: 76px;
+    position: absolute;
+    z-index: 10;
+}
+
+#submitMessageButton {
+    top: 360px;
+    left: 220px;
+    width: 80px;
+    /*height: 16px;*/
+    position: absolute;
+    z-index: 10;
+}

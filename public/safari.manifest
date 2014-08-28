@@ -1,16 +1,15 @@
 CACHE MANIFEST
-# 2014-08-08 15:41
+# 2014-08-28 15:42
 
 #css
 /css/jquery.mobile-1.3.1.min.css
-/css/kacha.css
+/css/paohai.css
 
 #images
 /css/wp_icons.png
 /css/wp_icons_light.png
 /css/images/ajax-loader.gif
 /css/images/icons-18-white.png
-/images/small/paying.jpg
 /images/small/template1.png
 /images/small/template2.png
 /images/small/template3.png
@@ -21,18 +20,16 @@ CACHE MANIFEST
 
 #js
 /js/jquery-1.9.0.min.js
-/js/jquery.lazyload.min.js
 /js/jquery.mobile-1.3.1.min.js
-/js/md5.js
-/js/sha1.js
 /js/google.fastbutton.js
 /js/jquery.google.fastbutton.js
-/js/components/mode-ecb-min.js
 /js/jquery.event.move.js
 /js/jquery.rotate-1.0.1.min.js
 /js/util.js
 /js/index.js
 /js/editMessage.js
+/js/address.js
+/js/preview.js
 /js/pay.js
 
 NETWORK:

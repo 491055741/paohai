@@ -1,0 +1,47 @@
+
+#zipcodePreview {
+    font-size:17px;
+    letter-spacing:10px;
+    top:17px;
+    left:27px;
+    position:absolute;
+}
+
+#messagePreview {
+    font-size:12px;
+    text-align:left;
+    top:50px;
+    left:8px;
+    width:155px;
+    position:absolute;
+}
+
+#signaturePreview {
+    font-size:12px;
+    top:140px;
+    left:100px;
+    position:absolute;
+}
+
+#addressPreview {
+    font-size:11px;
+    text-align:left;
+    top:75px;
+    left:160px;
+    width:140px;
+    position:absolute;
+}
+
+#recipientPreview {
+    font-size:14px;
+    left:170px;
+    top:135px;
+    position:absolute;
+}
+
+#postcardback {
+    width:320px;
+    height:200px;
+    position:absolute;
+    left:0;
+}

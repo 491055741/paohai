@@ -10,17 +10,43 @@ use Zend\View\Model\ViewModel;
 
 ini_set("display_errors", true);
 
+// order status
+define('CANCEL',   99); // 已取消
+define('UNPAY',   100); // 待支付
+define('PAYED',   101); // 已支付
+define('PRINTED', 102); // 已打印
+define('SHIPPED', 103); // 已发货
+
+define('JS_TAG', '20140807'); // 好像不管用，待查
+
 class WxpayController extends AbstractActionController
 {
+    protected $orderTable;
+
     public function payAction()
     {
-        $orderId = $this->params()->fromRoute('id', '0');
-        $bank = $this->getRequest()->getQuery('bank', 'other');
+        $orderId = $this->getRequest()->getQuery('orderId', '0');
+        if ($orderId == '0') {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id: '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
+        $util = new CommonUtil();
+        $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$orderId);
+
         $para = array(
-            'total_fee'   => ($bank == 'XingYe' ? 1 : 5), // 100, 500
             'order_id'    => $orderId,
+            'tag'         => JS_TAG,
         );
 
+        $viewModel = new ViewModel($para);
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    public function payTestAction()
+    {
         $viewModel = new ViewModel($para);
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -60,7 +86,7 @@ class WxpayController extends AbstractActionController
 
     // 参考http://mp.weixin.qq.com/wiki/index.php?title=%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF
     // 从授权页面重定向到此页面，用code换取oauth2_access_token
-    public function addrAction()
+    public function addressAction()
     {
         $code = $this->getRequest()->getQuery('code', '0');
         if ($code == '0') {
@@ -69,21 +95,36 @@ class WxpayController extends AbstractActionController
             return $view;
         }
 
-        $state = $this->getRequest()->getQuery('state', '0');
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx4a41ea3d983b4538&secret=424b9f967e50a2711460df2a9c9efaaa&code='.$code.'&grant_type=authorization_code';
         $res = json_decode(file_get_contents($url));
         if (isset($res->errcode)) {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'get access_token failed: '. $res->errmsg));
+            // $view =  new ViewModel(array('code' => 1, 'msg' => 'get access_token failed: '. $res->errmsg));
+            // $view->setTemplate('postcard/postcard/error');
+            // return $view;
+            $res->access_token = "fake_token:addressnotavailable";
+        }
+
+        $orderId = $this->getRequest()->getQuery('state', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+
+        if ($orderId == '0' || !$order) {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
 
-        $para = array(
-            'token' => $res->access_token,
-            'url'   => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
-        );
+        if ($order->status == CANCEL) {
+            $view =  new ViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
 
-        $viewModel = new ViewModel($para);
+        $viewModel =  new ViewModel(array(
+            'order' => $order,
+            'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
+            'url'   => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+            'token' => $res->access_token,
+        ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
@@ -130,9 +171,13 @@ class WxpayController extends AbstractActionController
 
     private function postcardsPath($orderId)
     {
-        $orderDateStr = substr($orderId, 0, 6);
-        $orderDate = date('ymd', $orderDateStr);
-        return dirname(__FILE__).'/../../../../../userdata/postcards/' . date('Ymd', $orderDate) . '/';
+        $dateStr = '20'.substr($orderId, 0, 6);
+        $year = ((int)substr($dateStr, 0, 4));
+        $month = ((int)substr($dateStr, 4, 2));
+        $day = ((int)substr($dateStr, 6, 2));
+        $time = mktime(0, 0, 0, $month, $day, $year);
+        $orderDate = date("Ymd", $time);
+        return dirname(__FILE__).'/../../../../../userdata/postcards/' . $orderDate . '/';
     }
 
     private function payedPicPath()
@@ -254,6 +299,15 @@ respend:
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
+    }
+
+    private function getOrderTable()
+    {
+        if (!$this->orderTable) {
+            $sm = $this->getServiceLocator();
+            $this->orderTable = $sm->get('Postcard\Model\orderTable');
+        }
+        return $this->orderTable;
     }
 }
 

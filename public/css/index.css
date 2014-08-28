@@ -1,0 +1,48 @@
+
+#makePicturePage {
+    background: #031e46;
+}
+
+.thumbnail {
+    width:  44px;
+    height: 59px;
+    margin-top:16px;
+    border: 1px;
+}
+
+.thumbnail_selected {
+    width:  44px;
+    height: 59px;
+    margin-top:10px;
+    border: 2px;
+}
+
+.postcard_small {
+    top:    42px;
+    left:   42px;
+    width:  235px;
+    height: 350px;
+    position: absolute;
+    overflow: hidden;
+}
+
+#toggleTemplateButton {
+    top:   380px;
+    left:  8px;
+    position: absolute;
+}
+
+#toggleTemplateButton img {
+    width: 25px;
+    height: 25px;
+}
+
+#templateContainer {
+    top:392px;
+    left:0px;
+    height:100px;
+    width:320px;
+    overflow:hidden;
+    position:absolute;
+}
+

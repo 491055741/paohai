@@ -14,9 +14,9 @@ define('DEFAULT_PICURL', 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic369
 define('DEFAULT_USER', 'ocKsTuKbE4QqHbwGEXmVnuLHO_sY'); // default user is me
 
 // order status
-define('CANCEL', 99); // 已取消
-define('UNPAY', 100); // 待支付
-define('PAYED', 101); // 已支付
+define('CANCEL',   99); // 已取消
+define('UNPAY',   100); // 待支付
+define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
@@ -153,25 +153,32 @@ class PostcardController extends AbstractActionController
         return $viewModel;
     }
 
-    public function payAction()
+    public function previewAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
+
         if ($orderId == '0' || !$order) {
             $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
-        $this->confirmOrder($order);
+
+        if ($order->status == CANCEL) {
+            $view =  new ViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
         $viewModel =  new ViewModel(array(
-            'orderId' => $orderId,
-            'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
+            'order' => $order,
+            'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
 
-    public function previewAction()
+    public function shareImageAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
@@ -316,27 +323,33 @@ class PostcardController extends AbstractActionController
                     'msg' => 'invalid order id',
                 );
         } else {
-            $zipCode    = $this->getRequest()->getPost('zipcode');
-            $message    = $this->getRequest()->getPost('message');
-            $sender     = $this->getRequest()->getPost('sender');
-            $address    = $this->getRequest()->getPost('address');
-            $recipient  = $this->getRequest()->getPost('recipient');
-            $userName   = $this->getRequest()->getPost('userName');
-            $picUrl     = $this->getRequest()->getPost('userPicUrl');
-            $status     = $this->getRequest()->getPost('status');
-            $bank       = $this->getRequest()->getPost('bank');
-            $mobile     = $this->getRequest()->getPost('mobile');
+            $zipCode            = $this->getRequest()->getPost('zipcode');
+            $message            = $this->getRequest()->getPost('message');
+            $senderName         = $this->getRequest()->getPost('senderName');
+            $senderAddress      = $this->getRequest()->getPost('senderAddress');
+            $signature          = $this->getRequest()->getPost('signature');
+            $address            = $this->getRequest()->getPost('address');
+            $recipient          = $this->getRequest()->getPost('recipient');
+            $salutation         = $this->getRequest()->getPost('salutation');
+            $userName           = $this->getRequest()->getPost('userName');
+            $picUrl             = $this->getRequest()->getPost('userPicUrl');
+            $status             = $this->getRequest()->getPost('status');
+            $bank               = $this->getRequest()->getPost('bank');
+            $mobile             = $this->getRequest()->getPost('mobile');
 
-            $zipCode   ? $order->zipCode   = $zipCode   : null;
-            $message   ? $order->message   = $message   : null;
-            $sender    ? $order->sender    = $sender    : null;
-            $address   ? $order->address   = $address   : null;
-            $recipient ? $order->recipient = $recipient : null;
-            $userName  ? $order->userName  = $userName  : null;
-            $picUrl    ? $order->picUrl    = $picUrl    : null;
-            $status    ? $order->status    = $status    : null;
-            $bank      ? $order->bank      = $bank      : null;
-            $mobile    ? $order->recipientMobile = $mobile : null;
+            $zipCode            ? $order->zipCode           = $zipCode       : null;
+            $message            ? $order->message           = $message       : null;
+            $senderName         ? $order->senderName        = $senderName    : null;
+            $senderAddress      ? $order->senderAddress     = $senderAddress : null;
+            $signature          ? $order->signature         = $signature     : null;
+            $address            ? $order->address           = $address       : null;
+            $recipient          ? $order->recipient         = $recipient     : null;
+            $salutation         ? $order->salutation        = $salutation    : null;
+            $userName           ? $order->userName          = $userName      : null;
+            $picUrl             ? $order->picUrl            = $picUrl        : null;
+            $status             ? $order->status            = $status        : null;
+            $bank               ? $order->bank              = $bank          : null;
+            $mobile             ? $order->recipientMobile   = $mobile        : null;
             // var_dump($order);
             $this->getOrderTable()->saveOrder($order);
             $res = array(
@@ -364,26 +377,22 @@ class PostcardController extends AbstractActionController
         return $viewModel;
     }
 
-    private function confirmOrder($order)
-    {
-        $util = new CommonUtil();
-        $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$order->id);
-    }
-
     public function deleteAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            echo "order not exist!";
+            $code = 1;
+            $msg = 'order '.$orderId.' not exist!';
         } else {
             $this->getOrderTable()->deleteOrder($orderId);
-            echo "order delete success!";
+            $code = 0;
+            $msg = 'order '.$orderId.' delete success!';
         }
 
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        $view =  new ViewModel(array('code' => $code, 'msg' => $msg));
+        $view->setTemplate('postcard/postcard/error');
+        return $view;
     }
 
     public function changeStatusAction()
@@ -453,28 +462,6 @@ class PostcardController extends AbstractActionController
 
         return $postResult;
     }
-
-    // public function editShareAddressAction()
-    // {
-    //     $util = new CommonUtil();
-    //     $util->setServiceLocator($this->getServiceLocator());
-    //     $access_token = $util->getAccessToken();
-    //     $url = "https://api.weixin.qq.com/pay/delivernotify?access_token=".$access_token;
-
-    //     $wxPayHelper = new WxPayHelper();
-    //     $nativeObj['appid'] = APPID;
-    //     $nativeObj['openid'] = $data['openid'];
-    //     $nativeObj['transid'] = $data['transid'];
-    //     $nativeObj['out_trade_no'] = $data['orderid'];
-    //     $nativeObj['deliver_timestamp'] = $wxPayHelper->create_timestamp();
-    //     $nativeObj['deliver_status'] = '1';
-    //     $nativeObj['deliver_msg'] = 'ok';
-    //     $nativeObj["app_signature"] = $wxPayHelper->get_biz_sign($nativeObj);
-    //     $nativeObj["sign_method"] = SIGNTYPE;
-    //     $postResult = json_decode($util->httpPost($url, json_encode($nativeObj)));
-
-    //     return $postResult;
-    // }
 
     private function logger($content)
     {
@@ -641,7 +628,7 @@ class PostcardController extends AbstractActionController
         $pos['top']      = 400;
         $pos['width']    = 300;
         $pos['fontsize'] = 20;
-        $this->draw_txt_to($dst, $pos, '－'.$order->sender);
+        $this->draw_txt_to($dst, $pos, '－'.$order->signature);
 
         $pos['left']     = 500;
         $pos['top']      = 250;
@@ -653,7 +640,8 @@ class PostcardController extends AbstractActionController
         $pos['top']      = 400;
         $pos['width']    = 600;
         $pos['fontsize'] = 30;
-        $this->draw_txt_to($dst, $pos, $order->recipient.'('.$order->recipientMobile.')');
+        // $this->draw_txt_to($dst, $pos, $order->recipient.'('.$order->recipientMobile.')');
+        $this->draw_txt_to($dst, $pos, $order->recipient);
 
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
             $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');

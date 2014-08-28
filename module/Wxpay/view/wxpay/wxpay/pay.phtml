@@ -3,45 +3,82 @@ ini_set("display_errors", true);
 
 include_once("WxPayHelper.php");
 
-$wxPayHelper = new WxPayHelper();
-$wxPayHelper->setParameter("bank_type", "WX");
-$wxPayHelper->setParameter("body", "泡海明信片");
-$wxPayHelper->setParameter("partner", PARTNERID);
-$wxPayHelper->setParameter("out_trade_no", ''.$order_id);
-$wxPayHelper->setParameter("total_fee", $total_fee);
-$wxPayHelper->setParameter("fee_type", "1");
-$wxPayHelper->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
-$wxPayHelper->setParameter("spbill_create_ip", "127.0.0.1");
-$wxPayHelper->setParameter("input_charset", "UTF-8");
+$wxPayHelper1 = new WxPayHelper();
+$wxPayHelper1->setParameter("bank_type", "WX");
+$wxPayHelper1->setParameter("body", "泡海明信片");
+$wxPayHelper1->setParameter("partner", PARTNERID);
+$wxPayHelper1->setParameter("out_trade_no", ''.$order_id);
+$wxPayHelper1->setParameter("total_fee", "5"); //  ¥0.05
+$wxPayHelper1->setParameter("fee_type", "1");
+$wxPayHelper1->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
+$wxPayHelper1->setParameter("spbill_create_ip", "127.0.0.1");
+$wxPayHelper1->setParameter("input_charset", "UTF-8");
+
+$wxPayHelper2 = new WxPayHelper();
+$wxPayHelper2->setParameter("bank_type", "WX");
+$wxPayHelper2->setParameter("body", "泡海明信片");
+$wxPayHelper2->setParameter("partner", PARTNERID);
+$wxPayHelper2->setParameter("out_trade_no", ''.$order_id);
+$wxPayHelper2->setParameter("total_fee", "1"); //  ¥0.01
+$wxPayHelper2->setParameter("fee_type", "1");
+$wxPayHelper2->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
+$wxPayHelper2->setParameter("spbill_create_ip", "127.0.0.1");
+$wxPayHelper2->setParameter("input_charset", "UTF-8");
+
 ?>
 
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script language="javascript">
-        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-            callPay();
-        });
+<html manifest="/safari.manifest">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/jquery.mobile-1.3.1.min.css" />
+        <link rel="stylesheet" href="/css/paohai.css" />
+        <script src="/js/jquery-1.9.0.min.js"></script>
+        <script src="/js/artDialog.js"></script>
+        <script src="/js/jquery.mobile-1.3.1.min.js"></script>
+        <script src="/js/google.fastbutton.js"></script>
+        <script src="/js/jquery.google.fastbutton.js"></script>
+        <script src=<?php echo "/js/util.js?$tag" ?> ></script>
+        <script src=<?php echo "/js/pay.js?$tag" ?> ></script>
 
-        function callPay()
-        {
-            WeixinJSBridge.invoke('getBrandWCPayRequest', <?php echo $wxPayHelper->create_biz_package(); ?>, function(res) {
+        <script language="javascript">
+
+            function callPay(paymentWay) {
+                if (paymentWay == 1) {
+                    <?php $wxPayHelper = $wxPayHelper1; ?>
+                } else {
+                    <?php $wxPayHelper = $wxPayHelper2; ?>
+                }
+                WeixinJSBridge.invoke('getBrandWCPayRequest', <?php echo $wxPayHelper->create_biz_package(); ?>, payCallback);
+            }
+
+            function payCallback(res) {
                 WeixinJSBridge.log(res.err_msg);
                 if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
                     self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order_id.'"' ?>;
                 } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
                     alert(res.err_msg);
                 }
-            });
-        }
+            }
+        </script>
+    </head>
 
-    </script>
-</head>
-<body>
-    <p>泡海明信片</p>
-    <p>订单号：<?php echo $order_id; ?></p>
-    <a id="getBrandWCPayRequest" href="javascript:callPay()"><p class="title">点击支付</p></a>
+    <body>
+        <div id="content" data-role="content">
 
-</body>
+            <div data-role='page' id='paymentPage' data-title='支付' class='page'>
+
+                <div data-role="header">
+                    <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
+                </div>
+
+                <div data-role="content" align="center">
+                    <p style="text-shadow:none; ">订单号：<?php echo $order_id; ?></p>
+                    <input id="submitPaymentButton1" data-theme="e" value="立即付款 5 元" onclick="callPay(1)" type="button">
+                    <input id="submitPaymentButton2" data-theme="e" value="兴业银行卡支付 1 元" onclick="callPay(2)" type="button">
+                </div>
+            </div>
+
+        </div>
+    </body>
 </html>

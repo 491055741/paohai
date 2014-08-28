@@ -3,15 +3,14 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/jquery.mobile-1.3.1.min.css" />
-        <link rel="stylesheet" href="/css/kacha.css" />
+        <link rel="stylesheet" href="/css/paohai.css" />
+        <link rel="stylesheet" href="/css/editmessage.css" />
         <link rel="stylesheet" href="/css/jquery.shadow.css" />
         <script src="/js/jquery-1.9.0.min.js"></script>
         <script src="/js/artDialog.js"></script>
         <script src="/js/jquery.mobile-1.3.1.min.js"></script>
         <script src="/js/google.fastbutton.js"></script>
         <script src="/js/jquery.google.fastbutton.js"></script>
-        <script src="/js/jquery.event.move.js"></script>
-        <script src="/js/jquery.shadow.js"></script>
         <script src=<?php echo "/js/util.js?$tag" ?> ></script>
         <script src=<?php echo "/js/editMessage.js?$tag" ?> ></script>
     </head>
@@ -19,60 +18,27 @@
     <body>
         <div id="content" data-role="content">
             <input id="orderId" type="hidden" value=<?php echo $order->id ?> ></input>
-            <input id="picUrl" type="hidden" value=<?php echo $order->picUrl ?> ></input>
-            <input id="templateIndex" type="hidden" value=<?php echo $order->templateId ?> ></input>
-            <input id="offsetX" type="hidden" value=<?php echo $order->offsetX ?> ></input>
-            <input id="offsetY" type="hidden" value=<?php echo $order->offsetY ?> ></input>
             <input id="voiceMediaId" type="hidden" value=<?php echo $order->voiceMediaId ?> ></input>
 
-            <div data-role='page' id='loadingPage' data-title='泡海明信片' class='page'>
-                <div align="center">
-                    <p>加载中...</p>
-                </div>
-            </div>
-
             <div data-role="page" id="messagePage" data-title="留言" class="page">
-                <H1>内测调试中，还不能真正邮寄明信片哦</H1>
+                <div data-role="header">
+                    <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
+                </div>
+
                 <div data-role="content" align="left">
-                    <div>想说的话</div>
-                    <textarea id="messageinput" rows="3" cols="20" placeholder="留言"><?php echo $order->message ?></textarea>
-                    <div>你的姓名</div>
-                    <input type="text" id="nameinput" placeholder="你的姓名" style="" value=<?php echo $order->sender ?> ></input>
-                    <input id="voiceMessageButton" data-theme="e" value="录制语音留言" type="button"></input>
+                    <!-- <H1>内测调试中，还不能真正邮寄明信片哦</H1> -->
+                    <div id="board"></div>
+
+                    <input id="salutationInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="亲爱的盆友" value=<?php echo $order->salutation ?> ></input>
+                    <textarea id="messageInput" rows="3" cols="20" placeholder="我想说"><?php echo $order->message ?></textarea>
+                    <input id="signatureInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="我的名字" value=<?php echo $order->signature ?> ></input>
+
+                    <input id="voiceMessageButton" value="录制语音留言" type="image" src="/images/small/voicebtn.png"></input>
+<!--
                     <input id="playVoiceMessageButton" data-theme="e" value="收听语音留言" type="button"></input>
-                    <input id="submitMessageButton" data-theme="e" value="下一步" type="button"></input>
-                </div>
-            </div>
+ -->
+                    <a id="submitMessageButton" class="abtn" data-role="none" href="javascript:void(0)" >下一步<IMG class="nextbtnicon" src="/images/small/next_btn.png"></a>
 
-            <div data-role="page" id="addressPage" data-title="收信地址" class="page">
-                <div data-role="content" align="left">
-                    <div>收信人地址</div>
-                    <input id="editAddressButton" data-theme="e" value="编辑地址" type="button"></input>
-                    <input id="submitAddressButton" data-theme="e" value="下一步" type="button"></input>
-                </div>
-            </div>
-
-            <div data-role="page" id="previewPage" data-title="预览" class="page">
-                <div data-role="content" align="center">
-                    <div style="height:370px;">
-                        <div class="postcard previewpostcard">
-                            <canvas id="previewUserImg" style="position:absolute; left:0"></canvas>
-                        </div>
-                        <img id="previewTemplateImg"   class="postcard previewpostcard"></img>
-                    </div>
-
-                    <div class="previewpostcardback" style="top:370px; width:320px; height:200px;">
-                        <img class="postcardback" src="/images/small/postCardBack.png" style="width:320px; height:200px; position:absolute; left:0"></img>
-
-                        <div style="position:absolute; width:320px; height:200px; left:0">
-                            <div id="zipcodePreview" style="font-size:17px; letter-spacing:10px; top:17px; left:27px; position:absolute;"></div>
-                            <div id="messagePreview" style="font-size:12px; text-align:left; top:50px; left:8px; width:155px; position:absolute;"></div>
-                            <div id="senderNamePreview" style="font-size:12px; top:140px; left:100px; position:absolute;"></div>
-                            <div id="addressPreview" style="font-size:11px; text-align:left; top:75px; left:160px; width:140px; position:absolute;"></div>
-                            <div id="recipientPreview" style="font-size:14px; left:170px; top:135px; position:absolute;"></div>
-                        </div>
-                    </div>
-                    <input id="previewConfirmButton" data-theme="e" value="下一步" type="button">
                 </div>
             </div>
         </div>

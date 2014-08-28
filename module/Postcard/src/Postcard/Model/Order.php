@@ -14,9 +14,12 @@ class Order
     public $message;
     public $zipCode;
     public $address;
-    public $recipient;
+    public $recipient;  // 信封上的收信人姓名
+    public $salutation; // 信件正文抬头的称呼，可以是昵称
     public $recipientMobile;
-    public $sender;
+    public $senderName;   // 信封上的发信人姓名
+    public $senderAddress;
+    public $signature;   // 信件正文的签名，可以是昵称
     public $senderMobile;
     public $price;
     public $orderDate;
@@ -38,8 +41,11 @@ class Order
         $this->zipCode          = (isset($data['zipCode'])) ? $data['zipCode'] : null;
         $this->address          = (isset($data['address'])) ? $data['address'] : null;
         $this->recipient        = (isset($data['recipient'])) ? $data['recipient'] : null;
+        $this->salutation       = (isset($data['salutation'])) ? $data['salutation'] : null;
         $this->recipientMobile  = (isset($data['recipientMobile'])) ? $data['recipientMobile'] : null;
-        $this->sender           = (isset($data['sender'])) ? $data['sender'] : null;
+        $this->senderName       = (isset($data['senderName'])) ? $data['senderName'] : null;
+        $this->senderAddress    = (isset($data['senderAddress'])) ? $data['senderAddress'] : null;
+        $this->signature        = (isset($data['signature'])) ? $data['signature'] : null;
         $this->senderMobile     = (isset($data['senderMobile'])) ? $data['senderMobile'] : null;
         $this->price            = (isset($data['price'])) ? $data['price'] : null;
         $this->orderDate        = (isset($data['orderDate'])) ? $data['orderDate'] : null;

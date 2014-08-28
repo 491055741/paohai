@@ -20,10 +20,6 @@ $(document).ready(function() {
         output("browser not support document.referrer.");
     }
 
-    setTimeout(function() {
-        init();
-    }, 100);
-
     if (typeof WeixinJSBridge == "undefined") {
         if ( document.addEventListener ) {
             document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);

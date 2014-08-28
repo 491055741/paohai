@@ -1,32 +1,23 @@
+// var orderId = '0';
 
-var orderId = '0';
+$(document).on("pageinit", "#paymentPage", function() {
 
-function init() {
-    $.mobile.changePage($("#paymentPage"), {
-        transition: "none"
-    });
-}
+    output("paymentPage init");
+    // orderId = $('#orderId').val();
 
-$(function() {
+    // $("#submitPaymentButton1").fastClick(function() {
+    //     submitPayment(false);
+    // });
 
-    $("#paymentPage").on("pageinit", function() {
+    // $("#submitPaymentButton2").fastClick(function() {
+    //     submitPayment(true);
+    // });
 
-        output("paymentPage init");
-        orderId = $('#orderId').val();
-
-        $("#submitPaymentButton1").fastClick(function() {
-            submitPayment(false);
-        });
-
-        $("#submitPaymentButton2").fastClick(function() {
-            submitPayment(true);
-        });
-
-    });
-
-    function submitPayment(isXingYeBank) {
-        var bank = isXingYeBank? 'XingYe':'other';
-        var url = 'http://' + window.location.host + '/wxpay/pay/' + orderId + '?bank=' + bank;
-        self.location = url;
-    }
 });
+
+// function submitPayment(isXingYeBank) {
+//     var bank = isXingYeBank? 'XingYe':'other';
+//     var url = 'http://' + window.location.host + '/wxpay/pay?orderId=' + orderId + '&bank=' + bank;
+//     self.location = url;
+// }
+
