@@ -102,13 +102,8 @@ function isAndroid() {
     return true;
 }
 
-function clearStorage() {
-    for (var i = 0, len = sessionStorage.length; i < len; i++) {
-        var key = sessionStorage.key(i);
-        var value = sessionStorage.getItem(key);
-        output("removing " + key + " : " + value);
-        sessionStorage.removeItem(key); /// ?????
-    }
+function getNonceStr() {
+    return '' + new Date().getTime();
 }
 
 function output(text) {

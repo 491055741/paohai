@@ -1,4 +1,8 @@
 
+#previewPage {
+    height: 700px;
+}
+
 #zipcodePreview {
     font-size:17px;
     letter-spacing:10px;
@@ -45,3 +49,22 @@
     position:absolute;
     left:0;
 }
+
+#editButton {
+    top: 660px;
+    left: 12px;
+    width: 148px;
+    height: 40px;
+    position: absolute;
+    z-index: 10;
+}
+
+#gotoPayButton {
+    top: 660px;
+    left: 160px;
+    width: 148px;
+    height: 40px;
+    position: absolute;
+    z-index: 10;
+}
+

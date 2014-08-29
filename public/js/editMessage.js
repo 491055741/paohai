@@ -30,7 +30,7 @@ $(document).on("pageinit", "#messagePage", function() {
     });
 
     $("#playVoiceMessageButton").fastClick(function() {
-        var url = 'http://' + window.location.host + '/postcard/voice?mediaId=' + voiceMediaId;
+        var url = 'http://' + window.location.host + '/postcard/voice?mediaId=' + voiceMediaId + "&nonce=" + getNonceStr();
         var audio = document.createElement("audio");
         if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
             audio.src = url;
@@ -45,7 +45,7 @@ $(document).on("pageinit", "#messagePage", function() {
 });
 
 function sendVoiceRequest() {
-    var url = "http://" + window.location.host + "/postcard/requestvoice/" + orderId;
+    var url = "http://" + window.location.host + "/postcard/requestvoice/" + orderId + "?nonce=" + getNonceStr();
     $.get(
         url,
         function success(data) {
@@ -102,7 +102,7 @@ function uploadOrder(callback) {
 
     getValueFromInput();
 
-    var url = "http://" + window.location.host + "/postcard/updateorder/" + orderId;
+    var url = "http://" + window.location.host + "/postcard/updateorder/" + orderId + "?nonce=" + getNonceStr();
     var params = {
         salutation: salutation,
         message: message,

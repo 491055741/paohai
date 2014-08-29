@@ -106,7 +106,24 @@ class PostcardController extends AbstractActionController
 
     public function indexAction()
     {
+        $orderId = $this->getRequest()->getQuery('orderId', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+
+        if ($orderId == '0' || !$order) {
+            $selectedTemplateIndex = 1;
+            $offsetX = 0;
+            $offsetY = 0;
+        } else {
+            $selectedTemplateIndex = $order->templateId;
+            $offsetX = $order->offsetX;
+            $offsetY = $order->offsetY;
+        }
+
         $viewModel =  new ViewModel(array(
+            'templateIndex' => $selectedTemplateIndex,
+            'offsetX' => $offsetX,
+            'offsetY' => $offsetY,
+            'orderId' => $this->getRequest()->getQuery('orderId', '0'),
             'picurl' => $this->getRequest()->getQuery('picurl', DEFAULT_PICURL),
             'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
             'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
@@ -323,6 +340,10 @@ class PostcardController extends AbstractActionController
                     'msg' => 'invalid order id',
                 );
         } else {
+            $templateId         = $this->getRequest()->getPost('templateIndex');
+            $offsetX            = $this->getRequest()->getPost('offsetX');
+            $offsetY            = $this->getRequest()->getPost('offsetY');
+
             $zipCode            = $this->getRequest()->getPost('zipcode');
             $message            = $this->getRequest()->getPost('message');
             $senderName         = $this->getRequest()->getPost('senderName');
@@ -337,6 +358,9 @@ class PostcardController extends AbstractActionController
             $bank               = $this->getRequest()->getPost('bank');
             $mobile             = $this->getRequest()->getPost('mobile');
 
+            $templateId         ? $order->$templateId       = $templateId    : null;
+            $offsetX            ? $order->$offsetX          = $offsetX       : null;
+            $offsetY            ? $order->$offsetY          = $offsetY       : null;
             $zipCode            ? $order->zipCode           = $zipCode       : null;
             $message            ? $order->message           = $message       : null;
             $senderName         ? $order->senderName        = $senderName    : null;

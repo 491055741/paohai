@@ -1,3 +1,4 @@
+var orderId = '';
 var userName = '';
 var selectedTemplateIndex = 0;
 var userImage = new Image();
@@ -10,12 +11,15 @@ var pic_orig_h = 0;
 var userPicUrl = '';
 var pic_w = 0;
 var pic_h = 0;
+var isTemplateOpen = false;
 
 $(document).on("pageinit", "#makePicturePage", function() {
 
     output("makePicturePage init");
+    imageOffsetX = $("#offsetX").val();
+    imageOffsetY = $("#offsetY").val();
 
-    var isTemplateOpen = true;
+    orderId    = $("#orderId").val();
     userName   = $("#userName").val();
     userPicUrl = $("#userPicUrl").val();
 
@@ -24,20 +28,7 @@ $(document).on("pageinit", "#makePicturePage", function() {
     });
 
     $("#toggleTemplateButton").fastClick(function() {
-        if (isTemplateOpen) { // hide
-            $(".postcard_small").addClass("postcard")
-            $(".postcard_small").removeClass("postcard_small")
-            // $(".templateContainer").slideUp("slow");
-            $("#templateContainer").hide("normal");
-            $("#toggleTemplateButton").css({top:460});
-        } else { // show
-            $(".postcard").addClass("postcard_small")
-            $(".postcard").removeClass("postcard")
-            // $(".templateContainer").slideDown("slow");
-            $("#templateContainer").show("normal");
-            $("#toggleTemplateButton").css({top:380});
-        }
-        isTemplateOpen = !isTemplateOpen;
+        toggleTemplateList();
     });
 
     $("#templateContainer").owlCarousel({pagination:false, itemsMobile:[2000, 5.5]});
@@ -47,25 +38,76 @@ $(document).on("pageinit", "#makePicturePage", function() {
         $(name).fastClick(function() {
             clickOnThumbnail(this);
         });
-
-        // if (i == 1) {
-        //     $(name).shadow('thumbnailselected');
-        // } else {
-        //     $(name).shadow('thumbnail');
-        // }
     }
 
+    toggleTemplateList();
     $("#touchLayer").shadow();
 
     userImage.onload = function(){
         pic_orig_w = userImage.width;
         pic_orig_h = userImage.height;
 
-        changeTemplate(1);
+        changeTemplate($("#templateIndex").val());
+
+        if (imageOffsetX != 0 || imageOffsetY != 0) {
+            placePicture();
+        }
         bindMove();
     }
     userImage.src = userPicUrl;
 });
+
+function placePicture() {
+    var a, b;
+    a = pic_orig_w;
+    b = pic_orig_h;
+    var shouldRotate = selectedTemplateIndex > 3;
+    if (shouldRotate) {
+        temp = a; a = b; b = temp;
+    }
+    var wRatio = canvas_w / a;
+    var hRatio = canvas_h / b;
+    var ratio = wRatio > hRatio ? wRatio : hRatio;
+    pic_w = a * ratio;
+    pic_h = b * ratio;
+
+    $('#userImg').css({
+        left: imageOffsetX * pic_w,
+        top: imageOffsetY * pic_h,
+    });
+}
+
+function toggleTemplateList() {
+    if (isTemplateOpen) { // hide
+        $(".postcard_small").addClass("postcard")
+        $(".postcard_small").removeClass("postcard_small")
+        $("#templateContainer").hide("normal");
+
+        $("#toggleTemplateButton").css({
+            top:450,
+        });
+        $("#toggleTemplateButtonImg").attr("src", "/images/small/unfold_btn.png");
+        $("#toggleTemplateButtonImg").css({
+            width:68,
+            height:20,
+        });
+
+    } else { // show
+        $(".postcard").addClass("postcard_small")
+        $(".postcard").removeClass("postcard")
+        $("#templateContainer").show("normal");
+        $("#toggleTemplateButton").css({
+            top:380,
+        });
+
+        $("#toggleTemplateButtonImg").attr("src", "/images/small/fold_btn.png");
+        $("#toggleTemplateButtonImg").css({
+            width:20,
+            height:20,
+        });
+    }
+    isTemplateOpen = !isTemplateOpen;
+}
 
 function clickOnThumbnail(obj) {
     var index = $(obj).data("index");
@@ -199,43 +241,73 @@ function bindMove() {
                 bottom: 0
             }) : false;
 
-            imageOffsetX = jQuery('#userImg').position().left / pic_w;
-            imageOffsetY = jQuery('#userImg').position().top / pic_h;
+            imageOffsetX = $('#userImg').position().left / pic_w;
+            imageOffsetY = $('#userImg').position().top / pic_h;
             // output("offsetX:"+offsetX+"  offsetY:"+offsetY);
         });
 }
 
 function submitPhoto() {
 
-    var url = "http://" + window.location.host + "/postcard/placeorder";
+    if (orderId == '0') { // new order
+        var url = "http://" + window.location.host + "/postcard/placeorder" + "?nonce=" + getNonceStr();
+        var params = {
+            templateIndex: selectedTemplateIndex,
+            offsetX: imageOffsetX,
+            offsetY: imageOffsetY,
+            userName: userName,
+            userPicUrl: userPicUrl,
+        };
+
+        $.post(
+            url,
+            params,
+            function success(data) {
+                // alert("post ok");
+                if (data.code != '0') {
+                    alert("Place order failed! code =" + data.code);
+                } else {
+                    // alert("Place order success");
+                    orderId = data.orderId;
+                    var url = "http://" + window.location.host + "/postcard/editmessage/" + orderId + "?nonce=" + getNonceStr();
+                    output(url);
+                    self.location = url;
+                }
+            },
+            "json"
+        );
+    } else { // modify order
+        uploadOrder(function() {
+                    var url = "http://" + window.location.host + "/postcard/editmessage/" + orderId + "?nonce=" + getNonceStr();
+                    output(url);
+                    self.location = url;
+        });
+    }
+}
+
+function uploadOrder(callback) {
+
+    var url = "http://" + window.location.host + "/postcard/updateorder/" + orderId + "?nonce=" + getNonceStr();
     var params = {
         templateIndex: selectedTemplateIndex,
         offsetX: imageOffsetX,
         offsetY: imageOffsetY,
-        userName: userName,
-        userPicUrl: userPicUrl,
     };
 
-    $.post(
-        url,
-        params,
-        function success(data) {
-            // alert("post ok");
-            if (data.code != '0') {
-                alert("Place order failed! code =" + data.code);
-            } else {
-                // alert("Place order success");
-                var orderId = data.orderId;
-                var url = "http://" + window.location.host + "/postcard/editmessage/" + orderId;
-                output(url);
-                self.location = url;
-            }
+    output('url: ' + url);
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data:params,
+        dataType: 'json',
+        timeout: 1000,
+        error: function(){
+            alert('update order failed!');
         },
-        "json"
-    );
-
+        success: function(result) {
+            callback();
+        }
+    });
 }
-
-
 
 

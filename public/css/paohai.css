@@ -4,13 +4,25 @@ body, .ui-content {
     padding:0;
 }
 
+.page {
+    background-image: url("/images/small/background.png");
+    background-repeat: no-repeat;
+    height: 480px;
+}
+
 .ui-header {
-    background:#507196; /*#e1e1e1;*/
     border:0;
     top:0;
     height:37px;
     width: 320px;
     margin:0;
+
+}
+
+.ui-header {
+    /*background:none;#507196;*/
+    /*opacity:0.5;*/
+    background:rgba(255, 255, 255, 0.3);
 }
 
 .ui-header a {
@@ -34,6 +46,7 @@ a.abtn:link, a.abtn:visited {
     font-size: 16px;
     text-shadow:none;
     text-decoration:none;
+    text-align:center;
     color:white;
 }
 
@@ -51,6 +64,3 @@ a.abtn:link, a.abtn:visited {
     height: 27px;
 }
 
-.page {
-    background: #031e46;
-}

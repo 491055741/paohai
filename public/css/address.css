@@ -1,10 +1,12 @@
+
 #board {
     top:    57px;
     left:   12px;
     width:  296px;
     height: 384px;
     position: absolute;
-    background: #87bde3;
+    background: white;
+    opacity: 0.5;
     z-index:   0;
 }
 
@@ -14,7 +16,8 @@
     width:  296px;
     height: 298px;
     position: absolute;
-    background: #87bde3;
+    background: white;
+    opacity: 0.5;
     z-index:   0;
 }
 
@@ -26,6 +29,7 @@
     font-size: 16px;
     position: absolute;
     z-index: 10;
+    border-radius :.2em;
 }
 
 #addressInput {
@@ -36,6 +40,7 @@
     font-size: 16px;
     position: absolute;
     z-index: 10;
+    border-radius :.2em;
 }
 
 #senderNameInput {
@@ -46,6 +51,7 @@
     font-size: 16px;
     position: absolute;
     z-index: 10;
+    border-radius :.2em;
 }
 
 #senderAddressInput {
@@ -56,6 +62,7 @@
     font-size: 16px;
     position: absolute;
     z-index: 10;
+    border-radius :.2em;
 }
 
 #zipcodeInput {
@@ -66,6 +73,7 @@
     font-size: 16px;
     position: absolute;
     z-index: 10;
+    border-radius :.2em;
 }
 
 #editAddressButton {

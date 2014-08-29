@@ -1,8 +1,4 @@
 
-#makePicturePage {
-    background: #031e46;
-}
-
 .thumbnail {
     width:  44px;
     height: 59px;
@@ -27,7 +23,7 @@
 }
 
 #toggleTemplateButton {
-    top:   380px;
+    top:   375px;
     left:  8px;
     position: absolute;
 }

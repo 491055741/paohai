@@ -5,7 +5,8 @@
     width:  296px;
     height: 384px;
     position: absolute;
-    background: #87bde3;
+    background: white;
+    opacity: 0.5;
     z-index:   0;
 }
 
@@ -17,6 +18,7 @@
     min-height: 2em;
     font-size: 16px;
     z-index: 10;
+    border-radius :.2em;
 }
 
 #messageInput {
@@ -27,6 +29,7 @@
     position: absolute;
     background: white;
     z-index: 10;
+    border-radius :.2em;
 }
 
 #signatureInput {
@@ -37,6 +40,7 @@
     font-size: 16px;
     position: absolute;
     z-index: 10;
+    border-radius :.2em;
 }
 
 #voiceMessageButton {

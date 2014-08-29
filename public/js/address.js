@@ -73,7 +73,7 @@ $(document).on("pageinit", "#senderPage", function() {
 
     $("#previewButton").fastClick(function() {
         uploadOrder(function() {
-            var url = "http://" + window.location.host + "/postcard/preview/" + orderId;
+            var url = "http://" + window.location.host + "/postcard/preview/" + orderId + "?nonce=" + getNonceStr();
             self.location = url;
         });
     });
@@ -96,7 +96,7 @@ function gotoPayPage() {
     // }
 
     uploadOrder(function() {
-        var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId;
+        var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId + "&nonce=" + getNonceStr();
         self.location = url;        
     });
 }
@@ -105,7 +105,7 @@ function uploadOrder(callback) {
 
     getValueFromInput();
 
-    var url = "http://" + window.location.host + "/postcard/updateorder/" + orderId;
+    var url = "http://" + window.location.host + "/postcard/updateorder/" + orderId + "?nonce=" + getNonceStr();
     var params = {
         recipient: recipient,
         address: address,
@@ -141,4 +141,3 @@ function getValueFromInput()
     senderName    = $("#senderNameInput").val();
     senderAddress = $("#senderAddressInput").val();
 }
-

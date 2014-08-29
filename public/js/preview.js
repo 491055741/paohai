@@ -1,33 +1,33 @@
+var orderId   = '';
 var userImage = new Image();
-var canvas_w = 262;
-var canvas_h = 397;
+var canvas_w  = 262;
+var canvas_h  = 397;
 var pic_orig_w = 0;
 var pic_orig_h = 0;
 var userPicUrl = '';
 
 var salutation = '';
-var message = '';
-var signature = '';
+var message    = '';
+var signature  = '';
 
 var recipient = '';
-var address = '';
-var zipcode = '';
-var mobile = '';
+var address   = '';
+var zipcode   = '';
+var mobile    = '';
 
 
 $(document).on("pageinit", "#previewPage", function() {
 
     output("previewPage init");
-
+    orderId    = $('#orderId').val();
     userPicUrl = $('#picUrl').val();
     salutation = $('#salutation').val();
-    message = $('#message').val();
-    signature = $('#signature').val();
-
-    recipient = $('#recipient').val();
-    address = $('#address').val();
-    zipcode = $('#zipcode').val();
-    mobile = $('#mobile').val();
+    message    = $('#message').val();
+    signature  = $('#signature').val();
+    recipient  = $('#recipient').val();
+    address    = $('#address').val();
+    zipcode    = $('#zipcode').val();
+    mobile     = $('#mobile').val();
 
     userImage.onload = function() {
         pic_orig_w = userImage.width;
@@ -37,6 +37,13 @@ $(document).on("pageinit", "#previewPage", function() {
 
     userImage.src = userPicUrl;
     // $('#previewUserImg').shadow();
+    $("#gotoPayButton").fastClick(function() {
+        gotoPayPage();
+    });
+
+    $("#editButton").fastClick(function() {
+        gotoEditPage();
+    });
 });
 
 function initPreview() {
@@ -77,7 +84,7 @@ function initPreview() {
     $("#previewTemplateImg").attr("src", "/images/small/template"+selectedTemplateIndex+".png");
     $('#previewUserImg').css({
         left: imageOffsetX * pic_w,
-        top: imageOffsetY * pic_h
+        top: imageOffsetY * pic_h,
     });
 
     $("#messagePreview").text(message);
@@ -85,4 +92,14 @@ function initPreview() {
     $("#zipcodePreview").text(zipcode);
     $("#signaturePreview").text('－' + signature);
     $("#recipientPreview").text(recipient + ' ' + mobile);
+}
+
+function gotoEditPage() {
+    var url = "http://" + window.location.host + "/postcard/index?orderId=" + orderId + "&nonce=" + getNonceStr();
+    self.location = url;        
+}
+
+function gotoPayPage() {
+    var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId + "&nonce=" + getNonceStr();;
+    self.location = url;        
 }

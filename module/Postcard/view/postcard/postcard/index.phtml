@@ -26,6 +26,11 @@
     <body>
         <div id="content" data-role="content">
 
+            <input id="orderId" type="hidden" value=<?php echo $orderId ?> ></input>
+            <input id="templateIndex" type="hidden" value=<?php echo $templateIndex ?> ></input>
+            <input id="offsetX" type="hidden" value=<?php echo $offsetX ?> ></input>
+            <input id="offsetY" type="hidden" value=<?php echo $offsetY ?> ></input>
+
             <input id="userName" type="hidden" value=<?php echo $username ?> ></input>
             <input id="userPicUrl" type="hidden" value=<?php echo $picurl ?> ></input>
 
@@ -44,7 +49,7 @@
                         <img id="templateImg" class="postcard_small"></img>
                         <div id="touchLayer"  class="postcard_small" style="cursor:move;"></div>
 
-                        <a id="toggleTemplateButton" href="javascript:void(0)" ><IMG src="/images/small/fold_btn.png"></a>
+                        <a id="toggleTemplateButton" href="javascript:void(0)" ><IMG id="toggleTemplateButtonImg" src="/images/small/fold_btn.png"></a>
 
                         <div id="templateContainer">
                             <?php for ($i = 1; $i <= 6; $i += 1) { ?>

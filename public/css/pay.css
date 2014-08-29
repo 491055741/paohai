@@ -1,0 +1,19 @@
+
+#submitPaymentButton1 {
+    top: 200px;
+    left: 12px;
+    width: 148px;
+    height: 40px;
+    position: absolute;
+    z-index: 10;
+}
+
+#submitPaymentButton2 {
+    top: 200px;
+    left: 160px;
+    width: 148px;
+    height: 40px;
+    position: absolute;
+    z-index: 10;
+}
+

@@ -18,6 +18,8 @@
 
     <body>
         <div id="content" data-role="content">
+            <input id="orderId" type="hidden" value=<?php echo $order->id ?> ></input>
+
             <input id="picUrl" type="hidden" value=<?php echo $order->picUrl ?> ></input>
             <input id="templateIndex" type="hidden" value=<?php echo $order->templateId ?> ></input>
             <input id="offsetX" type="hidden" value=<?php echo $order->offsetX ?> ></input>
@@ -54,6 +56,11 @@
                             <div id="recipientPreview"></div>
                         </div>
                     </div>
+
+
+                    <input id="editButton" value="返回修改" type="image" src="/images/small/edit_btn.png"></input>
+                    <input id="gotoPayButton" value="确认支付" type="image" src="/images/small/pay_btn.png"></input>
+
                 </div>
             </div>
         
