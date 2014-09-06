@@ -9,6 +9,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Postcard\Model\Order;
+use Postcard\Model\Contact;
 
 define('DEFAULT_PICURL', 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg');
 define('DEFAULT_USER', 'ocKsTuKbE4QqHbwGEXmVnuLHO_sY'); // default user is me
@@ -26,6 +27,7 @@ define('JS_TAG', '20140807'); // 好像不管用，待查
 class PostcardController extends AbstractActionController
 {
     protected $orderTable;
+    protected $contactTable;
 
     public function voiceQrCodeAction()
     {
@@ -230,6 +232,49 @@ class PostcardController extends AbstractActionController
         return new ViewModel(array(
             'orders' => $this->getOrderTable()->fetchAll(),
         ));
+    }
+
+    public function contactsAction()
+    {
+        $userName = $this->params()->fromRoute('id', '0');
+        if ($userName == '0') {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
+        return new JsonModel($this->getContactTable()->getContacts($userName));
+
+        // return new ViewModel(array(
+        //     'contacts' => $this->getContactTable()->getContacts($userName),
+        // ));
+    }
+
+    public function addContactAction()
+    {
+        $userName = $this->params()->fromRoute('id', '0');
+        $contactName = $this->getRequest()->getPost('contactName', '0');
+        if ($userName == '0' || $contactName == '0') {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'UserName needed.'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+        $contact = $this->getContactTable()->getContact($userName, $contactName);
+        if (!$contact) {
+            $contact = new Contact();
+            $contact->userName    = $userName;
+            $contact->contactName = $contactName;
+        }
+
+        $contact->address = $this->getRequest()->getPost('address', '');
+        $contact->zipCode = $this->getRequest()->getPost('zipCode', '');
+        $this->getContactTable()->saveContact($contact);
+
+        $res = array(
+            'code' => 0,
+            'msg'  => 'Contact add OK.',
+        );
+        return new JsonModel($res);
     }
 
     public function makePictureAction()
@@ -504,6 +549,15 @@ class PostcardController extends AbstractActionController
             $this->orderTable = $sm->get('Postcard\Model\orderTable');
         }
         return $this->orderTable;
+    }
+
+    private function getContactTable()
+    {
+        if (!$this->contactTable) {
+            $sm = $this->getServiceLocator();
+            $this->contactTable = $sm->get('Postcard\Model\contactTable');
+        }
+        return $this->contactTable;
     }
 
     private function postcardsPath()

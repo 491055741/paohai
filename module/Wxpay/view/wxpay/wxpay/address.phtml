@@ -47,6 +47,8 @@ $wxPayHelper = new WxPayHelper();
 
             <div data-role="page" id="addressPage" data-title="收信人" class="page">
 
+                <img class="page_background blur" src=<?php echo $order->picUrl ?> ></img>
+
                 <div data-role="header">
                     <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
                 </div>
@@ -60,7 +62,10 @@ $wxPayHelper = new WxPayHelper();
 
                     <input id="zipcodeInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="邮政编码" value=<?php echo $order->zipCode ?> ></input>
 
-                    <a id="editAddressButton" class="abtn" data-role="none" href="javascript:void(0)" onclick="editShareAddress()"><IMG class="nextbtnicon" src="/images/small/addressbook.png">编辑地址</a>
+                    <a id="saveRecipientToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" onclick="editShareAddress()"><IMG class="nextbtnicon" src="/images/small/checkboxoff.png">存入地址簿</a>
+                    <a id="selectRecipientFromAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/addressbook.png">从地址簿选一个</a>
+
+                    <!-- <a id="editAddressButton" class="abtn" data-role="none" href="javascript:void(0)" onclick="editShareAddress()"><IMG class="nextbtnicon" src="/images/small/addressbook.png">编辑地址</a> -->
 
                     <a id="submitAddressButton" class="abtn" data-role="none" href="javascript:void(0)" >下一步<IMG class="nextbtnicon" src="/images/small/next_btn.png"></a>
 
@@ -69,6 +74,8 @@ $wxPayHelper = new WxPayHelper();
 
             <div data-role="page" id="senderPage" data-title="发信人" class="page">
 
+                <img class="page_background blur" src=<?php echo $order->picUrl ?> ></img>
+
                 <div data-role="header">
                     <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
                 </div>
@@ -76,9 +83,12 @@ $wxPayHelper = new WxPayHelper();
                 <div data-role="content" align="left">
                     <div id="senderboard"></div>
 
-                    <input id="senderNameInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="发件人姓名（可选）" value=<?php echo $order->senderName ?> ></input>
+                    <input id="senderNameInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="发件人姓名" value=<?php echo $order->senderName ?> ></input>
 
-                    <input id="senderAddressInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="发件人地址（可选）" value=<?php echo $order->senderAddress ?> ></input>
+                    <input id="senderAddressInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="发件人地址" value=<?php echo $order->senderAddress ?> ></input>
+
+                    <a id="saveSenderToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" onclick="editShareAddress()"><IMG class="nextbtnicon" src="/images/small/checkboxoff.png">存入地址簿</a>
+                    <a id="selectSenderFromAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/addressbook.png">从地址簿选一个</a>
 
                     <input id="previewButton" value="去预览" type="image" src="/images/small/preview_btn.png"></input>
                     <input id="gotoPayButton" value="去支付" type="image" src="/images/small/pay_btn.png"></input>

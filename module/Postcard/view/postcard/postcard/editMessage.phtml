@@ -21,6 +21,8 @@
             <input id="voiceMediaId" type="hidden" value=<?php echo $order->voiceMediaId ?> ></input>
 
             <div data-role="page" id="messagePage" data-title="留言" class="page">
+                <img class="page_background blur" src=<?php echo $order->picUrl ?> ></img>
+
                 <div data-role="header">
                     <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
                 </div>

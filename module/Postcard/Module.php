@@ -4,6 +4,8 @@ use Postcard\Model\Order;
 use Postcard\Model\OrderTable;
 use Postcard\Model\WxPara;
 use Postcard\Model\WxParaTable;
+use Postcard\Model\Contact;
+use Postcard\Model\ContactTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -44,6 +46,12 @@ class Module
                     return $table;
                 },
 
+                'Postcard\Model\ContactTable' =>  function($sm) {
+                    $tableGateway = $sm->get('ContactTableGateway');
+                    $table = new ContactTable($tableGateway);
+                    return $table;
+                },
+
                 'PostcardTableGateway' => function ($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
@@ -56,6 +64,13 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new WxPara());
                     return new TableGateway('wxpara_table', $dbAdapter, null, $resultSetPrototype);
+                },
+
+                'ContactTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Contact());
+                    return new TableGateway('contact_table', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );

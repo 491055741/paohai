@@ -4,19 +4,35 @@ body, .ui-content {
     padding:0;
 }
 
+.blur { 
+    filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+    
+    -webkit-filter: blur(10px); /* Chrome, Opera */
+       -moz-filter: blur(10px);
+        -ms-filter: blur(10px);    
+            filter: blur(10px);
+    
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false); /* IE6~IE9 */
+}
+
+.page_background {
+    width: 320px;
+    height: 480px;
+}
+/*
 .page {
     background-image: url("/images/small/background.png");
     background-repeat: no-repeat;
     height: 480px;
 }
-
+*/
 .ui-header {
     border:0;
     top:0;
     height:37px;
     width: 320px;
     margin:0;
-
+    position: absolute;
 }
 
 .ui-header {
@@ -48,6 +64,14 @@ a.abtn:link, a.abtn:visited {
     text-decoration:none;
     text-align:center;
     color:white;
+}
+
+a.bbtn:link, a.abtn:visited {
+    font-size: 14px;
+    text-shadow:none;
+    text-decoration:none;
+    text-align:center;
+    color:#353535;
 }
 
 .postcard {

@@ -26,7 +26,8 @@ class WxpayController extends AbstractActionController
     public function payAction()
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
-        if ($orderId == '0') {
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
             $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id: '.$orderId));
             $view->setTemplate('postcard/postcard/error');
             return $view;
@@ -36,7 +37,7 @@ class WxpayController extends AbstractActionController
         $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$orderId);
 
         $para = array(
-            'order_id'    => $orderId,
+            'order'    => $order,
             'tag'         => JS_TAG,
         );
 

@@ -35,6 +35,8 @@
             <input id="userPicUrl" type="hidden" value=<?php echo $picurl ?> ></input>
 
             <div data-role="page" id="makePicturePage" data-title="制作明信片" class="page">
+                <img class="page_background blur" src=<?php echo $picurl ?> ></img>
+
                 <div data-role="header">
                     <a data-role="none" align="left" href="#" onclick="javascript:WeixinJSBridge.call('closeWindow');"><IMG src="/images/small/left_arrow.png"  >更换图片</a>
                     <a id="submitPhotoButton" data-role="none" align="right" href="#" >下一步<IMG src="/images/small/right_arrow.png"></a></a>

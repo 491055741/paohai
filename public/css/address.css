@@ -22,7 +22,7 @@
 }
 
 #recipientInput {
-    top: 84px;
+    top: 105px;
     left: 34px;
     width: 250px;
     min-height: 2em;
@@ -33,29 +33,7 @@
 }
 
 #addressInput {
-    top: 134px;
-    left: 34px;
-    width: 250px;
-    min-height: 2em;
-    font-size: 16px;
-    position: absolute;
-    z-index: 10;
-    border-radius :.2em;
-}
-
-#senderNameInput {
-    top: 84px;
-    left: 34px;
-    width: 250px;
-    min-height: 2em;
-    font-size: 16px;
-    position: absolute;
-    z-index: 10;
-    border-radius :.2em;
-}
-
-#senderAddressInput {
-    top: 134px;
+    top: 165px;
     left: 34px;
     width: 250px;
     min-height: 2em;
@@ -66,9 +44,75 @@
 }
 
 #zipcodeInput {
-    top: 180px;
+    top: 225px;
     left: 34px;
     width: 250px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+    border-radius :.2em;
+}
+
+#saveRecipientToAddressBookBtn {
+    top: 285px;
+    left: 12px;
+    width: 148px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+    border-radius :.2em;    
+}
+
+#selectRecipientFromAddressBookBtn {
+    top: 285px;
+    left: 160px;
+    width: 148px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+    border-radius :.2em;
+}
+
+#senderNameInput {
+    top: 105px;
+    left: 34px;
+    width: 250px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+    border-radius :.2em;
+}
+
+#senderAddressInput {
+    top: 165px;
+    left: 34px;
+    width: 250px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+    border-radius :.2em;
+}
+
+#saveSenderToAddressBookBtn {
+    top: 225px;
+    left: 12px;
+    width: 148px;
+    min-height: 2em;
+    font-size: 16px;
+    position: absolute;
+    z-index: 10;
+    border-radius :.2em;    
+}
+
+#selectSenderFromAddressBookBtn {
+    top: 225px;
+    left: 160px;
+    width: 148px;
     min-height: 2em;
     font-size: 16px;
     position: absolute;
@@ -95,7 +139,7 @@
 }
 
 #previewButton {
-    top: 311px;
+    top: 315px;
     left: 12px;
     width: 148px;
     height: 40px;
@@ -104,7 +148,7 @@
 }
 
 #gotoPayButton {
-    top: 311px;
+    top: 315px;
     left: 160px;
     width: 148px;
     height: 40px;
