@@ -25,17 +25,17 @@ $wxPayHelper = new WxPayHelper();
         <script src=<?php echo "/js/address.js?$tag" ?> ></script>
         <script language="javascript">
 
-            function editShareAddress() {
-                WeixinJSBridge.invoke(
-                    'editAddress', <?php echo $wxPayHelper->create_addr_package($token, $url) ?>, 
-                    function(res) {
-                        //若res 中所带的返回值不为空,则表示用户选择该返回值作为收货地址。否则若返回空,则表示用户取消了这一次编辑收货地址。
-                        document.getElementById('recipientInput').value = res.userName;
-                        document.getElementById('addressInput').value = res.proviceFirstStageName+res.addressCitySecondStageName+res.addressCountiesThirdStageName+res.addressDetailInfo;
-                        document.getElementById('zipcodeInput').value = res.addressPostalCode;
-                    }
-                );
-            }
+            // function editShareAddress() {
+            //     WeixinJSBridge.invoke(
+            //         'editAddress', <?php echo $wxPayHelper->create_addr_package($token, $url) ?>, 
+            //         function(res) {
+            //             //若res 中所带的返回值不为空,则表示用户选择该返回值作为收货地址。否则若返回空,则表示用户取消了这一次编辑收货地址。
+            //             document.getElementById('recipientInput').value = res.userName;
+            //             document.getElementById('addressInput').value = res.proviceFirstStageName+res.addressCitySecondStageName+res.addressCountiesThirdStageName+res.addressDetailInfo;
+            //             document.getElementById('zipcodeInput').value = res.addressPostalCode;
+            //         }
+            //     );
+            // }
 
         </script>
     </head>
@@ -63,10 +63,8 @@ $wxPayHelper = new WxPayHelper();
 
                     <input id="zipcodeInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="邮政编码" value=<?php echo $order->zipCode ?> ></input>
 
-                    <a id="saveRecipientToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" onclick="editShareAddress()"><IMG class="nextbtnicon" src="/images/small/checkboxoff.png">存入地址簿</a>
+                    <a id="saveRecipientToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)"><IMG class="nextbtnicon" src="/images/small/checkboxoff.png">存入地址簿</a>
                     <a id="selectRecipientFromAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/addressbook.png">从地址簿选一个</a>
-
-                    <!-- <a id="editAddressButton" class="abtn" data-role="none" href="javascript:void(0)" onclick="editShareAddress()"><IMG class="nextbtnicon" src="/images/small/addressbook.png">编辑地址</a> -->
 
                     <a id="submitAddressButton" class="abtn" data-role="none" href="javascript:void(0)" >下一步<IMG class="nextbtnicon" src="/images/small/next_btn.png"></a>
 
@@ -88,7 +86,7 @@ $wxPayHelper = new WxPayHelper();
 
                     <input id="senderAddressInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="发件人地址" value=<?php echo $order->senderAddress ?> ></input>
 
-                    <a id="saveSenderToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" onclick="editShareAddress()"><IMG class="nextbtnicon" src="/images/small/checkboxoff.png">存入地址簿</a>
+                    <a id="saveSenderToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/checkboxoff.png">存入地址簿</a>
                     <a id="selectSenderFromAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/addressbook.png">从地址簿选一个</a>
 
                     <input id="previewButton" value="去预览" type="image" src="/images/small/preview_btn.png"></input>

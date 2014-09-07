@@ -164,3 +164,8 @@
     height: 384px;
     position: absolute;
 }
+
+td {
+    vertical-align: top;
+    height: 50px;
+}

@@ -14,6 +14,11 @@ $(document).on("pageinit", "#addressPage", function() {
         submitAddress();
     });
 
+    $('#saveRecipientToAddressBookBtn').fastClick(function() {
+        getValueFromInput();
+        addContact(recipient, address, zipcode, function() {});
+    });
+
     $('#selectRecipientFromAddressBookBtn').fastClick(function() {
         getContacts(function() {
             changePage("#contactsPage");
@@ -151,13 +156,13 @@ function getValueFromInput()
     senderAddress = $("#senderAddressInput").val();
 }
 
-function addContact(name, address, zipcode, callback) {
+function addContact(contactName, contactAddress, zipCode, callback) {
     var url = "http://" + window.location.host + "/postcard/addcontact";
     var params = {
         userName: userName,
         contactName: contactName,
         address: contactAddress,
-        zipcode: zipcode,
+        zipCode: zipCode,
     };
     output('url: ' + url);
 
