@@ -236,23 +236,18 @@ class PostcardController extends AbstractActionController
 
     public function contactsAction()
     {
-        $userName = $this->params()->fromRoute('id', '0');
+        $userName = $this->getRequest()->getQuery('userName', '0');
         if ($userName == '0') {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$userName));
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
-
         return new JsonModel($this->getContactTable()->getContacts($userName));
-
-        // return new ViewModel(array(
-        //     'contacts' => $this->getContactTable()->getContacts($userName),
-        // ));
     }
 
     public function addContactAction()
     {
-        $userName = $this->params()->fromRoute('id', '0');
+        $userName = $this->getRequest()->getPost('userName', '0');
         $contactName = $this->getRequest()->getPost('contactName', '0');
         if ($userName == '0' || $contactName == '0') {
             $view =  new ViewModel(array('code' => 1, 'msg' => 'UserName needed.'));

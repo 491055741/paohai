@@ -1,14 +1,23 @@
 var orderId = '';
 var senderName = '';
 var senderAddress = '';
-// var wxAddrPackage = '';
+var userName = '';
 
 $(document).on("pageinit", "#addressPage", function() {
 
     output("addressPage init");
+    
     orderId = $('#orderId').val();
-    $("#submitAddressButton").fastClick(function() {
+    userName = $('#userName').val();
+    
+    $('#submitAddressButton').fastClick(function() {
         submitAddress();
+    });
+
+    $('#selectRecipientFromAddressBookBtn').fastClick(function() {
+        getContacts(function() {
+            changePage("#contactsPage");
+        });
     });
 });
 
@@ -140,4 +149,58 @@ function getValueFromInput()
 
     senderName    = $("#senderNameInput").val();
     senderAddress = $("#senderAddressInput").val();
+}
+
+function addContact(name, address, zipcode, callback) {
+    var url = "http://" + window.location.host + "/postcard/addcontact";
+    var params = {
+        userName: userName,
+        contactName: contactName,
+        address: contactAddress,
+        zipcode: zipcode,
+    };
+    output('url: ' + url);
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data:params,
+        dataType: 'json',
+        timeout: 1000,
+        error: function(){
+            alert('add contact failed!');
+        },
+        success: function(result) {
+            callback();
+        }
+    });    
+}
+
+function getContacts(callback) {
+
+    var url = "http://" + window.location.host + "/postcard/contacts?userName=" + userName;
+    output('url: ' + url);
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: '',
+        dataType: 'json',
+        timeout: 1000,
+        error: function(){
+            alert('get contacts failed!');
+        },
+        success: function(data) {
+
+            // $.each(data, function(index, obj) {
+                
+            // });
+            var json = data;
+            $("<table id='contactsTable' ></table>").appendTo("#contactsList");
+            for (var i = 0; i < json.length; i++) {
+                $("<tr><td>" + json[i].contactName + "</td><td>" + json[i].address + "</td></tr>").appendTo("#contactsTable");
+            }
+            callback();
+        }
+    });
 }

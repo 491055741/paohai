@@ -15,7 +15,16 @@ class ContactTable
     public function getContacts($userName)
     {
         $rowset = $this->tableGateway->select(array('userName' => $userName));
-        return $rowset;
+        $entries   = array();
+        foreach ($rowset as $row) {
+            $entry = new Contact();
+            $entry->userName = $row->userName;
+            $entry->contactName = $row->contactName;
+            $entry->address = $row->address;
+            $entry->zipCode = $row->zipCode;
+            $entries[] = $entry;
+        }
+        return $entries;
     }
 
     public function getContact($userName, $contactName)

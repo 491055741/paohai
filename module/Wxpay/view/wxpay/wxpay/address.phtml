@@ -44,6 +44,7 @@ $wxPayHelper = new WxPayHelper();
         <div id="content" data-role="content">
 
             <input id="orderId" type="hidden" value=<?php echo $order->id ?> ></input>
+            <input id="userName" type="hidden" value=<?php echo $order->userName ?> ></input>
 
             <div data-role="page" id="addressPage" data-title="收信人" class="page">
 
@@ -95,6 +96,21 @@ $wxPayHelper = new WxPayHelper();
 
                 </div>
             </div>
+
+            <div data-role="page" id="contactsPage" data-title="选择联系人" class="page">
+
+                <img class="page_background blur" src=<?php echo $order->picUrl ?> ></img>
+
+                <div data-role="header">
+                    <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
+                </div>
+
+                <div data-role="content" align="left">
+                    <div id="contactsList">
+                    </div>
+                </div>
+            </div>            
+
         </div>
     </body>
 </html>
