@@ -14,7 +14,7 @@
 }
 
 .postcard_small {
-    top:    42px;
+    top:    60px;
     left:   42px;
     width:  235px;
     height: 350px;
@@ -23,7 +23,7 @@
 }
 
 #toggleTemplateButton {
-    top:   375px;
+    top:   385px;
     left:  8px;
     position: absolute;
 }
@@ -34,7 +34,7 @@
 }
 
 #templateContainer {
-    top:392px;
+    top:406px;
     left:0px;
     height:100px;
     width:320px;

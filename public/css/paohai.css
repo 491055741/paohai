@@ -75,10 +75,10 @@ a.bbtn:link, a.abtn:visited {
 }
 
 .postcard {
-    top:    47px;
+    top:    60px;
     left:   28px;
     width:  262px;
-    height: 397px;
+    height: 385px;
     position: absolute;
     overflow: hidden;
 }
