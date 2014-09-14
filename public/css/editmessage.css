@@ -19,13 +19,14 @@
     font-size: 16px;
     z-index: 10;
     border-radius :.2em;
+    padding-left: 5px;
 }
 
 #messageInput {
     top: 134px;
     left: 34px;
     width: 250px;
-    min-height: 6em;
+    min-height: 11em;
     position: absolute;
     background: white;
     z-index: 10;
@@ -33,30 +34,41 @@
 }
 
 #signatureInput {
-    top: 270px;
-    left: 162px;
-    width: 120px;
+    top: 336px;
+    left: 144px;
+    width: 136px;
     min-height: 2em;
     font-size: 16px;
     position: absolute;
     z-index: 10;
     border-radius :.2em;
+    padding-left: 5px;
 }
 
 #voiceMessageButton {
-    top: 250px;
-    left: 34px;
-    width: 76px;
+    top: 330px;
+    left: 38px;
+    width: 80px;
     height: 76px;
     position: absolute;
     z-index: 10;
 }
 
 #submitMessageButton {
-    top: 360px;
-    left: 220px;
+    top: 390px;
+    left: 208px;
     width: 80px;
     /*height: 16px;*/
     position: absolute;
     z-index: 10;
+}
+
+#messageInputHint {
+    top: 124px;
+    left: 220px;
+    width: 100px;
+    font-size: 10px;
+    position: absolute;
+    z-index: 10;
+
 }
