@@ -11,10 +11,10 @@
 }
 
 #senderboard {
-    top:    57px;
+    top:    72px;
     left:   12px;
     width:  296px;
-    height: 298px;
+    height: 326px;
     position: absolute;
     background: white;
     opacity: 0.5;
@@ -82,47 +82,51 @@
 }
 
 #senderNameInput {
-    top: 105px;
+    top: 122px;
     left: 34px;
     width: 250px;
-    min-height: 2em;
-    font-size: 14px;
+    min-height: 36px;
+    font-size: 16px;
     position: absolute;
     z-index: 10;
     border-radius :.2em;
+    padding: 5px;
 }
 
 #senderAddressInput {
-    top: 165px;
+    top: 190px;
     left: 34px;
     width: 250px;
-    min-height: 2em;
+    min-height: 36px;
     font-size: 16px;
     position: absolute;
     z-index: 10;
     border-radius :.2em;
+    padding: 5px;
 }
 
 #saveSenderToAddressBookBtn {
-    top: 225px;
+    top: 278px;
     left: 12px;
     width: 148px;
     min-height: 2em;
-    font-size: 16px;
+    font-size: 15px;
     position: absolute;
     z-index: 10;
     border-radius :.2em;    
+    padding-bottom: 2px;
 }
 
 #selectSenderFromAddressBookBtn {
-    top: 225px;
-    left: 160px;
+    top: 278px;
+    left: 148px;
     width: 148px;
     min-height: 2em;
-    font-size: 16px;
+    font-size: 15px;
     position: absolute;
     z-index: 10;
     border-radius :.2em;
+    padding-bottom: 2px;
 }
 
 #editAddressButton {
@@ -145,19 +149,19 @@
 }
 
 #previewButton {
-    top: 315px;
+    top: 345px;
     left: 12px;
     width: 148px;
-    height: 40px;
+    height: 52px;
     position: absolute;
     z-index: 10;
 }
 
 #gotoPayButton {
-    top: 315px;
+    top: 345px;
     left: 160px;
     width: 148px;
-    height: 40px;
+    height: 52px;
     position: absolute;
     z-index: 10;
 }
