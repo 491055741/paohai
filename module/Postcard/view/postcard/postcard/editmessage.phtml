@@ -33,7 +33,9 @@
 
                     <input id="salutationInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="亲爱的盆友" value=<?php echo $order->salutation ?> ></input>
                     <label id="messageInputHint">少于160字</label>
-                    <textarea id="messageInput" rows="3" cols="20" placeholder="我想说..."><?php echo $order->message ?></textarea>
+                    <div id="messageWrap">
+                        <textarea id="messageInput" rows="3" cols="20" placeholder="我想说..."><?php echo $order->message ?></textarea>
+                    </div>
                     <input id="signatureInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="我的名字" value=<?php echo $order->signature ?> ></input>
 
                     <input id="voiceMessageButton" value="录制语音留言" type="image" src="/images/small/voice_btn.png"></input>
