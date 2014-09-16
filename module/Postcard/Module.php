@@ -1,13 +1,18 @@
 <?php
 namespace Postcard;
+
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+
 use Postcard\Model\Order;
 use Postcard\Model\OrderTable;
 use Postcard\Model\WxPara;
 use Postcard\Model\WxParaTable;
 use Postcard\Model\Contact;
 use Postcard\Model\ContactTable;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
+use Postcard\Model\UserPosition;
+use Postcard\Model\UserPositionTable;
+
 
 class Module
 {
@@ -52,6 +57,12 @@ class Module
                     return $table;
                 },
 
+                'Postcard\Model\UserPositionTable' => function($sm) {
+                    $tableGateway = $sm->get('UserPositionTableGateway');
+                    $table = new UserPositionTable($tableGateway);
+                    return $table;
+                },
+
                 'PostcardTableGateway' => function ($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
@@ -72,6 +83,13 @@ class Module
                     $resultSetPrototype->setArrayObjectPrototype(new Contact());
                     return new TableGateway('contact_table', $dbAdapter, null, $resultSetPrototype);
                 },
+
+                'UserPositionTableGateway' => function($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new UserPosition());
+                    return new TableGateway('user_position', $dbAdapter, null, $resultSetPrototype);
+                }
             ),
         );
     }

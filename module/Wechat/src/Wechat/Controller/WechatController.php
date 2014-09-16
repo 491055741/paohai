@@ -2,10 +2,14 @@
 namespace Wechat\Controller;
 
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
-use CommonUtil;
+
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
 use Postcard\Model\Order;
+use Postcard\Model\UserPosition;
+use CommonUtil;
+
 
 define("TOKEN", "ademoforpaohai");
 ini_set("display_errors", true);
@@ -15,6 +19,8 @@ session_start();
 class WechatController extends AbstractActionController
 {
     protected $orderTable;
+    protected $userPositionTable;
+
 
     public function indexAction()
     {
@@ -187,9 +193,17 @@ class WechatController extends AbstractActionController
     {
         if (!$this->orderTable) {
             $sm = $this->getServiceLocator();
-            $this->orderTable = $sm->get('Postcard\Model\orderTable');
+            $this->orderTable = $sm->get('Postcard\Model\OrderTable');
         }
         return $this->orderTable;
+    }
+
+    private function getUserPositionTable() {
+        if ( ! $this->userPositionTable) {
+            $sm = $this->getServiceLocator();
+            $this->userPositionTable = $sm->get('Postcard\Model\UserPositionTable');
+        }
+        return $this->userPositionTable;
     }
 
     private function validate()
@@ -221,5 +235,18 @@ class WechatController extends AbstractActionController
         } else {
             return false;
         }
+    }
+
+
+    private function receiveUserLatitude($receiveData) {
+        $latitude = $receiveData->Latitude;
+        $longitude = $receiveData->Longitude;
+
+        $userPosition = new userPosition();
+        $userPosition->setUserName($receiveData->FromUserName)
+            ->setLatitude($receiveData->Latitude)
+            ->setLongitude($receiveData->Longitude)
+            ->updateTimestamp();
+        $this->getUserPositionTable()->savePosition($userPosition);
     }
 }
