@@ -8,6 +8,7 @@ use Zend\View\Model\ViewModel;
 
 use Postcard\Model\Order;
 use Postcard\Model\UserPosition;
+use Postcard\Libs\Maps;
 use CommonUtil;
 
 
@@ -143,6 +144,10 @@ class WechatController extends AbstractActionController
                         } else {
                             $contentStr = "请上传一张照片";
                         }
+                    } else if ($event == 'LOCATION') {
+                        $this->receiveUserLatitude($postObj);
+                        return;
+
                     } else {
                         $contentStr = "请上传一张照片";
                     }
@@ -242,11 +247,48 @@ class WechatController extends AbstractActionController
         $latitude = $receiveData->Latitude;
         $longitude = $receiveData->Longitude;
 
-        $userPosition = new userPosition();
+        $userPosition = new UserPosition();
         $userPosition->setUserName($receiveData->FromUserName)
             ->setLatitude($receiveData->Latitude)
             ->setLongitude($receiveData->Longitude)
             ->updateTimestamp();
+
         $this->getUserPositionTable()->savePosition($userPosition);
+    }
+
+
+    /**
+     * 查询user_position表，根据lnglat转换为地址信息
+     */
+    private function getUserGeoAddress($userName) {
+        $userLngLat = $this->getUserPositionTable()
+            ->getPositionByUserName($userName);
+        if ( ! $userLngLat) {
+            return NULL;
+        }
+
+        $longitude = $userLngLat->getLongitude();
+        $latitude = $userLngLat->getLatitude();
+
+        $res = Maps::geoLatLng2Address($longitude, $latitude);
+        $data = json_decode($res, true);
+        if ( ! $data) {
+            return NULL;
+        }
+
+        if ($data['status'] != '0') {
+            // TODO ERR LOG
+            $errorMsg = $data['msg'];
+            return NULL;
+        }
+        $addressComponent = $data['result']['addressComponent'];
+
+        return array(
+            'province' => $addressComponent['province'],
+            'city' => $addressComponent['city'],
+            'district' => $addressComponent['district'],
+            'street' => $addressComponent['street'],
+            'cityCode' => $data['result']['cityCode'],
+        );
     }
 }

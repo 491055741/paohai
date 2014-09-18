@@ -1,6 +1,6 @@
 <?php
 // src/Postcard/Model/UserPosition.php
-use Postcard\Model;
+namespace Postcard\Model;
 
 
 class UserPosition
