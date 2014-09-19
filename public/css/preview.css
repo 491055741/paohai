@@ -52,7 +52,8 @@
 
 #editButton {
     top: 660px;
-    left: 12px;
+    left: 50%;
+    margin-left: -148px;
     width: 148px;
     height: 40px;
     position: absolute;
@@ -61,7 +62,7 @@
 
 #gotoPayButton {
     top: 660px;
-    left: 160px;
+    left: 50%;
     width: 148px;
     height: 40px;
     position: absolute;

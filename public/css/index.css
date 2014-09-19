@@ -1,4 +1,4 @@
-
+@charset "UTF-8";
 .thumbnail {
     width:  44px;
     height: 59px;
@@ -13,18 +13,20 @@
     border: 2px;
 }
 
-.postcard_small {
-    top:    60px;
-    left:   42px;
+.postcard_small {/*[huangchun 2014-9-16] 采用了负边距居中，高度设为了70%*/
+    top: 15px;
+    left: 50%;
     width:  235px;
-    height: 350px;
+    margin-left: -118px;
+    height: 70%;
     position: absolute;
     overflow: hidden;
+    /* background: black; */
 }
 
-#toggleTemplateButton {
-    top:   385px;
-    left:  8px;
+#toggleTemplateButton {/*[huangchun 2014-9-16] left的值设置成4%,top设置为70%。*/
+    top:   70%;
+    left:  4%;
     position: absolute;
 }
 
@@ -34,11 +36,28 @@
 }
 
 #templateContainer {
-    top:406px;
-    left:0px;
+    bottom: 0;
+    left: 50%;
     height:100px;
     width:320px;
+    margin-left: -160px;
     overflow:hidden;
-    position:absolute;
+    position: absolute;
 }
 
+/*[huangchun 2014-9-16]*/
+#makePicturePage {
+    height: 100%;
+    overflow: hidden;
+}
+
+/*[huangchun 2014-9-18] 由于流体布局在平板上无法正确的显示，因此新增了媒体查询。*/
+@media screen and (min-width: 540px){
+    #toggleTemplateButton {left:  20%;}
+}
+@media screen and (min-width: 960px){
+    #toggleTemplateButton {left:  34%;}
+}
+@media screen and (min-width: 1280px){
+    #toggleTemplateButton {left:  37.5%;}
+}
