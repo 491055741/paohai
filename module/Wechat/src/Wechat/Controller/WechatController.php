@@ -109,7 +109,7 @@ class WechatController extends AbstractActionController
                 $picUrl = $postObj->PicUrl;
                 $replyMsgType = "news";
                 $title = "点击创建明信片";
-                $desc = "点击图片完成创建";
+                $desc = "就是这张么？如果确定了，就戳戳图片开始制作明信片啦~";
                 $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard?picurl='.$picUrl.'&username='.$fromUsername;
                 $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                 echo $resultStr;
@@ -127,16 +127,18 @@ class WechatController extends AbstractActionController
                 if ($msgType == "event") {
                     $event = $postObj->Event;
                     if ($event == "subscribe") {// 订阅
-                        $contentStr = 'HELLO,欢迎加入泡海明信片，一起玩“泡海”
-手机拍了那么多美照干嘛用？
-赶快定制一张泡海明信片吧！
-给自己留念，向朋友炫耀，送家人祝福……
-盖上邮戳的真实明信片，中国邮政7天寄上门~
-把生活点滴记录下来，把人生分享出去，你能遇见更好的自己！';
+                        $contentStr = <<<WELCOME_TEXT
+HELLO，看这边！咔嚓！
+泡海明信片在这恭候你多时啦！
+美妙旅途只能通过电子版回忆？
+Sorry, 我想要触摸的质感。
+加入“泡海”明信片家庭，
+每次的经历都可被记录！
+WELCOME_TEXT;
                     } else if ($event == "CLICK") {
                         $eventKey = $postObj->EventKey;
                         if ($eventKey == "begin") {// 开始
-                            $contentStr = '点击“+”号，上传手机照片或直接拍摄，开始制作';
+                            $contentStr = "切换到对话框，点击“+”号，上传手机照片或直接拍摄，即可开始制作。";
                         } else if ($eventKey == "promotion") { // 活动
                             $contentStr = '拥有兴业银行卡的小伙伴们有福啊，送给只属于你的，独一无二的爱的咔嚓！支付时选择兴业银行，只要1元！就可以寄送你爱的明信片啦！';
                         } else if ($eventKey == "orders") { // 我的订单
