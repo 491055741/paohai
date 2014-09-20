@@ -4,11 +4,13 @@
     left: 50%;
     width:  296px;
     height: 78%;
+    min-height: 350px;
     margin-left: -148px;
     position: absolute;
     background: rgb(163, 161, 161);
     opacity: 0.5;
     z-index:   0;
+    border-radius :.2em;
 }
 
 #senderboard {/*[huagchun 2014-9-19]*/
@@ -21,6 +23,7 @@
     background: white;
     opacity: 0.5;
     z-index:   0;
+    border-radius :.2em;
 }
 
 #recipientInput {
