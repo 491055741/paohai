@@ -1,52 +1,70 @@
-
+@charset "utf-8";
+/*[huangchun 2014-9-17]将所有绝对定位的元素修改成负边距居中，所有元素整体上移30px*/
 #board {
-    top:    57px;
-    left:   12px;
+    top:    36px;
+    left:   50%;
     width:  296px;
-    height: 384px;
+    height: 374px;
+    margin-left: -148px;
     position: absolute;
-    background: white;
+    background: rgb(163, 161, 161);
     opacity: 0.5;
     z-index:   0;
+    border-radius :.2em;
 }
 
 #salutationInput {
-    top: 84px;
-    left: 34px;
+    top: 49px;
+    left: 50%;
     width: 250px;
+    margin-left: -125px;
     position: absolute;
-    min-height: 2em;
+    min-height: 36px;
     font-size: 16px;
     z-index: 10;
     border-radius :.2em;
+    padding-left: 5px;
+}
+
+
+#messageWrap {
+    top: 114px;
+    left: 50%;
+    width: 250px;
+    height: 180px;
+    margin-left: -125px;
+    position: absolute;
+    overflow-y: scroll;
+    z-index: 10;
+    padding: 0px;
 }
 
 #messageInput {
-    top: 134px;
-    left: 34px;
+    margin: 0px;
     width: 250px;
-    min-height: 6em;
-    position: absolute;
+    min-height: 11em;
     background: white;
-    z-index: 10;
     border-radius :.2em;
+    resize: none;
 }
 
-#signatureInput {
-    top: 270px;
-    left: 162px;
-    width: 120px;
+#signatureInput {/*[huangchun 2014-9-18] left由144px改为47%*/
+    top: 306px;
+    left: 47%;
+    width: 136px;
     min-height: 2em;
     font-size: 16px;
     position: absolute;
     z-index: 10;
     border-radius :.2em;
+    padding-left: 5px;
 }
 
-#voiceMessageButton {
-    top: 250px;
-    left: 34px;
-    width: 76px;
+#voiceMessageButton {/*[huangchun 2014-9-17]*/
+    top: 305px;
+    left: 10%;
+    width: 80px;
+    margin-left: 20px;
     height: 76px;
     position: absolute;
     z-index: 10;
@@ -54,9 +72,68 @@
 
 #submitMessageButton {
     top: 360px;
-    left: 220px;
+    left: 214px;
     width: 80px;
     /*height: 16px;*/
     position: absolute;
     z-index: 10;
+    font-weight: bold;
+}
+
+#messageInputHint {
+    top: 98px;
+    left: 230px;
+    width: 100px;
+    font-size: 10px;
+    position: absolute;
+    z-index: 10;
+
+}
+/*[huangchun 2014-9-19] 由于流体布局在平板上无法正确的显示，因此新增了媒体查询。*/
+@media screen and (min-width: 320px){
+    #voiceMessageButton {left:10%;}
+}
+@media screen and (min-width: 380px){
+    #voiceMessageButton {left:13%;}
+    #messageInputHint {left:68%;}
+}
+@media screen and (min-width: 400px){
+    #voiceMessageButton {left:15%;}
+}
+@media screen and (min-width: 480px){
+    #messageInputHint {left:63%;}
+    #voiceMessageButton {left:20%;}
+    #submitMessageButton { left:55%;color:#ccc;}
+}
+@media screen and (min-width: 540px){
+    #voiceMessageButton {left:25%;}
+}
+@media screen and (min-width: 720px){
+    #messageInputHint {left:60%;}
+    #voiceMessageButton {left:30%;}
+}
+@media screen and (min-width: 960px){
+    #signatureInput {left:49%;}
+    #messageInputHint {left:56%;}
+    #voiceMessageButton {left:36%;}
+    #submitMessageButton {left:54%;color:#eee;}
+}
+@media screen and (min-width: 1200px){
+    #messageInputHint {left:55.5%;}
+    #voiceMessageButton {left:38.5%}
+
+}
+@media screen and (min-width: 1400px){
+    #messageInputHint {left:54.5%;}
+    #voiceMessageButton {left:40%}
+}
+@media screen and (min-width: 1900px){
+    #messageInputHint {left:52.5%;}
+    #voiceMessageButton {left:42.5%}
+    #submitMessageButton {left:52%;color:#fff;}
+}
+@media screen and (min-width: 2500px){
+    #messageInputHint {left:52.5%;}
+    #voiceMessageButton {left:44.5%}
+    #submitMessageButton {left:52%;color:#eee;}
 }

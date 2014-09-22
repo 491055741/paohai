@@ -16,13 +16,32 @@ $(document).on("pageinit", "#addressPage", function() {
 
     $('#saveRecipientToAddressBookBtn').fastClick(function() {
         getValueFromInput();
+        if (recipient == '' || address == '') {
+            return false;
+        }
         addContact(recipient, address, zipcode, function() {});
+    });
+
+    $('#saveSenderToAddressBookBtn').fastClick(function() {
+        getValueFromInput();
+        var senderName = $("#senderNameInput").val();
+        var senderAddress = $("#senderAddressInput").val();
+        if (senderName == '' || senderAddress == '') {
+            return false;
+        }
+        addContact(senderName, senderAddress, '', function() {});
     });
 
     $('#selectRecipientFromAddressBookBtn').fastClick(function() {
         getContacts(function() {
             changePage("#contactsPage");
-        });
+        }, 'recipient');
+    });
+
+    $('#selectSenderFromAddressBookBtn').fastClick(function() {
+        getContacts(function() {
+            changePage("#contactsPage");
+        }, 'sender');
     });
 });
 
@@ -177,11 +196,14 @@ function addContact(contactName, contactAddress, zipCode, callback) {
         },
         success: function(result) {
             callback();
+            $("#saveRecipientToAddressBookBtn:visible, #saveSenderToAddressBookBtn:visible")
+                .find(".nextbtnicon")
+                .attr({"src": "/images/small/checkboxon.png"});
         }
     });    
 }
 
-function getContacts(callback) {
+function getContacts(callback, type) {
 
     var url = "http://" + window.location.host + "/postcard/contacts?userName=" + userName;
     output('url: ' + url);
@@ -201,10 +223,32 @@ function getContacts(callback) {
                 
             // });
             var json = data;
+            $("#contactsList").empty();
             $("<table id='contactsTable' ></table>").appendTo("#contactsList");
             for (var i = 0; i < json.length; i++) {
-                $("<tr><td>" + json[i].contactName + "</td><td>" + json[i].address + "</td></tr>").appendTo("#contactsTable");
+                var contactsItem = [
+                    "<tr class='contactsItem'>",
+                        "<td class='contactItemName'>" + json[i].contactName + "</td>",
+                        "<td class='contactItemAddress'>" + json[i].address + "</td>",
+                        "<td class='contactItemZipcode'>" + json[i].zipCode + "</td>",
+                    "</tr>",
+                ];
+                var contactsItemStr = contactsItem.join("");
+                $(contactsItemStr).appendTo("#contactsTable");
             }
+            $("#contactsTable").find(".contactsItem").click(function() {
+                var name = $(this).find(".contactItemName").text();
+                var address = $(this).find(".contactItemAddress").text();
+                var zipcode = $(this).find(".contactItemZipcode").text();
+                if (type == 'recipient') {
+                    $("#recipientInput").val(name);
+                    $("#addressInput").val(address);
+                    $("#zipcodeInput").val(zipcode);
+                } else if (type == 'sender') {
+                    $("#senderNameInput").val(name);
+                    $("#senderAddressInput").val(address);
+                }
+            });
             callback();
         }
     });

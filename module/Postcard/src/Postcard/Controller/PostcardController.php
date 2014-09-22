@@ -21,7 +21,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '20140807'); // 好像不管用，待查
+define('JS_TAG', '201409201719'); // 好像不管用，待查
 
 
 class PostcardController extends AbstractActionController
@@ -110,6 +110,7 @@ class PostcardController extends AbstractActionController
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
+        $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
 
         if ($orderId == '0' || !$order) {
             $selectedTemplateIndex = 1;
@@ -119,6 +120,8 @@ class PostcardController extends AbstractActionController
             $selectedTemplateIndex = $order->templateId;
             $offsetX = $order->offsetX;
             $offsetY = $order->offsetY;
+            $picUrl = $order->picUrl;
+
         }
 
         $viewModel =  new ViewModel(array(
@@ -126,7 +129,7 @@ class PostcardController extends AbstractActionController
             'offsetX' => $offsetX,
             'offsetY' => $offsetY,
             'orderId' => $this->getRequest()->getQuery('orderId', '0'),
-            'picurl' => $this->getRequest()->getQuery('picurl', DEFAULT_PICURL),
+            'picurl' => $picUrl,
             'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
             'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
         ));

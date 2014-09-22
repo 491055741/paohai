@@ -114,7 +114,7 @@ function placePicture() {
 
     $('#userImg').css({
         left: imageOffsetX * pic_w,
-        top: imageOffsetY * pic_h,
+        top: imageOffsetY * pic_h
     });
 }
 
@@ -124,28 +124,32 @@ function toggleTemplateList() {
         $(".postcard_small").removeClass("postcard_small")
         $("#templateContainer").hide("normal");
 
-        $("#toggleTemplateButton").css({
-            top:450,
-        });
+        $("#toggleTemplateButton").css(/*[huangchun 2014-9-18]top值由450改为90%，不能固定高度*/
+            "top","90%"
+        );
         $("#toggleTemplateButtonImg").attr("src", "/images/small/unfold_btn.png");
         $("#toggleTemplateButtonImg").css({
             width:68,
-            height:20,
+            height:20
         });
 
     } else { // show
         $(".postcard").addClass("postcard_small")
         $(".postcard").removeClass("postcard")
         $("#templateContainer").show("normal");
-        $("#toggleTemplateButton").css({
-            top:380,
-        });
+        $("#toggleTemplateButton").css(
+            /*[huangchun 2014-9-18] top由380改为70%*/
+            "top","67%"
+        );
 
         $("#toggleTemplateButtonImg").attr("src", "/images/small/fold_btn.png");
         $("#toggleTemplateButtonImg").css({
             width:20,
-            height:20,
+            height:20
         });
+
+        /*[huangchun 2014-9-17] 动态设置$(".ui-content>div")的高*/
+        $(".ui-content>div").css("height","80%");
     }
     isTemplateOpen = !isTemplateOpen;
 }
@@ -297,7 +301,7 @@ function submitPhoto() {
             offsetX: imageOffsetX,
             offsetY: imageOffsetY,
             userName: userName,
-            userPicUrl: userPicUrl,
+            userPicUrl: userPicUrl
         };
 
         $.post(
@@ -332,7 +336,7 @@ function uploadOrder(callback) {
     var params = {
         templateIndex: selectedTemplateIndex,
         offsetX: imageOffsetX,
-        offsetY: imageOffsetY,
+        offsetY: imageOffsetY
     };
 
     output('url: ' + url);
@@ -350,5 +354,4 @@ function uploadOrder(callback) {
         }
     });
 }
-
 

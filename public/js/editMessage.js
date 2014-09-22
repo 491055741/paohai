@@ -42,6 +42,14 @@ $(document).on("pageinit", "#messagePage", function() {
         submitMessage();
     });
 
+    $("#messageInput").keyup(function() {
+        var maxCount = 160;
+        var content = $(this).val();
+        var count = content.length; 
+        if (count > maxCount) {
+            $(this).val(content.substring(0, maxCount));
+        }
+    });
 });
 
 function sendVoiceRequest() {

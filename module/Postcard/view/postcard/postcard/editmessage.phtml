@@ -3,8 +3,8 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/jquery.mobile-1.3.1.min.css" />
-        <link rel="stylesheet" href="/css/paohai.css" />
-        <link rel="stylesheet" href="/css/editmessage.css" />
+        <link rel="stylesheet" href="/css/paohai.css?<?php echo $tag; ?>" />
+        <link rel="stylesheet" href="/css/editmessage.css?<?php echo $tag; ?>" />
         <link rel="stylesheet" href="/css/jquery.shadow.css" />
         <script src="/js/jquery-1.9.0.min.js"></script>
         <script src="/js/artDialog.js"></script>
@@ -32,7 +32,10 @@
                     <div id="board"></div>
 
                     <input id="salutationInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="亲爱的盆友" value=<?php echo $order->salutation ?> ></input>
-                    <textarea id="messageInput" rows="3" cols="20" placeholder="我想说"><?php echo $order->message ?></textarea>
+                    <label id="messageInputHint">少于160字</label>
+                    <div id="messageWrap">
+                        <textarea id="messageInput" rows="3" cols="20" placeholder="我想说..."><?php echo $order->message ?></textarea>
+                    </div>
                     <input id="signatureInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="我的名字" value=<?php echo $order->signature ?> ></input>
 
                     <input id="voiceMessageButton" value="录制语音留言" type="image" src="/images/small/voice_btn.png"></input>

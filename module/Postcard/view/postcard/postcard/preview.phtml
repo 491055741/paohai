@@ -35,18 +35,19 @@
             <input id="mobile" type="hidden" value=<?php echo $order->recipientMobile ?> ></input>
 
             <div data-role="page" id="previewPage" data-title="预览" class="page">
+                <img class="page_background blur" src="<?php echo $order->picUrl; ?>">
 
                 <div data-role="header">
                     <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
                 </div>
 
                 <div data-role="content" align="center">
-                    <div class="postcard">
+                    <div class="postcard" style="height: 60%">
                         <canvas id="previewUserImg" style="position:absolute; left:0"></canvas>
                     </div>
-                    <img id="previewTemplateImg" class="postcard"></img>
+                    <img id="previewTemplateImg" class="postcard" style="height: 60%"></img>
 
-                    <div style="top:450px; width:320px; height:200px; position:absolute;">
+                    <div style="top:450px; width:320px; height:200px; position:absolute; left: 50%; margin-left: -160px;">
                         <img id="postcardback" src="/images/small/postCardBack.png"></img>
                         <div style="position:absolute; width:320px; height:200px; left:0">
                             <div id="zipcodePreview"></div>
@@ -59,7 +60,7 @@
 
 
                     <input id="editButton" value="返回修改" type="image" src="/images/small/edit_btn.png"></input>
-                    <input id="gotoPayButton" value="确认支付" type="image" src="/images/small/pay_btn.png"></input>
+                    <input id="gotoPayButton" value="确认支付" type="image" src="/images/small/pay_confirm_btn.png"></input>
 
                 </div>
             </div>

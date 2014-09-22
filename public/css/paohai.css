@@ -1,23 +1,23 @@
-
+@charset "utf-8";
 body, .ui-content {
     margin:0;
     padding:0;
 }
 
-.blur { 
+.blur {
     filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
-    
+
     -webkit-filter: blur(10px); /* Chrome, Opera */
-       -moz-filter: blur(10px);
-        -ms-filter: blur(10px);    
-            filter: blur(10px);
-    
+    -moz-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+
     filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false); /* IE6~IE9 */
 }
 
-.page_background {
-    width: 320px;
-    height: 480px;
+.page_background {/*[huangchun 2014-9-16] 宽高设为100%*/
+    width: 100%;
+    height: 100%;
 }
 /*
 .page {
@@ -26,11 +26,11 @@ body, .ui-content {
     height: 480px;
 }
 */
-.ui-header {
+.ui-header {/*[huangchun 2014-9-16]*/
     border:0;
     top:0;
-    height:37px;
-    width: 320px;
+    height:50px;
+    width: 100%;
     margin:0;
     position: absolute;
 }
@@ -38,7 +38,8 @@ body, .ui-content {
 .ui-header {
     /*background:none;#507196;*/
     /*opacity:0.5;*/
-    background:rgba(255, 255, 255, 0.3);
+    /*background:rgba(255, 255, 255, 0.3);*/
+    background: rgba(107, 113, 114, 0.78);
 }
 
 .ui-header a {
@@ -74,17 +75,27 @@ a.bbtn:link, a.abtn:visited {
     color:#353535;
 }
 
-.postcard {
-    top:    47px;
-    left:   28px;
+.postcard {/*[huangchun 2014-9-16] 改为负边距居中,top值由60px改30px，height由385px,改为80%*/
+    top:    30px;
+    left:   50%;
+    margin-left: -131px;
     width:  262px;
-    height: 397px;
+    height: 80%;
     position: absolute;
     overflow: hidden;
 }
 
 .nextbtnicon {
-    width: 30px;
-    height: 27px;
+    width: 22px;
+    height: 20px;
 }
 
+/*[huangchun 2014-9-16]*/
+.ui-content{
+    position: absolute;
+    top: 50px;
+    left: 0;
+    z-index: 10000;
+    width: 100%;
+    bottom: 0;
+}
