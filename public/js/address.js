@@ -232,7 +232,7 @@ function getContacts(callback, type) {
                     "<li>姓名：" + "<span class='name-hc'>" + arr[i].contactName +"</span>"+"</li>"+
                     "<li>地址：" + "<span class='addr-hc'>" + arr[i].address +"</span>"+"</li>"+
                     "<li>邮编：" + "<span class='post-hc'>" + arr[i].zipCode +"</span>"+"</li>",
-                    "</ul><a href='#' class='sel-btn-hc'></a></div>"
+                    "</ul><img src='/images/small/single_unselected.png' class='sel-btn-hc'></img></div>"
                 ];
                 list_dom = list_str.join("");
                 list_wrap.append(list_dom);
@@ -244,15 +244,16 @@ function getContacts(callback, type) {
             $("#contactsList").append(list_wrap);
             $("#contactsList").append(menu_btn);
                 //当用户选中某个联系人时，获取相应的数据
-            var a = $("#list a");
+            var select_btn = $("#list .list-ul-hc");
             var tmp_name = '';
             var tmp_address = '';
             var tmp_zipcode = '';
+
             $(".list-ul-hc").on("click", function () {
-                a.each(function () {
-                    $(this).removeClass("on");
+                select_btn.each(function () {
+                    $(this).find(".sel-btn-hc").attr({'src': "/images/small/single_unselected.png"});
                 });
-                $(this).children("a").addClass("on");
+                $(this).find(".sel-btn-hc").attr({"src": "/images/small/single_selected.png"});
 
                 tmp_name = $(this).find(".name-hc").text();
                 tmp_address = $(this).find(".addr-hc").text();
