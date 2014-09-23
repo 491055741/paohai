@@ -224,7 +224,7 @@ function getContacts(callback, type) {
             /*[huangchun 2014-9-22]*/
             var list_dom = "";
                 //声明用于包裹列表的容器list_wrap
-            var list_title = $("<h2 id='list_title_hc'>地址簿</h2>");
+            //var list_title = $("<h2 id='list_title_hc'>地址簿</h2>");
             var list_wrap = $("<div class='list-wrap-hc' id='list'></div>");
                 //循环输出联系方式list，并追加到列表包裹容器中
             for (var i = 0,len = arr.length; i < len ; i++) {
@@ -240,29 +240,41 @@ function getContacts(callback, type) {
                 //声明电话簿底部菜单
             var menu_btn ="<div class='menu-btn-hc' id='m_btn'>" + "<a href='#' id='close_hc'>关闭</a><a href='#' id='sure_hc'>确定</a>" + "</div>";
                 //将列表和底部菜单追加到页面
-            $("#contactsList").append(list_title);
+            //$("#contactsList").append(list_title);
             $("#contactsList").append(list_wrap);
             $("#contactsList").append(menu_btn);
                 //当用户选中某个联系人时，获取相应的数据
             var a = $("#list a");
+            var tmp_name = '';
+            var tmp_address = '';
+            var tmp_zipcode = '';
             $(".list-ul-hc").on("click", function () {
                 a.each(function () {
                     $(this).removeClass("on");
                 });
                 $(this).children("a").addClass("on");
 
-                var name = $(this).find(".name-hc").text();
-                var address = $(this).find(".addr-hc").text();
-                var post = $(this).find(".post-hc").text();
+                tmp_name = $(this).find(".name-hc").text();
+                tmp_address = $(this).find(".addr-hc").text();
+                tmp_zipcode = $(this).find(".post-hc").text();
 
+            });
+
+            $("#close_hc").on("click", function() {
+                window.history.go(-1);
+            });
+
+            $("#sure_hc").on("click", function() {
                 if (type == 'recipient') {
-                    $("#recipientInput").val(name);
-                    $("#addressInput").val(address);
-                    $("#zipcodeInput").val(post);
+                    $("#recipientInput").val(tmp_name);
+                    $("#addressInput").val(tmp_address);
+                    $("#zipcodeInput").val(tmp_zipcode);
                 } else if (type == 'sender') {
-                    $("#senderNameInput").val(name);
-                    $("#senderAddressInput").val(address);
+                    $("#senderNameInput").val(tmp_name);
+                    $("#senderAddressInput").val(tmp_address);
                 }
+                
+                window.history.go(-1);
             });
             /*end*/
             callback();
