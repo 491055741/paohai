@@ -66,7 +66,7 @@ function sendVoiceRequest() {
                 alert("Send voice request failed! code =" + data.errcode + " msg=" + data.errmsg);
             } else {
                 if (typeof WeixinJSBridge == "undefined") {
-                    alert("请在微信浏览器中运行");
+                    alert("不支持方法'closeWindow'. 请在微信浏览器中运行");
                 } else {
                     WeixinJSBridge.call('closeWindow');
                 }

@@ -20,7 +20,7 @@ class OrderTable
 
     public function getOrderByUserName($name)
     {
-        $rowset = $this->tableGateway->select(array('userName' => $name, 'status' => '100'));
+        $rowset = $this->tableGateway->select(array('userName' => $name, 'status' => '100')); // '100':UNPAY
         if (!$rowset) {
             return FALSE;
         }

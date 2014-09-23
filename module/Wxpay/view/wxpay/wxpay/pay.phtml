@@ -5,7 +5,7 @@ include_once("WxPayHelper.php");
 
 $wxPayHelper1 = new WxPayHelper();
 $wxPayHelper1->setParameter("bank_type", "WX");
-$wxPayHelper1->setParameter("body", "泡海明信片");
+$wxPayHelper1->setParameter("body", "趣邮明信片");
 $wxPayHelper1->setParameter("partner", PARTNERID);
 $wxPayHelper1->setParameter("out_trade_no", ''.$order->id);
 $wxPayHelper1->setParameter("total_fee", "5"); //  ¥0.05
@@ -16,7 +16,7 @@ $wxPayHelper1->setParameter("input_charset", "UTF-8");
 
 $wxPayHelper2 = new WxPayHelper();
 $wxPayHelper2->setParameter("bank_type", "WX");
-$wxPayHelper2->setParameter("body", "泡海明信片");
+$wxPayHelper2->setParameter("body", "趣邮明信片");
 $wxPayHelper2->setParameter("partner", PARTNERID);
 $wxPayHelper2->setParameter("out_trade_no", ''.$order->id);
 $wxPayHelper2->setParameter("total_fee", "1"); //  ¥0.01
