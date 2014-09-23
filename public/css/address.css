@@ -13,13 +13,13 @@
 }
 
 #senderboard {/*[huagchun 2014-9-19]*/
-    top:    72px;
+    top:    42px;
     left:   50%;
     width:  296px;
     height: 326px;
     margin-left: -148px;
     position: absolute;
-    background: white;
+    background: rgb(163, 161, 161);
     opacity: 0.5;
     z-index:   0;
 }
@@ -76,7 +76,7 @@
 #saveRecipientToAddressBookBtn {margin-left: -148px;}
 
 #senderNameInput {/*[huagchun 2014-9-19]*/
-    top: 122px;
+    top: 92px;
     left: 50%;
     width: 250px;
     min-height: 36px;
@@ -89,7 +89,7 @@
 }
 
 #senderAddressInput {/*[huagchun 2014-9-19]*/
-    top: 190px;
+    top: 160px;
     left: 50%;
     width: 250px;
     min-height: 36px;
@@ -102,7 +102,7 @@
 }
 
 #saveSenderToAddressBookBtn {/*[huagchun 2014-9-19]*/
-    top: 278px;
+    top: 248px;
     left: 50%;
     width: 148px;
     min-height: 2em;
@@ -115,7 +115,7 @@
 }
 
 #selectSenderFromAddressBookBtn {/*[huagchun 2014-9-19]*/
-    top: 278px;
+    top: 248px;
     left: 50%;
     width: 148px;
     min-height: 2em;
@@ -138,7 +138,7 @@
 
 #submitAddressButton {
     position: absolute;
-    top: 340px;
+    top: 330px;
     left: 50%;
     width: 80px;
     height: 35px;
@@ -149,7 +149,7 @@
 }
 
 #previewButton {
-    top: 345px;
+    top: 335px;
     left: 50%;
     width: 148px;
     height: 52px;
@@ -159,7 +159,7 @@
 }
 
 #gotoPayButton {
-    top: 345px;
+    top: 335px;
     left: 50%;
     width: 148px;
     height: 52px;
