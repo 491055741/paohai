@@ -19,9 +19,14 @@ $(document).on("pageinit", "#messagePage", function() {
     voiceMediaId = $('#voiceMediaId').val();
 
     if (!voiceMediaId || voiceMediaId == '0') {
-        $("#playVoiceMessageButton").parent("div").css("display","none");
+        // parent("div")
+        $("#playVoiceMessageButton").css("display","none"); 
     } else {
-        $("#voiceMessageButton").val('重新录制语音留言');
+        $("#voiceMessageButton").attr({'src': '/images/small/rerecord_voice_btn.png'});
+        $("#voiceMessageButton").css({
+                width:50,
+                height:50
+            });
     }
 
     $("#voiceMessageButton").fastClick(function() {

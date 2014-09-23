@@ -26,7 +26,6 @@
     padding-left: 5px;
 }
 
-
 #messageWrap {
     top: 114px;
     left: 50%;
@@ -62,10 +61,20 @@
 
 #voiceMessageButton {/*[huangchun 2014-9-17]*/
     top: 305px;
-    left: 10%;
+    left: 6%;
     width: 80px;
     margin-left: 20px;
     height: 76px;
+    position: absolute;
+    z-index: 10;
+}
+
+#playVoiceMessageButton {
+    top: 305px;
+    left: 33%;
+    width: 50px;
+    /*margin-left: 0px;*/
+    height: 50px;
     position: absolute;
     z-index: 10;
 }
@@ -87,11 +96,11 @@
     font-size: 10px;
     position: absolute;
     z-index: 10;
-
+    text-shadow:none;
 }
 /*[huangchun 2014-9-19] 由于流体布局在平板上无法正确的显示，因此新增了媒体查询。*/
 @media screen and (min-width: 320px){
-    #voiceMessageButton {left:10%;}
+    #voiceMessageButton {left:6%;}
 }
 @media screen and (min-width: 380px){
     #voiceMessageButton {left:13%;}
@@ -103,37 +112,44 @@
 @media screen and (min-width: 480px){
     #messageInputHint {left:63%;}
     #voiceMessageButton {left:20%;}
+    #playVoiceMessageButton {left:35%;}
     #submitMessageButton { left:55%;color:#ccc;}
 }
 @media screen and (min-width: 540px){
     #voiceMessageButton {left:25%;}
+    #playVoiceMessageButton {left:38%;}
 }
 @media screen and (min-width: 720px){
     #messageInputHint {left:60%;}
     #voiceMessageButton {left:30%;}
+    #playVoiceMessageButton {left:40%;}
 }
 @media screen and (min-width: 960px){
     #signatureInput {left:49%;}
     #messageInputHint {left:56%;}
     #voiceMessageButton {left:36%;}
+    #playVoiceMessageButton {left:43%;}
     #submitMessageButton {left:54%;color:#eee;}
 }
 @media screen and (min-width: 1200px){
     #messageInputHint {left:55.5%;}
     #voiceMessageButton {left:38.5%}
-
+    #playVoiceMessageButton {left:45%;}
 }
 @media screen and (min-width: 1400px){
     #messageInputHint {left:54.5%;}
     #voiceMessageButton {left:40%}
+    #playVoiceMessageButton {left:45%;}
 }
 @media screen and (min-width: 1900px){
     #messageInputHint {left:52.5%;}
     #voiceMessageButton {left:42.5%}
+    #playVoiceMessageButton {left:45%;}
     #submitMessageButton {left:52%;color:#fff;}
 }
 @media screen and (min-width: 2500px){
     #messageInputHint {left:52.5%;}
     #voiceMessageButton {left:44.5%}
+    #playVoiceMessageButton {left:45%;}
     #submitMessageButton {left:52%;color:#eee;}
 }
