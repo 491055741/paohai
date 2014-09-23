@@ -154,7 +154,7 @@ function uploadOrder(callback) {
         type: 'POST',
         data:params,
         dataType: 'json',
-        timeout: 1000,
+        timeout: 10000,
         error: function(){
             alert('update order failed!');
         },
@@ -190,7 +190,7 @@ function addContact(contactName, contactAddress, zipCode, callback) {
         type: 'POST',
         data:params,
         dataType: 'json',
-        timeout: 1000,
+        timeout: 10000,
         error: function(){
             alert('add contact failed!');
         },
@@ -213,7 +213,7 @@ function getContacts(callback, type) {
         type: 'GET',
         data: '',
         dataType: 'json',
-        timeout: 1000,
+        timeout: 10000,
         error: function () {
             alert('get contacts failed!');
         },
