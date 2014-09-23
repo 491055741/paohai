@@ -71,9 +71,9 @@
 
 #playVoiceMessageButton {
     top: 305px;
-    left: 23%;
+    left: 33%;
     width: 50px;
-    margin-left: 20px;
+    /*margin-left: 0px;*/
     height: 50px;
     position: absolute;
     z-index: 10;
@@ -112,29 +112,29 @@
 @media screen and (min-width: 480px){
     #messageInputHint {left:63%;}
     #voiceMessageButton {left:20%;}
-    #playVoiceMessageButton {left:31%;}
+    #playVoiceMessageButton {left:35%;}
     #submitMessageButton { left:55%;color:#ccc;}
 }
 @media screen and (min-width: 540px){
     #voiceMessageButton {left:25%;}
-    #playVoiceMessageButton {left:34%;}
+    #playVoiceMessageButton {left:38%;}
 }
 @media screen and (min-width: 720px){
     #messageInputHint {left:60%;}
     #voiceMessageButton {left:30%;}
-    #playVoiceMessageButton {left:38%;}
+    #playVoiceMessageButton {left:40%;}
 }
 @media screen and (min-width: 960px){
     #signatureInput {left:49%;}
     #messageInputHint {left:56%;}
     #voiceMessageButton {left:36%;}
-    #playVoiceMessageButton {left:42%;}
+    #playVoiceMessageButton {left:43%;}
     #submitMessageButton {left:54%;color:#eee;}
 }
 @media screen and (min-width: 1200px){
     #messageInputHint {left:55.5%;}
     #voiceMessageButton {left:38.5%}
-    #playVoiceMessageButton {left:44%;}
+    #playVoiceMessageButton {left:45%;}
 }
 @media screen and (min-width: 1400px){
     #messageInputHint {left:54.5%;}
@@ -144,12 +144,12 @@
 @media screen and (min-width: 1900px){
     #messageInputHint {left:52.5%;}
     #voiceMessageButton {left:42.5%}
-    #playVoiceMessageButton {left:48%;}
+    #playVoiceMessageButton {left:45%;}
     #submitMessageButton {left:52%;color:#fff;}
 }
 @media screen and (min-width: 2500px){
     #messageInputHint {left:52.5%;}
     #voiceMessageButton {left:44.5%}
-    #playVoiceMessageButton {left:50%;}
+    #playVoiceMessageButton {left:45%;}
     #submitMessageButton {left:52%;color:#eee;}
 }

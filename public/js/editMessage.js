@@ -19,15 +19,14 @@ $(document).on("pageinit", "#messagePage", function() {
     voiceMediaId = $('#voiceMediaId').val();
 
     if (!voiceMediaId || voiceMediaId == '0') {
-        // $("#playVoiceMessageButton").parent("div").css("display","none");
-    // } else {
-        $("#voiceMessageButton").attr({'src': '/images/small/voice_btn.png'});
-
+        // parent("div")
+        $("#playVoiceMessageButton").css("display","none"); 
+    } else {
+        $("#voiceMessageButton").attr({'src': '/images/small/rerecord_voice_btn.png'});
         $("#voiceMessageButton").css({
                 width:50,
                 height:50
             });
-
     }
 
     $("#voiceMessageButton").fastClick(function() {
