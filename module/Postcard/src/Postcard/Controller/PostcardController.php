@@ -149,7 +149,7 @@ class PostcardController extends AbstractActionController
         }
 
         if ($order->status == CANCEL) {
-            $view =  new ViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
+            $view =  new ViewModel(array('code' => 2, 'msg' => '订单'.$orderId.'已失效，请重新创建明信片'));
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
