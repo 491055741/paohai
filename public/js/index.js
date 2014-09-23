@@ -345,7 +345,7 @@ function uploadOrder(callback) {
         type: 'POST',
         data:params,
         dataType: 'json',
-        timeout: 1000,
+        timeout: 10000,
         error: function(){
             alert('update order failed!');
         },
