@@ -48,7 +48,7 @@ $wxPayHelper = new WxPayHelper();
 
             <div data-role="page" id="addressPage" data-title="收信人" class="page">
 
-                <img class="page_background blur" src=<?php echo $order->picUrl ?> ></img>
+                <!--<img class="page_background blur" src=<?php echo $order->picUrl ?> ></img>-->
 
                 <div data-role="header">
                     <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
@@ -109,6 +109,24 @@ $wxPayHelper = new WxPayHelper();
                 </div>
             </div>            
 
+            <!--[huangchun 2014-9-22]新添定位锚层-->
+            <div data-role="page" id="position" data-title="YOYO定位" class="page">
+
+                <img class="page_background blur" src=http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg ></img>
+
+                <div data-role="header">
+                    <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
+                </div>
+
+                <div data-role="content" align="left">
+                    <div class="position-hc">
+                        <h1>...YOYO正在定位...<br>将为您贴上本地邮戳!</h1>
+                        <img src="/images/earth.gif" alt="定位"/>
+                        <a href="#" class="hide-hc">隐藏此层</a>
+                    </div>
+                </div>
+            </div>
+            <!--定位锚层end-->
         </div>
     </body>
 </html>

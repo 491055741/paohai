@@ -2,6 +2,7 @@
 body, .ui-content {
     margin:0;
     padding:0;
+    background-color: #D5D5D5;
 }
 
 .blur {

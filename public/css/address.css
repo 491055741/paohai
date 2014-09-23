@@ -1,20 +1,19 @@
 @charset "UTF-8";
 #board {
-    top:    36px;
+    top: 42px;
     left: 50%;
     width:  296px;
     height: 78%;
-    min-height: 350px;
+    min-height: 324px;
     margin-left: -148px;
     position: absolute;
-    background: rgb(163, 161, 161);
+    background: white;
     opacity: 0.5;
     z-index:   0;
-    border-radius :.2em;
 }
 
 #senderboard {/*[huagchun 2014-9-19]*/
-    top:    36px;
+    top:    72px;
     left:   50%;
     width:  296px;
     height: 326px;
@@ -23,11 +22,10 @@
     background: white;
     opacity: 0.5;
     z-index:   0;
-    border-radius :.2em;
 }
 
 #recipientInput {
-    top: 86px;
+    top: 92px;
     left: 50%;
     width: 250px;
     min-height: 36px;
@@ -40,7 +38,7 @@
 }
 
 #addressInput {
-    top: 154px;
+    top: 160px;
     left: 50%;
     width: 250px;
     min-height: 36px;
@@ -53,7 +51,7 @@
 }
 
 #zipcodeInput {
-    top: 218px;
+    top: 224px;
     left: 50%;
     width: 250px;
     min-height: 36px;
@@ -65,32 +63,20 @@
     padding: 5px;
 }
 
-#saveRecipientToAddressBookBtn {
-    top: 282px;
-    left: 10px;
-    width: 148px;
-    min-height: 2em;
-    font-size: 15px;
+#saveRecipientToAddressBookBtn,#selectRecipientFromAddressBookBtn {/*[huangchun 2014-9-23] 合并相同的样式*/
     position: absolute;
-    z-index: 10;
-    border-radius :.2em;
-    padding-bottom: 2px;
-}
-
-#selectRecipientFromAddressBookBtn {
-    top: 282px;
-    left: 148px;
+    top: 288px;
+    left: 50%;
     width: 148px;
-    min-height: 2em;
+    margin-left: -10px;
+    line-height: 30px;
     font-size: 15px;
-    position: absolute;
     z-index: 10;
-    border-radius :.2em;
-    padding-bottom: 2px;
 }
+#saveRecipientToAddressBookBtn {margin-left: -148px;}
 
 #senderNameInput {/*[huagchun 2014-9-19]*/
-    top: 86px;
+    top: 122px;
     left: 50%;
     width: 250px;
     min-height: 36px;
@@ -103,7 +89,7 @@
 }
 
 #senderAddressInput {/*[huagchun 2014-9-19]*/
-    top: 154px;
+    top: 190px;
     left: 50%;
     width: 250px;
     min-height: 36px;
@@ -116,7 +102,7 @@
 }
 
 #saveSenderToAddressBookBtn {/*[huagchun 2014-9-19]*/
-    top: 242px;
+    top: 278px;
     left: 50%;
     width: 148px;
     min-height: 2em;
@@ -129,7 +115,7 @@
 }
 
 #selectSenderFromAddressBookBtn {/*[huagchun 2014-9-19]*/
-    top: 242px;
+    top: 278px;
     left: 50%;
     width: 148px;
     min-height: 2em;
@@ -151,14 +137,15 @@
 }
 
 #submitAddressButton {
-    top: 334px;
-    left: 214px;
+    position: absolute;
+    top: 340px;
+    left: 50%;
     width: 80px;
     height: 35px;
-    position: absolute;
+    margin-left: 40px;
     z-index: 10;
-    padding-bottom: 5px;
     font-weight: bold;
+    color: #ddd;
 }
 
 #previewButton {
@@ -180,74 +167,26 @@
     z-index: 10;
 }
 
-#contactsTable {/*[huangchun 2014-9-19]负边距居中，并将内容居中*/
-    border: 0;
-    top: 57px;
-    left: 50%;
-    width: 296px;
-    height: 384px;
-    margin-left: -148px;
-    position: absolute;
-    text-align: center;
-    border-collapse: collapse;/*去掉单元格间隔*/
-}
 
-#contactsTable tr {/*[huangchun 2014-9-19]*/
-    background: #fff;
-    opacity: 0.5;
-    border: 0;
-    line-height: 50px;
-    border-bottom: 1px solid #eee;
-}
+/*[huangchun 2014-9-23]地址簿样式*/
+#contactsList {position: absolute; width: 100%;top: 50px;bottom: 50px;overflow-y: auto; color: #000;background: rgba(255,255,255,0.5);font-family: "微软雅黑";}
+#list_title_hc {position: fixed;width: 100%;height: 50px;top: 50px;left: 0;margin: 0;line-height: 50px;text-align: center;color: #fff;background: #506790;font-weight: normal;letter-spacing: 5px;}
 
-td {
-    vertical-align: top;
-    height: 50px;
-}
+.list-ul-hc{position: relative;width: 320px;height: 100px;border-bottom: 1px solid #ccc;cursor: pointer;}
+.list-ul-hc ul {list-style: none;padding: 0 40px;margin: 0;}
+.list-ul-hc ul li{line-height: 33px;word-break: break-all;}
+.sel-btn-hc{display:block;position: absolute;right: 20px;top: 40px;width:20px;height:20px;border-radius: 10px;background: purple;}
 
-/*[huangchun 2014-9-19]*/
-@media screen and (min-width: 320px) {
-    #saveRecipientToAddressBookBtn {left: 4%;}
-    #selectRecipientFromAddressBookBtn { left: 47%;}
-}
+.menu-btn-hc {position: fixed;left: 0; bottom: 0;width: 100%;height: 50px;z-index: 1000;background: #fff;}
+.menu-btn-hc a{display:inline-block;line-height:50px;letter-spacing: 5px;text-align:center;text-decoration:none;}
+#close_hc {float:left;width: 50%;border-right: 1px solid #ccc;}
+#sure_hc {width: 49%;}
+a.on {background: #fff;}
+
+/*[huangchun 2014-9-23] 定位锚层样式*/
+.position-hc {position: absolute; top:65px;left: 50%;width: 306px;margin-left: -153px; height: 385px;border-radius: 5px;background: rgba(255,255,255,0.5);text-align: center;overflow: hidden;}
+.hide-hc { display: block; position: absolute;left: 0;bottom: 0; width: 100%;height: 50px;line-height: 50px;text-decoration: none;font-size: 24px;color: #aaa;text-align: center;background: #fff;}
+
 @media screen and (min-width: 360px) {
-    #saveRecipientToAddressBookBtn {left: 10%;}
-    #submitAddressButton {left:60%;}
-}
-@media screen and (min-width: 400px) {
-    #saveRecipientToAddressBookBtn {left: 12%;}
-}
-@media screen and (min-width: 480px) {
-    #saveRecipientToAddressBookBtn {left: 18%;}
-    #submitAddressButton {left:60%;color:#ccc;}
-}
-@media screen and (min-width: 540px) {
-    #saveRecipientToAddressBookBtn {left: 22%;}
-}
-@media screen and (min-width: 720px) {
-    #saveRecipientToAddressBookBtn {left: 29%;}
-    #submitAddressButton {left:55%;}
-}
-@media screen and (min-width: 960px) {
-    #saveRecipientToAddressBookBtn {left: 35%;}
-    #selectRecipientFromAddressBookBtn {left: 48%;}
-    #submitAddressButton {left:55%; color:#fff;}
-}
-@media screen and (min-width: 1024px) {
-    #submitAddressButton {color:#fff;}
-}
-@media screen and (min-width: 1280px) {
-    #saveRecipientToAddressBookBtn {left: 38%;}
-    #submitAddressButton {left:53%;}
-}
-@media screen and (min-width: 1440px) {
-    #saveRecipientToAddressBookBtn { left: 39.5%;}
-}
-@media screen and (min-width: 1920px) {
-    #saveRecipientToAddressBookBtn {left: 42%;}
-    #selectRecipientFromAddressBookBtn {left: 49%;}
-}
-@media screen and (min-width: 2500px) {
-    #saveRecipientToAddressBookBtn {left: 44%;}
-    #submitAddressButton {left:52%;}
+    .list-ul-hc{width: 100%;}
 }

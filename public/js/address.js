@@ -145,7 +145,7 @@ function uploadOrder(callback) {
         zipcode: zipcode,
         // mobile: mobile,
         senderName: senderName,
-        senderAddress: senderAddress,
+        senderAddress: senderAddress
     };
     output('url: ' + url);
 
@@ -181,7 +181,7 @@ function addContact(contactName, contactAddress, zipCode, callback) {
         userName: userName,
         contactName: contactName,
         address: contactAddress,
-        zipCode: zipCode,
+        zipCode: zipCode
     };
     output('url: ' + url);
 
@@ -214,42 +214,59 @@ function getContacts(callback, type) {
         data: '',
         dataType: 'json',
         timeout: 1000,
-        error: function(){
+        error: function () {
             alert('get contacts failed!');
         },
-        success: function(data) {
-
-            // $.each(data, function(index, obj) {
-                
-            // });
-            var json = data;
+        success: function (data) {
+            var arr = data;
             $("#contactsList").empty();
-            $("<table id='contactsTable' ></table>").appendTo("#contactsList");
-            for (var i = 0; i < json.length; i++) {
-                var contactsItem = [
-                    "<tr class='contactsItem'>",
-                        "<td class='contactItemName'>" + json[i].contactName + "</td>",
-                        "<td class='contactItemAddress'>" + json[i].address + "</td>",
-                        "<td class='contactItemZipcode'>" + json[i].zipCode + "</td>",
-                    "</tr>",
+
+            /*[huangchun 2014-9-22]*/
+            var list_dom = "";
+                //声明用于包裹列表的容器list_wrap
+            var list_title = $("<h2 id='list_title_hc'>地址簿</h2>");
+            var list_wrap = $("<div class='list-wrap-hc' id='list'></div>");
+                //循环输出联系方式list，并追加到列表包裹容器中
+            for (var i = 0,len = arr.length; i < len ; i++) {
+                var list_str = [ "<div class='list-ul-hc'><ul>" ,
+                    "<li>姓名：" + "<span class='name-hc'>" + arr[i].contactName +"</span>"+"</li>"+
+                    "<li>地址：" + "<span class='addr-hc'>" + arr[i].address +"</span>"+"</li>"+
+                    "<li>邮编：" + "<span class='post-hc'>" + arr[i].zipCode +"</span>"+"</li>",
+                    "</ul><a href='#' class='sel-btn-hc'></a></div>"
                 ];
-                var contactsItemStr = contactsItem.join("");
-                $(contactsItemStr).appendTo("#contactsTable");
+                list_dom = list_str.join("");
+                list_wrap.append(list_dom);
             }
-            $("#contactsTable").find(".contactsItem").click(function() {
-                var name = $(this).find(".contactItemName").text();
-                var address = $(this).find(".contactItemAddress").text();
-                var zipcode = $(this).find(".contactItemZipcode").text();
+                //声明电话簿底部菜单
+            var menu_btn ="<div class='menu-btn-hc' id='m_btn'>" + "<a href='#' id='close_hc'>关闭</a><a href='#' id='sure_hc'>确定</a>" + "</div>";
+                //将列表和底部菜单追加到页面
+            $("#contactsList").append(list_title);
+            $("#contactsList").append(list_wrap);
+            $("#contactsList").append(menu_btn);
+                //当用户选中某个联系人时，获取相应的数据
+            var a = $("#list a");
+            $(".list-ul-hc").on("click", function () {
+                a.each(function () {
+                    $(this).removeClass("on");
+                });
+                $(this).children("a").addClass("on");
+
+                var name = $(this).find(".name-hc").text();
+                var address = $(this).find(".addr-hc").text();
+                var post = $(this).find(".post-hc").text();
+
                 if (type == 'recipient') {
                     $("#recipientInput").val(name);
                     $("#addressInput").val(address);
-                    $("#zipcodeInput").val(zipcode);
+                    $("#zipcodeInput").val(post);
                 } else if (type == 'sender') {
                     $("#senderNameInput").val(name);
                     $("#senderAddressInput").val(address);
                 }
             });
+            /*end*/
             callback();
         }
     });
 }
+

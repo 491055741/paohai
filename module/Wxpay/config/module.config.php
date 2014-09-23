@@ -3,6 +3,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Wxpay\Controller\Wxpay' => 'Wxpay\Controller\WxpayController',
+            'Wxpay\Controller\Console' => 'Wxpay\Controller\ConsoleController',
         ),
     ),
 
@@ -19,6 +20,32 @@ return array(
                     'defaults' => array(
                         'controller' => 'Wxpay\Controller\Wxpay',
                         'action'     => 'pay',
+                    ),
+                ),
+            ),
+        ),
+    ),
+
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                // Console routes go here
+                'filter-sales-order' => array(
+                    'options' => array(
+                        'route' => 'order filter-for-sale <beginDate> <endDate>',
+                        'defaults' => array(
+                            'controller' => 'Wxpay\Controller\Console',
+                            'action' => 'filterForSale',
+                        ),
+                    ),
+                ),
+                'refund_to_user' => array(
+                    'options' => array(
+                        'route' => 'refund',
+                        'defaults' => array(
+                            'controller' => 'Wxpay\Controller\Console',
+                            'action' => 'refundToUser',
+                        ),
                     ),
                 ),
             ),
