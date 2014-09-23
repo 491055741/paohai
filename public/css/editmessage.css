@@ -100,7 +100,7 @@
 }
 /*[huangchun 2014-9-19] 由于流体布局在平板上无法正确的显示，因此新增了媒体查询。*/
 @media screen and (min-width: 320px){
-    #voiceMessageButton {left:6%;}
+    #voiceMessageButton {left:10%;}
 }
 @media screen and (min-width: 380px){
     #voiceMessageButton {left:13%;}
