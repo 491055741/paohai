@@ -52,6 +52,7 @@ body, .ui-content {
     text-shadow:none;
     text-decoration:none;
     color:white;
+    margin-top: 5px;
 }
 
 .ui-header img {
@@ -99,4 +100,11 @@ a.bbtn:link, a.abtn:visited {
     z-index: 10000;
     width: 100%;
     bottom: 0;
+}
+/*[huangchun 2014-9-24]*/
+@media (max-width: 320px){
+    .postcard {
+        width: 242px;
+        margin-left: -121px;
+    }
 }
