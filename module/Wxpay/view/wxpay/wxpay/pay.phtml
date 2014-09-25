@@ -3,27 +3,17 @@ ini_set("display_errors", true);
 
 include_once("WxPayHelper.php");
 
-$wxPayHelper1 = new WxPayHelper();
-$wxPayHelper1->setParameter("bank_type", "WX");
-$wxPayHelper1->setParameter("body", "趣邮明信片");
-$wxPayHelper1->setParameter("partner", PARTNERID);
-$wxPayHelper1->setParameter("out_trade_no", ''.$order->id);
-$wxPayHelper1->setParameter("total_fee", "5"); //  ¥0.05
-$wxPayHelper1->setParameter("fee_type", "1");
-$wxPayHelper1->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
-$wxPayHelper1->setParameter("spbill_create_ip", "127.0.0.1");
-$wxPayHelper1->setParameter("input_charset", "UTF-8");
+$wxPayHelper = new WxPayHelper();
+$wxPayHelper->setParameter("bank_type", "WX");
+$wxPayHelper->setParameter("body", "趣邮明信片");
+$wxPayHelper->setParameter("partner", PARTNERID);
+$wxPayHelper->setParameter("out_trade_no", ''.$order->id);
+$wxPayHelper->setParameter("total_fee", "5"); //  ¥0.05
+$wxPayHelper->setParameter("fee_type", "1");
+$wxPayHelper->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
+$wxPayHelper->setParameter("spbill_create_ip", "127.0.0.1");
+$wxPayHelper->setParameter("input_charset", "UTF-8");
 
-$wxPayHelper2 = new WxPayHelper();
-$wxPayHelper2->setParameter("bank_type", "WX");
-$wxPayHelper2->setParameter("body", "趣邮明信片");
-$wxPayHelper2->setParameter("partner", PARTNERID);
-$wxPayHelper2->setParameter("out_trade_no", ''.$order->id);
-$wxPayHelper2->setParameter("total_fee", "1"); //  ¥0.01
-$wxPayHelper2->setParameter("fee_type", "1");
-$wxPayHelper2->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
-$wxPayHelper2->setParameter("spbill_create_ip", "127.0.0.1");
-$wxPayHelper2->setParameter("input_charset", "UTF-8");
 
 ?>
 
@@ -44,12 +34,7 @@ $wxPayHelper2->setParameter("input_charset", "UTF-8");
 
         <script language="javascript">
 
-            function callPay(paymentWay) {
-                if (paymentWay == 1) {
-                    <?php $wxPayHelper = $wxPayHelper1; ?>
-                } else {
-                    <?php $wxPayHelper = $wxPayHelper2; ?>
-                }
+            function callPay() {
                 WeixinJSBridge.invoke('getBrandWCPayRequest', <?php echo $wxPayHelper->create_biz_package(); ?>, payCallback);
             }
 
@@ -77,12 +62,8 @@ $wxPayHelper2->setParameter("input_charset", "UTF-8");
 
                 <div data-role="content" align="center">
                     <p style="text-shadow:none; ">订单号：<?php echo $order->id; ?></p>
-<!--                     <input id="submitPaymentButton1" data-theme="e" value="立即付款 5 元" onclick="callPay(1)" type="button" width="320"></input>
-                    <input id="submitPaymentButton2" data-theme="e" value="兴业银行卡支付 1 元" onclick="callPay(2)" type="button" width="320"></input>
- -->
-                    <input id="submitPaymentButton1" value="立即付款 5 元" type="image" src="/images/small/pay_btn.png" onclick="callPay(1)"></input>
-                    <input id="submitPaymentButton2" value="兴业银行卡支付 1 元" type="image" src="/images/small/pay_btn.png" onclick="callPay(2)"></input>
-
+                    <p>通过兴业银行支付可获得4元返现（直接退款）</p>
+                    <input id="submitPaymentButton1" value="立即付款 5 元" type="image" src="/images/small/pay_btn.png" onclick="callPay()"></input>
                 </div>
             </div>
 

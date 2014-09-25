@@ -61,7 +61,7 @@ class WxpayController extends AbstractActionController
         $getStr = $_SERVER['QUERY_STRING'];
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
 
-        $this->logger('GET:'.$getStr.'  POST:'.$postStr);
+        $this->payLogger('GET:'.$getStr.'  POST:'.$postStr);
 
         $trade_state = $this->getRequest()->getQuery('trade_state', 1);
         if ($trade_state == 0 && $postStr != null) {    // pay success
@@ -78,6 +78,51 @@ class WxpayController extends AbstractActionController
             // copy postcard pictures to 'payed' folder
             $this->copyPicture($out_trade_no);
         }
+
+        echo 'success'; // must respond 'success' to wxpay server
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    public function refundAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $wxPayHelper = new WxPayHelper();
+        $wxPayHelper->setParameter("partner", PARTNERID);
+        // $wxPayHelper->setParameter("out_trade_no", $orderId);
+        $wxPayHelper->setParameter("transaction_id", $orderId); // todo: temp for test
+        $wxPayHelper->setParameter("out_refund_no", $orderId.'A'); // 'A' 代表兴业银行支付返现退款
+        $wxPayHelper->setParameter("total_fee", "1"); //  ¥0.05
+        $wxPayHelper->setParameter("refund_fee", "1"); // ¥0.04
+        $wxPayHelper->setParameter("op_user_id", PARTNERID);
+        $wxPayHelper->setParameter("op_user_passwd", md5("111111"));
+        $wxPayHelper->setParameter("input_charset", "UTF-8");
+        $wxPayHelper->setParameter("service_version", "1.1");
+
+        $postData = $wxPayHelper->create_refund_package();
+        // echo $postData;
+
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        $util->setCertInfo(dirname(__FILE__)."/1219350001_20140605115805.pem", "1219350001");// cert file and cert password
+        $util->setCaInfo(dirname(__FILE__)."/cacert.pem");
+
+        $url = "https://mch.tenpay.com/refundapi/gateway/refund.xml";
+
+        $retStr = $util->httpPost($url, $postData);
+        $retObj = @simplexml_load_string($retStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+        // var_dump($retObj);
+        $this->refundLogger('Refund: transaction_id:'.$retObj->transaction_id
+                            .' out_trade_no:'.$retObj->out_trade_no
+                            .' out_refund_no'.$retObj->out_refund_no
+                            .' retcode:'.$retObj->retcode
+                            .' retmsg:'.$retObj->retmsg
+                            .' refund_status:'.$retObj->refund_status
+                            .' refund_id:'.$retObj->refund_id
+                            .' refund_fee:'.$retObj->refund_fee
+                            .' refund_channel:'.$retObj->refund_channel
+                            );
 
         echo 'success'; // must respond 'success' to wxpay server
         $viewModel = new ViewModel();
@@ -138,9 +183,14 @@ class WxpayController extends AbstractActionController
         return $viewModel;
     }
 
-    private function logger($content)
+    private function payLogger($content)
     {
-        file_put_contents($this->logFileName(), date('m/d H:i:s').' '.$content."\n", FILE_APPEND);
+        file_put_contents(dirname(__FILE__).'/../../../../../userdata/paying.log', date('m/d H:i:s').' '.$content."\n", FILE_APPEND);
+    }
+
+    private function refundLogger($content)
+    {
+        file_put_contents(dirname(__FILE__).'/../../../../../userdata/refund.log', date('m/d H:i:s').' '.$content."\n", FILE_APPEND);
     }
 
     private function copyPicture($orderId)
@@ -148,26 +198,21 @@ class WxpayController extends AbstractActionController
         $dstpath = $this->payedPicPath();
         if (!is_dir($dstpath)) {
             if (!@mkdir($dstpath)) {
-                $this->logger('Create folder '.$dstpath.' failed!');
+                $this->payLogger('Create folder '.$dstpath.' failed!');
                 return false;
             }
         }
 
         if (!@copy($this->postcardsPath($orderId).$orderId.'_front.png', $this->payedPicPath().$orderId.'_front.png')) {
-            $this->logger('copy '.$this->postcardsPath($orderId).$orderId.'_front.png failed!');
+            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_front.png failed!');
             return false;
         }
 
         if (!@copy($this->postcardsPath($orderId).$orderId.'_backface.png', $this->payedPicPath().$orderId.'_backface.png')) {
-            $this->logger('copy '.$this->postcardsPath($orderId).$orderId.'_backface.png failed!');
+            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_backface.png failed!');
             return false;
         }
         return true;
-    }
-
-    private function logFileName()
-    {
-        return dirname(__FILE__).'/../../../../../userdata/paohai_paying.log';
     }
 
     private function postcardsPath($orderId)

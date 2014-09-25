@@ -60,7 +60,7 @@ class WxPayHelper
         try {
 
             if (null == PARTNERKEY || "" == PARTNERKEY ) {
-                throw new SDKRuntimeException("密钥不能为空！" . "<br>");
+                throw new SDKRuntimeException("密钥不能为空！<br>");
             }
 
             ksort($this->parameters);
@@ -109,7 +109,7 @@ class WxPayHelper
         try {
            //var_dump($this->parameters);
            if($this->check_cft_parameters() == false) {
-               throw new SDKRuntimeException("生成package参数缺失！" . "<br>");
+               throw new SDKRuntimeException("生成package参数缺失！<br>");
             }
             $nativeObj["appkey"] = APPKEY;
             $nativeObj["appid"] = APPID;
@@ -134,7 +134,8 @@ class WxPayHelper
     "timeStamp" : "12345",
     "nonceStr" : "10000",
     */
-    function create_addr_package($token, $url) {
+    function create_addr_package($token, $url)
+    {
         try {
             $tmpObj["appid"] = APPID;
             $tmpObj["url"] = $url;//;'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -187,7 +188,8 @@ class WxPayHelper
         }          
     }
 
-    function create_order_query_package() {
+    function create_order_query_package()
+    {
         try {
 
             if ($this->check_order_query_parameters() == false) {
@@ -205,12 +207,33 @@ class WxPayHelper
             die($e->errorMessage());
         }          
     }
+
+    function create_refund_package()
+    {
+        try {
+
+            // if ($this->check_order_query_parameters() == false) {
+            //    throw new SDKRuntimeException("生成package参数缺失！" . "<br>");
+            // }
+            // $nativeObj["appkey"] = APPKEY;
+            // $nativeObj["appid"] = APPID;
+            return $this->get_cft_package();
+            // $nativeObj["timestamp"] = $this->create_timestamp();
+            // $nativeObj["app_signature"] = $this->get_biz_sign($nativeObj);
+            // $nativeObj["sign_method"] = SIGNTYPE;
+            // return json_encode($nativeObj);
+
+        } catch (SDKRuntimeException $e) {
+            die($e->errorMessage());
+        }          
+    }
+
     //生成原生支付url
     /*
     weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXXX&productid=XXXXXX&timestamp=XXXXXX&noncestr=XXXXXX
     */
-    function create_native_url($productid) {
-
+    function create_native_url($productid)
+    {
         $nativeObj["appkey"] = APPKEY;
         $nativeObj["appid"] = APPID;
         $nativeObj["productid"] = urlencode($productid);
@@ -234,9 +257,10 @@ class WxPayHelper
     <SignMethod><![CDATA[sha1]]></ SignMethod >
     </xml>
     */
-    function create_native_package($retcode = 0, $reterrmsg = "ok"){
-         try {
-           if($this->check_cft_parameters() == false && $retcode == 0) {   //如果是正常的返回， 检查财付通的参数
+    function create_native_package($retcode = 0, $reterrmsg = "ok")
+    {
+        try {
+            if ($this->check_cft_parameters() == false && $retcode == 0) {   //如果是正常的返回， 检查财付通的参数
                throw new SDKRuntimeException("生成package参数缺失！" . "<br>");
             }
             $nativeObj["appkey"] = APPKEY;
@@ -250,11 +274,9 @@ class WxPayHelper
             $nativeObj["SignMethod"] = SIGNTYPE;
 
             return  $this->commonUtil->arrayToXml($nativeObj);
-           
-        }catch (SDKRuntimeException $e)
-        {
+        } catch (SDKRuntimeException $e) {
             die($e->errorMessage());
-        }       
+        }
     }
 }
 

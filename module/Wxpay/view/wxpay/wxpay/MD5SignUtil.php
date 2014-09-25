@@ -5,7 +5,8 @@
 
 class MD5SignUtil {
 	
-	function sign($content, $key) {
+	function sign($content, $key)
+	{
 	    try {
 		    if (null == $key) {
 			   throw new SDKRuntimeException("财付通签名key不能为空！" . "<br>");
@@ -16,13 +17,13 @@ class MD5SignUtil {
 		    $signStr = $content . "&key=" . $key;
 		
 		    return strtoupper(md5($signStr));
-		}catch (SDKRuntimeException $e)
-		{
+		} catch (SDKRuntimeException $e) {
 			die($e->errorMessage());
 		}
 	}
 	
-	function verifySignature($content, $sign, $md5Key) {
+	function verifySignature($content, $sign, $md5Key)
+	{
 		$signStr = $content . "&key=" . $md5Key;
 		$calculateSign = strtolower(md5($signStr));
 		$tenpaySign = strtolower($sign);

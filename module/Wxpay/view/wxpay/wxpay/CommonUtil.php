@@ -19,6 +19,14 @@ class CommonUtil
      */
     protected $wxParaTable;
     protected $serviceLocator;
+    //证书文件
+    var $certFile;
+    //证书密码
+    var $certPasswd;
+    //证书类型PEM
+    var $certType;
+    //CA文件
+    var $caFile;
 
     public function qrcode($str, $filename = false)
     {
@@ -69,6 +77,16 @@ class CommonUtil
         $access_token = $obj->access_token; // another para is "expires_in"
         $this->saveAccessToken($access_token);
         return $access_token;
+    }
+
+    function setCertInfo($certFile, $certPasswd, $certType="PEM") {
+        $this->certFile = $certFile;
+        $this->certPasswd = $certPasswd;
+        $this->certType = $certType;
+    }
+
+    function setCaInfo($caFile) {
+        $this->caFile = $caFile;
     }
 
     function genAllUrl($toURL, $paras)
@@ -140,7 +158,7 @@ class CommonUtil
         ksort($paraMap);
         foreach ($paraMap as $k => $v){
             if (null != $v && "null" != $v && "sign" != $k) {
-                if($urlencode){
+                if ($urlencode) {
                    $v = urlencode($v);
                 }
                 $buff .= $k . "=" . $v . "&";
@@ -198,6 +216,24 @@ class CommonUtil
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        //设置证书信息
+        if($this->certFile != "") {
+            curl_setopt($ch, CURLOPT_SSLCERT, $this->certFile);
+            curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->certPasswd);
+            curl_setopt($ch, CURLOPT_SSLCERTTYPE, $this->certType);
+        }
+
+        //设置CA
+        if($this->caFile != "") {
+            // 对认证证书来源的检查，0表示阻止对证书的合法性的检查。1需要设置CURLOPT_CAINFO
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+            curl_setopt($ch, CURLOPT_CAINFO, $this->caFile);
+        } else {
+            // 对认证证书来源的检查，0表示阻止对证书的合法性的检查。1需要设置CURLOPT_CAINFO
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        }
+
         $res = curl_exec($ch);
         curl_close($ch);
         if ($res)
