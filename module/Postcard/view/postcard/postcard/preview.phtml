@@ -6,18 +6,12 @@
         <link rel="stylesheet" href="/css/paohai.css" />
         <link rel="stylesheet" href="/css/preview.css" />
         <link rel="stylesheet" href="/css/jquery.shadow.css" />
-        <script src="/js/jquery-1.9.0.min.js"></script>
-        <script src="/js/artDialog.js"></script>
-        <script src="/js/jquery.mobile-1.3.1.min.js"></script>
-        <script src="/js/google.fastbutton.js"></script>
-        <script src="/js/jquery.google.fastbutton.js"></script>
-        <!--  <script src="/js/jquery.shadow.js"></script>  -->
-        <script src=<?php echo "/js/util.js?$tag" ?> ></script>
-        <script src=<?php echo "/js/preview.js?$tag" ?> ></script>
+
     </head>
 
     <body>
-        <div id="content" data-role="content">
+        <div id="postcard-loader" data-role="content" align="center"><img src="/css/images/ajax-loader.gif" /></div>
+        <div id="content" data-role="content" style="display:none">
             <input id="orderId" type="hidden" value=<?php echo $order->id ?> ></input>
 
             <input id="picUrl" type="hidden" value=<?php echo $order->picUrl ?> ></input>
@@ -66,5 +60,20 @@
             </div>
         
         </div>
+
+        <script src="/js/jquery-1.9.0.min.js"></script>
+        <script src="/js/artDialog.js"></script>
+        <script src="/js/jquery.mobile-1.3.1.min.js"></script>
+        <script src="/js/google.fastbutton.js"></script>
+        <script src="/js/jquery.google.fastbutton.js"></script>
+        <!--  <script src="/js/jquery.shadow.js"></script>  -->
+        <script src=<?php echo "/js/util.js?$tag" ?> ></script>
+        <script src=<?php echo "/js/preview.js?$tag" ?> ></script>
+        <script type="text/javascript">
+            $(function($) {
+                $("#postcard-loader").hide();
+                $("#content").show();
+            });
+        </script>
     </body>
 </html>
