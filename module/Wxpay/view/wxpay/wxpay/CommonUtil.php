@@ -229,6 +229,7 @@ class CommonUtil
             // 对认证证书来源的检查，0表示阻止对证书的合法性的检查。1需要设置CURLOPT_CAINFO
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
             curl_setopt($ch, CURLOPT_CAINFO, $this->caFile);
+            // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
         } else {
             // 对认证证书来源的检查，0表示阻止对证书的合法性的检查。1需要设置CURLOPT_CAINFO
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
