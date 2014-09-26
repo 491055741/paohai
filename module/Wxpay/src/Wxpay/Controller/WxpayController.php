@@ -261,8 +261,6 @@ respend:
         if ($postResult->errcode == 0) {
             echo '<br>orderinfo:';
             var_dump($postResult->order_info);
-            $order->bank = $postResult->order_info->bank_type;
-            $this->getOrderTable()->saveOrder($order);
         }
 
         return $this->viewModel();
