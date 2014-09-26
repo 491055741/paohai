@@ -1,7 +1,8 @@
 
 #submitPaymentButton1 {
     top: 200px;
-    left: 12px;
+    left: 50%;
+    margin-left: -74px;
     width: 148px;
     height: 40px;
     position: absolute;
