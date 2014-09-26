@@ -26,6 +26,8 @@ $this->headTitle($title);
         <th>picUrl</th>
         <th>voiceMediaId</th>
         <th>message</th>
+        <th>bank</th>
+        <th>refundFee</th>
         <th>status</th>
         <th>action</th>
         <!-- <th>&nbsp;</th> -->
@@ -41,6 +43,8 @@ $this->headTitle($title);
         <td><?php echo $this->escapeHtml($order->picUrl);?></td>
         <td><?php echo $this->escapeHtml($order->voiceMediaId);?></td>
         <td><?php echo $this->escapeHtml($order->message);?></td>
+        <td><?php echo $this->escapeHtml($order->bank);?></td>
+        <td><?php echo $this->escapeHtml($order->refundFee);?></td>
         <td>
             <?php 
             switch ($order->status) {

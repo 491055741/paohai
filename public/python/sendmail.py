@@ -4,7 +4,7 @@
 import smtplib, sys
 from email.mime.text import MIMEText
 
-mailto_list = ["lipeng@ikamobile.com"]
+mailto_list = ["lipeng@ikamobile.com", "koulei@ikamobile.com"]
 mail_host   = "smtp.163.com"
 mail_user   = "paohaipostcard"
 mail_pass   = "paohai"

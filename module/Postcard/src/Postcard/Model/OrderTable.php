@@ -21,7 +21,7 @@ class OrderTable
     public function getOrdersToRefund()
     {
         $select = $this->tableGateway->getSql()->select();
-        $select->where('bank = "XINGYE"')->where('refundFee IS NULL');
+        $select->where('bank = "CMB_CREDIT"')->where('refundFee IS NULL'); // todo: CMB_CREDIT => 兴业银行代码
         $resultSet = $this->tableGateway->selectWith($select);
         return $resultSet;
     }

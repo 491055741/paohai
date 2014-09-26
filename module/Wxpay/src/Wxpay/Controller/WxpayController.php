@@ -75,16 +75,15 @@ class WxpayController extends AbstractActionController
         return $this->viewModel();
     }
 
-    public function refundAction()
+    private function refund($orderId)
     {
-        $orderId = $this->params()->fromRoute('id', '0');
         $wxPayHelper = new WxPayHelper();
         $wxPayHelper->setParameter("partner", PARTNERID);
-        // $wxPayHelper->setParameter("out_trade_no", $orderId);
-        $wxPayHelper->setParameter("transaction_id", $orderId); // todo: temp for test
+        $wxPayHelper->setParameter("out_trade_no", $orderId);
+        // $wxPayHelper->setParameter("transaction_id", $orderId); // todo: temp for test
         $wxPayHelper->setParameter("out_refund_no", $orderId.'A'); // 'A' 代表兴业银行支付返现退款
-        $wxPayHelper->setParameter("total_fee", "1"); //  ¥0.05   // todo : use real fee
-        $wxPayHelper->setParameter("refund_fee", "1"); // ¥0.04
+        $wxPayHelper->setParameter("total_fee", "5"); //  ¥0.05   // todo : use real fee
+        $wxPayHelper->setParameter("refund_fee", "4"); // ¥0.04
         $wxPayHelper->setParameter("op_user_id", PARTNERID);
         $wxPayHelper->setParameter("op_user_passwd", md5("111111"));
         $wxPayHelper->setParameter("input_charset", "UTF-8");
@@ -106,8 +105,9 @@ class WxpayController extends AbstractActionController
 
         $retObj = @simplexml_load_string($retStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-        $this->refundLogger('Refund: transaction_id:'.$retObj->transaction_id
-                            .' out_trade_no:'.$retObj->out_trade_no
+        $this->refundLogger('Refund:'
+                            .' orderId:'.$orderId
+                            .' transaction_id:'.$retObj->transaction_id
                             .' out_refund_no:'.$retObj->out_refund_no
                             .' retcode:'.$retObj->retcode
                             .' retmsg:'.$retObj->retmsg
@@ -116,7 +116,18 @@ class WxpayController extends AbstractActionController
                             .' refund_fee:'.$retObj->refund_fee
                             .' refund_channel:'.$retObj->refund_channel
                             );
+        return $retObj;
+    }
 
+    public function refundAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'order '.$orderId.' not exist.'));
+        }
+
+        $this->refund($orderId);
         echo 'success'; // must respond 'success' to wxpay server
         return $this->viewModel();
     }
@@ -281,13 +292,33 @@ respend:
                 // echo '<br>orderinfo:';
                 // var_dump($postResult->order_info);
                 $order->bank = $postResult->order_info->bank_type;
+                echo '<br>';
+                echo 'order id:'.$order->id.' bank:'.$order->bank;
                 $this->getOrderTable()->saveOrder($order);
             }
         }
 
-        $viewModel = new ViewModel(array('orders' => $orders));
-        $viewModel->setTemplate('postcard/postcard/orders');
-        return $viewModel;
+        return $this->errorViewModel(array('code' => 0, 'msg' => 'update bank success.'));
+    }
+
+    public function refundAllAction()
+    {
+        $orders = $this->getOrderTable()->getOrdersToRefund();
+        foreach ($orders as $order) {
+        //     var_dump($order);
+        //     echo "<br>";
+            $retObj = $this->refund($order->id);
+            // var_dump($retObj);
+            if ($retObj->retcode == 0) {
+                // echo '<br>orderinfo:';
+                $order->refundFee = $retObj->refund_fee;
+                echo '<br>';
+                echo 'order id:'.$order->id.' refund_fee:'.$retObj->refund_fee;
+                $this->getOrderTable()->saveOrder($order);
+            }
+        }
+
+        return $this->errorViewModel(array('code' => 0, 'msg' => 'update success.'));
     }
 
     public function feedbackAction()
