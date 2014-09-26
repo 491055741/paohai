@@ -150,6 +150,8 @@ function toggleTemplateList() {
 
         /*[huangchun 2014-9-17] 动态设置$(".ui-content>div")的高*/
         $(".ui-content>div").css("height","80%");
+        /*huangchun 2014-9-26 给定宽高比，动态设置高度*/
+        $(".postcard_small").height($(".postcard_small").width/(460/680));
     }
     isTemplateOpen = !isTemplateOpen;
 }
