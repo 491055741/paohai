@@ -106,7 +106,7 @@ $(document).on("pageinit", "#senderPage", function() {
 
     $("#previewButton").fastClick(function() {
         uploadOrder(function() {
-            var url = "http://" + window.location.host + "/postcard/preview/" + orderId + "?nonce=" + getNonceStr();
+            var url = "http://" + window.location.host + "/wxpay/preview?orderId=" + orderId + "&nonce=" + getNonceStr();
             self.location = url;
         });
     });

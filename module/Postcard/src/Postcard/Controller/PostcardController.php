@@ -175,31 +175,6 @@ class PostcardController extends AbstractActionController
         return $viewModel;
     }
 
-    public function previewAction()
-    {
-        $orderId = $this->params()->fromRoute('id', '0');
-        $order = $this->getOrderTable()->getOrder($orderId);
-
-        if ($orderId == '0' || !$order) {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
-        }
-
-        if ($order->status == CANCEL) {
-            $view =  new ViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
-        }
-
-        $viewModel =  new ViewModel(array(
-            'order' => $order,
-            'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
-        ));
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
-    }
-
     public function shareImageAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
