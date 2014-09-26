@@ -26,6 +26,14 @@ class OrderTable
         return $resultSet;
     }
 
+    public function getOrdersToQueryBank()
+    {
+        $select = $this->tableGateway->getSql()->select();
+        $select->where('status = "101"')->where('bank = NULL');
+        $resultSet = $this->tableGateway->selectWith($select);
+        return $resultSet;
+    }
+
     public function getOrderByUserName($name)
     {
         $rowset = $this->tableGateway->select(array('userName' => $name, 'status' => '100')); // '100':UNPAY

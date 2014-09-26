@@ -34,12 +34,10 @@ class WxpayController extends AbstractActionController
         $util = new CommonUtil();
         $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$orderId);
 
-        $para = array(
+        return $this->viewModel(array(
             'order'    => $order,
-            'tag'         => JS_TAG,
-        );
-
-        return $this->viewModel();
+            'tag'      => JS_TAG,
+        ));
     }
 
     public function payTestAction()
@@ -85,7 +83,7 @@ class WxpayController extends AbstractActionController
         // $wxPayHelper->setParameter("out_trade_no", $orderId);
         $wxPayHelper->setParameter("transaction_id", $orderId); // todo: temp for test
         $wxPayHelper->setParameter("out_refund_no", $orderId.'A'); // 'A' 代表兴业银行支付返现退款
-        $wxPayHelper->setParameter("total_fee", "1"); //  ¥0.05
+        $wxPayHelper->setParameter("total_fee", "1"); //  ¥0.05   // todo : use real fee
         $wxPayHelper->setParameter("refund_fee", "1"); // ¥0.04
         $wxPayHelper->setParameter("op_user_id", PARTNERID);
         $wxPayHelper->setParameter("op_user_passwd", md5("111111"));
@@ -110,7 +108,7 @@ class WxpayController extends AbstractActionController
 
         $this->refundLogger('Refund: transaction_id:'.$retObj->transaction_id
                             .' out_trade_no:'.$retObj->out_trade_no
-                            .' out_refund_no'.$retObj->out_refund_no
+                            .' out_refund_no:'.$retObj->out_refund_no
                             .' retcode:'.$retObj->retcode
                             .' retmsg:'.$retObj->retmsg
                             .' refund_status:'.$retObj->refund_status
@@ -212,19 +210,6 @@ class WxpayController extends AbstractActionController
         return dirname(__FILE__).'/../../../../../userdata/payed/' . date('Ymd', time()) . '/';
     }
 
-    private function viewModel($para = null)
-    {
-        $viewModel = new ViewModel($para);
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
-    }
-
-    private function errorViewModel($para = null)
-    {
-        $viewModel = new ViewModel($para);
-        $viewModel->setTemplate('postcard/postcard/error');
-        return $viewModel;
-    }
 
 /*
 post:
@@ -240,17 +225,8 @@ respend:
             }
 }
   */
-    // query order pay info from tencent server
-    public function orderQueryAction()
+    private function orderQuery($orderId)
     {
-        // https://api.weixin.qq.com/pay/orderquery?access_token=xxxxxx
-        $orderId = $this->params()->fromRoute('id', '0');
-
-        $order = $this->getOrderTable()->getOrder($orderId);
-        if ($orderId == '0' || !$order) {
-            return $this->errorViewModel(array('code' => 1, 'msg' => 'order '.$orderId.' not exist.'));
-        }
-
         $wxPayHelper = new WxPayHelper();
         $wxPayHelper->setParameter("partner", PARTNERID);
         $wxPayHelper->setParameter("out_trade_no", $orderId);
@@ -262,6 +238,21 @@ respend:
         $access_token = $util->getAccessToken();
         $url = "https://api.weixin.qq.com/pay/orderquery?access_token=".$access_token;
         $postResult = json_decode($util->httpPost($url, $postData));
+        return $postResult;
+    }
+
+    // query order pay info from tencent server
+    public function orderQueryAction()
+    {
+        // https://api.weixin.qq.com/pay/orderquery?access_token=xxxxxx
+        $orderId = $this->params()->fromRoute('id', '0');
+
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'order '.$orderId.' not exist.'));
+        }
+
+        $postResult = $this->orderQuery($orderId);
         // echo $postResult;
         echo '<br>errcode:';
         echo $postResult->errcode;
@@ -272,6 +263,28 @@ respend:
             var_dump($postResult->order_info);
             $order->bank = $postResult->order_info->bank_type;
             $this->getOrderTable()->saveOrder($order);
+        }
+
+        return $this->viewModel();
+    }
+
+    public function updateBankAction()
+    {
+        // https://api.weixin.qq.com/pay/orderquery?access_token=xxxxxx
+        // $orderId = $this->params()->fromRoute('id', '0');
+    
+        $resultSet = $this->getOrderTable()->getOrdersToQueryBank();
+        foreach ($resultSet as $row) {
+            var_dump($row);
+
+            $postResult = $this->orderQuery($orderId);
+            // var_dump($postResult);
+            if ($postResult->errcode == 0 && $postResult->order_info) {
+                // echo '<br>orderinfo:';
+                // var_dump($postResult->order_info);
+                $order->bank = $postResult->order_info->bank_type;
+                $this->getOrderTable()->saveOrder($order);
+            }
         }
 
         return $this->viewModel();
@@ -339,7 +352,7 @@ respend:
 // <SignMethod><![CDA T A[sha1]]></SignMethod> </xml>
 
         echo "success";
-        // 通知商户管理员 包括发货延迟 、调用失败、通知失败等情况
+        // todo: 通知商户管理员 包括发货延迟 、调用失败、通知失败等情况
         return $this->viewModel();
     }
 
@@ -350,6 +363,20 @@ respend:
             $this->orderTable = $sm->get('Postcard\Model\orderTable');
         }
         return $this->orderTable;
+    }
+
+    private function viewModel($para = null)
+    {
+        $viewModel = new ViewModel($para);
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    private function errorViewModel($para = null)
+    {
+        $viewModel = new ViewModel($para);
+        $viewModel->setTemplate('postcard/postcard/error');
+        return $viewModel;
     }
 }
 
