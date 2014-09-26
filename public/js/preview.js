@@ -38,7 +38,7 @@ $(document).on("pageinit", "#previewPage", function() {
     userImage.src = userPicUrl;
     // $('#previewUserImg').shadow();
     $("#gotoPayButton").fastClick(function() {
-        gotoPayPage();
+        gotoPay();
     });
 
     $("#editButton").fastClick(function() {
@@ -99,7 +99,8 @@ function gotoEditPage() {
     self.location = url;        
 }
 
-function gotoPayPage() {
-    var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId + "&nonce=" + getNonceStr();;
-    self.location = url;        
+function gotoPay() {
+    // var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId + "&nonce=" + getNonceStr();;
+    // self.location = url;
+    callPay();
 }

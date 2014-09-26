@@ -1,3 +1,21 @@
+<?php
+ini_set("display_errors", true);
+
+include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
+
+$wxPayHelper = new WxPayHelper();
+$wxPayHelper->setParameter("bank_type", "WX");
+$wxPayHelper->setParameter("body", "趣邮明信片");
+$wxPayHelper->setParameter("partner", PARTNERID);
+$wxPayHelper->setParameter("out_trade_no", ''.$order->id);
+$wxPayHelper->setParameter("total_fee", "5"); //  ¥0.05
+$wxPayHelper->setParameter("fee_type", "1");
+$wxPayHelper->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
+$wxPayHelper->setParameter("spbill_create_ip", "127.0.0.1");
+$wxPayHelper->setParameter("input_charset", "UTF-8");
+
+?>
+
 <html manifest="/safari.manifest"><!--  -->
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -70,6 +88,20 @@
         <script src=<?php echo "/js/util.js?$tag" ?> ></script>
         <script src=<?php echo "/js/preview.js?$tag" ?> ></script>
         <script type="text/javascript">
+
+            function callPay() {
+                WeixinJSBridge.invoke('getBrandWCPayRequest', <?php echo $wxPayHelper->create_biz_package(); ?>, payCallback);
+            }
+
+            function payCallback(res) {
+                WeixinJSBridge.log(res.err_msg);
+                if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
+                    self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + getNonceStr();;
+                } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
+                    alert(res.err_msg);
+                }
+            }
+        
             $(function($) {
                 $("#postcard-loader").hide();
                 $("#content").show();
