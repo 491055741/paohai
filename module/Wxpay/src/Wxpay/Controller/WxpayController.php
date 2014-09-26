@@ -28,9 +28,7 @@ class WxpayController extends AbstractActionController
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id: '.$orderId));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'invalid order id: '.$orderId));
         }
 
         $util = new CommonUtil();
@@ -41,16 +39,12 @@ class WxpayController extends AbstractActionController
             'tag'         => JS_TAG,
         );
 
-        $viewModel = new ViewModel($para);
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->viewModel();
     }
 
     public function payTestAction()
     {
-        $viewModel = new ViewModel($para);
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->viewModel();
     }
 
 /* function resultAction()
@@ -80,9 +74,7 @@ class WxpayController extends AbstractActionController
         }
 
         echo 'success'; // must respond 'success' to wxpay server
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->viewModel();
     }
 
     public function refundAction()
@@ -101,12 +93,8 @@ class WxpayController extends AbstractActionController
         $wxPayHelper->setParameter("service_version", "1.1");
 
         $postData = $wxPayHelper->create_refund_package();
-        // echo $postData;
-        // $viewModel = new ViewModel();
-        // $viewModel->setTerminal(true); // disable layout template
-        // return $viewModel;
 
-        $cert = dirname(__FILE__)."/1219350001_20140605115805.pem";
+        $cert = dirname(__FILE__)."/paohaicert.pem";
         $cacert = dirname(__FILE__)."/cacert.pem";
         $certPass = "1219350001";
 
@@ -116,11 +104,10 @@ class WxpayController extends AbstractActionController
         $util->setCaInfo($cacert);
         $url = "https://mch.tenpay.com/refundapi/gateway/refund.xml";
 
-        // $retStr = $util->httpPost($url, $postData);
-        $resStr = passthru('curl -k --cert '.$cert.':'.$certPass.' -cacert '.$cacert.' -d "'.$postData.'" '.$url;
+        $retStr = $util->httpPost($url, $postData);
 
         $retObj = @simplexml_load_string($retStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-        // var_dump($retObj);
+
         $this->refundLogger('Refund: transaction_id:'.$retObj->transaction_id
                             .' out_trade_no:'.$retObj->out_trade_no
                             .' out_refund_no'.$retObj->out_refund_no
@@ -133,9 +120,7 @@ class WxpayController extends AbstractActionController
                             );
 
         echo 'success'; // must respond 'success' to wxpay server
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->viewModel();
     }
 
     // 参考http://mp.weixin.qq.com/wiki/index.php?title=%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF
@@ -144,17 +129,13 @@ class WxpayController extends AbstractActionController
     {
         $code = $this->getRequest()->getQuery('code', '0');
         if ($code == '0') {
-            $view =  new ViewModel(array('code' => 1, 'msg' => '需要从授权页面获取的code'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 1, 'msg' => '需要从授权页面获取的code'));
         }
 
         $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx4a41ea3d983b4538&secret=424b9f967e50a2711460df2a9c9efaaa&code='.$code.'&grant_type=authorization_code';
         $res = json_decode(file_get_contents($url));
         if (isset($res->errcode)) {
-            // $view =  new ViewModel(array('code' => 1, 'msg' => 'get access_token failed: '. $res->errmsg));
-            // $view->setTemplate('postcard/postcard/error');
-            // return $view;
+            // return $this->errorViewModel(array('code' => 1, 'msg' => 'get access_token failed: '. $res->errmsg));
             $res->access_token = "fake_token:addressnotavailable";
         }
 
@@ -162,33 +143,25 @@ class WxpayController extends AbstractActionController
         $order = $this->getOrderTable()->getOrder($orderId);
 
         if ($orderId == '0' || !$order) {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
         }
 
         if ($order->status == CANCEL) {
-            $view =  new ViewModel(array('code' => 2, 'msg' => '订单'.$orderId.'已失效，请重新创建明信片'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 2, 'msg' => '订单'.$orderId.'已失效，请重新创建明信片'));
         }
 
-        $viewModel =  new ViewModel(array(
+        return $this->viewModel(array(
             'order' => $order,
             'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
             'url'   => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
             'token' => $res->access_token,
         ));
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
     }
 
     // pay test page. say 'pay' to paohai postcard in wechat, you will get the url of this page
     public function testAction()
     {
-        $viewModel = new ViewModel();
-        // $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->viewModel();
     }
 
     private function payLogger($content)
@@ -239,6 +212,19 @@ class WxpayController extends AbstractActionController
         return dirname(__FILE__).'/../../../../../userdata/payed/' . date('Ymd', time()) . '/';
     }
 
+    private function viewModel($para = null)
+    {
+        $viewModel = new ViewModel($para);
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    private function errorViewModel($para = null)
+    {
+        $viewModel = new ViewModel($para);
+        $viewModel->setTemplate('postcard/postcard/error');
+        return $viewModel;
+    }
 
 /*
 post:
@@ -262,9 +248,7 @@ respend:
 
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'order '.$orderId.' not exist.'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'order '.$orderId.' not exist.'));
         }
 
         $wxPayHelper = new WxPayHelper();
@@ -290,9 +274,7 @@ respend:
             $this->getOrderTable()->saveOrder($order);
         }
 
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->viewModel();
     }
 
     public function feedbackAction()
@@ -344,9 +326,7 @@ respend:
 
         }
         echo "success";
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->viewModel();
     }
 
     public function alarmAction()
@@ -360,9 +340,7 @@ respend:
 
         echo "success";
         // 通知商户管理员 包括发货延迟 、调用失败、通知失败等情况
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->viewModel();
     }
 
     private function getOrderTable()

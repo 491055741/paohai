@@ -24,9 +24,6 @@ class OrderTable
         $select->where('bank = "XINGYE"')->where('refundFee = NULL');
         $resultSet = $this->tableGateway->selectWith($select);
         return $resultSet;
-
-        // $rowset = $this->tableGateway->select(array('bank' => 'xingye', 'refund_fee' => NULL));
-        // return $rowset;
     }
 
     public function getOrderByUserName($name)
