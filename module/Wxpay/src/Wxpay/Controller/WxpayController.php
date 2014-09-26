@@ -272,12 +272,12 @@ respend:
     {
         // https://api.weixin.qq.com/pay/orderquery?access_token=xxxxxx
         // $orderId = $this->params()->fromRoute('id', '0');
-    
-        $resultSet = $this->getOrderTable()->getOrdersToQueryBank();
-        foreach ($resultSet as $row) {
-            var_dump($row);
 
-            $postResult = $this->orderQuery($orderId);
+        $orders = $this->getOrderTable()->getOrdersToQueryBank();
+        foreach ($orders as $order) {
+        //     var_dump($order);
+        //     echo "<br>";
+            $postResult = $this->orderQuery($order->id);
             // var_dump($postResult);
             if ($postResult->errcode == 0 && $postResult->order_info) {
                 // echo '<br>orderinfo:';
@@ -287,7 +287,9 @@ respend:
             }
         }
 
-        return $this->viewModel();
+        $viewModel = new ViewModel(array('orders' => $orders));
+        $viewModel->setTemplate('postcard/postcard/orders');
+        return $viewModel;
     }
 
     public function feedbackAction()

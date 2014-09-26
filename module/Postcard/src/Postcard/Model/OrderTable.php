@@ -21,7 +21,7 @@ class OrderTable
     public function getOrdersToRefund()
     {
         $select = $this->tableGateway->getSql()->select();
-        $select->where('bank = "XINGYE"')->where('refundFee = NULL');
+        $select->where('bank = "XINGYE"')->where('refundFee IS NULL');
         $resultSet = $this->tableGateway->selectWith($select);
         return $resultSet;
     }
@@ -29,7 +29,7 @@ class OrderTable
     public function getOrdersToQueryBank()
     {
         $select = $this->tableGateway->getSql()->select();
-        $select->where('status = "101"')->where('bank = NULL');
+        $select->where('status > 100')->where('bank IS NULL');
         $resultSet = $this->tableGateway->selectWith($select);
         return $resultSet;
     }
