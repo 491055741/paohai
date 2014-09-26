@@ -10,7 +10,6 @@ CACHE MANIFEST
 /css/wp_icons_light.png
 /css/images/ajax-loader.gif
 /css/images/icons-18-white.png
-/images/small/background.png
 /images/small/template1.png
 /images/small/template2.png
 /images/small/template3.png
@@ -29,7 +28,7 @@ CACHE MANIFEST
 /js/util.js
 /js/index.js
 /js/editMessage.js
-/js/address.js
+#/js/address.js
 /js/preview.js
 /js/pay.js
 

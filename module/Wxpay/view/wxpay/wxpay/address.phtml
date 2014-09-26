@@ -4,6 +4,16 @@ ini_set("display_errors", true);
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
 
 $wxPayHelper = new WxPayHelper();
+$wxPayHelper->setParameter("bank_type", "WX");
+$wxPayHelper->setParameter("body", "趣邮明信片");
+$wxPayHelper->setParameter("partner", PARTNERID);
+$wxPayHelper->setParameter("out_trade_no", ''.$order->id);
+$wxPayHelper->setParameter("total_fee", "5"); //  ¥0.05
+$wxPayHelper->setParameter("fee_type", "1");
+$wxPayHelper->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
+$wxPayHelper->setParameter("spbill_create_ip", "127.0.0.1");
+$wxPayHelper->setParameter("input_charset", "UTF-8");
+
 ?>
 
 <html manifest="/safari.manifest"><!--  -->
@@ -68,7 +78,7 @@ $wxPayHelper = new WxPayHelper();
                     <a id="selectSenderFromAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/addressbook.png">从地址簿选一个</a>
 
                     <input id="previewButton" value="去预览" type="image" src="/images/small/preview_btn.png?<?php echo $tag; ?>"></input>
-                    <input id="gotoPayButton" value="去支付" type="image" src="/images/small/pay_btn.png?<?php echo $tag; ?>"></input>
+                    <input id="gotoPayButton" value="去支付" type="image" src="/images/small/pay_btn.png?<?php echo $tag; ?>" ></input>
 
                 </div>
             </div>
@@ -111,12 +121,12 @@ $wxPayHelper = new WxPayHelper();
         <script src="/js/jquery.event.move.js"></script>
         <script src="/js/jquery.shadow.js"></script>
         <script src=<?php echo "/js/util.js?$tag" ?> ></script>
-        <script src=<?php echo "/js/address.js?$tag" ?> ></script>
+        <script src=<?php echo "/js/address.js?$tag" ?> ></script> 
         <script language="javascript">
 
             // function editShareAddress() {
             //     WeixinJSBridge.invoke(
-            //         'editAddress', <?php echo $wxPayHelper->create_addr_package($token, $url) ?>, 
+            //         'editAddress', < ? php echo $wxPayHelper->create_addr_package($token, $url) ? > , 
             //         function(res) {
             //             //若res 中所带的返回值不为空,则表示用户选择该返回值作为收货地址。否则若返回空,则表示用户取消了这一次编辑收货地址。
             //             document.getElementById('recipientInput').value = res.userName;
@@ -125,6 +135,18 @@ $wxPayHelper = new WxPayHelper();
             //         }
             //     );
             // }
+            function callPay() {
+                WeixinJSBridge.invoke('getBrandWCPayRequest', <?php echo $wxPayHelper->create_biz_package(); ?>, payCallback);
+            }
+
+            function payCallback(res) {
+                WeixinJSBridge.log(res.err_msg);
+                if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
+                    self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + getNonceStr();;
+                } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
+                    alert(res.err_msg);
+                }
+            }
 
             $(function($) {
                 $("#postcard-loader").hide();

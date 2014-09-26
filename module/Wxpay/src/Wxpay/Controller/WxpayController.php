@@ -60,6 +60,13 @@ class WxpayController extends AbstractActionController
     
             $postObj = @simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $out_trade_no = $this->getRequest()->getQuery('out_trade_no');
+
+            $order = $this->getOrderTable()->getOrder($out_trade_no);
+            if ($out_trade_no == '0' || !$order || $order->status != 'UNPAY') { // order not exist, or order already payed.
+                echo 'success'; // must respond 'success' to wxpay server
+                return $this->viewModel();
+            }
+
             $transId = $this->getRequest()->getQuery('transaction_id');
             $openId  = $postObj->OpenId;
 

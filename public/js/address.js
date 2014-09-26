@@ -101,7 +101,7 @@ $(document).on("pageinit", "#senderPage", function() {
     // });
 
     $("#gotoPayButton").fastClick(function() {
-        gotoPayPage();
+        gotoPay();
     });
 
     $("#previewButton").fastClick(function() {
@@ -112,7 +112,7 @@ $(document).on("pageinit", "#senderPage", function() {
     });
 });
 
-function gotoPayPage() {
+function gotoPay() {
 
     getValueFromInput();
 
@@ -129,8 +129,9 @@ function gotoPayPage() {
     // }
 
     uploadOrder(function() {
-        var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId + "&nonce=" + getNonceStr();
-        self.location = url;        
+        // var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId + "&nonce=" + getNonceStr();
+        // self.location = url;
+        callPay();
     });
 }
 
