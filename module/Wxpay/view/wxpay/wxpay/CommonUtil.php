@@ -219,6 +219,10 @@ class CommonUtil
 
         //设置证书信息
         if($this->certFile != "") {
+
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+
             curl_setopt($ch, CURLOPT_SSLCERT, $this->certFile);
             curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->certPasswd);
             curl_setopt($ch, CURLOPT_SSLCERTTYPE, $this->certType);
@@ -227,7 +231,7 @@ class CommonUtil
         //设置CA
         if($this->caFile != "") {
             // 对认证证书来源的检查，0表示阻止对证书的合法性的检查。1需要设置CURLOPT_CAINFO
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
             curl_setopt($ch, CURLOPT_CAINFO, $this->caFile);
             // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
         } else {

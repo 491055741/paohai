@@ -21,7 +21,7 @@ class Order
     public $senderAddress;
     public $signature;   // 信件正文的签名，可以是昵称
     public $senderMobile;
-    public $price;
+    public $price;       // 总金额
     public $orderDate;
     public $payDate;
     public $postcardFileName;
@@ -30,31 +30,33 @@ class Order
     public $templateId;
     public $offsetX;
     public $offsetY;
+    public $refundFee; // 已退款金额
 
     public function exchangeArray($data)
     {
-        $this->id               = (isset($data['id'])) ? $data['id'] : null;
-        $this->userName         = (isset($data['userName'])) ? $data['userName'] : null;
-        $this->picUrl           = (isset($data['picUrl'])) ? $data['picUrl'] : null;
-        $this->voiceMediaId     = (isset($data['voiceMediaId'])) ? $data['voiceMediaId'] : null;
-        $this->message          = (isset($data['message'])) ? $data['message'] : null;
-        $this->zipCode          = (isset($data['zipCode'])) ? $data['zipCode'] : null;
-        $this->address          = (isset($data['address'])) ? $data['address'] : null;
-        $this->recipient        = (isset($data['recipient'])) ? $data['recipient'] : null;
-        $this->salutation       = (isset($data['salutation'])) ? $data['salutation'] : null;
-        $this->recipientMobile  = (isset($data['recipientMobile'])) ? $data['recipientMobile'] : null;
-        $this->senderName       = (isset($data['senderName'])) ? $data['senderName'] : null;
-        $this->senderAddress    = (isset($data['senderAddress'])) ? $data['senderAddress'] : null;
-        $this->signature        = (isset($data['signature'])) ? $data['signature'] : null;
-        $this->senderMobile     = (isset($data['senderMobile'])) ? $data['senderMobile'] : null;
-        $this->price            = (isset($data['price'])) ? $data['price'] : null;
-        $this->orderDate        = (isset($data['orderDate'])) ? $data['orderDate'] : null;
-        $this->payDate          = (isset($data['payDate'])) ? $data['payDate'] : null;
+        $this->id               = (isset($data['id']))               ? $data['id'] : null;
+        $this->userName         = (isset($data['userName']))         ? $data['userName'] : null;
+        $this->picUrl           = (isset($data['picUrl']))           ? $data['picUrl'] : null;
+        $this->voiceMediaId     = (isset($data['voiceMediaId']))     ? $data['voiceMediaId'] : null;
+        $this->message          = (isset($data['message']))          ? $data['message'] : null;
+        $this->zipCode          = (isset($data['zipCode']))          ? $data['zipCode'] : null;
+        $this->address          = (isset($data['address']))          ? $data['address'] : null;
+        $this->recipient        = (isset($data['recipient']))        ? $data['recipient'] : null;
+        $this->salutation       = (isset($data['salutation']))       ? $data['salutation'] : null;
+        $this->recipientMobile  = (isset($data['recipientMobile']))  ? $data['recipientMobile'] : null;
+        $this->senderName       = (isset($data['senderName']))       ? $data['senderName'] : null;
+        $this->senderAddress    = (isset($data['senderAddress']))    ? $data['senderAddress'] : null;
+        $this->signature        = (isset($data['signature']))        ? $data['signature'] : null;
+        $this->senderMobile     = (isset($data['senderMobile']))     ? $data['senderMobile'] : null;
+        $this->price            = (isset($data['price']))            ? $data['price'] : null;
+        $this->orderDate        = (isset($data['orderDate']))        ? $data['orderDate'] : null;
+        $this->payDate          = (isset($data['payDate']))          ? $data['payDate'] : null;
         $this->postcardFileName = (isset($data['postcardFileName'])) ? $data['postcardFileName'] : null;
-        $this->status           = (isset($data['status'])) ? $data['status'] : null;
-        $this->bank             = (isset($data['bank'])) ? $data['bank'] : null;
-        $this->templateId       = (isset($data['templateId'])) ? $data['templateId'] : null;
-        $this->offsetX          = (isset($data['offsetX'])) ? $data['offsetX'] : null;
-        $this->offsetY          = (isset($data['offsetY'])) ? $data['offsetY'] : null;
+        $this->status           = (isset($data['status']))           ? $data['status'] : null;
+        $this->bank             = (isset($data['bank']))             ? $data['bank'] : null;
+        $this->templateId       = (isset($data['templateId']))       ? $data['templateId'] : null;
+        $this->offsetX          = (isset($data['offsetX']))          ? $data['offsetX'] : null;
+        $this->offsetY          = (isset($data['offsetY']))          ? $data['offsetY'] : null;
+        $this->refundFee        = (isset($data['refundFee']))        ? $data['refundFee'] : null;
     }
 }

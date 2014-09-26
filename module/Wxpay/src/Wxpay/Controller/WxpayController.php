@@ -102,15 +102,23 @@ class WxpayController extends AbstractActionController
 
         $postData = $wxPayHelper->create_refund_package();
         // echo $postData;
+        // $viewModel = new ViewModel();
+        // $viewModel->setTerminal(true); // disable layout template
+        // return $viewModel;
+
+        $cert = dirname(__FILE__)."/1219350001_20140605115805.pem";
+        $cacert = dirname(__FILE__)."/cacert.pem";
+        $certPass = "1219350001";
 
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
-        $util->setCertInfo(dirname(__FILE__)."/1219350001_20140605115805.pem", "1219350001");// cert file and cert password
-        $util->setCaInfo(dirname(__FILE__)."/cacert.pem");
-
+        $util->setCertInfo($cert, $certPass);// cert file and cert password
+        $util->setCaInfo($cacert);
         $url = "https://mch.tenpay.com/refundapi/gateway/refund.xml";
 
-        $retStr = $util->httpPost($url, $postData);
+        // $retStr = $util->httpPost($url, $postData);
+        $resStr = passthru('curl -k --cert '.$cert.':'.$certPass.' -cacert '.$cacert.' -d "'.$postData.'" '.$url;
+
         $retObj = @simplexml_load_string($retStr, 'SimpleXMLElement', LIBXML_NOCDATA);
         // var_dump($retObj);
         $this->refundLogger('Refund: transaction_id:'.$retObj->transaction_id
@@ -251,6 +259,14 @@ respend:
     {
         // https://api.weixin.qq.com/pay/orderquery?access_token=xxxxxx
         $orderId = $this->params()->fromRoute('id', '0');
+
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'order '.$orderId.' not exist.'));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
         $wxPayHelper = new WxPayHelper();
         $wxPayHelper->setParameter("partner", PARTNERID);
         $wxPayHelper->setParameter("out_trade_no", $orderId);
@@ -270,6 +286,8 @@ respend:
         if ($postResult->errcode == 0) {
             echo '<br>orderinfo:';
             var_dump($postResult->order_info);
+            $order->bank = $postResult->order_info->bank_type;
+            $this->getOrderTable()->saveOrder($order);
         }
 
         $viewModel = new ViewModel();

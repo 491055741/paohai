@@ -237,6 +237,13 @@ class PostcardController extends AbstractActionController
         ));
     }
 
+    public function ordersToRefundAction()
+    {
+        $view =  new ViewModel(array('orders' => $this->getOrderTable()->getOrdersToRefund()));
+        $view->setTemplate('postcard/postcard/orders');
+        return $view;
+    }
+
     public function contactsAction()
     {
         $userName = $this->getRequest()->getQuery('userName', '0');
