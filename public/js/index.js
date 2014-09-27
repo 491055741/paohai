@@ -348,8 +348,12 @@ function uploadOrder(callback) {
         data:params,
         dataType: 'json',
         timeout: 10000,
-        error: function(){
-            alert('update order failed!');
+        error: function(xmlhttprequest, err, e){
+            if (err == 'timeout') {
+                alert("网速不给力，请稍后再试哦");
+            } else {
+                alert('update order failed!');
+            }
         },
         success: function(result) {
             callback();
