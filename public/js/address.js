@@ -22,26 +22,10 @@ $(document).on("pageinit", "#addressPage", function() {
         addContact(recipient, address, zipcode, function() {});
     });
 
-    $('#saveSenderToAddressBookBtn').fastClick(function() {
-        getValueFromInput();
-        var senderName = $("#senderNameInput").val();
-        var senderAddress = $("#senderAddressInput").val();
-        if (senderName == '' || senderAddress == '') {
-            return false;
-        }
-        addContact(senderName, senderAddress, '', function() {});
-    });
-
     $('#selectRecipientFromAddressBookBtn').fastClick(function() {
         getContacts(function() {
             changePage("#contactsPage");
         }, 'recipient');
-    });
-
-    $('#selectSenderFromAddressBookBtn').fastClick(function() {
-        getContacts(function() {
-            changePage("#contactsPage");
-        }, 'sender');
     });
 });
 
@@ -92,6 +76,7 @@ $(document).on("pageinit", "#senderPage", function() {
     output("senderPage init");
 
     orderId = $('#orderId').val();
+    userName = $('#userName').val();
     // $("#editAddressButton").fastClick(function() {
     //     var time = new Date().getTime();
     //     var redirect_uri = encodeURIComponent("http://paohai.ikamobile.com/wxpay/addr");
@@ -99,6 +84,22 @@ $(document).on("pageinit", "#senderPage", function() {
     //     self.location = url;
     //     return;
     // });
+
+    $('#saveSenderToAddressBookBtn').fastClick(function() {
+        getValueFromInput();
+        var senderName = $("#senderNameInput").val();
+        var senderAddress = $("#senderAddressInput").val();
+        if (senderName == '' || senderAddress == '') {
+            return false;
+        }
+        addContact(senderName, senderAddress, '', function() {});
+    });
+
+    $('#selectSenderFromAddressBookBtn').fastClick(function() {
+        getContacts(function() {
+            changePage("#contactsPage");
+        }, 'sender');
+    });
 
     $("#gotoPayButton").fastClick(function() {
         gotoPay();
