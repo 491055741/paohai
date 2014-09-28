@@ -235,9 +235,9 @@ function getContacts(callback, type) {
                 //循环输出联系方式list，并追加到列表包裹容器中
             for (var i = 0,len = arr.length; i < len ; i++) {
                 var list_str = [ "<div class='list-ul-hc'><ul>" ,
-                    "<li>姓名：" + "<span class='name-hc'>" + arr[i].contactName +"</span>"+"</li>"+
-                    "<li>地址：" + "<span class='addr-hc'>" + arr[i].address +"</span>"+"</li>"+
-                    "<li>邮编：" + "<span class='post-hc'>" + arr[i].zipCode +"</span>"+"</li>",
+                    "<li><span class='addr-title'>姓名：</span>" + "<span class='addr-content name-hc'>" + arr[i].contactName +"</span>"+"</li>"+
+                    "<li><span class='addr-title'>地址：</span>" + "<span class='addr-content addr-hc'>" + arr[i].address +"</span>"+"</li>"+
+                    "<li><span class='addr-title'>邮编：</span>" + "<span class='addr-content post-hc'>" + arr[i].zipCode +"</span>"+"</li>",
                     "</ul><img src='/images/small/single_unselected.png' class='sel-btn-hc'></img></div>"
                 ];
                 list_dom = list_str.join("");
