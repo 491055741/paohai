@@ -49,7 +49,7 @@
 
 #signatureInput {/*[huangchun 2014-9-18] left由144px改为47%*/
     top: 306px;
-    left: 47%;
+    left: 50%;
     width: 136px;
     min-height: 2em;
     font-size: 16px;
@@ -99,18 +99,16 @@
     text-shadow:none;
 }
 /*[huangchun 2014-9-19] 由于流体布局在平板上无法正确的显示，因此新增了媒体查询。*/
-@media screen and (min-width: 320px){
-    #playVoiceMessageButton {left:28%;}
-}
 @media screen and (max-width: 321px) {/*[huangchun 2014-9-24]适配iphone 4*/
-    #board {top:16px;width: 256px;height: 334px;margin-left: -128px;}
-    #salutationInput {top:30px;width: 220px;margin-left: -110px;}
-    #messageInputHint {top:80px;left: 210px;}
-    #messageWrap {top:95px;width: 220px;height: 160px;margin-left: -110px;overflow: auto;}
-    #messageInput {width: 220px;min-height: 10em;}
-    #signatureInput {top:268px;width: 120px;}
-    #voiceMessageButton {left:10%;top: 265px}
-    #submitMessageButton {top: 313px;left: 194px;}
+    #board {top:16px; width:296px; height:334px; margin-left:-148px;}
+    #salutationInput {top:30px; width:250px; margin-left:-125px;}
+    #messageInputHint {top:80px; left:234px;}
+    #messageWrap {top:95px; width:250px; height:160px; margin-left:-125px; overflow:auto;}
+    #messageInput {width:250px; min-height:10em;}
+    #signatureInput {top:268px; width:125px;}
+    #voiceMessageButton {left:5%; top:265px}
+    #playVoiceMessageButton {left:28%; top:265px}
+    #submitMessageButton {top:313px; left:200px;}
 }
 
 @media screen and (min-width: 380px){

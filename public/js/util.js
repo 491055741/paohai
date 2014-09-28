@@ -30,6 +30,8 @@ $(document).ready(function() {
     } else {
         onBridgeReady();
     }
+
+    $.ajaxSetup( {timeout: 10000});
 });
 
 function onBridgeReady() {
