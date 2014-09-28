@@ -78,7 +78,7 @@ a.bbtn:link, a.abtn:visited {
 }
 
 .postcard {/*[huangchun 2014-9-16] 改为负边距居中,top值由60px改30px，height由385px,改为80%*/
-    top:    30px;
+    top: 30px;
     left:   50%;
     margin-left: -131px;
     width:  262px;
@@ -104,11 +104,17 @@ a.bbtn:link, a.abtn:visited {
 /*[huangchun 2014-9-24]*/
 @media (max-width: 320px){
     .postcard {
-        width: 242px;
-        margin-left: -121px;
+        width: 210px;
+        margin-left: -105px;
+        height: 310px;
+        top: 40px;
     }
 }
-
+@media (max-width: 320px) and (max-height: 480px){
+    .postcard {
+        top: 10px;
+    }
+}
 
 #postcard-loader img {
     top: 50%;
