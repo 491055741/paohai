@@ -695,7 +695,7 @@ class PostcardController extends AbstractActionController
         $this->draw_txt_to($dst, $pos, $order->address);
 
         $pos['left']     = 600;
-        $pos['top']      = 400;
+        $pos['top']      = 500;
         $pos['width']    = 600;
         $pos['fontsize'] = 30;
         // $this->draw_txt_to($dst, $pos, $order->recipient.'('.$order->recipientMobile.')');
@@ -703,7 +703,7 @@ class PostcardController extends AbstractActionController
 
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
             $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
-            imagecopyresampled($dst, $image_pr, 150, 350, 0, 0, 150, 150, imagesx($image_pr), imagesy($image_pr));
+            imagecopyresampled($dst, $image_pr, 30, 450, 0, 0, 150, 150, imagesx($image_pr), imagesy($image_pr));
         }
 
         return $dst;

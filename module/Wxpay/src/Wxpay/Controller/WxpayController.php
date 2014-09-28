@@ -35,17 +35,22 @@ class WxpayController extends AbstractActionController
         }
 
         if ($order->status == CANCEL) {
-            $view =  new ViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
         }
 
-        $viewModel =  new ViewModel(array(
+        return $this->viewModel(array(
             'order' => $order,
-            'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
+            'tag'   => JS_TAG,
         ));
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+    }
+
+    public function asyncMakePictureAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $util = new CommonUtil();
+        $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$orderId, 1); // timeout = 1s
+
+        return $this->errorViewModel(array('code' => 0, 'msg' => 'Send ok.'));
     }
 
     public function payAction()
@@ -57,7 +62,7 @@ class WxpayController extends AbstractActionController
         }
 
         $util = new CommonUtil();
-        $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$orderId);
+        $util->httpPost('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$orderId);
 
         return $this->viewModel(array(
             'order'    => $order,

@@ -28,11 +28,15 @@ $(document).on("pageinit", "#previewPage", function() {
     address    = $('#address').val();
     zipcode    = $('#zipcode').val();
     mobile     = $('#mobile').val();
-
+    voice      = $('#voiceMediaId').val();
     userImage.onload = function() {
         pic_orig_w = userImage.width;
         pic_orig_h = userImage.height;
         initPreview();
+    }
+
+    if (voice) {
+        $("#playVoiceMessageButton").css("display","inline");
     }
 
     userImage.src = userPicUrl;
@@ -100,7 +104,11 @@ function gotoEditPage() {
 }
 
 function gotoPay() {
-    // var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId + "&nonce=" + getNonceStr();;
-    // self.location = url;
     callPay();
+    var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + orderId;
+    $.get(
+        url,
+        function success(data) {
+        }
+    );
 }

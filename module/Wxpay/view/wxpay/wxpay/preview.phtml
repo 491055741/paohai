@@ -40,7 +40,7 @@ $wxPayHelper->setParameter("input_charset", "UTF-8");
             <input id="salutation" type="hidden" value=<?php echo $order->salutation ?> ></input>
             <input id="message" type="hidden" value=<?php echo $order->message ?> ></input>
             <input id="signature" type="hidden" value=<?php echo $order->signature ?> ></input>
-
+            <input id="voiceMediaId" type="hidden" vale=<?php echo $order->voiceMediaId ?> ></input>
             <input id="recipient" type="hidden" value=<?php echo $order->recipient ?> ></input>
             <input id="address" type="hidden" value=<?php echo $order->address ?> ></input>
             <input id="zipcode" type="hidden" value=<?php echo $order->zipCode ?> ></input>
@@ -65,11 +65,11 @@ $wxPayHelper->setParameter("input_charset", "UTF-8");
                             <div id="zipcodePreview"></div>
                             <div id="messagePreview"></div>
                             <div id="signaturePreview"></div>
+                            <img id="qrPreview" src="/images/small/qrimg.png" style="disp lay:none;"></img>
                             <div id="addressPreview"></div>
                             <div id="recipientPreview"></div>
                         </div>
                     </div>
-
 
                     <div id="preview-button-left">
                         <input id="editButton" value="返回修改" type="image" src="/images/small/edit_btn.png"></input>

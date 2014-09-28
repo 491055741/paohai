@@ -22,9 +22,17 @@
 
 #signaturePreview {
     font-size:12px;
-    top:140px;
+    top:160px;
     left:100px;
     position:absolute;
+}
+
+#qrPreview {
+    top:160px;
+    left:8px;
+    width:30px;
+    height:30px;
+    position: absolute;
 }
 
 #addressPreview {

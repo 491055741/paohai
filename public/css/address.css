@@ -203,7 +203,7 @@ a.on {background: #fff;}
     #addressInput {top: 108px;}
     #zipcodeInput {top: 165px;}
     #saveRecipientToAddressBookBtn,#selectRecipientFromAddressBookBtn {top: 230px;width: 130px;}
-    #saveRecipientToAddressBookBtn {width: 110px;margin-left: -120px;}
+    #saveRecipientToAddressBookBtn {width: 110px;margin-left: -128px;}
     #submitAddressButton {top:290px;}
 
     #senderboard {top:16px;width: 296px;height:284px;margin-left: -148px;}
