@@ -33,7 +33,7 @@ $(document).on("pageinit", "#makePicturePage", function() {
 
     $("#templateContainer").owlCarousel({pagination:false, itemsMobile:[2000, 5.5]});
 
-    for (var i = 1; i <= 6; i++) {
+    for (var i = 1; i <= 10; i++) {
         var name = "#templateThumbnail" + i;
         $(name).tap(function() {
             clickOnThumbnail(this);
@@ -102,7 +102,7 @@ function placePicture() {
     var a, b;
     a = pic_orig_w;
     b = pic_orig_h;
-    var shouldRotate = selectedTemplateIndex > 3;
+    var shouldRotate = selectedTemplateIndex > 5;
     if (shouldRotate) {
         temp = a; a = b; b = temp;
     }
@@ -177,7 +177,7 @@ function changeTemplate(index) {
     var a, b;
     a = pic_orig_w;
     b = pic_orig_h;
-    var shouldRotate = index > 3;
+    var shouldRotate = index > 5;
     if (shouldRotate) {
         temp = a; a = b; b = temp;
     }

@@ -611,7 +611,7 @@ class PostcardController extends AbstractActionController
             return FALSE;
         }
         // rotate
-        if ($order->templateId >= 3) {
+        if ($order->templateId > 5) {
             $image_user = imagerotate($image_user, -90, 0);
         }
 
@@ -695,7 +695,7 @@ class PostcardController extends AbstractActionController
         $this->draw_txt_to($dst, $pos, $order->address);
 
         $pos['left']     = 600;
-        $pos['top']      = 500;
+        $pos['top']      = 400;
         $pos['width']    = 600;
         $pos['fontsize'] = 30;
         // $this->draw_txt_to($dst, $pos, $order->recipient.'('.$order->recipientMobile.')');

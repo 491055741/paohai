@@ -48,8 +48,7 @@ class WxpayController extends AbstractActionController
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $util = new CommonUtil();
-        $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$orderId, 1); // timeout = 1s
-
+        $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/postcard/makepicture/'.$orderId, 1); // timeout = 1s， not wait response
         return $this->errorViewModel(array('code' => 0, 'msg' => 'Send ok.'));
     }
 
@@ -173,19 +172,19 @@ class WxpayController extends AbstractActionController
     // 从授权页面重定向到此页面，用code换取oauth2_access_token
     public function addressAction()
     {
-        $code = $this->getRequest()->getQuery('code', '0');
-        if ($code == '0') {
-            return $this->errorViewModel(array('code' => 1, 'msg' => '需要从授权页面获取的code'));
-        }
+        // $code = $this->getRequest()->getQuery('code', '0');
+        // if ($code == '0') {
+        //     return $this->errorViewModel(array('code' => 1, 'msg' => '需要从授权页面获取的code'));
+        // }
 
-        $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx4a41ea3d983b4538&secret=424b9f967e50a2711460df2a9c9efaaa&code='.$code.'&grant_type=authorization_code';
-        $res = json_decode(file_get_contents($url));
-        if (isset($res->errcode)) {
-            // return $this->errorViewModel(array('code' => 1, 'msg' => 'get access_token failed: '. $res->errmsg));
-            $res->access_token = "fake_token:addressnotavailable";
-        }
+        // $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx4a41ea3d983b4538&secret=424b9f967e50a2711460df2a9c9efaaa&code='.$code.'&grant_type=authorization_code';
+        // $res = json_decode(file_get_contents($url));
+        // if (isset($res->errcode)) {
+        //     // return $this->errorViewModel(array('code' => 1, 'msg' => 'get access_token failed: '. $res->errmsg));
+        //     $res->access_token = "fake_token:addressnotavailable";
+        // }
 
-        $orderId = $this->getRequest()->getQuery('state', '0');
+        $orderId = $this->getRequest()->getQuery('orderId', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
 
         if ($orderId == '0' || !$order) {
@@ -199,8 +198,8 @@ class WxpayController extends AbstractActionController
         return $this->viewModel(array(
             'order' => $order,
             'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
-            'url'   => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
-            'token' => $res->access_token,
+            // 'url'   => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+            // 'token' => $res->access_token,
         ));
     }
 
