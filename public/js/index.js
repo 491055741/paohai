@@ -35,7 +35,7 @@ $(document).on("pageinit", "#makePicturePage", function() {
 
     for (var i = 1; i <= 6; i++) {
         var name = "#templateThumbnail" + i;
-        $(name).fastClick(function() {
+        $(name).tap(function() {
             clickOnThumbnail(this);
         });
     }
