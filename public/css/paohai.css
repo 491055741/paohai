@@ -77,12 +77,12 @@ a.bbtn:link, a.abtn:visited {
     color:#353535;
 }
 
-.postcard {/*[huangchun 2014-9-16] 改为负边距居中,top值由60px改30px，height由385px,改为80%*/
+.postcard {/*[huangchun 2014-9-16] 改为负边距居中,top值由60px改30px*/
     top: 30px;
     left:   50%;
     margin-left: -131px;
     width:  262px;
-    height: 80%;
+    height: 385px;
     position: absolute;
     overflow: hidden;
 }

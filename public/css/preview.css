@@ -1,6 +1,6 @@
 
 #previewPage {
-    height: 700px;
+    height: 690px;
 }
 
 #zipcodePreview {
@@ -59,7 +59,7 @@
 }
 
 #preview-button-left {
-    top: 670px;
+    top: 650px;
     width: 50%;
     height: 40px;
     position: absolute;
@@ -67,7 +67,7 @@
 }
 
 #preview-button-right {
-    top: 670px;
+    top: 650px;
     left: 50%;
     width: 50%;
     height: 40px;
@@ -94,4 +94,3 @@
     position: absolute;
     z-index: 10;
 }
-
