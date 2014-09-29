@@ -1,6 +1,6 @@
 
 #previewPage {
-    height: 690px;
+    height: 610px;
 }
 
 #zipcodePreview {
@@ -51,6 +51,15 @@
     position:absolute;
 }
 
+#backBoard {
+    top:420px;
+    width:320px;
+    height:200px;
+    position:absolute;
+    left: 50%;
+    margin-left: -160px;
+}
+
 #postcardback {
     width:320px;
     height:200px;
@@ -59,7 +68,7 @@
 }
 
 #preview-button-left {
-    top: 650px;
+    top: 640px;
     width: 50%;
     height: 40px;
     position: absolute;
@@ -67,7 +76,7 @@
 }
 
 #preview-button-right {
-    top: 650px;
+    top: 640px;
     left: 50%;
     width: 50%;
     height: 40px;
@@ -94,3 +103,9 @@
     position: absolute;
     z-index: 10;
 }
+
+@media (max-width: 321px) {/* iphone4适配*/
+    #backBoard {top:350px;}
+    #preview-button-left, #preview-button-right {top: 570px;}
+}
+
