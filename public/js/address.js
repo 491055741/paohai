@@ -130,9 +130,13 @@ function gotoPay() {
     // }
 
     uploadOrder(function() {
-        // var url = "http://" + window.location.host + "/wxpay/pay?orderId=" + orderId + "&nonce=" + getNonceStr();
-        // self.location = url;
-        callPay();
+        var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + orderId;
+        $.post(
+            url,
+            function success(data) {
+                callPay();
+            }
+        );
     });
 }
 

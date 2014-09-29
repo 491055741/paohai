@@ -247,12 +247,13 @@ class CommonUtil
             return false;
     }
 
-    function httpGet($url)
+    function httpGet($url, $waitTime = 10)
     {
         $this->logger("httpGet:$url");
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $waitTime);
         $res = curl_exec($ch);
         curl_close($ch);
         if ($res)

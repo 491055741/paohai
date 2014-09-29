@@ -19,7 +19,7 @@ $(document).on("pageinit", "#messagePage", function() {
     voiceMediaId = $('#voiceMediaId').val();
 
     if (!voiceMediaId || voiceMediaId == '0') {
-        $("#playVoiceMessageButton").css("display","none"); 
+        $("#playVoiceMessageButton").css("display","none");
     } else {
         $("#voiceMessageButton").attr({'src': '/images/small/rerecord_voice_btn.png'});
         $("#voiceMessageButton").css({

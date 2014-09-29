@@ -198,20 +198,20 @@ a.on {background: #fff;}
 .hide-hc { display: block; position: absolute;left: 0;bottom: 0; width: 100%;height: 50px;line-height: 50px;text-decoration: none;font-size: 24px;color: #aaa;text-align: center;background: #fff;}
 
 @media (max-width: 321px) {/*[huangchun 2014-9-24] 新增i phone4适配*/
-    #board {top: 16px;width: 256px;margin-left: -128px;}
-    #recipientInput,#addressInput,#zipcodeInput {top:50px;width: 220px;margin-left: -110px;}
+    #board {top: 16px;width: 296px;margin-left: -148px;}
+    #recipientInput,#addressInput,#zipcodeInput {top:50px;width: 250px;margin-left: -125px;}
     #addressInput {top: 108px;}
     #zipcodeInput {top: 165px;}
     #saveRecipientToAddressBookBtn,#selectRecipientFromAddressBookBtn {top: 230px;width: 130px;}
-    #saveRecipientToAddressBookBtn {width: 110px;margin-left: -120px;}
+    #saveRecipientToAddressBookBtn {width: 110px;margin-left: -128px;}
     #submitAddressButton {top:290px;}
 
-    #senderboard {top:16px;width: 256px;height:284px;margin-left: -128px;}
-    #senderNameInput,#senderAddressInput {top:55px;width: 220px;margin-left: -110px;}
+    #senderboard {top:16px;width: 296px;height:284px;margin-left: -148px;}
+    #senderNameInput,#senderAddressInput {top:55px;width: 250px;margin-left: -125px;}
     #senderAddressInput {top: 120px;}
-    #saveSenderToAddressBookBtn {top:195px;width: 110px;margin-left: -118px;}
+    #saveSenderToAddressBookBtn {top:195px;width: 110px;margin-left: -128px;}
     #selectSenderFromAddressBookBtn {top:195px;width: 138px;}
-    #previewButton,#gotoPayButton {top: 248px;width: 128px;}
-    #previewButton {margin-left: -128px;}
+    #previewButton,#gotoPayButton {top: 248px;width: 148px;}
+    #previewButton {margin-left: -148px;}
 }
 
