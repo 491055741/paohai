@@ -102,7 +102,7 @@ function placePicture() {
     var a, b;
     a = pic_orig_w;
     b = pic_orig_h;
-    var shouldRotate = selectedTemplateIndex > 5;
+    var shouldRotate = selectedTemplateIndex > 6;
     if (shouldRotate) {
         temp = a; a = b; b = temp;
     }
@@ -177,7 +177,7 @@ function changeTemplate(index) {
     var a, b;
     a = pic_orig_w;
     b = pic_orig_h;
-    var shouldRotate = index > 5;
+    var shouldRotate = index > 6;
     if (shouldRotate) {
         temp = a; a = b; b = temp;
     }

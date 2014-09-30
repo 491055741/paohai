@@ -60,7 +60,7 @@ function initPreview() {
     var imageOffsetX = $("#offsetX").val();
     var imageOffsetY = $("#offsetY").val();
 
-    if (selectedTemplateIndex > 3) {
+    if (selectedTemplateIndex > 6) {
         temp = a; a = b; b = temp;
     }
     var wRatio = canvas_w / a;
@@ -73,7 +73,7 @@ function initPreview() {
     canvas.width = pic_w;
     canvas.height = pic_h;
     var ctx = canvas.getContext('2d');
-    if (selectedTemplateIndex < 6) {
+    if (selectedTemplateIndex < 7) {
         ctx.save();
         ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_w, pic_h);
         ctx.restore();
