@@ -656,14 +656,6 @@ class PostcardController extends AbstractActionController
         $white = imagecolorallocate($dst, 255, 255, 255);
         imagefill($dst, 0, 0, $white);
 
-        // use backface template
-        // $backImg = imagecreatefrompng("public/images/big/postCardBack.png");
-        // imagealphablending($backImg, false);
-        // imagesavealpha($backImg, true);
-        // imagecopyresampled($dst, $backImg, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($backImg), imagesy($backImg));
-
-        $text_color = imagecolorallocate($dst, 255, 255, 255);
-        $pos['color'] = $text_color;
         // can't use imagettftext because it can't adjust char spacing
         $size = 40;
         $x = 85;
@@ -673,37 +665,37 @@ class PostcardController extends AbstractActionController
         if (!$font) {
             echo 'Load font Schneidler-HTF-Titling.pfb failed.';
         }
-        $zip_color = imagecolorallocate($dst, 0, 0, 0);
-        imagepstext($dst, $order->zipCode, $font, $size, $zip_color, $text_color, $x ,$y, $space, 870);
-
+        // zip code
+        $zip_color = imagecolorallocate($dst, 38, 38, 38);
+        imagepstext($dst, $order->zipCode, $font, $size, $zip_color, $white, $x ,$y, $space, 870);
+        // message
         $pos['left']     = 30;
         $pos['top']      = 200;
         $pos['width']    = 450;
         $pos['fontsize'] = 20;
         $this->draw_txt_to($dst, $pos, $order->message);
-
+        // signature
         $pos['left']     = 350;
-        $pos['top']      = 400;
+        $pos['top']      = 500;
         $pos['width']    = 300;
         $pos['fontsize'] = 20;
         $this->draw_txt_to($dst, $pos, '－'.$order->signature);
-
+        // recipient address
         $pos['left']     = 500;
         $pos['top']      = 250;
         $pos['width']    = 400;
         $pos['fontsize'] = 20;
         $this->draw_txt_to($dst, $pos, $order->address);
-
+        // recipient name
         $pos['left']     = 600;
         $pos['top']      = 400;
         $pos['width']    = 600;
         $pos['fontsize'] = 30;
-        // $this->draw_txt_to($dst, $pos, $order->recipient.'('.$order->recipientMobile.')');
         $this->draw_txt_to($dst, $pos, $order->recipient);
-
+        // qr code
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
             $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
-            imagecopyresampled($dst, $image_pr, 30, 450, 0, 0, 150, 150, imagesx($image_pr), imagesy($image_pr));
+            imagecopyresampled($dst, $image_pr, 30, 420, 0, 0, 150, 150, imagesx($image_pr), imagesy($image_pr));
         }
 
         return $dst;
@@ -711,7 +703,7 @@ class PostcardController extends AbstractActionController
 
     private function draw_txt_to($image, $pos, $string)
     {
-        $font_color = imagecolorallocate($image, $pos['color'][0], $pos['color'][1], $pos['color'][2]);
+        $font_color = imagecolorallocate($image, 38, 38, 38);
         $font_file = "public/fonts/Kaiti.ttc";
         $_string = '';
         $__string = '';
