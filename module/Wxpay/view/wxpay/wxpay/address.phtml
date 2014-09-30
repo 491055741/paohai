@@ -51,7 +51,7 @@ $wxPayHelper->setParameter("input_charset", "UTF-8");
 
                     <input id="zipcodeInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="邮政编码" value=<?php echo $order->zipCode ?> ></input>
 
-                    <a id="saveRecipientToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)"><IMG class="nextbtnicon" src="/images/small/checkboxoff.png">存入地址簿</a>
+                    <a id="saveRecipientToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)"><IMG class="nextbtnicon" src="/images/small/checkboxon.png">存入地址簿</a>
                     <a id="selectRecipientFromAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/addressbook.png">从地址簿选一个</a>
 
                     <a id="submitAddressButton" class="abtn" data-role="none" href="javascript:void(0)" >下一步<IMG class="nextbtnicon" src="/images/small/next_btn.png"></a>
@@ -74,7 +74,7 @@ $wxPayHelper->setParameter("input_charset", "UTF-8");
 
                     <input id="senderAddressInput" data-role="none" class="ui-body-d ui-corner-all ui-shadow-inset" type="text" placeholder="发件人地址" value=<?php echo $order->senderAddress ?> ></input>
 
-                    <a id="saveSenderToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/checkboxoff.png?<?php echo $tag; ?>">存入地址簿</a>
+                    <a id="saveSenderToAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/checkboxon.png?<?php echo $tag; ?>">存入地址簿</a>
                     <a id="selectSenderFromAddressBookBtn" class="bbtn" data-role="none" href="javascript:void(0)" ><IMG class="nextbtnicon" src="/images/small/addressbook.png">从地址簿选一个</a>
 
                     <input id="previewButton" value="去预览" type="image" src="/images/small/preview_btn.png?<?php echo $tag; ?>"></input>
