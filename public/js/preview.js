@@ -1,7 +1,7 @@
 var orderId   = '';
 var userImage = new Image();
 var canvas_w  = 262;
-var canvas_h  = 397;
+var canvas_h  = 385;
 var pic_orig_w = 0;
 var pic_orig_h = 0;
 var userPicUrl = '';

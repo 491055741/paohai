@@ -202,7 +202,11 @@ function addContact(contactName, contactAddress, zipCode, callback) {
         dataType: 'json',
         timeout: 10000,
         error: function(){
-            alert('add contact failed!');
+            if (err == 'timeout') {
+                alert("网速不给力，请稍后再试哦");
+            } else {
+                alert('add contact failed!');
+            }
         },
         success: function(result) {
             callback();
@@ -225,7 +229,11 @@ function getContacts(callback, type) {
         dataType: 'json',
         timeout: 10000,
         error: function () {
-            alert('get contacts failed!');
+            if (err == 'timeout') {
+                alert("网速不给力，请稍后再试哦");
+            } else {
+                alert('add contact failed!');
+            }
         },
         success: function (data) {
             var arr = data;
