@@ -8,7 +8,7 @@ $wxPayHelper->setParameter("bank_type", "WX");
 $wxPayHelper->setParameter("body", "趣邮明信片");
 $wxPayHelper->setParameter("partner", PARTNERID);
 $wxPayHelper->setParameter("out_trade_no", ''.$order->id);
-$wxPayHelper->setParameter("total_fee", "5"); //  ¥0.05
+$wxPayHelper->setParameter("total_fee", "100"); //  100 fen
 $wxPayHelper->setParameter("fee_type", "1");
 $wxPayHelper->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
 $wxPayHelper->setParameter("spbill_create_ip", "127.0.0.1");
