@@ -611,7 +611,7 @@ class PostcardController extends AbstractActionController
             return FALSE;
         }
         // rotate
-        if ($order->templateId > 5) {
+        if ($order->templateId > 6) {
             $image_user = imagerotate($image_user, -90, 0);
         }
 
