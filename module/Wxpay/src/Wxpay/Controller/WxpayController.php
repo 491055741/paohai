@@ -39,6 +39,7 @@ class WxpayController extends AbstractActionController
         }
 
         return $this->viewModel(array(
+            'payPrice' => $this->getOrderTable()->CalculateOrderPrice(),
             'order' => $order,
             'tag'   => JS_TAG,
         ));
@@ -196,6 +197,7 @@ class WxpayController extends AbstractActionController
         }
 
         return $this->viewModel(array(
+            'payPrice' => $this->getOrderTable()->CalculateOrderPrice(),
             'order' => $order,
             'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
             // 'url'   => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],

@@ -2,6 +2,8 @@
 namespace Postcard\Model;
 
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Where;
+use Postcard\Model\Order;
 
 class OrderTable
 {
@@ -97,5 +99,47 @@ class OrderTable
     public function deleteOrder($id)
     {
         $this->tableGateway->delete(array('id' => $id));
+    }
+
+
+    public function CalculateOrderPrice() {
+        $payPrice = 500;
+        $priceRules = array(
+            100 => 5,       // 前一百张支付 5 分
+            300 => 100,     // 101 - 300 支付 100 分
+            500 => 200,
+        );
+
+        $beginDate = date("Y-m-d 00:00:00");
+        $endDate = date("Y-m-d 00:00:00", strtotime("+1 day"));
+        $completeCount = $this->countUserCompleteOrder($beginDate, $endDate);
+        var_dump($completeCount);
+        foreach ($priceRules as $maxCount => $price) {
+            if ($completeCount >= $maxCount) {
+                continue;
+            }
+
+            $payPrice = $price;
+            break;
+        }
+
+        return $payPrice;
+    }
+
+
+    public function countUserCompleteOrder($beginDate, $endDate) {
+        $spec = function(Where $where) use ($beginDate, $endDate) {
+            $where
+                ->in('status', array(
+                    Order::STATUS_PAYED, Order::STATUS_PRINTED,
+                    Order::STATUS_SHIPPED
+                ))->between('payDate', $beginDate, $endDate);
+        };
+        $select = $this->tableGateway->getSql()
+            ->select()->where($spec);
+            
+        $resultSet = $this->tableGateway->selectWith($select);
+        
+        return $resultSet->count();
     }
 }

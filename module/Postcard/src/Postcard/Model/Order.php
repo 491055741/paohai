@@ -7,6 +7,13 @@ namespace Postcard\Model;
 
 class Order
 {
+    const STATUS_CANCEL = 99;
+    const STATUS_UNPAY = 100;
+    const STATUS_PAYED = 101;
+    const STATUS_PRINTED = 102;
+    const STATUS_SHIPPED = 103;
+
+
     public $id;
     public $userName;
     public $picUrl;
