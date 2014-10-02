@@ -3,10 +3,11 @@ namespace Wxpay\Controller;
 
 include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/WxPayHelper.php");
 
-use WxPayHelper;
 use CommonUtil;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use WxPayHelper;
+use Postcard\Model\Order;
 
 ini_set("display_errors", true);
 
@@ -92,7 +93,7 @@ class WxpayController extends AbstractActionController
             $out_trade_no = $this->getRequest()->getQuery('out_trade_no');
 
             $order = $this->getOrderTable()->getOrder($out_trade_no);
-            if ($out_trade_no == '0' || !$order || $order->status != 'UNPAY') { // order not exist, or order already payed.
+            if ($out_trade_no == '0' || !$order || $order->status != Order::STATUS_UNPAY) { // order not exist, or order already payed.
                 echo 'success'; // must respond 'success' to wxpay server
                 return $this->viewModel();
             }
