@@ -142,4 +142,30 @@ class OrderTable
         
         return $resultSet->count();
     }
+
+
+    /**
+     * update order to payed
+     *
+     * @param int $orderId table order field: id
+     * @param int $price RMB fen, eg: 5 -> 5 fen
+     * @param string $payDate format: 2014-10-03 15:15:03
+     * @param string $wxTransId
+     * 
+     * @return int $affectedRows
+     */
+    public function updateOrder2Payed(
+        $orderId, $price, $payedDate, $transId, $wxTransId
+    ) {
+        $data = array(
+            'payDate' => $payedDate,
+            'status' => Order::STATUS_PAYED,
+            'price' => $price,
+            'wx_trans_id' => $wxTransId,
+        );
+
+        return $this->tableGateway->update(
+            $data, array('id' => $orderId)
+        );
+    }
 }
