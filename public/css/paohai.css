@@ -2,7 +2,7 @@
 body, .ui-content {
     margin:0;
     padding:0;
-    background-color: #D5D5D5;
+    background-color: #eee;/*[huangchun 2014-10-9]*/
 }
 
 .blur {
@@ -33,7 +33,6 @@ body, .ui-content {
     height:50px;
     width: 100%;
     margin:0;
-    position: absolute;
 }
 
 .ui-header {
@@ -77,12 +76,12 @@ a.bbtn:link, a.abtn:visited {
     color:#353535;
 }
 
-.postcard {/*[huangchun 2014-9-16] 改为负边距居中,top值由60px改30px*/
-    top: 30px;
+.postcard {/*[huangchun 2014-9-16] 改为负边距居中,top值由60px改30px，height由385px,改为80%*/
+    top: 60px;
     left:   50%;
     margin-left: -131px;
     width:  262px;
-    height: 385px;
+    height: 80%;
     position: absolute;
     overflow: hidden;
 }
@@ -93,26 +92,23 @@ a.bbtn:link, a.abtn:visited {
 }
 
 /*[huangchun 2014-9-16]*/
-.ui-content{
-    position: absolute;
-    top: 50px;
-    left: 0;
-    z-index: 10000;
+/*.ui-content{*/
+    /*position: absolute;*/
+    /*top: 50px;*/
+    /*left: 0;*/
+    /*z-index: 10000;*/
+    /*width: 100%;*/
+    /*bottom: 0;*/
+/*}*/
+.ui-content {
+    height: 100%;
     width: 100%;
-    bottom: 0;
 }
 /*[huangchun 2014-9-24]*/
 @media (max-width: 320px){
     .postcard {
-        width: 210px;
-        margin-left: -105px;
-        height: 310px;
-        top: 40px;
-    }
-}
-@media (max-width: 320px) and (max-height: 480px){
-    .postcard {
-        top: 10px;
+        width: 242px;
+        margin-left: -121px;
     }
 }
 

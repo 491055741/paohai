@@ -52,7 +52,7 @@
 }
 
 #backBoard {
-    top:420px;
+    top: 460px;
     width:320px;
     height:200px;
     position:absolute;
@@ -68,7 +68,7 @@
 }
 
 #preview-button-left {
-    top: 640px;
+    top: 680px;
     width: 50%;
     height: 40px;
     position: absolute;
@@ -76,9 +76,9 @@
 }
 
 #preview-button-right {
-    top: 640px;
+    top: 680px;
     left: 50%;
-    width: 50%;
+    width: 49%;
     height: 40px;
     position: absolute;
     background-color: white;
@@ -104,8 +104,9 @@
     z-index: 10;
 }
 
-@media (max-width: 321px) {/* iphone4适配*/
-    #backBoard {top:350px;}
+/* iphone4
+@media (max-width: 321px) {
+    #backBoard {top:460px;}
     #preview-button-left, #preview-button-right {top: 570px;}
 }
-
+*/

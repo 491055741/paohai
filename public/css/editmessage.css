@@ -1,7 +1,7 @@
 @charset "utf-8";
 /*[huangchun 2014-9-17]将所有绝对定位的元素修改成负边距居中，所有元素整体上移30px*/
 #board {
-    top:    36px;
+    top: 66px;
     left:   50%;
     width:  296px;
     height: 374px;
@@ -14,9 +14,9 @@
 }
 
 #salutationInput {
-    top: 49px;
+    top: 79px;
     left: 50%;
-    width: 250px;
+    width: 245px;
     margin-left: -125px;
     position: absolute;
     min-height: 36px;
@@ -27,7 +27,7 @@
 }
 
 #messageWrap {
-    top: 114px;
+    top: 144px;
     left: 50%;
     width: 250px;
     height: 180px;
@@ -48,9 +48,9 @@
 }
 
 #signatureInput {/*[huangchun 2014-9-18] left由144px改为47%*/
-    top: 306px;
+    top: 336px;
     left: 50%;
-    width: 136px;
+    width: 120px;
     min-height: 2em;
     font-size: 16px;
     position: absolute;
@@ -60,7 +60,7 @@
 }
 
 #voiceMessageButton {/*[huangchun 2014-9-17]*/
-    top: 305px;
+    top: 335px;
     left: 6%;
     width: 80px;
     margin-left: 20px;
@@ -80,7 +80,7 @@
 }
 
 #submitMessageButton {
-    top: 360px;
+    top: 390px;
     left: 214px;
     width: 80px;
     /*height: 16px;*/
@@ -90,9 +90,9 @@
 }
 
 #messageInputHint {
-    top: 98px;
+    top: 128px;
     left: 230px;
-    width: 100px;
+    /* width: 100px; */
     font-size: 10px;
     position: absolute;
     z-index: 10;
@@ -100,18 +100,18 @@
 }
 /*[huangchun 2014-9-19] 由于流体布局在平板上无法正确的显示，因此新增了媒体查询。*/
 @media screen and (max-width: 321px) {/*[huangchun 2014-9-24]适配iphone 4*/
-    #board {top:16px; width:296px; height:334px; margin-left:-148px;}
-    #salutationInput {top:30px; width:250px; margin-left:-125px;}
-    #messageInputHint {top:80px; left:234px;}
-    #messageWrap {top:95px; width:250px; height:160px; margin-left:-125px; overflow:auto;}
-    #messageInput {width:250px; min-height:10em;}
-    #signatureInput {top:268px; width:125px;}
-    #voiceMessageButton {left:5%; top:265px}
+    #board {top: 66px; width:296px; height:334px; margin-left:-148px;}
+    #salutationInput {top: 80px; width: 250px; margin-left:-125px;}
+    #messageInputHint {top: 130px; /* left:234px; */}
+    #messageWrap {top: 145px; width: 250px; height:160px; margin-left:-125px; overflow:auto;}
+    #messageInput {width: 250px; min-height:10em;}
+    #signatureInput {top: 315px; width: 120px;}
+    #voiceMessageButton {left:5%; top: 315px;}
     #playVoiceMessageButton {left:28%; top:265px}
-    #submitMessageButton {top:313px; left:200px;}
+    #submitMessageButton {top: 363px; left:200px;}
 }
 
-@media screen and (min-width: 380px){
+@media screen and (min-width: 360px){
     #voiceMessageButton {left:13%;}
     #playVoiceMessageButton {left:29%;}
     #messageInputHint {left:68%;}

@@ -14,7 +14,7 @@
 }
 
 .postcard_small {
-    top: 15px;
+    top: 60px;/*[huangchun 2014-10-9]*/
     left: 50%;
     width: 235px;
     margin-left: -118px;
@@ -53,13 +53,13 @@
     #toggleTemplateButton {left:7%; top:92%;}
 }
 @media (max-width: 320px){
-    .postcard_small {/*[huangchun 2014-9-24]ÈíàÂØπi phone4ÈÄÇÈÖç*/
+    .postcard_small {/*[huangchun 2014-9-24]’Î∂‘i phone4  ≈‰*/
         width: 200px;
         margin-left: -100px;
     }
 }
 @media (max-width: 320px) and (max-height: 480px){
-    .postcard_small {/*[huangchun 2014-9-24]ÈíàÂØπi phone4ÈÄÇÈÖç*/
+    .postcard_small {/*[huangchun 2014-9-24]’Î∂‘i phone4  ≈‰*/
         width: 180px;
         margin-left: -90px;
         height:265px;
