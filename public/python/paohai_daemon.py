@@ -21,8 +21,7 @@ def main():
 
 if __name__ == "__main__":
 
-    # daemon_num = os.system('ps -fe | grep "python" | grep "paohai-daemon" | grep -v "grep" ')
-    daemon_num = os.popen('ps -fe | grep "python" | grep "paohai-daemon" | grep -v "grep" | wc -l').read().strip()
+    daemon_num = os.popen('ps -fe | grep "python" | grep "paohai_daemon" | grep -v "grep" | wc -l').read().strip()
     if int(daemon_num) > 1:
         print "daemon already running. exit."
         sys.exit(0)
