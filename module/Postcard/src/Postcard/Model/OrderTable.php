@@ -113,7 +113,6 @@ class OrderTable
         $beginDate = date("Y-m-d 00:00:00");
         $endDate = date("Y-m-d 00:00:00", strtotime("+1 day"));
         $completeCount = $this->countUserCompleteOrder($beginDate, $endDate);
-        var_dump($completeCount);
         foreach ($priceRules as $maxCount => $price) {
             if ($completeCount >= $maxCount) {
                 continue;
