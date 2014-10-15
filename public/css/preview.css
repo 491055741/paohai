@@ -11,10 +11,19 @@
     position:absolute;
 }
 
-#messagePreview {
+#salutationPreview {
     font-size:12px;
     text-align:left;
     top:50px;
+    left:8px;
+    width:155px;
+    position:absolute;
+}
+
+#messagePreview {
+    font-size:12px;
+    text-align:left;
+    top:65px;
     left:8px;
     width:155px;
     position:absolute;

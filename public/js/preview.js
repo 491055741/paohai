@@ -91,6 +91,7 @@ function initPreview() {
         top: imageOffsetY * pic_h,
     });
 
+    $("#salutationPreview").text(salutation);
     $("#messagePreview").text(message);
     $("#addressPreview").text(address);
     $("#zipcodePreview").text(zipcode);

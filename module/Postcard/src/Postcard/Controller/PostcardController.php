@@ -668,6 +668,13 @@ class PostcardController extends AbstractActionController
         // zip code
         $zip_color = imagecolorallocate($dst, 38, 38, 38);
         imagepstext($dst, $order->zipCode, $font, $size, $zip_color, $white, $x ,$y, $space, 870);
+
+        // salutation
+        $pos['left']     = 30;
+        $pos['top']      = 155;
+        $pos['width']    = 450;
+        $pos['fontsize'] = 20;
+        $this->draw_txt_to($dst, $pos, $order->salutation);
         // message
         $pos['left']     = 30;
         $pos['top']      = 200;
