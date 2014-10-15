@@ -102,7 +102,7 @@ function submitMessage() {
 
 function gotoAddressPage() {
     // if (typeof WeixinJSBridge == 'undefined') {
-        var url = "http://" + window.location.host + "/wxpay/address?orderId="+orderId;
+        var url = "http://" + window.location.host + "/wxpay/address?orderId="+orderId + "&nonce=" + getNonceStr();
     // } else { // can't open below url outside wechat
         // var redirect_uri = encodeURIComponent("http://paohai.ikamobile.com/wxpay/address");
         // var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a41ea3d983b4538&redirect_uri="+redirect_uri+"&response_type=code&scope=snsapi_base&state="+orderId+"#wechat_redirect";

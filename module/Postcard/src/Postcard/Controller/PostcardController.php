@@ -575,8 +575,8 @@ class PostcardController extends AbstractActionController
         }
 
         $date = date('YmdHis',time());
-        $canvas_w = 960.0;
-        $canvas_h = 1440.0;
+        $canvas_w = 1970.6;
+        $canvas_h = 2880.0;
 
         $image = $this->generateFront($order, $canvas_w, $canvas_h);
         if (!$image) {
