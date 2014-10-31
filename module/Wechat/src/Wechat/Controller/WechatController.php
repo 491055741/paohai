@@ -178,7 +178,7 @@ WELCOME_TEXT;
                         $replyMsgType = "news";
                         $title = "支付测试";
                         $desc = "点击图片进入支付测试";
-                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/wxpay/pay/1234';
+                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/wxpay/test';
                         $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                         echo $resultStr;
                         return;

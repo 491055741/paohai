@@ -9,8 +9,8 @@ def sync():
     cmdStr = 'nohup python '+os.path.dirname(os.path.abspath(__file__))+'/bypy.py syncup '+os.path.dirname(os.path.abspath(__file__))+'/../../userdata/payed/ &'
     os.system(cmdStr)
     current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    send_mail(u'泡海明信片已同步至百度云', current_time)
-    write_log('syncup done.')
+    send_mail(u'趣邮明信片已同步至百度云', current_time)
+    write_log('sync up done.')
 
 def syncInNewThread():
     t = threading.Thread(target=sync)

@@ -71,10 +71,10 @@ class WxpayController extends AbstractActionController
         ));
     }
 
-    public function payTestAction()
-    {
-        return $this->viewModel();
-    }
+    // public function testAction()
+    // {
+    //     return $this->viewModel();
+    // }
 
 /* function resultAction()
     支付通知 notify_url 处理  参见http://www.cnblogs.com/txw1958/p/weixin-pay-trade-notice.html
