@@ -1,0 +1,13 @@
+<?php
+/**
+* 
+*/
+
+define('APPID' , "");  //appid
+define('APPKEY' ,""); //paysign key
+define('SIGNTYPE', "SHA1"); //method
+define('PARTNERID',"");
+define('PARTNERKEY',"");//通加密串
+define('APPSERCERT', "");
+
+?>
