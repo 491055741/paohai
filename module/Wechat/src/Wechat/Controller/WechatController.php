@@ -12,7 +12,7 @@ use Postcard\Libs\Maps;
 use CommonUtil;
 
 
-define("TOKEN", "ademoforpaohai");
+define("TOKEN", "quyoumessagetoken");
 ini_set("display_errors", true);
 
 session_start();
