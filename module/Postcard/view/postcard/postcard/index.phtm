@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html manifest="/safari.manifest">
+<html>
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="css/reset.css?<?php echo $tag; ?>"/>
-    <link rel="stylesheet" href="css/common.css?<?php echo $tag; ?>"/>
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/common.css"/>
 </head>
 <body>
 <div class="container">
     <!--菜单条-->
     <div class="menuBar h42">
-        <a href="#" class="changeImg" onclick="javascript:WeixinJSBridge.call('closeWindow');">更换图片</a>
+        <a href="#" class="changeImg">更换图片</a>
         <a href="#" class="next">下一步</a>
     </div>
     <!--面包屑-->
@@ -25,7 +25,7 @@
     <div class="page1 fc fg1 ovfw">
     <!--大图显示-->
         <div class="bigImg">
-            <div class="bgLayer"><img class="bgLayer_img" src="images/small/template1.png?<?php echo $tag; ?>"></div>
+            <div class="bgLayer"><img class="bgLayer_img" src="images/big_bg.png"></div>
             <div class="imgLayer"><img class="imgLayer_img" src="images/test_img.jpg"></div>
         </div>
         <!--模板选择按钮-->
@@ -35,14 +35,21 @@
         <!--模板缩略图-->
         <div class="thumbImg h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
-            <?php for ($i = 1; $i <= 10; $i += 1): ?>
-                <li><img class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>"</li>
-            <?php endfor; ?>
+                <li id="ss"><img class="thumb_imgs" src="images/big_bg.png" title="背景缩略图1"></li>
+                <li><img class="thumb_imgs" src="images/template5.png" title="背景缩略图2"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
             </ul>
         </div>
     </div>
 </div>
-<script src="js/classie.js?<?php echo $tag; ?>"></script>
-<script src="js/common.js?<?php echo $tag; ?>"></script>
+<script src="js/classie.js"></script>
+<script src="js/common.js"></script>
 </body>
 </html>
