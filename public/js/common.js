@@ -50,6 +50,10 @@ var HC = {
                 bgLayer_img.src = this.src;
             };
         }
+    },
+
+    log: function(data) {   //日志记录
+        console.log(data);
     }
 };
 
