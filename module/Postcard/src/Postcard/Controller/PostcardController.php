@@ -2,7 +2,7 @@
 namespace Postcard\Controller;
 
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
-include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
+// include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
 use CommonUtil;
 use WxPayHelper;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -164,12 +164,12 @@ class PostcardController extends AbstractActionController
 
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
-        $token = $util->getAccessToken();
+//        $token = $util->getAccessToken();
 
         $viewModel =  new ViewModel(array(
             'order' => $order,
             'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
-            'token' => $token,
+//            'token' => $token,
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -540,14 +540,50 @@ class PostcardController extends AbstractActionController
         return $this->contactTable;
     }
 
+    private function checkPath($path)
+    {
+        if (!is_dir($path)) {
+            if (!mkdir($path)) {
+                echo 'Create folder '.$path.' failed!';
+                return false;
+            }
+        }
+        return true;
+    }
+
     private function postcardsPath()
     {
-        return dirname(__FILE__).'/../../../../../userdata/postcards/' . date('Ymd', time()) . '/';
+        $path = dirname(__FILE__).'/../../../../../userdata';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        $path = $path.'/postcards';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        $path = $path.'/'.date('Ymd', time());
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        return $path.'/';
     }
 
     private function voicePath()
     {
-        return dirname(__FILE__).'/../../../../../userdata/voice/';
+        $path = dirname(__FILE__).'/../../../../../userdata';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        $path = $path.'/voice';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        return $path.'/';
     }
 
     private function object2array($array)

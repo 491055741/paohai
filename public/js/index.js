@@ -60,44 +60,6 @@ $(document).on("pageinit", "#makePicturePage", function() {
     userImage.src = userPicUrl;
 });
 
-// function drawBackground() {
-    // $('#page_background').attr("src", userPicUrl);
-    // var a, b;
-    // a = pic_orig_w;
-    // b = pic_orig_h;
-    // var shouldRotate = selectedTemplateIndex > 3;
-    // if (shouldRotate) {
-    //     temp = a; a = b; b = temp;
-    // }
-    // var wRatio = 320 / a;
-    // var hRatio = 480 / b;
-    // var ratio = wRatio > hRatio ? wRatio : hRatio;
-    // pic_w = a * ratio;
-    // pic_h = b * ratio;
-
-    // $('#page_background').css({
-        // width: pic_w,
-        // height: pic_h,
-    //     width:320,
-    //     height:480,
-    // });
-    // return;
-
-    // var canvas = document.getElementById('page_background');
-    // canvas.width = 320;
-    // canvas.height = 480;
-    // var ctx = canvas.getContext('2d');
-    // ctx.save();
-    // if (shouldRotate) {
-    //     ctx.translate(pic_w, 0);
-    //     ctx.rotate(90 * Math.PI / 180);
-    //     ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_h, pic_w);
-    // } else {
-        // ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_w, pic_h);
-    // }
-    // ctx.restore();
-// }
-
 function placePicture() {
     var a, b;
     a = pic_orig_w;

@@ -1,20 +1,16 @@
 <?php
+//$jsApiParameters = '"para"';
 ini_set("display_errors", true);
 
-include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
+include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/js_api_call.php");
 
-$wxPayHelper = new WxPayHelper();
-$wxPayHelper->setParameter("bank_type", "WX");
-$wxPayHelper->setParameter("body", "趣邮明信片");
-$wxPayHelper->setParameter("partner", PARTNERID);
-$wxPayHelper->setParameter("out_trade_no", ''.$order->id);
-$wxPayHelper->setParameter("total_fee", $payPrice);
-$wxPayHelper->setParameter("fee_type", "1");
-$wxPayHelper->setParameter("notify_url", "http://paohai.ikamobile.com/wxpay/result");
-$wxPayHelper->setParameter("spbill_create_ip", "127.0.0.1");
-$wxPayHelper->setParameter("input_charset", "UTF-8");
-
+if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
+    $jsApiParameters = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_ADDR_URL, $order->id);
+} else {
+    $jsApiParameters = "'simulator'";
+}
 ?>
+
 
 <html manifest="/safari.manifest"><!--  -->
     <head>
@@ -104,7 +100,7 @@ $wxPayHelper->setParameter("input_charset", "UTF-8");
 
                 <div data-role="content" align="left">
                     <div class="position-hc">
-                        <h1>...泡海正在定位...<br>将为您贴上本地邮戳!</h1>
+                        <h1>...趣邮正在定位...<br>将为您贴上本地邮戳!</h1>
                         <img src="/images/earth.gif" alt="定位"/>
                         <a href="#" class="hide-hc">隐藏此层</a>
                     </div>
@@ -135,19 +131,38 @@ $wxPayHelper->setParameter("input_charset", "UTF-8");
             //         }
             //     );
             // }
-            function callPay() {
-                WeixinJSBridge.invoke('getBrandWCPayRequest', <?php echo $wxPayHelper->create_biz_package(); ?>, payCallback);
+
+            //调用微信JS api 支付
+            function jsApiCall()
+            {
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',
+                    <?php echo $jsApiParameters; ?>,
+                    function(res){
+                        // WeixinJSBridge.log(res.err_msg);
+//                        alert(res.err_code+res.err_desc+res.err_msg);
+                        if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
+                            self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + getNonceStr();
+                        } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
+                            alert(res.err_msg);
+                        }
+                    }
+                );
             }
 
-            function payCallback(res) {
-                WeixinJSBridge.log(res.err_msg);
-                if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
-                    self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + getNonceStr();;
-                } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
-                    alert(res.err_msg);
-                }
+            function callPay()
+            {
+//                if (typeof WeixinJSBridge == "undefined"){
+//                    if( document.addEventListener ){
+//                        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+//                    }else if (document.attachEvent){
+//                        document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+//                        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+//                    }
+//                }else{
+                    jsApiCall();
+//                }
             }
-
             $(function($) {
                 $("#postcard-loader").hide();
                 $("#content").show();
