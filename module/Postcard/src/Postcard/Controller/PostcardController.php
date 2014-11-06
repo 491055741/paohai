@@ -113,7 +113,7 @@ class PostcardController extends AbstractActionController
         $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
 
         if ($orderId == '0' || !$order) {
-            $selectedTemplateIndex = 1;
+            $selectedTemplateIndex = 0;
             $offsetX = 0;
             $offsetY = 0;
         } else {
@@ -121,7 +121,6 @@ class PostcardController extends AbstractActionController
             $offsetX = $order->offsetX;
             $offsetY = $order->offsetY;
             $picUrl = $order->picUrl;
-
         }
 
         $viewModel =  new ViewModel(array(
@@ -339,7 +338,7 @@ class PostcardController extends AbstractActionController
         $order->id         = $orderId;
         $order->userName   = $this->getRequest()->getPost('userName',   DEFAULT_USER);
         $order->picUrl     = $this->getRequest()->getPost('userPicUrl', DEFAULT_PICURL);
-        $order->templateId = $this->getRequest()->getPost('templateIndex', '1');
+        $order->templateId = $this->getRequest()->getPost('templateIndex', '0');
         $order->offsetX    = $this->getRequest()->getPost('offsetX', '0');
         $order->offsetY    = $this->getRequest()->getPost('offsetY', '0');
         $order->status     = UNPAY;

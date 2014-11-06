@@ -25,7 +25,7 @@
     <div class="page1 fc fg1 ovfw">
     <!--大图显示-->
         <div class="bigImg">
-            <div class="bgLayer"><img class="bgLayer_img" src="images/small/template1.png?<?php echo $tag; ?>"></div>
+            <div class="bgLayer"><img id="user-picture" class="bgLayer_img" src="images/small/template1.png?<?php echo $tag; ?>"></div>
             <div class="imgLayer"><img class="imgLayer_img" src="images/test_img.jpg"></div>
         </div>
         <!--模板选择按钮-->
@@ -35,11 +35,21 @@
         <!--模板缩略图-->
         <div class="thumbImg h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
-            <?php for ($i = 1; $i <= 10; $i += 1): ?>
+            <?php for ($i = 0; $i < 10; $i += 1): ?>
                 <li><img class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>"</li>
             <?php endfor; ?>
             </ul>
         </div>
+
+        <!-- vars begin -->
+        <input id="var-user-name" type="hidden" value="<?php echo $username; ?>" />
+        <input id="var-order-id" type="hidden" value="<?php echo $orderId; ?>" />
+        <input id="var-user-picurl" type="hidden" value="<?php echo $picurl; ?>" />
+        <input id="var-offset-x" type="hidden" value="<?php echo $offsetX; ?>" />
+        <input id="var-offset-y" type="hidden" value="<?php echo $offsetY; ?>" />
+        <input id="var-template-index" type="hidden" value="<?php echo $templateIndex; ?>" />
+        <input id="var-template-rotate-index" type="hidden" value="5" />
+        <!-- vars end -->
     </div>
 </div>
 <script src="/js/jquery-1.9.0.min.js"></script>
