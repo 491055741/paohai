@@ -1,125 +1,50 @@
-<?php
-ini_set("display_errors", true);
-
-include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/js_api_call.php");
-
-if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
-    $jsApiParameters = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id);
-} else {
-    $jsApiParameters = "'simulator'";
-}
-?>
-
-
-<html manifest="/safari.manifest"><!--  -->
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        <link rel="stylesheet" href="/css/jquery.mobile-1.3.1.min.css" />
-        <link rel="stylesheet" href="/css/paohai.css" />
-        <link rel="stylesheet" href="/css/preview.css" />
-        <link rel="stylesheet" href="/css/jquery.shadow.css" />
-
-    </head>
-
-    <body>
-        <div id="postcard-loader" data-role="content" align="center"><img src="/css/images/ajax-loader.gif" /></div>
-        <div id="content" data-role="content" style="display:none">
-            <input id="orderId" type="hidden" value=<?php echo $order->id ?> ></input>
-
-            <input id="picUrl" type="hidden" value=<?php echo $order->picUrl ?> ></input>
-            <input id="templateIndex" type="hidden" value=<?php echo $order->templateId ?> ></input>
-            <input id="offsetX" type="hidden" value=<?php echo $order->offsetX ?> ></input>
-            <input id="offsetY" type="hidden" value=<?php echo $order->offsetY ?> ></input>
-
-            <input id="salutation" type="hidden" value=<?php echo $order->salutation ?> ></input>
-            <input id="message" type="hidden" value=<?php echo $order->message ?> ></input>
-            <input id="signature" type="hidden" value=<?php echo $order->signature ?> ></input>
-            <input id="voiceMediaId" type="hidden" vale=<?php echo $order->voiceMediaId ?> ></input>
-            <input id="recipient" type="hidden" value=<?php echo $order->recipient ?> ></input>
-            <input id="address" type="hidden" value=<?php echo $order->address ?> ></input>
-            <input id="zipcode" type="hidden" value=<?php echo $order->zipCode ?> ></input>
-            <input id="mobile" type="hidden" value=<?php echo $order->recipientMobile ?> ></input>
-
-            <div data-role="page" id="previewPage" data-title="预览" class="page">
-
-                <div data-role="header">
-                    <a data-role="none" align="left" href="#" onclick="javascript:history.go(-1);"><IMG src="/images/small/left_arrow.png">上一步</a>
-                </div>
-
-                <div data-role="content" align="center">
-                    <div class="postcard">
-                        <canvas id="previewUserImg" style="position:absolute; left:0"></canvas>
-                    </div>
-                    <img id="previewTemplateImg" class="postcard"></img>
-
-                    <div id="backBoard">
-                        <img id="postcardback" src="/images/small/postCardBack.png"></img>
-                        <div style="position:absolute; width:320px; height:200px; left:0">
-                            <div id="zipcodePreview"></div>
-                            <div id="messagePreview"></div>
-                            <div id="signaturePreview"></div>
-                            <img id="qrPreview" src="/images/small/qrimg.png" style="disp lay:none;"></img>
-                            <div id="addressPreview"></div>
-                            <div id="recipientPreview"></div>
-                        </div>
-                    </div>
-
-                    <div id="preview-button-left">
-                        <input id="editButton" value="返回修改" type="image" src="/images/small/edit_btn.png"></input>
-                    </div>
-                    <div id="preview-button-right">
-                        <input id="gotoPayButton" value="确认支付" type="image" src="/images/small/pay_confirm_btn.png"></input>
-                    </div>
-
-                </div>
-            </div>
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>step3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/css/reset.css"/>
+    <link rel="stylesheet" href="/css/common.css"/>
+</head>
+<body>
+<input id="var-user-name" type="hidden" value="" />
+<input id="var-order-id" type="hidden" value="" />
+<input id="var-user-picurl" type="hidden" value="/images/test_img.jpg" />
+<input id="var-offset-x" type="hidden" value= "-0.34074074074074073" />
+<input id="var-offset-y" type="hidden" value="0" />
+<input id="var-template-index" type="hidden" value="4" />
+<input id="var-template-rotate-index" type="hidden" value="2" />
+<div class="container">
+    <!--菜单条-->
+    <div class="menuBar h42">
+        <a href="#" class="changeImg">更换图片</a>
+        <a href="#" class="next">下一步</a>
+    </div>
+    <!--面包屑-->
+    <div class="breadNav" id="crumbs">
+        <ul class="frsb">
+            <li><a href="#1">第一步</a></li>
+            <li><a href="#2">第二步</a></li>
+            <li><a href="#3" class="current">第三步</a></li>
+        </ul>
+    </div>
+    <div class="page3 pa">
+        <div class="bigImg_a pa">
+            <div class="bgLayer_a pa"><img class="bgLayer_img_a" src="/images/big_bg.png"></div>
+            <div class="imgLayer_a pa"><img class="imgLayer_img_a" src="/images/test_img.jpg"></div>
         </div>
-
-        <script src="/js/jquery-1.9.0.min.js"></script>
-        <script src="/js/artDialog.js"></script>
-        <script src="/js/jquery.mobile-1.3.1.min.js"></script>
-        <script src="/js/google.fastbutton.js"></script>
-        <script src="/js/jquery.google.fastbutton.js"></script>
-        <!--  <script src="/js/jquery.shadow.js"></script>  -->
-        <script src=<?php echo "/js/util.js?$tag" ?> ></script>
-        <script src=<?php echo "/js/preview.js?$tag" ?> ></script>
-        <script type="text/javascript">
-
-            //调用微信JS api 支付
-            function jsApiCall()
-            {
-                WeixinJSBridge.invoke(
-                    'getBrandWCPayRequest',
-                    <?php echo $jsApiParameters; ?>,
-                    function(res){
-                        if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
-                            self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + getNonceStr();
-                        } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
-                            alert(res.err_msg);
-                        }
-                    }
-                );
-            }
-
-            function callPay()
-            {
-//                if (typeof WeixinJSBridge == "undefined"){
-//                    if( document.addEventListener ){
-//                        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
-//                    }else if (document.attachEvent){
-//                        document.attachEvent('WeixinJSBridgeReady', jsApiCall);
-//                        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
-//                    }
-//                }else{
-                jsApiCall();
-//                }
-            }
-
-            $(function($) {
-                $("#postcard-loader").hide();
-                $("#content").show();
-            });
-        </script>
-    </body>
+        <div class="frontCover pa">
+            <img src="/images/front_cover.png" alt="新信封背景"/>
+            <div class="postZip"></div>
+            <div class="zhufuContent"></div>
+            <div class="youchuo_a"></div>
+            <div class="address_a"></div>
+        </div>
+        <input type="image" id="back_modify" class="back_modify getZ pa w150h50" src="/images/fanhuixiugai.png" alt="返回修改"/>
+        <input type="image" id="pay_conf" class="pay_conf pa w150h50" src="/images/querenzhifu.png" alt="确认支付"/>
+    </div>
+</div>
+<script src="/js/classie.js"></script>
+</body>
 </html>
