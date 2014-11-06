@@ -84,6 +84,7 @@ class OrderTable
             'status'            => $order->status,
             'bank'              => $order->bank,
             'templateId'        => $order->templateId,
+            'postmarkId'        => $order->postmarkId,
             'offsetX'           => $order->offsetX,
             'offsetY'           => $order->offsetY,
             'refundFee'         => $order->refundFee,

@@ -35,6 +35,7 @@ class Order
     public $status;
     public $bank;
     public $templateId;
+    public $postmarkId;
     public $offsetX;
     public $offsetY;
     public $refundFee; // 已退款金额
@@ -62,6 +63,7 @@ class Order
         $this->status           = (isset($data['status']))           ? $data['status'] : null;
         $this->bank             = (isset($data['bank']))             ? $data['bank'] : null;
         $this->templateId       = (isset($data['templateId']))       ? $data['templateId'] : null;
+        $this->postmarkId       = (isset($data['postmarkId']))       ? $data['postmarkId'] : null;
         $this->offsetX          = (isset($data['offsetX']))          ? $data['offsetX'] : null;
         $this->offsetY          = (isset($data['offsetY']))          ? $data['offsetY'] : null;
         $this->refundFee        = (isset($data['refundFee']))        ? $data['refundFee'] : null;

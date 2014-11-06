@@ -345,7 +345,7 @@
                 url, 
                 params, 
                 function success(data) {
-                    if (data.code == "0") {
+                    if (data.code != "0") {
                         HC.showError("Place order failed!", data.code);
                     } else {
                         var url = domain + "/postcard/editpostcard/" 
@@ -388,13 +388,22 @@
                 HC.goToPage(url);                        
             });
         },
-        submitMessage: function() {
+        updateOrderAfterEdit: function() {
+            var self = this;
             var params = {
+                recipient: this.postcard.getReceiptAddress().getName(),
+                address: this.postcard.getReceiptAddress().getAddress(),
+                zipcode: this.postcard.getReceiptAddress().getZipcode(),
                 salutation: this.postcard.getMessage().getSalutation(),
                 message: this.postcard.getMessage().getContent(),
                 signature: this.postcard.getMessage().getSignature(),
+                postmarkId: this.postcard.getPostmarkIndex(),
             };
-            return this.updateOrder(params, successCallback);
+            return this.updateOrder(params, function() {
+                var url = domain + "/wxpay/preview?orderId=" 
+                    + self.getOrderId() + "&nonce=" + HC.getNonceStr();
+                HC.goToPage(url);                        
+            });
         },
         requestVoice: function() {
             var url = domain + "/postcard/requestvoice/" + this.orderId
@@ -414,14 +423,6 @@
                 },
                 "json"
             );
-        },
-        submitAddress: function() {
-            var params = {
-                name: this.postcard.getAddress().getName(),
-                address: this.postcard.getAddress().getAddress(),
-                zipcode: this.postcard.getZipcode().getZipcode(),
-            };
-            return this.updateOrder(params, successCallback);
         },
         goToPay: function() {
             var url = domain + "/wxpay/asyncmakepicture/" + this.orderId;

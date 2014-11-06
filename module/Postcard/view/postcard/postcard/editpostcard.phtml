@@ -8,18 +8,11 @@
     <link rel="stylesheet" href="/css/common.css?<?php echo $tag; ?>"/>
 </head>
 <body>
-<input id="var-user-name" type="hidden" value="" />
-<input id="var-order-id" type="hidden" value="" />
-<input id="var-user-picurl" type="hidden" value="/images/test_img.jpg" />
-<input id="var-offset-x" type="hidden" value="0" />
-<input id="var-offset-y" type="hidden" value="0" />
-<input id="var-template-index" type="hidden" value="1" />
-<input id="var-template-rotate-index" type="hidden" value="2" />
 <div class="container">
     <!--菜单条-->
     <div class="menuBar h42">
-        <a href="#" class="changeImg">更换图片</a>
-        <a href="#" class="next">下一步</a>
+        <a href="#" class="changeImg" onclick="javascript:WeixinJSBridge.call('closeWindow');">更换图片</a>
+        <a id="next-step" href="#" class="next">下一步</a>
     </div>
     <!--面包屑-->
     <div class="breadNav" id="crumbs">
@@ -97,7 +90,7 @@
         <input id="var-message" type="hidden" value="<?php echo $order->message; ?>" />
         <input id="var-signature" type="hidden" value="<?php echo $order->signature; ?>" />
 
-        <input id="var-postmark-index" type="hidden" value="1" />
+        <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId; ?>" />
         <!-- vars end -->
 </div>
 <script src="/js/jquery-1.9.0.min.js"></script>

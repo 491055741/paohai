@@ -9,7 +9,7 @@
         var postmarkIndex = order.getPostcard().getPostmarkIndex();
 
         //页面2中要初始化的信息
-        $(".shoujianInput").val(messageInfo.getSalutation());
+        $(".shoujianInput").val(receiptInfo.getName());
         //祝福信息
         $("#liuyan").val(messageInfo.getContent());
         //邮戳
@@ -89,6 +89,7 @@
 
     $(function() {
         // init data
+        order.setOrderId($("#var-order-id").val());
         order.getPostcard().setPostmarkIndex($("#var-postmark-index").val());
         order.getPostcard().getReceiptAddress().setVars({
             name: $("#var-recipient").val(),
@@ -102,5 +103,9 @@
         });
         callPop();
         setCardInfo();
+
+        $("#next-step").on("click", function() {
+            order.updateOrderAfterEdit();
+        });
     });
 })(jQuery);
