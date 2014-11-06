@@ -3,7 +3,7 @@
  * 页面逻辑主要放在该文件
  */
 
-var HC1 = {
+var HC = {
         posrcarParams: {
             picUrl: "http://xxxxxxxx",
             offsetX: -0.0017,
@@ -60,7 +60,7 @@ var HC1 = {
      *
      * */
     up : function () { //点击选择模板按钮触发
-        var tp = HC1.touch;
+        var tp = HC.touch;
         var selectTem = tp.selectTem,
             bgL = tp.bg_layer,
             imgL = tp.img_layer,
@@ -75,7 +75,7 @@ var HC1 = {
             };
     },
     calWidth : function () { //计算缩略图ul的宽度
-        var tp = HC1.touch;
+        var tp = HC.touch;
         var thumb_ul = tp.thumb_ul,
             ul_li = tp.ul_li;
 
@@ -87,7 +87,7 @@ var HC1 = {
         }
     },
     clickImgTemp : function () { //点击模板缩略图动态更换 预览图的背景框
-        var tp = HC1.touch;
+        var tp = HC.touch;
         var ul_imgs = tp.ul_imgs,
             bgLayer_img = tp.bgLayer_img,
             i = 0,
@@ -105,12 +105,12 @@ var HC1 = {
                 e.stopPropagation();
                 bgLayer_img.src = this.src;
                 console.log(this.index);
-                HC1.rotate(this.index);
+                HC.rotate(this.index);
             };
         }
     },
     handtouch : function (e) { //
-        var tp = HC1.touch;
+        var tp = HC.touch;
         if(e.touches.length == 1){
             switch(e.type){
                 case "touchstart":
@@ -124,7 +124,7 @@ var HC1 = {
                     tp.tey = parseInt(e.changedTouches[0].clientY);
                     tp.x = parseInt(e.changedTouches[0].clientX - tp.tsx ) ;
                     tp.y = parseInt( e.changedTouches[0].clientY - tp.tsy);
-                    HC1.scrolling(tp.x,tp.y);
+                    HC.scrolling(tp.x,tp.y);
                     tp.tsx = tp.tex;
                     tp.tsy = tp.tey;
                     break;
@@ -132,8 +132,8 @@ var HC1 = {
         }
     },
     scrolling : function (x,y) { //将预览图滚相应的位移
-        var tp = HC1.touch;
-        var img_layer = HC1.touch.img_layer;
+        var tp = HC.touch;
+        var img_layer = HC.touch.img_layer;
         img_layer.scrollTop = img_layer.scrollTop - y;
         img_layer.scrollLeft = img_layer.scrollLeft - x;
 
@@ -141,7 +141,7 @@ var HC1 = {
         tp.var_offset_y.value = -(img_layer.scrollTop / tp.pic_h);//offset-x 2014-11-6
     },
     scale : function (b) { //缩放
-        var tp = HC1.touch;
+        var tp = HC.touch;
         var pic_orig_w = tp.imgLayer_img.offsetWidth,
             pic_orig_h = tp.imgLayer_img.offsetHeight,
             bg_w = tp.bgLayer_img.offsetWidth,
@@ -164,33 +164,33 @@ var HC1 = {
 
     },
     rotate : function(selectedTemplateIndex){ //旋转
-        var tp = HC1.touch;
+        var tp = HC.touch;
         console.log("a:"+selectedTemplateIndex);
         console.log(tp.var_template_rotate_index.value);
         if( selectedTemplateIndex > tp.var_template_rotate_index.value ) {
             tp.s = true;
-            HC1.scale(tp.s);
+            HC.scale(tp.s);
             tp.imgLayer_img.style.webkitTransform="rotate(90deg)";
             tp.imgLayer_img.style.transform="rotate(90deg)";
         }else{
             tp.s = false ;
-            HC1.scale(tp.s);
+            HC.scale(tp.s);
             tp.imgLayer_img.style.webkitTransform="";
             tp.imgLayer_img.style.transform="";
         }
         tp.var_template_index.value = selectedTemplateIndex ;
     },
      init : function () {
-        var tp = HC1.touch,
+        var tp = HC.touch,
             stepNum = tp.pageTitle.innerHTML;
             console.log(stepNum);
              tp.imgLayer_img.src = tp.var_user_picurl.value;
              tp.bgLayer_img.src = tp.ul_imgs[tp.var_template_index.value].src;
-             HC1.up();
-             HC1.calWidth();
-             HC1.clickImgTemp();
+             HC.up();
+             HC.calWidth();
+             HC.clickImgTemp();
              setTimeout(function () {
-                 HC1.scale();
+                 HC.scale();
                  //初始化，是否旋转 2014-11-6
                  tp.ul_imgs[tp.var_template_index.value].click();
                  //初始化，是否位移 2014-11-6
@@ -200,6 +200,6 @@ var HC1 = {
         }
 };
 
-EventUtil.addLoadEvent(HC1.init);
-EventUtil.addhandler(HC1.touch.bg_layer,"touchstart",HC1.handtouch);
-EventUtil.addhandler(HC1.touch.bg_layer,"touchmove",HC1.handtouch);
+EventUtil.addLoadEvent(HC.init);
+EventUtil.addhandler(HC.touch.bg_layer,"touchstart",HC.handtouch);
+EventUtil.addhandler(HC.touch.bg_layer,"touchmove",HC.handtouch);
