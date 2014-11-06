@@ -27,9 +27,17 @@ var HC = {
             tey : 0,
             x : 0,
             y : 0,
-        s : false
+            s : false,
+        //缩放后的宽高变量 2014-11-6
+            pic_w : 0,
+            pic_h : 0
 
     },
+    /**
+     *
+     * 页面1逻辑
+     *
+     * */
     up : function () { //点击选择模板按钮触发
         var tp = HC.touch;
         var selectTem = tp.selectTem,
@@ -68,7 +76,7 @@ var HC = {
 
             ul_imgs[i].index = function(n){
                 return function(){
-                    return n
+                    return n;
                 }();
             }(i);
 
@@ -108,10 +116,10 @@ var HC = {
         img_layer.scrollTop = img_layer.scrollTop - y;
         img_layer.scrollLeft = img_layer.scrollLeft - x;
 
-        tp.var_offset_x.value = img_layer.scrollLeft;//offset-x
-        tp.var_offset_y.value = img_layer.scrollTop;//offset-x
+        tp.var_offset_x.value = -(img_layer.scrollLeft / tp.pic_w);//offset-x 2014-11-6
+        tp.var_offset_y.value = -(img_layer.scrollTop / tp.pic_h);//offset-x 2014-11-6
     },
-    scale : function (b) {
+    scale : function (b) { //缩放
         var tp = HC.touch;
         var pic_orig_w = tp.imgLayer_img.offsetWidth,
             pic_orig_h = tp.imgLayer_img.offsetHeight,
@@ -126,11 +134,15 @@ var HC = {
             wRatio = bg_w / pic_orig_w ;
             hRatio = bg_h / pic_orig_h ;
             var ratio = wRatio > hRatio ? wRatio : hRatio;
-            tp.imgLayer_img.style.width = pic_orig_w * ratio + "px";
-            tp.imgLayer_img.style.height = pic_orig_h * ratio + "px";
+            //将缩放后的宽高赋值给变量 2014-11-6
+            tp.pic_w = pic_orig_w * ratio;
+            tp.pic_h = pic_orig_h * ratio;
+
+            tp.imgLayer_img.style.width = tp.pic_w + "px";
+            tp.imgLayer_img.style.height = tp.pic_h + "px";
 
     },
-    rotate : function(selectedTemplateIndex){
+    rotate : function(selectedTemplateIndex){ //旋转
         var tp = HC.touch;
         console.log("a:"+selectedTemplateIndex);
         console.log(tp.var_template_rotate_index.value);
@@ -147,7 +159,7 @@ var HC = {
         }
         tp.var_template_index.value = selectedTemplateIndex ;
     },
-    init : function () {
+     init : function () {
         var  tp = HC.touch;
         tp.imgLayer_img.src = tp.var_user_picurl.value;
         tp.bgLayer_img.src = tp.ul_imgs[tp.var_template_index.value].src;
@@ -157,14 +169,15 @@ var HC = {
         HC.clickImgTemp();
         setTimeout(function () {
             HC.scale();
+            //初始化，是否旋转 2014-11-6
+            tp.ul_imgs[tp.var_template_index.value].click();
+            //初始化，是否位移 2014-11-6
+            tp.img_layer.scrollLeft = (-tp.var_offset_x.value * tp.pic_w);
+            tp.img_layer.scrollTop = (-tp.var_offset_y.value * tp.pic_h);
         },1000);
     }
 };
 
 EventUtil.addLoadEvent(HC.init);
-//EventUtil.addLoadEvent(HC.up);
-//EventUtil.addLoadEvent(HC.calWidth);
-//EventUtil.addLoadEvent(HC.clickImgTemp);
-//EventUtil.addLoadEvent(HC.scale);
 EventUtil.addhandler(HC.touch.bg_layer,"touchstart",HC.handtouch);
 EventUtil.addhandler(HC.touch.bg_layer,"touchmove",HC.handtouch);

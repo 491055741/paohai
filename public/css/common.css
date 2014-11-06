@@ -4,16 +4,24 @@ body {background: olivedrab;}
 
 .w100p {width: 100%;}
 .w95 {width: 95px;}
+.w80h80{width: 80px;height: 80px;}
+.w150h50{width: 120px;height: 50px;}
 .h42 {height: 42px;line-height: 42px;}
 .h38 {height: 38px;line-height: 38px;}
 .h28 {height: 28px;line-height: 28px;}
 .h18 {height: 18px;line-height: 18px;}
+
+.fl {float: left;}
+.fr {float: right;}
 .pt30 {padding-top: 30px;}
 .pt20 {padding-top: 20px;}
 .fg1 {flex-grow: 1;}
+
+.pa {position: absolute;}
+.pr {position: relative;}
 .ovfw {overflow: hidden;}
-.fl {float: left;}
-.fr {float: right;}
+.hide {display: none;}
+
 .bc0e5a98 {background: #0e5a98;}
 
 .btlr_radius20 {border-top-left-radius: 20px;border-top-right-radius: 20px;}
@@ -39,6 +47,7 @@ body {background: olivedrab;}
     position: relative;
     margin: 0 3px 0 0;
     text-decoration: none;
+    font-size: 12px;
     color: #fff;
 }
 #crumbs ul li a::after {
@@ -129,3 +138,135 @@ body {background: olivedrab;}
 }
 .thumbImg ul li img{width: 60px;height: 60px;}
 .up.thumbImg{height: 108px;}
+
+
+
+/****************页面2*******************/
+.bgK {z-index: 1;top: 20px;left: 50%;margin-left: -175px;}
+.bgK img {width: 350px;height: 400px;}
+
+.infoWrap {z-index: 2;top: 60px;width: 290px;height:100px;left: 50%;margin-left:-145px;}
+.youzhen {z-index: 3;width:213px;height:32px;top: 0;left: 0;}
+.youzhen em {display: inline-block;margin-right: 4px;width: 30px;height: 30px;line-height:30px;background: url("../images/p1.gif") no-repeat center;text-align: center;vertical-align: top;}
+         em.mr0 {margin-right: 0;}
+.youchuo {z-index: 3;top: 0;right: 0;overflow: hidden;}
+.youchuo img {}
+.shoujianren {z-index: 3;width: 203px;height: 38px;line-height:38px;top: 45px;left:0;}
+.shoujianInput {width: 200px;height: 38px;border-radius: 15px;border:1px solid #999;padding-left: 5px;background: #eee;}
+.zhufu {z-index: 2;width: 292px;height: 174px;top: 160px;left: 50%;margin-left: -146px;padding:10px;padding-bottom:20px;border-radius: 15px;background: #eee;}
+.getJ,.getZ {z-index: 2; top: 350px; left: 50%;}
+.getZ {margin-left: -135px;}
+.getJ {margin-left: 15px;}
+.lab1 {display: block;z-index: 2;width: 80px;top: 310px;left: 50%;margin-left: 70px;font-size: 12px;color: #999;}
+
+/*弹窗*/
+.pop1,.pop2,.pop3 {height:100%;width:100%;top: 0;left: 0;background: rgba(0,0,0,0.7);z-index: 5}
+.pop1 .bgK,.pop2 .bgK,.pop3 .bgK {top:100px;}
+
+/*弹窗1*/
+.lab2 {width: 188px;height: 30px;z-index:5;top:150px;left: 50%;margin-left: -94px;font-size: 20px;font-weight: bold;color: #DD4E5A;}
+.youchuoWraper {
+    width: 300px;
+    height: 200px;
+    top: 200px;
+    left: 50%;
+    margin-left: -160px;
+    z-index: 6;
+}
+.youchuoWraper a {
+    display: block;
+    position: relative;
+    float: left;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.youchuoWraper img {width: 90px;height: 90px;}
+
+.youchuoWraper i {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: -5px;
+    z-index: 7;
+    width: 37px;
+    height: 37px;
+    background: url("../images/youchuo-gou.png") no-repeat center;
+}
+
+.youchuo_confirm {
+    z-index: 5;
+    width: 150px;
+    height: 50px;
+    top: 425px;
+    left: 50%;
+    margin-left: -75px;
+}
+a.on i {display: block;}
+/*弹窗2*/
+.pop2 {}
+.to_who,.postcode {
+    z-index: 5;
+    width: 270px;
+    height: 40px;
+    top: 150px;
+    left: 50%;
+    margin-left: -135px;
+    border-radius: 15px;
+    border: 1px solid #999;
+    padding-left: 10px;
+    background: #eee;
+}
+.postcode {top:205px;}
+.to_address,.liuyan {
+    z-index: 5;
+    width: 270px;
+    height: 100px;
+    left: 50%;
+    top: 255px;
+    margin-left: -135px;
+    border-radius: 15px;
+    padding: 5px;
+    background: #eee;
+}
+.save_add,.voice_btn {
+    display: inline-block;
+    height: 42px;
+    line-height: 42px;
+    padding-left: 40px;
+    color: #000;
+}
+.save_add {background: url("../images/nogou.gif") no-repeat left 50%;}
+.in.save_add {background: url("../images/gou.gif") no-repeat left 50%}
+
+.go_add {
+    width: 140px;
+    height: 40px;
+    border: 0;
+    margin-left: 15px;
+    border-radius: 15px;
+    color: #999;
+}
+.menu {
+    z-index: 5;
+    top: 370px;
+    left: 50%;
+    width: 270px;
+    margin-left: -135px;
+}
+/*弹窗3*/
+.pop3 {}
+.pop3 .bgK {margin-left: -160px;}
+.pop3 .bgK img{width: 320px;}
+.pop3 .menu {height: 50px;line-height: 50px;}
+.liuyan {height:150px;top: 205px;}
+.voice_btn {padding-left: 0;margin-right:10px;width: 50px;height: 50px;}
+.myName {
+    display: inline-block;
+    width: 200px;
+    height: 40px;
+    padding-left: 5px;
+    vertical-align: 25px;
+    border-radius: 15px;
+    border: 1px solid #999;
+    background: #eee;
+}

@@ -2,3 +2,4 @@
 .gitignore
 install.sh
 *.bak
+*.bak.js

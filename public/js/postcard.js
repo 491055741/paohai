@@ -341,7 +341,7 @@
                     if (data.code != "0") {
                         HC.showError("Place order failed!", data.code);
                     } else {
-                        var url = domain + "postcard/editmessage" 
+                        var url = domain + "postcard/editpostcard/" 
                             + data.orderId + "?nonce=" + HC.getNonceStr();
                         HC.goToPage(url);                        
                     }
