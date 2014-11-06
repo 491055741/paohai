@@ -42,31 +42,43 @@ var HC2 = {
      * 页面2逻辑
      *
      * */
-    setCardInfo : function(salutation,content,signature,addressName,address,addressZipcode,n){
+    setCardInfo : function(){
         var dp = HC2.data;
         var pp = HC2.posrcarParams;
+        var receiptInfo = order.getPostcard().getReceiptAddress();
+        var messageInfo = order.getPostcard().getMessage(); 
+        var postmarkIndex = order.getPostcard().getPostmarkIndex();
 
         //页面2中要初始化的信息
-        var post_code = addressZipcode || "646200";//邮政编码
-        var post_stamp = "images/youchuo"+n+".png" || null;//邮戳
-        //收件人信息
-        dp.addressee_info.value = signature || "王秋儿";
+        // 称呼
+        dp.addressee_info.value = messageInfo.getSalutation() || "";
         //祝福信息
-        dp.greeting_info.value = content || "开开心心，快快乐乐！";
+        dp.greeting_info.value = messageInfo.getContent() || "";
         //邮戳
-        dp.post_stamp.src = post_stamp;
+        //var post_stamp = "/images/youchuo"+n+".png" || null;//邮戳
+        dp.post_stamp.src = "/images/youchuo"+ postmarkIndex +".png";
+
         //邮编回填
+        var post_code = receiptInfo.getZipcode() || "000000";//邮政编码
         var postcodeArr = String(post_code).split("");
         for (var i = 0; i < dp.post_em.length;i++) {
              dp.post_em[i].innerHTML = postcodeArr[i];
         }
+
         //弹窗1
-        pp.postmarkIndex = n || pp.postmarkIndex;
+        pp.postmarkIndex = postmarkIndex || pp.postmarkIndex;
         console.log("pp.postmarkIndex:"+pp.postmarkIndex);
         dp.post_stamp_a[pp.postmarkIndex].click();
+
         //弹窗2
+        $(".pop2 .to_who").val(receiptInfo.getName());
+        $(".pop2 .postcode").val(receiptInfo.getZipcode());
+        $(".pop2 .to_address").val(receiptInfo.getAddress());
 
         //弹窗3
+        $(".pop3 .to_who").val(messageInfo.getSalutation());
+        $(".pop3 .liuyan").val(messageInfo.getContent());
+        $(".pop3 .myName").val(messageInfo.getSignature());
     },
 
     callPop : function () {
@@ -74,7 +86,7 @@ var HC2 = {
         var pp = HC2.posrcarParams;//模拟参数
         EventUtil.addhandler(dp.getJ,"click", function () {//显示弹窗1
             classie.removeClass(dp.pop1,"hide");
-            HC2.setCardInfo("","","","","","",pp.postmarkIndex);
+            HC2.setCardInfo();
         });
         EventUtil.addhandler(dp.getZ,"click", function () {//显示弹窗1
             classie.removeClass(dp.pop1,"hide");
@@ -89,14 +101,20 @@ var HC2 = {
         });
 
         EventUtil.addhandler(dp.confirm1,"click", function () { //确定弹窗1：邮戳
-            classie.addClass(dp.pop1,"hide");
-            HC2.setCardInfo("","","","","","",pp.postmarkIndex);
-        });
-        EventUtil.addhandler(dp.confirm2,"click", function () { //确定弹窗2：收件人信息
+            // TODO set postcard object
+
             classie.addClass(dp.pop1,"hide");
             HC2.setCardInfo();
         });
+        EventUtil.addhandler(dp.confirm2,"click", function () { //确定弹窗2：收件人信息
+            // TODO set postcard object
+
+            classie.addClass(dp.pop2,"hide");
+            HC2.setCardInfo();
+        });
         EventUtil.addhandler(dp.confirm1,"click", function () { //确定弹窗3：要祝福的对象的信息
+            // TODO set postcard object
+
             classie.addClass(dp.pop3,"hide");
             HC2.setCardInfo();
         });
@@ -125,4 +143,20 @@ var HC2 = {
         }
     }
 };
-HC2.callPop();
+
+$(function() {
+    // init data
+    order.getPostcard().setPostmarkIndex($("#var-postmark-index").val());
+    order.getPostcard().getReceiptAddress().setVars({
+        name: $("#var-recipient").val(),
+        address: $("#var-address").val(),
+        zipcode: $("#var-zipcode").val(),
+    });
+    order.getPostcard().getMessage().setVars({
+        salutation: $("#var-salutation").val(),
+        content: $("#var-message").val(),
+        signature: $("#var-signature").val(),
+    });
+    HC2.callPop();
+    HC2.setCardInfo();
+});

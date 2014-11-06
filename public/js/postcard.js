@@ -173,7 +173,7 @@
             image: new PostcardImage(),        // 明信片图片
             receiptAddress: new Address(),     // 收件人地址
             message: new Message(),            // 明信片祝福信息
-            postmark: ""                       // 邮戳
+            postmarkIndex: 0,                  // 邮戳编号
         };
 
         $.extend(Postcard.prototype, {
@@ -209,7 +209,14 @@
             },
             getMessage: function() {
                 return varCollection.message;
-            }
+            },
+            getPostmarkIndex: function() {
+                return varCollection.postmarkIndex;
+            },
+            setPostmarkIndex: function(postmarkIndex) {
+                varCollection.postmarkIndex = postmarkIndex;
+                return this;
+            },
         });
     }
 
