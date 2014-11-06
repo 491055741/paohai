@@ -768,7 +768,6 @@ class PostcardController extends AbstractActionController
 
         // location posrmark
 //        $location = $this->getUserGeoAddress($order->userName);
-
         $location = array(
             'province' => '广西',
             'city' => '北京',
@@ -778,7 +777,6 @@ class PostcardController extends AbstractActionController
         );
 
         if ($location != NULL) {
-
             $postmark = $this->getPostmark($location['city']);
             if ($postmark != NULL) {
                 $this->draw_txt_to($dst, $postmark, date($postmark['dateFormat'], time()));
@@ -810,6 +808,8 @@ class PostcardController extends AbstractActionController
         }
 
         // Commemorative Chop
+        $image = imagecreatefrompng('public/images/big/'.$imageName);
+        imagecopyresampled($dst, $image, 700, 420, 0, 0, 150, 150, imagesx($image), imagesy($image));
 
 
         return $dst;
