@@ -1,12 +1,13 @@
 <?php
 namespace Wxpay\Controller;
 
-include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/WxPayHelper.php");
+include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/WxPayPubHelper/WxPayPubHelper.php");
+include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/CommonUtil.php");
 
+use Notify_pub;
 use CommonUtil;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use WxPayHelper;
 use Postcard\Model\Order;
 
 ini_set("display_errors", true);
@@ -18,7 +19,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201409301857'); // 好像不管用，待查
+define('JS_TAG', '201409301857');
 
 class WxpayController extends AbstractActionController
 {
@@ -27,6 +28,9 @@ class WxpayController extends AbstractActionController
     public function previewAction()
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
+        if ($orderId == '0') {
+            $orderId = $this->getRequest()->getQuery('state', '0');
+        }
         $order = $this->getOrderTable()->getOrder($orderId);
 
         if ($orderId == '0' || !$order) {
@@ -71,48 +75,48 @@ class WxpayController extends AbstractActionController
         ));
     }
 
-    public function payTestAction()
-    {
-        return $this->viewModel();
-    }
-
-/* function resultAction()
-    支付通知 notify_url 处理  参见http://www.cnblogs.com/txw1958/p/weixin-pay-trade-notice.html
- */
+    // 支付通知 notify_url 处理
     public function resultAction()
     {
-        $getStr = $_SERVER['QUERY_STRING'];
-        $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
+        //使用通用通知接口
+        $notify = new Notify_pub();
 
-        $this->payLogger('GET:'.$getStr.'  POST:'.$postStr);
+        //存储微信的回调
+        $xml = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
+        $notify->saveData($xml);
 
-        $trade_state = $this->getRequest()->getQuery('trade_state', 1);
-        if ($trade_state == 0 && $postStr != null) {    // pay success
-    
-            $postObj = @simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $out_trade_no = $this->getRequest()->getQuery('out_trade_no');
+        //验证签名，并回应微信。
+        //对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，
+        //微信会通过一定的策略（如30分钟共8次）定期重新发起通知，
+        //尽可能提高通知的成功率，但微信不保证通知最终能成功。
+        if($notify->checkSign() == FALSE){
+            $notify->setReturnParameter("return_code","FAIL");//返回状态码
+            $notify->setReturnParameter("return_msg","签名失败");//返回信息
+        }else{
+            $notify->setReturnParameter("return_code","SUCCESS");//设置返回码
 
-            $order = $this->getOrderTable()->getOrder($out_trade_no);
-            if ($out_trade_no == '0' || !$order || $order->status != Order::STATUS_UNPAY) { // order not exist, or order already payed.
-                echo 'success'; // must respond 'success' to wxpay server
-                return $this->viewModel();
+            if ($notify->data["return_code"] == "FAIL") {
+                $this->payLogger("【通信出错】:\n".$xml."\n");
+            } elseif ($notify->data["result_code"] == "FAIL"){
+                $this->payLogger("【业务出错】:\n".$xml."\n");
+            } else {
+                $this->payLogger("【支付成功】:\n".$xml."\n");
+                $out_trade_no = $notify->data['out_trade_no'];
+                $order = $this->getOrderTable()->getOrder($out_trade_no);
+                if ($out_trade_no != '0' && $order && $order->status == Order::STATUS_UNPAY) {
+                    // update order status to 'payed'
+                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/'.$out_trade_no.'/101';
+                    $html = file_get_contents($url);
+                    // copy postcard pictures to 'payed' folder
+                    $this->copyPicture($out_trade_no);
+                }
             }
-
-            $transId = $this->getRequest()->getQuery('transaction_id');
-            $openId  = $postObj->OpenId;
-
-            // update order status to 'payed'
-            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/'.$out_trade_no.'/101';
-            $html = file_get_contents($url);
-
-            // copy postcard pictures to 'payed' folder
-            $this->copyPicture($out_trade_no);
         }
-
-        echo 'success'; // must respond 'success' to wxpay server
+        $returnXml = $notify->returnXml();
+        echo $returnXml;
         return $this->viewModel();
     }
-
+/*
     private function refund($orderId)
     {
         $wxPayHelper = new WxPayHelper();
@@ -156,7 +160,7 @@ class WxpayController extends AbstractActionController
                             );
         return $retObj;
     }
-
+*/
     public function refundAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
@@ -170,31 +174,20 @@ class WxpayController extends AbstractActionController
         return $this->viewModel();
     }
 
-    // 参考http://mp.weixin.qq.com/wiki/index.php?title=%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF
-    // 从授权页面重定向到此页面，用code换取oauth2_access_token
     public function addressAction()
     {
-        // $code = $this->getRequest()->getQuery('code', '0');
-        // if ($code == '0') {
-        //     return $this->errorViewModel(array('code' => 1, 'msg' => '需要从授权页面获取的code'));
-        // }
-
-        // $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx4a41ea3d983b4538&secret=424b9f967e50a2711460df2a9c9efaaa&code='.$code.'&grant_type=authorization_code';
-        // $res = json_decode(file_get_contents($url));
-        // if (isset($res->errcode)) {
-        //     // return $this->errorViewModel(array('code' => 1, 'msg' => 'get access_token failed: '. $res->errmsg));
-        //     $res->access_token = "fake_token:addressnotavailable";
-        // }
-
         $orderId = $this->getRequest()->getQuery('orderId', '0');
+        if ($orderId == '0') {
+            $orderId = $this->getRequest()->getQuery('state', '0');
+        }
         $order = $this->getOrderTable()->getOrder($orderId);
 
         if ($orderId == '0' || !$order) {
-            return $this->errorViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'invalid order id :'.$orderId));
         }
 
         if ($order->status == CANCEL) {
-            return $this->errorViewModel(array('code' => 2, 'msg' => '订单'.$orderId.'已失效，请重新创建明信片'));
+            return $this->errorViewModel(array('code' => 2, 'msg' => '订单:'.$orderId. '已失效，请重新创建明信片'));
         }
 
         return $this->viewModel(array(

@@ -2,7 +2,7 @@
 namespace Postcard\Controller;
 
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
-include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
+// include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
 use CommonUtil;
 use WxPayHelper;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -10,6 +10,7 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Postcard\Model\Order;
 use Postcard\Model\Contact;
+use Postcard\Libs\PinYin;
 
 define('DEFAULT_PICURL', 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg');
 define('DEFAULT_USER', 'default_user_openid'); // default user (my openid is ocKsTuKbE4QqHbwGEXmVnuLHO_sY)
@@ -27,6 +28,7 @@ define('JS_TAG', '201409291514'); // 好像不管用，待查
 class PostcardController extends AbstractActionController
 {
     protected $orderTable;
+    protected $userPositionTable;
     protected $contactTable;
 
     public function voiceQrCodeAction()
@@ -163,12 +165,12 @@ class PostcardController extends AbstractActionController
 
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
-        $token = $util->getAccessToken();
+//        $token = $util->getAccessToken();
 
         $viewModel =  new ViewModel(array(
             'order' => $order,
             'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
-            'token' => $token,
+//            'token' => $token,
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -539,14 +541,50 @@ class PostcardController extends AbstractActionController
         return $this->contactTable;
     }
 
+    private function checkPath($path)
+    {
+        if (!is_dir($path)) {
+            if (!mkdir($path)) {
+                echo 'Create folder '.$path.' failed!';
+                return false;
+            }
+        }
+        return true;
+    }
+
     private function postcardsPath()
     {
-        return dirname(__FILE__).'/../../../../../userdata/postcards/' . date('Ymd', time()) . '/';
+        $path = dirname(__FILE__).'/../../../../../userdata';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        $path = $path.'/postcards';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        $path = $path.'/'.date('Ymd', time());
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        return $path.'/';
     }
 
     private function voicePath()
     {
-        return dirname(__FILE__).'/../../../../../userdata/voice/';
+        $path = dirname(__FILE__).'/../../../../../userdata';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        $path = $path.'/voice';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        return $path.'/';
     }
 
     private function object2array($array)
@@ -704,7 +742,99 @@ class PostcardController extends AbstractActionController
             imagecopyresampled($dst, $image_pr, 30, 420, 0, 0, 150, 150, imagesx($image_pr), imagesy($image_pr));
         }
 
+        // location posrmark
+//        $location = $this->getUserGeoAddress($order->userName);
+
+        $location = array(
+            'province' => '广西',
+            'city' => '北京',
+            'district' => '南山',
+            'street' => '南京路',
+            'cityCode' => '518000',
+        );
+
+        if ($location != NULL) {
+
+            $postmark = $this->getPostmark($location['city']);
+            if ($postmark != NULL) {
+                $this->draw_txt_to($dst, $postmark, date($postmark['dateFormat'], time()));
+                $imageName = $postmark['image'];
+            } else {
+                $postmark['left']     = 610;
+                $postmark['top']      = 500;
+                $postmark['width']    = 600;
+                $postmark['fontsize'] = 12;
+                $this->draw_txt_to($dst, $postmark, $location['city']);
+
+                $postmark['left']     = 600;
+                $postmark['top']      = 520;
+                $postmark['width']    = 600;
+                $postmark['fontsize'] = 11;
+                $this->draw_txt_to($dst, $postmark, strtoupper(PinYin::Pinyin($location['city'], 1)));
+
+                $postmark['left']     = 600;
+                $postmark['top']      = 536;
+                $postmark['width']    = 600;
+                $postmark['fontsize'] = 11;
+                $this->draw_txt_to($dst, $postmark, date('Y.m.d', time()));
+
+                $imageName = 'postmark_default.png';
+            }
+
+            $image = imagecreatefrompng('public/images/big/'.$imageName);
+            imagecopyresampled($dst, $image, 600, 420, 0, 0, 150, 150, imagesx($image), imagesy($image));
+        }
+
+        // Commemorative Chop
+
+
         return $dst;
+    }
+
+    private function getPostmark($city)
+    {
+        $chops = array(
+            '北京'=> array(
+                'left'     => 600,
+                'top'      => 536,
+                'width'    => 600,
+                'fontsize' => 11,
+                'dateFormat' => 'Y.m.d',
+                'image'    => 'postmark_beijing.png',
+            ),
+
+            '上海'=> array(
+                'left'     => 600,
+                'top'      => 536,
+                'width'    => 600,
+                'fontsize' => 11,
+                'dateFormat' => 'Y  m.d',
+                'image'    => 'postmark_shanghai.png',
+            ),
+
+            '广州'=> array(
+                'left'     => 600,
+                'top'      => 536,
+                'width'    => 600,
+                'fontsize' => 11,
+                'dateFormat' => 'Y.m.d',
+                'image'    => 'postmark_guangzhou.png',
+            ),
+
+            '深圳'=> array(
+                'left'     => 600,
+                'top'      => 536,
+                'width'    => 600,
+                'fontsize' => 11,
+                'dateFormat' => 'Y.m.d',
+                'image'    => 'postmark_shenzhen.png',
+            ),
+        );
+        if (array_key_exists($city, $chops)) {
+            return $chops[$city];
+        } else {
+            return NULL;
+        }
     }
 
     private function draw_txt_to($image, $pos, $string)
@@ -736,6 +866,46 @@ class PostcardController extends AbstractActionController
             $font_color,
             $font_file, 
             $__string);
+    }
+
+    private function getUserGeoAddress($userName) {
+        $userLngLat = $this->getUserPositionTable()
+            ->getPositionByUserName($userName);
+        if ( ! $userLngLat) {
+            return NULL;
+        }
+
+        $longitude = $userLngLat->getLongitude();
+        $latitude = $userLngLat->getLatitude();
+
+        $res = Maps::geoLatLng2Address($longitude, $latitude);
+        $data = json_decode($res, true);
+        if ( ! $data) {
+            return NULL;
+        }
+
+        if ($data['status'] != '0') {
+            // TODO ERR LOG
+            $errorMsg = $data['msg'];
+            return NULL;
+        }
+        $addressComponent = $data['result']['addressComponent'];
+
+        return array(
+            'province' => $addressComponent['province'],
+            'city' => $addressComponent['city'],
+            'district' => $addressComponent['district'],
+            'street' => $addressComponent['street'],
+            'cityCode' => $data['result']['cityCode'],
+        );
+    }
+
+    private function getUserPositionTable() {
+        if ( ! $this->userPositionTable) {
+            $sm = $this->getServiceLocator();
+            $this->userPositionTable = $sm->get('Postcard\Model\UserPositionTable');
+        }
+        return $this->userPositionTable;
     }
 
     /**************************************************************
