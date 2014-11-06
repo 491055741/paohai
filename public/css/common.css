@@ -69,8 +69,10 @@ body {background: olivedrab;}
 #crumbs ul li:first-child a::before {display: none;}
 #crumbs ul li:last-child a{margin-right: 0;}
 #crumbs ul li:last-child a::after { display: none;}
+/*
 #crumbs ul li a:hover {background: #fa5ba5;}
 #crumbs ul li a:hover::after {border-left-color: #fa5ba5;}
+*/
 #crumbs ul li a.current {background: #1475c4;}
 #crumbs ul li a.current::after {border-left-color: #1475c4;}
 #crumbs ul li a.current::before {border-top-color: #1475c4;border-bottom-color: #1475c4;}

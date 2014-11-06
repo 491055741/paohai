@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>页面2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="/css/reset.css"/>
-    <link rel="stylesheet" href="/css/common.css"/>
+    <link rel="stylesheet" href="/css/reset.css?<?php echo $tag; ?>"/>
+    <link rel="stylesheet" href="/css/common.css?<?php echo $tag; ?>"/>
 </head>
 <body>
 <input id="var-user-name" type="hidden" value="" />
@@ -35,33 +35,33 @@
             <div class="youzhen pa">
                 <em></em><em></em><em></em><em></em><em></em><em class="mr0"></em>
             </div>
-            <div class="youchuo w80h80 pa"><img class="w80h80" id="post_stamp" src="/images/youchuo2.png"></div>
+            <div class="youchuo w80h80 pa"><img class="w80h80" id="post_stamp" src="/images/postmark/youchuo2.png"></div>
             <div class="shoujianren pa"><input class="shoujianInput" type="text" placeholder="收件人信息"/></div>
         </div>
         <textarea class="pa zhufu" name="祝福语" id="liuyan" cols="30" rows="10" placeholder="祝福语..."></textarea>
         <label class="lab1 pa">少于500字</label>
-        <input type="image" id="getJ" class="getJ pa w150h50" src="/images/r.gif" alt="获取纪念戳"/>
-        <input type="image" id="getZ" class="getZ pa w150h50" src="/images/y.gif" alt="获取坐标戳"/>
+        <input type="image" id="memory-stamp-button" class="getJ pa w150h50" src="/images/r.gif" alt="获取纪念戳"/>
+        <input type="image" id="latlng-button" class="getZ pa w150h50" src="/images/y.gif" alt="获取坐标戳"/>
     </div>
 
     <!--弹出窗1-->
     <div class="pop1 pa hide">
-        <div class="bgK pa"><img src="/images/youchuo-bg.png" alt="邮戳盒背景"/></div>
+        <div class="bgK pa"><img src="/images/postmark/youchuo-bg.png" alt="邮戳盒背景"/></div>
         <label class="lab2 pa">从邮戳盒子里选一个</label>
         <div class="youchuoWraper pa">
-            <a data-index="0" href="#1"><img src="/images/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="1" href="#2"><img src="/images/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="2" href="#3"><img src="/images/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="3" href="#4"><img src="/images/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="4" href="#5" class="on"><img src="/images/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="5" href="#6"><img src="/images/youchuo2.png" alt="邮戳"/><i></i></a>
+            <a data-index="0" href="#1"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
+            <a data-index="1" href="#2"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
+            <a data-index="2" href="#3"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
+            <a data-index="3" href="#4"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
+            <a data-index="4" href="#5" class="on"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
+            <a data-index="5" href="#6"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
         </div>
-        <input id="pop1_conf" class="youchuo_confirm pa" type="image" src="/images/youchuo-sure.png" alt="确定"/>
+        <input id="pop1_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/youchuo-sure.png" alt="确定"/>
     </div>
 
     <!--弹出窗2-->
     <div class="pop2 pa hide">
-        <div class="bgK pa"><img src="/images/youchuo-bg.png" alt="邮戳盒背景"/></div>
+        <div class="bgK pa"><img src="/images/postmark/youchuo-bg.png" alt="邮戳盒背景"/></div>
         <input class="to_who pa" type="text" placeholder="收件人"/>
         <input class="postcode pa" type="text" placeholder="邮编"/>
         <textarea class="to_address pa" name="收件人地址" cols="30" rows="10" placeholder="收件人地址"></textarea>
@@ -69,7 +69,7 @@
             <a href="#" class="save_add in">存入地址簿</a>
             <button class="go_add">去地址簿抓一个 ></button>
         </div>
-        <input id="pop2_conf" class="youchuo_confirm pa" type="image" src="/images/youchuo-sure.png" alt="确定"/>
+        <input id="pop2_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/youchuo-sure.png" alt="确定"/>
     </div>
 
     <!--弹出窗3-->
@@ -82,7 +82,7 @@
             <input class="myName" type="text" placeholder="我的昵称" />
             <!--<input class="go_add" type="text" placeholder="我的昵称"/>-->
         </div>
-        <input id="pop3_conf" class="youchuo_confirm pa" type="image" src="/images/youchuo-sure.png" alt="确定"/>
+        <input id="pop3_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/youchuo-sure.png" alt="确定"/>
     </div>
 
         <!-- vars begin -->
@@ -101,9 +101,9 @@
         <!-- vars end -->
 </div>
 <script src="/js/jquery-1.9.0.min.js"></script>
-<script src="/js/classie.js"></script>
-<script src="/js/common.js"></script>
+<script src="/js/classie.js?<?php echo $tag; ?>"></script>
+<script src="/js/common.js?<?php echo $tag; ?>"></script>
 <script src="/js/postcard.js?<?php echo $tag; ?>"></script>
-<script src="/js/page2.js"></script>
+<script src="/js/editpostcard.js?<?php echo $tag; ?>"></script>
 </body>
 </html>
