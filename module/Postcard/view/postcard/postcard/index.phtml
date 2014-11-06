@@ -2,7 +2,7 @@
 <html manifest="/safari.manifest">
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>趣游明信片</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="css/reset.css?<?php echo $tag; ?>"/>
     <link rel="stylesheet" href="css/common.css?<?php echo $tag; ?>"/>
@@ -12,7 +12,7 @@
     <!--菜单条-->
     <div class="menuBar h42">
         <a href="#" class="changeImg" onclick="javascript:WeixinJSBridge.call('closeWindow');">更换图片</a>
-        <a href="#" class="next">下一步</a>
+        <a id="next-step" href="#" class="next">下一步</a>
     </div>
     <!--面包屑-->
     <div class="breadNav" id="crumbs">
@@ -56,5 +56,6 @@
 <script src="js/classie.js?<?php echo $tag; ?>"></script>
 <script src="js/common.js?<?php echo $tag; ?>"></script>
 <script src="js/postcard.js?<?php echo $tag; ?>"></script>
+<script src="js/index.js?<?php echo $tag; ?>"></script>
 </body>
 </html>

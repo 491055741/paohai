@@ -1,27 +1,24 @@
 (function($) {
 
-$(function() {
-    // init order
-    order.setOrderId($("#var-order-id").val())
-        .setUserName($("#var-user-name").val());
-    var postcard = order.getPostcard();
-    postcard.getImage()
-        .setUrl($("#var-user-picurl").val())
-        .setTemplateIndex($("#var-template-init").val())
-        .setOffsetX($("#var-offset-x").val())
-        .setOffsetY($("#var-offset-y").val());
-});
+    $(function() {
+        // init order
+        $("#next-step").on("click", function() {
+            order.setOrderId($("#var-order-id").val())
+                .setUserName($("#var-user-name").val());
+            order.getPostcard().getImage().setVars({
+                url: $("#var-user-picurl").val(),
+                templateIndex: $("#var-template-index").val(),
+                offsetX: $("#var-offset-x").val(),
+                offsetY: $("#var-offset-y").val(),
+            });
 
-    function ImageAction() {
-
-    }
-    $.extend(ImageAction.prototype, {
-        show: function() {
-
-        },
-        changeTemplate: function() {
-
-        },
+            console.log(order);
+            if (order.getOrderId() == "0") {
+                order.placeOrder(); 
+            } else {
+                order.updateImageForOrder();
+            }
+        });
     });
 
 

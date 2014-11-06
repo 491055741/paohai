@@ -4,26 +4,6 @@
  */
 
 var HC = {
-        posrcarParams: {
-            picUrl: "http://xxxxxxxx",
-            offsetX: -0.0017,
-            offsetY: 0,
-            templateIndex: 2,
-            templateRotateIndex: 1,
-
-            // adress
-            addressName: "xxxxx",
-            address: "xxxxx",
-            addressZipcode: "610000",
-
-            // content
-            salutation: "zhangsan",
-            content: "hello",
-            signature: "lisi",
-
-            // postmark 邮戳的ID
-            postmarkIndex: 1
-    },
     touch: {
         pageTitle : document.getElementsByTagName("title")[0],
         /**/

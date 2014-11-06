@@ -345,10 +345,10 @@
                 url, 
                 params, 
                 function success(data) {
-                    if (data.code != "0") {
+                    if (data.code == "0") {
                         HC.showError("Place order failed!", data.code);
                     } else {
-                        var url = domain + "postcard/editpostcard/" 
+                        var url = domain + "/postcard/editpostcard/" 
                             + data.orderId + "?nonce=" + HC.getNonceStr();
                         HC.goToPage(url);                        
                     }
@@ -357,7 +357,7 @@
             );
         },
         updateOrder: function(params, successCallback) {
-            var url = domain + "postcard/updateOrder/" + this.orderId
+            var url = domain + "/postcard/updateOrder/" + this.orderId
                 + "?nonce=" + HC.getNonceStr();
             $.ajax({
                 url: url,
@@ -376,12 +376,17 @@
             });
         },
         updateImageForOrder: function() {
+            var self = this;
             var params = {
                 templateIndex: this.postcard.getImage().getTemplateIndex(),
                 offsetX: this.postcard.getImage().getOffsetX(),
                 offsetY: this.postcard.getImage().getOffsetY(),
             };
-            return this.updateOrder(params, successCallback);
+            return this.updateOrder(params, function() {
+                var url = domain + "/postcard/editpostcard/" 
+                    + self.getOrderId() + "?nonce=" + HC.getNonceStr();
+                HC.goToPage(url);                        
+            });
         },
         submitMessage: function() {
             var params = {
