@@ -8,7 +8,7 @@
         log: function(data) {   //日志记录
             console.log(data);
         },
-        showError(message, code) {
+        showError: function(message, code) {
             if (code) {
                 message += " code: " + code;
             }
@@ -54,7 +54,7 @@
             getTemplateIndex: function() {
                 return varCollection.templateIndex;
             },
-            setTemplate: function(templateIndex) {
+            setTemplateIndex: function(templateIndex) {
                 varCollection.templateIndex = templateIndex;
                 return this;
             },
@@ -224,7 +224,7 @@
 
         $.extend(Contacts.prototype, {
             addContact: function(address) { // address为Address对象
-                var url = domain . "/postcard/addcontact";
+                var url = domain + "/postcard/addcontact";
                 var params = {
                     userName: userOpenId,
                     contactName: address.getName(),
@@ -308,6 +308,23 @@
         var orderIsInited = false;
     }
     $.extend(Order.prototype, {
+        getOrderId: function() {
+            return this.orderId;
+        },
+        setOrderId: function(orderId) {
+            this.orderId = orderId;
+            return this;
+        },
+        getUserName: function() {
+            return this.userName;
+        },
+        setUserName: function(userName) {
+            this.userName = userName;
+            return this;
+        },
+        getPostcard: function() {
+            return this.postcard;
+        },
         placeOrder: function() {
             var url = domain + "/postcard/placeorder?nonce=" + HC.getNonceStr();
             var params = {
@@ -328,7 +345,7 @@
                             + data.orderId + "?nonce=" + HC.getNonceStr();
                         HC.goToPage(url);                        
                     }
-                }
+                },
                 "json"
             );
         },
@@ -358,7 +375,7 @@
                 offsetY: this.postcard.getImage().getOffsetY(),
             };
             return this.updateOrder(params, successCallback);
-        }
+        },
         submitMessage: function() {
             var params = {
                 salutation: this.postcard.getMessage().getSalutation(),

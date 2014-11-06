@@ -79,7 +79,7 @@ body {background: olivedrab;}
     left: 50%;
     margin-left: -122px;
     transition: all 0.3s ease-in 0;
-    pointer-events: none;
+    /*pointer-events: none;*/
 }
 .bgLayer_img {width: 244px;height: 360px;transition: all 0.3s ease-in 0;}
 .imgLayer {

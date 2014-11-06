@@ -83,3 +83,40 @@ if ( typeof define === 'function' && define.amd ) {
 }
 
 })( window );
+
+/**
+ * @author huangchun
+ * 事件通用处理封装
+ *
+ * */
+var EventUtil = {
+    addLoadEvent : function (fn,data) { //加载在函数，有待改进
+        var oldLoadFn = window.onload;
+        if (typeof oldLoadFn != "function") {
+            window.onload = fn(data);
+        }else{
+            window.onload = function () {
+                oldLoadFn();
+                fn(data);
+            };
+        }
+    },
+    addhandler : function (element,type,handler) {//事件监听
+        if (element.addEventListener) {
+            element.addEventListener(type,handler,false);
+        }else if (element.attachEvent) {
+            element.attachEvent("on"+type,handler);
+        }else {
+            element["on"+type] = handler;
+        }
+    },
+    removeHandler : function (element,type,handler) {//事件监听取消
+        if (element.removeEventListener) {
+            element.removeEventListener(type,handler,false)
+        }else if (element.detachEvent) {
+            element.detachEvent(type,handler);
+        }else {
+            element["on"+type] = null;
+        }
+    }
+};
