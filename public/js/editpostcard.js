@@ -115,5 +115,9 @@
         $("#next-step").on("click", function() {
             order.updateOrderAfterEdit();
         });
+        $("#prev-step").on("click", function() {
+            order.goToStepOne();
+        });
+
     });
 })(jQuery);

@@ -458,6 +458,15 @@
                 "json"
             );
         },
+        goToStepOne: function() {
+            var url = domain + "/postcard?orderId=" + this.getOrderId();
+            HC.goToPage(url);                        
+        },
+        goToStepTwo: function() {
+            var url = domain + "/postcard/editpostcard/" 
+                + this.getOrderId() + "?nonce=" + HC.getNonceStr();
+            HC.goToPage(url);                        
+        },
         goToPay: function() {
             var url = domain + "/wxpay/asyncmakepicture/" + this.orderId;
             $.post(
