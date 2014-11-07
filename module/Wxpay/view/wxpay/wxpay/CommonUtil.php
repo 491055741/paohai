@@ -4,9 +4,8 @@
 use Postcard\Model\WxPara;
 
 //include_once("WxPay.config.php");
+include_once(dirname(__FILE__) . "/WxPayPubHelper/WxPay.pub.config.php");
 Require("class_qrcode.php");
-
-define('ACCESS_TOKEN_KEY', 'accessToken');
 
 class CommonUtil
 {
@@ -51,33 +50,34 @@ class CommonUtil
     }
 
     // must call '$util->setServiceLocator($this->getServiceLocator())' before call this function
-//    public function getAccessToken()
-//    {
-//        $wxpara = $this->getWxParaTable()->getWxPara(ACCESS_TOKEN_KEY);
-//        if (!$wxpara) {
-//            $token = $this->refreshAccessToken();
-//        } else {
-//            $token = $wxpara->value;
-//        }
-//        return $token;
-//    }
-//
-//    function saveAccessToken($token)
-//    {
-//        $para = new WxPara();
-//        $para->paraName = ACCESS_TOKEN_KEY;
-//        $para->value = $token;
-//        $this->getWxParaTable()->savePara($para);
-//    }
-//
-//    function refreshAccessToken()
-//    {
-//        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.APPID.'&secret='.APPSERCERT;
-//        $obj = json_decode(file_get_contents($url));
-//        $access_token = $obj->access_token; // another para is "expires_in"
-//        $this->saveAccessToken($access_token);
-//        return $access_token;
-//    }
+    public function getAccessToken()
+    {
+        $wxpara = $this->getWxParaTable()->getWxPara(WxPayConf_pub::ACCESS_TOKEN_KEY);
+        if (!$wxpara || $wxpara->expireTime <= time()) {
+            $token = $this->refreshAccessToken();
+        } else {
+            $token = $wxpara->value;
+        }
+        return $token;
+    }
+
+    function saveAccessToken($token)
+    {
+        $para = new WxPara();
+        $para->paraName = WxPayConf_pub::ACCESS_TOKEN_KEY;
+        $para->value = $token;
+        $para->expireTime = WxPayConf_pub::ACCESS_TOKEN_EXPIRES + time();
+        $this->getWxParaTable()->savePara($para);
+    }
+
+    function refreshAccessToken()
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WxPayConf_pub::APPID.'&secret='.WxPayConf_pub::APPSECRET;
+        $obj = json_decode(file_get_contents($url));
+        $access_token = $obj->access_token; // another para is "expires_in"
+        $this->saveAccessToken($access_token);
+        return $access_token;
+    }
 
     function setCertInfo($certFile, $certPasswd, $certType="PEM") {
         $this->certFile = $certFile;

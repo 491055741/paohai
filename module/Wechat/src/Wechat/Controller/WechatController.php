@@ -83,7 +83,8 @@ class WechatController extends AbstractActionController
                 } else {
                     $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia?mediaId='.urlencode($mediaId);
                     @file_get_contents($url);
-                    $contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editmessage/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
+                    //$contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editmessage/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
+                    $contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editpostcard/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
                 }
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
                 echo $resultStr;

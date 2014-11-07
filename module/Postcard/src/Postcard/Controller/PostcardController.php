@@ -3,6 +3,7 @@ namespace Postcard\Controller;
 
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
 // include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
+
 use CommonUtil;
 use WxPayHelper;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -22,7 +23,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201411070209'); // 好像不管用，待查
+define('JS_TAG', '201411071627'); // 好像不管用，待查
 
 
 class PostcardController extends AbstractActionController
@@ -152,6 +153,13 @@ class PostcardController extends AbstractActionController
             $view =  new ViewModel(array('code' => 2, 'msg' => '订单'.$orderId.'已失效，请重新创建明信片'));
             $view->setTemplate('postcard/postcard/error');
             return $view;
+        }
+
+        // update mediaId. Media will valid for 3 days on Tecent's server.
+        $voiceMediaId = $this->getRequest()->getQuery('voiceMediaId');
+        if ($voiceMediaId) {
+            $order->voiceMediaId = $voiceMediaId;
+            $this->getOrderTable()->saveOrder($order);
         }
 
         $viewModel =  new ViewModel(array(

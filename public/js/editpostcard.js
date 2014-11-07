@@ -85,6 +85,14 @@
             $(".pop3").hide();
             setCardInfo();
         });
+        $(".pop3 .voice_btn").on("click", function() { //语音留言按钮
+            messageInfo.setVars({
+                salutation: $(".pop3 .to_who").val(),
+                content: $(".pop3 .liuyan").val(),
+                signature: $(".pop3 .myName").val(),
+            });
+            order.requestVoice();
+        });
     }
 
     $(function() {

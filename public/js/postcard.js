@@ -406,23 +406,35 @@
             });
         },
         requestVoice: function() {
-            var url = domain + "/postcard/requestvoice/" + this.orderId
-                + "?nonce=" + HC.getNonceStr();
-            $.get(
-                url,
-                function success(data) {
-                    if (data.errcode != "0" && data.code != "0") {
-                        HC.showError("Send voice request failed (" + data.errmsg + ")", data.errcode);
-                    } else {
-                        if (typeof WeixinJSBridge == "undefined") {
-                            HC.showError("不支持方法'closeWindow'. 请在微信浏览器中运行");
+            var self = this;
+            var params = {
+                recipient: this.postcard.getReceiptAddress().getName(),
+                address: this.postcard.getReceiptAddress().getAddress(),
+                zipcode: this.postcard.getReceiptAddress().getZipcode(),
+                salutation: this.postcard.getMessage().getSalutation(),
+                message: this.postcard.getMessage().getContent(),
+                signature: this.postcard.getMessage().getSignature(),
+                postmarkId: this.postcard.getPostmarkIndex(),
+            };
+            return this.updateOrder(params, function() {
+                var url = domain + "/postcard/requestvoice/" + self.orderId
+                    + "?nonce=" + HC.getNonceStr();
+                $.get(
+                    url,
+                    function success(data) {
+                        if (data.errcode != "0" && data.code != "0") {
+                            HC.showError("Send voice request failed (" + data.errmsg + ")", data.errcode);
                         } else {
-                            WeixinJSBridge.call("closeWindow");
+                            if (typeof WeixinJSBridge == "undefined") {
+                                HC.showError("不支持方法'closeWindow'. 请在微信浏览器中运行");
+                            } else {
+                                WeixinJSBridge.call("closeWindow");
+                            }
                         }
-                    }
-                },
-                "json"
-            );
+                    },
+                    "json"
+                );
+            });
         },
         goToPay: function() {
             var url = domain + "/wxpay/asyncmakepicture/" + this.orderId;

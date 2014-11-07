@@ -28,10 +28,13 @@ class WxParaTable
         $data = array(
             'paraName' => $para->paraName,
             'value'    => $para->value,
+            'expireTime' => $para->expireTime,
         );
 
         if ($this->getWxPara($para->paraName)) {
-            $this->tableGateway->update($data, array('paraName' => $para->paraName));
+            $this->tableGateway->update($data, array(
+                'paraName' => $para->paraName,
+            ));
         } else {
             $this->tableGateway->insert($data);
         }
