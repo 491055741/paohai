@@ -23,6 +23,10 @@
         $("#toggleFaceButton").fastClick(function(){
             toggleFace();
         });
+
+        $("#prev-step").on("click", function() {
+            order.goToStepTwo();
+        });
     });
 
     function initOrder() {
