@@ -5,7 +5,6 @@
 
 var HC = {
     touch: {
-        pageTitle : document.getElementsByTagName("title")[0],
         /**/
         var_user_picurl : document.getElementById("var-user-picurl")||"",
         var_offset_x : document.getElementById("var-offset-x")||"",
@@ -48,10 +47,14 @@ var HC = {
             thumb = tp.thumb;
 
         selectTem.onclick = function(){
+            classie.toggle(this.parentNode,"up");
                 classie.toggle(thumb,"up");
                 classie.toggle(bgL,"up");
                 classie.toggle(imgL,"up");
                 classie.toggle(bgLayer_img,"up");
+            setTimeout(function () {
+                HC.rotate(tp.var_template_index.value);
+            },350);
             };
     },
     calWidth : function () { //计算缩略图ul的宽度
@@ -85,6 +88,7 @@ var HC = {
                 e.stopPropagation();
                 bgLayer_img.src = this.src;
                 console.log(this.index);
+                tp.var_template_index.value = this.index;
                 HC.rotate(this.index);
             };
         }
@@ -161,22 +165,21 @@ var HC = {
         tp.var_template_index.value = selectedTemplateIndex ;
     },
      init : function () {
-        var tp = HC.touch,
-            stepNum = tp.pageTitle.innerHTML;
-            console.log(stepNum);
-             tp.imgLayer_img.src = tp.var_user_picurl.value;
-             tp.bgLayer_img.src = tp.ul_imgs[tp.var_template_index.value].src;
-             HC.up();
-             HC.calWidth();
-             HC.clickImgTemp();
-             setTimeout(function () {
-                 HC.scale();
-                 //初始化，是否旋转 2014-11-6
-                 tp.ul_imgs[tp.var_template_index.value].click();
-                 //初始化，是否位移 2014-11-6
-                 tp.img_layer.scrollLeft = (-tp.var_offset_x.value * tp.pic_w);
-                 tp.img_layer.scrollTop = (-tp.var_offset_y.value * tp.pic_h);
-             },1000);
-        }
+        var  tp = HC.touch;
+        tp.imgLayer_img.src = tp.var_user_picurl.value;
+        tp.bgLayer_img.src = tp.ul_imgs[tp.var_template_index.value].src;
+
+        HC.up();
+        HC.calWidth();
+        HC.clickImgTemp();
+        setTimeout(function () {
+            HC.scale();
+            //初始化，是否旋转 2014-11-6
+            tp.ul_imgs[tp.var_template_index.value].click();
+            //初始化，是否位移 2014-11-6
+            tp.img_layer.scrollLeft = (-tp.var_offset_x.value * tp.pic_w);
+            tp.img_layer.scrollTop = (-tp.var_offset_y.value * tp.pic_h);
+        },1000);
+    }
 };
 
