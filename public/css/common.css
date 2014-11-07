@@ -555,7 +555,7 @@ a.on i {display: block;}
     top:46px;
     left: 50%;
     margin-left: -150px;
-    webkitTransform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
     transform:rotate(90deg)
 }
 #zipcodePreview {
@@ -608,4 +608,11 @@ a.on i {display: block;}
     left:230px;
     top:118px;
     position:absolute;
+}
+#postmarkPreview {
+    left:230px;
+    top:158px;
+    width:30px;
+    height:30px;    
+    position:absolute;    
 }
