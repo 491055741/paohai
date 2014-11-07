@@ -23,7 +23,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201411071627'); // 好像不管用，待查
+define('JS_TAG', '201411071752'); // 好像不管用，待查
 
 
 class PostcardController extends AbstractActionController
@@ -168,6 +168,48 @@ class PostcardController extends AbstractActionController
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
+    }
+
+    public function userLngLatAction() {
+        $orderId = $this->params()->fromRoute("id", "0");
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            $res = array(
+                'code' => 1,
+                'msg' => 'invalid order id ' . $orderId,
+            );
+
+            return new JsonModel($res);
+        }
+
+        if ($order->status == CANCEL) {
+            $res = array(
+                'code' => 2,
+                'msg' => '订单: ' . $orderId . ' 已失效，请重新创建明信片',
+            );
+
+            return new JsonModel($res);
+        }
+
+        $userLngLat = $this->getUserPositionTable()
+            ->getPositionByUserName($order->userName);
+        if ( ! $userLngLat) {
+            return new JsonModel(array(
+                'code' => 0,
+                'lnglat' => array(),
+            ));
+        }
+
+        $longitude = $userLngLat->getLongitude();
+        $latitude = $userLngLat->getLatitude();
+        $lastUpdateTimestamp = $userLngLat->getLastUpdateTimestamp();
+        return new JsonModel(array(
+            'code' => 0,
+            'lnglat' => array(
+                'longitude' => $longitude,
+                'latitude' => $latitude,
+            ),
+        ));
     }
 
     public function editMessageAction()

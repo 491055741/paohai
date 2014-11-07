@@ -14,6 +14,12 @@
             }
             alert(message);
         },
+        showInfo: function(message, code) {
+            if (code) {
+                message += " code: " + code;
+            }
+            alert(message);
+        },
         goToPage: function(url) {
             window.location.href = url;        
         },
@@ -435,6 +441,22 @@
                     "json"
                 );
             });
+        },
+        getUserLnglat: function() {
+            var url = domain + "/postcard/userlnglat/" + this.orderId;
+            $.get(
+                url,
+                function success(data) {
+                    if (data.code != "0") {
+                        HC.showError(data.msg, data.code);
+                    } else if(data.lnglat.length == 0) {
+                        HC.showError("请您设置微信，允许我们获取您的地理位置");
+                    } else {
+                        HC.showInfo("您已经获取定位戳，请到\"第三步\"预览页面查看");
+                    }
+                },
+                "json"
+            );
         },
         goToPay: function() {
             var url = domain + "/wxpay/asyncmakepicture/" + this.orderId;

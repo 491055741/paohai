@@ -45,8 +45,8 @@
             setCardInfo();
         });
         $("#latlng-button").on("click", function() { //显示弹窗1
-            // TODO latlng
-            $(".pop1").show();
+            // Latlng
+            order.getUserLnglat();
         });
         $(".shoujianInput").on("click", function() { //显示弹窗2
             $(".pop2").show();
