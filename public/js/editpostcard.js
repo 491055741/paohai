@@ -13,7 +13,7 @@
         //祝福信息
         $("#liuyan").val(messageInfo.getContent());
         //邮戳
-        $("#post_stamp").attr("src", "/images/postmark/youchuo"+ postmarkIndex +".png");
+        $("#post_stamp").attr("src", "/images/postmark/small/youchuo"+ postmarkIndex +".png");
 
         //邮编回填
         var zipcode = receiptInfo.getZipcode() || "000000";//邮政编码

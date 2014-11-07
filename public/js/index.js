@@ -1,4 +1,7 @@
 (function($) {
+    EventUtil.addLoadEvent(HC.init);
+    EventUtil.addhandler(HC.touch.bg_layer,"touchstart",HC.handtouch);
+    EventUtil.addhandler(HC.touch.bg_layer,"touchmove",HC.handtouch);
 
     $(function() {
         // init order

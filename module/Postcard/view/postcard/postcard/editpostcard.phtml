@@ -28,7 +28,7 @@
             <div class="youzhen pa">
                 <em></em><em></em><em></em><em></em><em></em><em class="mr0"></em>
             </div>
-            <div class="youchuo w80h80 pa"><img class="w80h80" id="post_stamp" src="/images/postmark/youchuo2.png"></div>
+            <div class="youchuo w80h80 pa"><img class="w80h80" id="post_stamp" src="/images/postmark/small/youchuo2.png"></div>
             <div class="shoujianren pa"><input class="shoujianInput" type="text" placeholder="收件人信息"/></div>
         </div>
         <textarea class="pa zhufu" name="祝福语" id="liuyan" cols="30" rows="10" placeholder="祝福语..."></textarea>
@@ -39,22 +39,19 @@
 
     <!--弹出窗1-->
     <div class="pop1 pa hide">
-        <div class="bgK pa"><img src="/images/postmark/youchuo-bg.png" alt="邮戳盒背景"/></div>
+        <div class="bgK pa"><img src="/images/postmark/small/youchuo-bg.png" alt="邮戳盒背景"/></div>
         <label class="lab2 pa">从邮戳盒子里选一个</label>
         <div class="youchuoWraper pa">
-            <a data-index="0" href="#1"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="1" href="#2"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="2" href="#3"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="3" href="#4"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="4" href="#5" class="on"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
-            <a data-index="5" href="#6"><img src="/images/postmark/youchuo2.png" alt="邮戳"/><i></i></a>
+        <?php for($i = 0; $i < 6; $i++): ?>
+            <a data-index="<?php echo $i; ?>" href="#1"><img src="/images/postmark/small/youchuo<?php echo $i; ?>.png" alt="邮戳"/><i></i></a>
+        <?php endfor; ?>
         </div>
-        <input id="pop1_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/youchuo-sure.png" alt="确定"/>
+        <input id="pop1_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/small/youchuo-sure.png" alt="确定"/>
     </div>
 
     <!--弹出窗2-->
     <div class="pop2 pa hide">
-        <div class="bgK pa"><img src="/images/postmark/youchuo-bg.png" alt="邮戳盒背景"/></div>
+        <div class="bgK pa"><img src="/images/postmark/small/youchuo-bg.png" alt="邮戳盒背景"/></div>
         <input class="to_who pa" type="text" placeholder="收件人"/>
         <input class="postcode pa" type="text" placeholder="邮编"/>
         <textarea class="to_address pa" name="收件人地址" cols="30" rows="10" placeholder="收件人地址"></textarea>
@@ -62,7 +59,7 @@
             <a href="#" class="save_add in">存入地址簿</a>
             <button class="go_add">去地址簿抓一个</button>
         </div>
-        <input id="pop2_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/youchuo-sure.png" alt="确定"/>
+        <input id="pop2_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/small/youchuo-sure.png" alt="确定"/>
     </div>
 
     <!--弹出窗3-->
@@ -75,7 +72,7 @@
             <input class="myName" type="text" placeholder="我的昵称" />
             <!--<input class="go_add" type="text" placeholder="我的昵称"/>-->
         </div>
-        <input id="pop3_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/youchuo-sure.png" alt="确定"/>
+        <input id="pop3_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/small/youchuo-sure.png" alt="确定"/>
     </div>
 
         <!-- vars begin -->
