@@ -299,4 +299,74 @@ a.on i {display: block;}
 }
 .frontCover img{
     width: 208px;
-    height: 300px;}
+    height: 300px;
+}
+.textCover {
+    width: 300px;
+    height: 208px;
+    overflow: hidden;
+    z-index: 15;
+    top:46px;
+    left: 50%;
+    margin-left: -150px;
+    webkitTransform:rotate(90deg);
+    transform:rotate(90deg)
+}
+#zipcodePreview {
+    font-size:17px;
+    letter-spacing:10px;
+    top:12px;
+    left:62px;
+    position:absolute;
+}
+#salutationPreview {
+    font-size:12px;
+    text-align:left;
+    top:45px;
+    left:20px;
+    width:155px;
+    position:absolute;
+}
+#messagePreview {
+    font-size:12px;
+    text-align:left;
+    top:60px;
+    left:20px;
+    width:155px;
+    position:absolute;
+}
+#signaturePreview {
+    font-size:12px;
+    top:165px;
+    left:130px;
+    position:absolute;
+}
+#qrImagePreview {
+    top:155px;
+    left:20px;
+    width:30px;
+    height:30px;
+    border: 0;
+    position: absolute;
+}
+#addressPreview {
+    font-size:10px;
+    text-align:left;
+    top:78px;
+    left:210px;
+    width:80px;
+    position:absolute;
+}
+#recipientPreview {
+    font-size:14px;
+    left:230px;
+    top:118px;
+    position:absolute;
+}
+
+/*huangchun*/
+.imgLayer_a{
+overflow: auto;
+width: 208px;
+height: 300px;
+}

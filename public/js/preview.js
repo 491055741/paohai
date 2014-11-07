@@ -1,115 +1,108 @@
-var orderId   = '';
-var userImage = new Image();
-var canvas_w  = 262;
-var canvas_h  = 385;
-var pic_orig_w = 0;
-var pic_orig_h = 0;
-var userPicUrl = '';
+(function($) {
+    var domain = "http://" + window.location.host;
+    var isShowImageFace = true;
+    $(function() {
 
-var salutation = '';
-var message    = '';
-var signature  = '';
-
-var recipient = '';
-var address   = '';
-var zipcode   = '';
-var mobile    = '';
-
-
-$(document).on("pageinit", "#previewPage", function() {
-
-    output("previewPage init");
-    orderId    = $('#orderId').val();
-    userPicUrl = $('#picUrl').val();
-    salutation = $('#salutation').val();
-    message    = $('#message').val();
-    signature  = $('#signature').val();
-    recipient  = $('#recipient').val();
-    address    = $('#address').val();
-    zipcode    = $('#zipcode').val();
-    mobile     = $('#mobile').val();
-    voice      = $('#voiceMediaId').val();
-    userImage.onload = function() {
-        pic_orig_w = userImage.width;
-        pic_orig_h = userImage.height;
+        initOrder();
         initPreview();
-    }
 
-    if (voice) {
-        $("#playVoiceMessageButton").css("display","inline");
-    }
+        $("#gotoPayButton").fastClick(function(){
+            jsApiCall();
+            var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + order.getOrderId();
+            $.get(
+                url,
+                function success(data) {
+                }
+            );
+        });
 
-    userImage.src = userPicUrl;
-    // $('#previewUserImg').shadow();
-    $("#gotoPayButton").fastClick(function() {
-        gotoPay();
+        $("#editButton").fastClick(function(){
+            HC.goToPage(domain + "/postcard/index?orderId=" + order.getOrderId() + "&nonce=" + HC.getNonceStr());
+        });
+
+        $("#toggleFaceButton").fastClick(function(){
+            toggleFace();
+        });
     });
 
-    $("#editButton").fastClick(function() {
-        gotoEditPage();
-    });
-});
-
-function initPreview() {
-
-    var a, b;
-    a = pic_orig_w;
-    b = pic_orig_h;
-
-    var selectedTemplateIndex = $("#templateIndex").val();
-    var imageOffsetX = $("#offsetX").val();
-    var imageOffsetY = $("#offsetY").val();
-
-    if (selectedTemplateIndex > 6) {
-        temp = a; a = b; b = temp;
-    }
-    var wRatio = canvas_w / a;
-    var hRatio = canvas_h / b;
-    var ratio = wRatio > hRatio ? wRatio : hRatio;
-    var pic_w = a * ratio;
-    var pic_h = b * ratio;
-
-    var canvas = document.getElementById('previewUserImg');
-    canvas.width = pic_w;
-    canvas.height = pic_h;
-    var ctx = canvas.getContext('2d');
-    if (selectedTemplateIndex < 7) {
-        ctx.save();
-        ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_w, pic_h);
-        ctx.restore();
-    } else {
-        ctx.save();
-        ctx.translate(pic_w,0);
-        ctx.rotate(90 * Math.PI / 180);
-        ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_h, pic_w);
-        ctx.restore();
+    function initOrder() {
+        order.setOrderId($("#var-order-id").val());
+        order.getPostcard().setPostmarkIndex($("#var-postmark-index").val());
+        order.getPostcard().getImage().setVars({
+            url          : $("#var-user-picurl").val(),
+            templateIndex: $("#var-template-index").val(),
+            offsetX      : $("#var-offset-x").val(),
+            offsetY      : $("#var-offset-y").val(),
+        });
+        order.getPostcard().getReceiptAddress().setVars({
+            name   : $("#var-recipient").val(),
+            address: $("#var-address").val(),
+            zipcode: $("#var-zipcode").val()
+        });
+        order.getPostcard().getMessage().setVars({
+            salutation: $("#var-salutation").val(),
+            content   : $("#var-message").val(),
+            signature : $("#var-signature").val(),
+        });
     }
 
-    $("#previewTemplateImg").attr("src", "/images/small/template"+selectedTemplateIndex+".png");
-    $('#previewUserImg').css({
-        left: imageOffsetX * pic_w,
-        top: imageOffsetY * pic_h,
-    });
+    function initPreview() {
 
-    $("#salutationPreview").text(salutation);
-    $("#messagePreview").text(message);
-    $("#addressPreview").text(address);
-    $("#zipcodePreview").text(zipcode);
-    $("#signaturePreview").text('－' + signature);
-    $("#recipientPreview").text(recipient + ' ' + mobile);
-}
+        var userImg = document.getElementsByClassName('imgLayer_img_a')[0];
+        var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
+        var imageLayer = document.getElementsByClassName('imgLayer_a')[0];
 
-function gotoEditPage() {
-    var url = "http://" + window.location.host + "/postcard/index?orderId=" + orderId + "&nonce=" + getNonceStr();
-    self.location = url;        
-}
+        var pic_orig_w = userImg.offsetWidth,
+            pic_orig_h = userImg.offsetHeight,
+            bg_w = frameImg.offsetWidth,
+            bg_h = frameImg.offsetHeight;
 
-function gotoPay() {
-    callPay();
-    var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + orderId;
-    $.get(
-        url,
-        function success(data) {
+        var a, b;
+        a = pic_orig_w;
+        b = pic_orig_h;
+        var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
+        var imageOffsetX = order.getPostcard().getImage().getOffsetX();
+        var imageOffsetY = order.getPostcard().getImage().getOffsetY();
+        if (selectedTemplateIndex > 6) {
+            temp = a; a = b; b = temp;
         }
-    );
-}
+        var wRatio = bg_w / a;
+        var hRatio = bg_h / b;
+        var ratio = wRatio > hRatio ? wRatio : hRatio;
+        var pic_w = a * ratio;
+        var pic_h = b * ratio;
+
+        userImg.style.width = pic_w + "px";
+        userImg.style.height = pic_h + "px";
+        var left = -parseFloat(imageOffsetX) * pic_w;
+        imageLayer.scrollLeft = parseInt(left);
+        console.log(imageLayer.scrollLeft);
+        imageLayer.scrollTop = (-parseFloat(imageOffsetY) * pic_h);
+        frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
+
+
+
+        $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
+        $("#messagePreview").text(order.getPostcard().getMessage().getContent());
+        $("#addressPreview").text(order.getPostcard().getReceiptAddress().getAddress());
+        $("#zipcodePreview").text(order.getPostcard().getReceiptAddress().getZipcode());
+        $("#signaturePreview").text('－' + order.getPostcard().getMessage().getSignature());
+        $("#recipientPreview").text(order.getPostcard().getReceiptAddress().getName());
+
+        if ($("#var-voice-media-id").val() != "") {
+            $("#qrImagePreview").css("display","inline");
+        }
+        if (order.getPostcard().getPostmarkIndex() != "") {
+            $("#postmarkPreview").css("display","inline");
+            $("#postmarkPreview").attr("src","/images/postmark/small/youchuo"+order.getPostcard().getPostmarkIndex()+".png");
+        }
+    }
+
+    function toggleFace() {
+        isShowImageFace = !isShowImageFace;
+        $("#textFace").css("display",isShowImageFace ? "none" : "");
+        $("#imageFace").css("display",isShowImageFace ? "" : "none");
+    }
+
+})(jQuery);
+
