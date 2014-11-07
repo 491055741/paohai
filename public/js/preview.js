@@ -76,11 +76,8 @@
         userImg.style.height = pic_h + "px";
         var left = -parseFloat(imageOffsetX) * pic_w;
         imageLayer.scrollLeft = parseInt(left);
-        console.log(imageLayer.scrollLeft);
         imageLayer.scrollTop = (-parseFloat(imageOffsetY) * pic_h);
         frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
-
-
 
         $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
         $("#messagePreview").text(order.getPostcard().getMessage().getContent());
