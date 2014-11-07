@@ -299,7 +299,8 @@ a.on i {display: block;}
 }
 .frontCover img{
     width: 208px;
-    height: 300px;}
+    height: 300px;
+}
 .textCover {
     width: 300px;
     height: 208px;
@@ -361,4 +362,11 @@ a.on i {display: block;}
     left:230px;
     top:118px;
     position:absolute;
+}
+
+/*huangchun*/
+.imgLayer_a{
+overflow: auto;
+width: 208px;
+height: 300px;
 }
