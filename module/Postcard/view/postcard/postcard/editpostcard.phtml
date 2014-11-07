@@ -33,8 +33,8 @@
         </div>
         <textarea class="pa zhufu" name="祝福语" id="liuyan" cols="30" rows="10" placeholder="祝福语..."></textarea>
         <label class="lab1 pa">少于500字</label>
-        <input type="image" id="memory-stamp-button" class="getJ pa w150h50" src="/images/r.gif" alt="获取纪念戳"/>
-        <input type="image" id="latlng-button" class="getZ pa w150h50" src="/images/y.gif" alt="获取坐标戳"/>
+        <input type="image" id="memory-stamp-button" class="getJ pa w150h50" src="/images/y.gif" alt="获取纪念戳"/>
+        <input type="image" id="latlng-button" class="getZ pa w150h50" src="/images/r.gif" alt="获取坐标戳"/>
     </div>
 
     <!--弹出窗1-->
@@ -87,7 +87,7 @@
         <input id="var-message" type="hidden" value="<?php echo $order->message; ?>" />
         <input id="var-signature" type="hidden" value="<?php echo $order->signature; ?>" />
 
-        <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId; ?>" />
+        <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId ?: 1; ?>" />
         <!-- vars end -->
 </div>
 <script src="/js/jquery-1.9.0.min.js"></script>

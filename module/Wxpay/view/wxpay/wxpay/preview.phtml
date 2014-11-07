@@ -2,6 +2,7 @@
 //$jsApiParameters = '"para"';
 ini_set("display_errors", true);
 
+/*
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/js_api_call.php");
 
 if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
@@ -9,6 +10,7 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
 } else {
     $jsApiParameters = "'simulator'";
 }
+*/
 ?>
 
 <html>
@@ -39,18 +41,21 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
 
 <div class="container">
     <!--菜单条-->
-    <div class="menuBar h42">
-        <a href="#" class="changeImg">上一步</a>
-        <!-- <a href="#" class="next">下一步</a> -->
+    <div class="menuBar h42 pr">
+        <a href="#" class="changeImg pa">上一步</a>
+        <!--
+        <a id="next-step" href="#" class="next pa">下一步</a>
+        -->
     </div>
     <!--面包屑-->
     <div class="breadNav" id="crumbs">
         <ul class="frsb">
-            <li><a href="#1">第一步</a></li>
-            <li><a href="#2">第二步</a></li>
-            <li><a href="#3" class="current">第三步</a></li>
+            <li><a href="#1" class="w99p">第一步</a></li>
+            <li><a href="#2" class="w99p">第二步</a></li>
+            <li><a href="#3" class="current w100p">第三步</a></li>
         </ul>
     </div>
+
     <div class="page3 pa">
         <div class="bigImg_a pa" id="imageFace">
             <div class="bgLayer_a pa"><img class="bgLayer_img_a" src="/images/big_bg.png"></div>
