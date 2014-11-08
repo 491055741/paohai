@@ -458,6 +458,48 @@
                 "json"
             );
         },
+        saveContact: function() {
+            var url = domain + "/postcard/addcontact";    
+            var params = {
+                userName: this.userName,
+                contactName: this.postcard.getReceiptAddress().getName(),
+                address: this.postcard.getReceiptAddress().getAddress(),
+                zipCode: this.postcard.getReceiptAddress().getZipcode(),
+            };
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: params,
+                dataType: "json",
+                timeout: 10000,
+            }).done(function(data) {
+                HC.log("save receiptAddress success");
+            }).fail(function(xmlhttprequest, err, e) {
+                if (err == "timeout") {
+                    HC.showError("网速不给力，请稍候再试");
+                } else {
+                    HC.showError("save contact failed!");
+                }
+            });
+        },
+        getContacts: function(callback) {
+            var url = domain + "/postcard/contacts?userName=" + this.userName;
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: "",
+                dataType: "json",
+                timeout: 10000,
+            }).done(function(data) {
+                callback(data);
+            }).fail(function(xmlhttprequest, err, e) {
+                if (err == "timeout") {
+                    HC.showError("网速不给力，请稍候再试");
+                } else {
+                    HC.showError("get contacts failed!");
+                }
+            });
+        },
         goToStepOne: function() {
             var url = domain + "/postcard?orderId=" + this.getOrderId();
             HC.goToPage(url);                        

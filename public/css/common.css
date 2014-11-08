@@ -627,3 +627,22 @@ a.on i {display: block;}
     height:60px;    
     position:absolute;    
 }
+
+/* address book begin */
+.list-wrap-hc {top: 0;left: 0;width: 100%;height: 100%;z-index: 100;background: #fff;font-family: "微软雅黑";color: #000;overflow: hidden;}
+.list-wrap-hc h2 {text-align: center;border-bottom: 1px solid #ccc;padding: 5px;font-weight: bold;color: #bbb;letter-spacing: 5px;}
+.list-wrap-hc .list-ul-hc{top: 44px;bottom:50px;width: 100%;overflow: auto;}
+.list-ul-hc ul {position:relative;list-style: none;padding: 0 40px;border-bottom: 1px solid #ccc;}
+.list-ul-hc ul li{line-height: 33px;}
+.list-ul-hc ul li i{float: left; font-style: normal;font-weight: bold;}
+.list-ul-hc a{display:block;position: absolute;right: 20px;top: 50%;width:20px;height:20px;border-radius: 10px;background: purple;}
+
+.menu-btn-hc {height: 50px;background: #fff;border-top: 1px solid #ccc;}
+.menu-btn-hc {position: absolute;left: 0; bottom: 0;width: 100%;height: 50px;z-index: 1000;}
+.menu-btn-hc a{display:inline-block;line-height:50px;width: 50%;letter-spacing: 5px;text-align:center;font-family: "微软雅黑";color: #000;}
+.menu-btn-hc a:hover{background: #387bbe;color: #ffffff}
+.addr-hc{display: block;margin-left: 40px;}
+.list-ul-hc a.on {background: #abb;}
+.close_hc {border-right: 1px solid #ccc;}
+.sure_hc {float: right;}
+/* address book end */

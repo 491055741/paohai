@@ -93,11 +93,57 @@
             });
             order.requestVoice();
         });
+        
+        /********** address book **************/
+        $(".pop2 .save_add").on("click", function() { // 存入地址
+            receiptInfo.setVars({
+                name: $(".pop2 .to_who").val(),
+                address: $(".pop2 .to_address").val(),
+                zipcode: $(".pop2 .postcode").val(),
+            });
+            order.saveContact();
+        });
+        $(".pop2 .go_add").on("click", function() { // 唤起地址簿按钮
+            order.getContacts(function(contacts) {
+                $("#address-book .list-ul-hc").empty();
+                if (contacts.length > 0) {
+                    $.each(contacts, function(index, item) {
+                        var line = $("#address-template ul").clone();
+                        line.find("span.name-hc").text(item.contactName);
+                        line.find("span.addr-hc").text(item.address);
+                        line.find("span.post-hc").text(item.zipCode);
+                        $("#address-book .list-ul-hc").append(line);
+                    });
+                }
+                $("#address-book").show();
+            });
+
+        });
+        $(document).on("click", "#address-book a.sel-btn-hc", function() { // 选中
+            $("#address-book a.sel-btn-hc").removeClass("on");
+            $(this).addClass("on");
+        });
+        $("#close-address").on("click", function() { // 关闭
+            $("#address-book").hide();
+        });
+        $("#sure-address").on("click", function() { // 确认
+            var chosenAddressDom = $("#address-book a.on").parents("ul");
+            if (chosenAddressDom.size() != 0) {
+                receiptInfo.setVars({
+                    name: chosenAddressDom.find("span.name-hc").text(),
+                    address: chosenAddressDom.find("span.addr-hc").text(),
+                    zipcode: chosenAddressDom.find("span.post-hc").text(),
+                });
+            }
+            $("#address-book").hide();
+            setCardInfo();
+        });
     }
 
     $(function() {
         // init data
-        order.setOrderId($("#var-order-id").val());
+        order.setOrderId($("#var-order-id").val())
+            .setUserName($("#var-user-name").val());
         order.getPostcard().setPostmarkIndex($("#var-postmark-index").val());
         order.getPostcard().getReceiptAddress().setVars({
             name: $("#var-recipient").val(),

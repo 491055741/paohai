@@ -75,9 +75,30 @@
         <input id="pop3_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/small/youchuo-sure.png" alt="确定"/>
     </div>
 
+    <!-- address template -->
+    <div id="address-template" style="display:none">
+        <ul>
+            <li><i>姓名：</i><span class='name-hc'></span></li>
+            <li><i>地址：</i><span class='addr-hc'></span></li>
+            <li><i>邮编：</i><span class='post-hc'></span></li>
+            <a href='#' class='sel-btn-hc'></a>
+        </ul>
+    </div>
+
+    <!-- 地址簿 -->
+    <div class='list-wrap-hc pa' id='address-book' style="display:none">
+        <h2>地址簿</h2>
+        <div class='list-ul-hc pa'></div>
+        <div class='menu-btn-hc' id='m_btn'>
+            <a href='#' class='close_hc' id='close-address'>关闭</a>
+            <a href='#' class='sure_hc' id='sure-address'>确定</a>
+        </div>
+    </div>
+    <!-- 地址簿end -->
+
         <!-- vars begin -->
         <input id="var-order-id" type="hidden" value="<?php echo $order->id; ?>" />
-        <input id="var-user-name" type="hidden" value="<?php echo $order->recipient; ?>" />
+        <input id="var-user-name" type="hidden" value="<?php echo $order->userName; ?>" />
 
         <input id="var-recipient" type="hidden" value="<?php echo $order->recipient; ?>" />
         <input id="var-address" type="hidden" value="<?php echo $order->address; ?>" />
