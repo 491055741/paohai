@@ -521,36 +521,29 @@ a.on i {display: block;}
 }
 /*页面3*/
 .page3{width: 100%;height: 400px;}
-.page3 .bigLayer_a,.page3 .bigImg_a,.page3 .frontCover{
+.page3 .bigImg_a, .page3 .frontCover, .page3 .imgLayer_a, .page3 .bgLayer_a, .page3 .bgLayer_img_a{
+    position: absolute;
     width: 208px;
     height: 300px;
     overflow: hidden;
-    z-index: 15;
+    z-index: 1;
     top:15px;
     left: 50%;
     margin-left: -104px;
 }
-.page3 .frontCover {
-    z-index: 14;
+.page3 .imgLayer_a {
+    z-index: 1;
+    top:0px;
 }
-.bgLayer_a {z-index: 20;}
-.bgLayer_img_a{width: 208px;height: 300px;transition: all 0.3s ease-in 0;}
-.imgLayer_a {
-    position: absolute;
-    z-index: 4;
-/*    top: 14px;
-    left: 50%;
-    margin-left: -119px;
-*/    overflow: auto;
-    width: 208px;
-    height: 300px;
-    transition: all 0.3s ease-in 0;
+.page3 .bgLayer_a {
+    z-index: 2;
+    top:0px;
 }
 
 .back_modify,.pay_conf {
     left: 50%;
-    top:350px;
-    margin-left: -130px;
+    top:330px;
+    margin-left: -100px;
 }
 .pay_conf {
     margin-left: 10px;
@@ -573,7 +566,7 @@ a.on i {display: block;}
 #zipcodePreview {
     font-size:17px;
     letter-spacing:10px;
-    top:12px;
+    top:14px;
     left:62px;
     position:absolute;
 }
@@ -610,15 +603,15 @@ a.on i {display: block;}
 #addressPreview {
     font-size:10px;
     text-align:left;
-    top:78px;
-    left:210px;
+    top:80px;
+    left:212px;
     width:80px;
     position:absolute;
 }
 #recipientPreview {
     font-size:14px;
     left:230px;
-    top:118px;
+    top:120px;
     position:absolute;
 }
 #postmarkPreview {
