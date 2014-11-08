@@ -1,16 +1,13 @@
 <?php
-//$jsApiParameters = '"para"';
 ini_set("display_errors", true);
 
-/*
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/js_api_call.php");
 
 if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
-    $jsApiParameters = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_ADDR_URL, $order->id);
+    $jsApiParameters = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id);
 } else {
     $jsApiParameters = "'simulator'";
 }
-*/
 ?>
 
 <html>
@@ -42,10 +39,7 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
 <div class="container">
     <!--菜单条-->
     <div class="menuBar h42 pr">
-        <a href="#" class="changeImg pa">上一步</a>
-        <!--
-        <a id="next-step" href="#" class="next pa">下一步</a>
-        -->
+        <a id="prev-step" href="#" class="changeImg pa">上一步</a>
     </div>
     <!--面包屑-->
     <div class="breadNav" id="crumbs">
@@ -58,8 +52,8 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
 
     <div class="page3 pa">
         <div class="bigImg_a pa" id="imageFace">
-            <div class="bgLayer_a pa"><img class="bgLayer_img_a" src="/images/big_bg.png"></div>
-            <div class="imgLayer_a pa"><img class="imgLayer_img_a" src="/images/test_img.jpg"></div>
+            <div class="bgLayer_a pa"><img class="bgLayer_img_a"></div>
+            <div class="imgLayer_a pa"><img class="imgLayer_img_a"></div>
         </div>
         <div class="frontCover pa" id="textFace" style="display:none;">
             <img src="/images/front_cover.png" alt="文字面背景"/>
@@ -82,11 +76,8 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
 </div>
 
 <script src="/js/jquery-1.9.0.min.js"></script>
-<!-- <script src="/js/artDialog.js"></script> -->
-<!-- <script src="/js/jquery.mobile-1.3.1.min.js"></script> -->
 <script src="/js/google.fastbutton.js"></script>
 <script src="/js/jquery.google.fastbutton.js"></script>
-
 <script src="/js/classie.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/postcard.js"></script>

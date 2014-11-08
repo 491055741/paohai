@@ -519,7 +519,45 @@ a.on i {display: block;}
         top: 330px;
     }
 }
+/*页面3*/
+.page3{width: 100%;height: 400px;}
+.page3 .bigImg_a, .page3 .frontCover, .page3 .imgLayer_a, .page3 .bgLayer_a, .page3 .bgLayer_img_a{
+    position: absolute;
+    width: 208px;
+    height: 300px;
+    overflow: hidden;
+    z-index: 1;
+    top:15px;
+    left: 50%;
+    margin-left: -104px;
+}
+.page3 .imgLayer_a {
+    z-index: 1;
+    top:0px;
+}
+.page3 .bgLayer_a, .page3 .bgLayer_img_a {
+    z-index: 2;
+    top:0px;
+}
 
+.back_modify,.pay_conf {
+    left: 50%;
+    top:330px;
+    margin-left: -130px;
+}
+.pay_conf {
+    margin-left: 10px;
+}
+
+@media (max-width: 320px) and (max-height: 480px){
+    .back_modify {
+        margin-left: -100px;
+    }
+}
+.frontCover img{
+    width: 208px;
+    height: 300px;
+}
 .textCover {
     width: 300px;
     height: 208px;
@@ -528,13 +566,13 @@ a.on i {display: block;}
     top:46px;
     left: 50%;
     margin-left: -150px;
-    webkitTransform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
     transform:rotate(90deg)
 }
 #zipcodePreview {
     font-size:17px;
     letter-spacing:10px;
-    top:12px;
+    top:14px;
     left:62px;
     position:absolute;
 }
@@ -571,14 +609,21 @@ a.on i {display: block;}
 #addressPreview {
     font-size:10px;
     text-align:left;
-    top:78px;
-    left:210px;
+    top:80px;
+    left:212px;
     width:80px;
     position:absolute;
 }
 #recipientPreview {
     font-size:14px;
     left:230px;
-    top:118px;
+    top:120px;
     position:absolute;
+}
+#postmarkPreview {
+    left:230px;
+    top:158px;
+    width:60px;
+    height:60px;    
+    position:absolute;    
 }

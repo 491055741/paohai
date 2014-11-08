@@ -1,10 +1,10 @@
 (function($) {
     var domain = "http://" + window.location.host;
     var isShowImageFace = true;
+    var userImg;
     $(function() {
 
         initOrder();
-        initPreview();
 
         $("#gotoPayButton").fastClick(function(){
             jsApiCall();
@@ -22,6 +22,10 @@
 
         $("#toggleFaceButton").fastClick(function(){
             toggleFace();
+        });
+
+        $("#prev-step").on("click", function() {
+            order.goToStepTwo();
         });
     });
 
@@ -44,16 +48,25 @@
             content   : $("#var-message").val(),
             signature : $("#var-signature").val(),
         });
+
+        var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
+        var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
+        frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
+
+        userImg = document.getElementsByClassName('imgLayer_img_a')[0];
+        userImg.onload = function() {
+            initPreview();
+        }
+        userImg.src = order.getPostcard().getImage().getUrl();
     }
 
     function initPreview() {
 
-        var userImg = document.getElementsByClassName('imgLayer_img_a')[0];
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
         var imageLayer = document.getElementsByClassName('imgLayer_a')[0];
 
-        var pic_orig_w = userImg.offsetWidth,
-            pic_orig_h = userImg.offsetHeight,
+        var pic_orig_w = userImg.width,
+            pic_orig_h = userImg.height,
             bg_w = frameImg.offsetWidth,
             bg_h = frameImg.offsetHeight;
 
@@ -74,13 +87,8 @@
 
         userImg.style.width = pic_w + "px";
         userImg.style.height = pic_h + "px";
-        var left = -parseFloat(imageOffsetX) * pic_w;
-        imageLayer.scrollLeft = parseInt(left);
-        console.log(imageLayer.scrollLeft);
-        imageLayer.scrollTop = (-parseFloat(imageOffsetY) * pic_h);
-        frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
-
-
+        imageLayer.scrollLeft = -parseFloat(imageOffsetX) * pic_w;
+        imageLayer.scrollTop = -parseFloat(imageOffsetY) * pic_h;
 
         $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
         $("#messagePreview").text(order.getPostcard().getMessage().getContent());
