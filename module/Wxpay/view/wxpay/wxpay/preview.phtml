@@ -19,22 +19,21 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
     <link rel="stylesheet" href="/css/common.css"/>
 </head>
 <body>
-<input id="var-user-name" type="hidden" value="" />
-<input id="var-order-id" type="hidden" value=<?php echo $order->id ?> />
-<input id="var-user-picurl" type="hidden" value=<?php echo $order->picUrl ?> />
-<input id="var-offset-x" type="hidden" value= <?php echo $order->offsetX ?> />
-<input id="var-offset-y" type="hidden" value=<?php echo $order->offsetY ?> />
-<input id="var-template-index" type="hidden" value=<?php echo $order->templateId ?> />
-<input id="var-template-rotate-index" type="hidden" value="2" />
-<input id="var-salutation" type="hidden" value=<?php echo $order->salutation ?> ></input>
-<input id="var-message" type="hidden" value=<?php echo $order->message ?> ></input>
-<input id="var-signature" type="hidden" value=<?php echo $order->signature ?> ></input>
-<input id="var-recipient" type="hidden" value=<?php echo $order->recipient ?> ></input>
-<input id="var-address" type="hidden" value=<?php echo $order->address ?> ></input>
-<input id="var-zipcode" type="hidden" value=<?php echo $order->zipCode ?> ></input>
-<input id="var-mobile" type="hidden" value=<?php echo $order->recipientMobile ?> ></input>
-<input id="var-voice-media-id" type="hidden" value=<?php echo $order->voiceMediaId ?> ></input>
-<input id="var-postmark-index" type="hidden" value=<?php echo $order->postmarkId ?> ></input>
+<input id="var-user-name" type="hidden" value="" ></input>
+<input id="var-order-id" type="hidden" value="<?php echo $order->id ?>" ></input>
+<input id="var-user-picurl" type="hidden" value="<?php echo $order->picUrl ?>" ></input>
+<input id="var-offset-x" type="hidden" value="<?php echo $order->offsetX ?>" ></input>
+<input id="var-offset-y" type="hidden" value="<?php echo $order->offsetY ?>" ></input>
+<input id="var-template-index" type="hidden" value="<?php echo $order->templateId ?>" ></input>
+<input id="var-salutation" type="hidden" value="<?php echo $order->salutation ?>" ></input>
+<input id="var-message" type="hidden" value="<?php echo $order->message ?>" ></input>
+<input id="var-signature" type="hidden" value="<?php echo $order->signature ?>" ></input>
+<input id="var-recipient" type="hidden" value="<?php echo $order->recipient ?>" ></input>
+<input id="var-address" type="hidden" value="<?php echo $order->address ?>" ></input>
+<input id="var-zipcode" type="hidden" value="<?php echo $order->zipCode ?>" ></input>
+<input id="var-mobile" type="hidden" value="<?php echo $order->recipientMobile ?>" ></input>
+<input id="var-voice-media-id" type="hidden" value="<?php echo $order->voiceMediaId ?>" ></input>
+<input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId ?>" ></input>
 
 <div class="container">
     <!--菜单条-->
