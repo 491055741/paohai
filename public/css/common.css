@@ -644,5 +644,6 @@ a.on i {display: block;}
 .addr-hc{display: block;margin-left: 40px;}
 .list-ul-hc a.on {background: #abb;}
 .close_hc {border-right: 1px solid #ccc;}
-.sure_hc {float: right;}
+#.sure_hc {float: right;}
+a.sure_hc {width: 48%;}
 /* address book end */
