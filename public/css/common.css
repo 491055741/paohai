@@ -535,7 +535,7 @@ a.on i {display: block;}
     z-index: 1;
     top:0px;
 }
-.page3 .bgLayer_a {
+.page3 .bgLayer_a, .page3 .bgLayer_img_a {
     z-index: 2;
     top:0px;
 }
@@ -543,10 +543,16 @@ a.on i {display: block;}
 .back_modify,.pay_conf {
     left: 50%;
     top:330px;
-    margin-left: -100px;
+    margin-left: -130px;
 }
 .pay_conf {
     margin-left: 10px;
+}
+
+@media (max-width: 320px) and (max-height: 480px){
+    .back_modify {
+        margin-left: -100px;
+    }
 }
 .frontCover img{
     width: 208px;
