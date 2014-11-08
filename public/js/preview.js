@@ -5,7 +5,6 @@
     $(function() {
 
         initOrder();
-        initPreview();
 
         $("#gotoPayButton").fastClick(function(){
             jsApiCall();
@@ -63,12 +62,11 @@
 
     function initPreview() {
 
-        var userImg = document.getElementsByClassName('imgLayer_img_a')[0];
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
         var imageLayer = document.getElementsByClassName('imgLayer_a')[0];
 
-        var pic_orig_w = userImg.offsetWidth,
-            pic_orig_h = userImg.offsetHeight,
+        var pic_orig_w = userImg.width,
+            pic_orig_h = userImg.height,
             bg_w = frameImg.offsetWidth,
             bg_h = frameImg.offsetHeight;
 
@@ -89,9 +87,8 @@
 
         userImg.style.width = pic_w + "px";
         userImg.style.height = pic_h + "px";
-        var left = -parseFloat(imageOffsetX) * pic_w;
-        imageLayer.scrollLeft = parseInt(left);
-        imageLayer.scrollTop = (-parseFloat(imageOffsetY) * pic_h);
+        imageLayer.scrollLeft = -parseFloat(imageOffsetX) * pic_w;
+        imageLayer.scrollTop = -parseFloat(imageOffsetY) * pic_h;
 
         $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
         $("#messagePreview").text(order.getPostcard().getMessage().getContent());

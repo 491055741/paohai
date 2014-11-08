@@ -534,7 +534,19 @@ a.on i {display: block;}
     z-index: 14;
 }
 .bgLayer_a {z-index: 20;}
-.bgLayer_img_a{width: 208px;height: 300px;}
+.bgLayer_img_a{width: 208px;height: 300px;transition: all 0.3s ease-in 0;}
+.imgLayer_a {
+    position: absolute;
+    z-index: 4;
+/*    top: 14px;
+    left: 50%;
+    margin-left: -119px;
+*/    overflow: auto;
+    width: 208px;
+    height: 300px;
+    transition: all 0.3s ease-in 0;
+}
+
 .back_modify,.pay_conf {
     left: 50%;
     top:350px;
