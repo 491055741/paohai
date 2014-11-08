@@ -1,9 +1,8 @@
 CACHE MANIFEST
-# 2014-11-08 00:49
+# 2014-11-08 13:33
 
 #css
 /css/jquery.mobile-1.3.1.min.css
-/css/paohai.css
 
 #images
 /css/wp_icons.png
@@ -29,12 +28,9 @@ CACHE MANIFEST
 /js/jquery.google.fastbutton.js
 /js/jquery.event.move.js
 /js/jquery.rotate-1.0.1.min.js
-/js/util.js
 /js/index.js
-/js/editMessage.js
-/js/address.js
 /js/preview.js
-/js/pay.js
+
 
 NETWORK:
 *

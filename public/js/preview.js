@@ -1,6 +1,7 @@
 (function($) {
     var domain = "http://" + window.location.host;
     var isShowImageFace = true;
+    var userImg;
     $(function() {
 
         initOrder();
@@ -48,6 +49,16 @@
             content   : $("#var-message").val(),
             signature : $("#var-signature").val(),
         });
+
+        var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
+        var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
+        frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
+
+        userImg = document.getElementsByClassName('imgLayer_img_a')[0];
+        userImg.onload = function() {
+            initPreview();
+        }
+        userImg.src = order.getPostcard().getImage().getUrl();
     }
 
     function initPreview() {
@@ -81,7 +92,6 @@
         var left = -parseFloat(imageOffsetX) * pic_w;
         imageLayer.scrollLeft = parseInt(left);
         imageLayer.scrollTop = (-parseFloat(imageOffsetY) * pic_h);
-        frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
 
         $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
         $("#messagePreview").text(order.getPostcard().getMessage().getContent());
