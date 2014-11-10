@@ -1,6 +1,7 @@
 (function($) {
     var domain = "http://" + window.location.host;
     var userOpenId = "";
+    var popWindowInited = false;
     
 
     /*************** Util begin   ***************************/
@@ -12,13 +13,33 @@
             if (code) {
                 message += " code: " + code;
             }
-            alert(message);
+            $(".popbox").find(".pop-title").text("出错啦").end()
+                .find(".pop-message").text(message).end().show();
+            if ( ! popWindowInited) {
+                $(document).on("click", ".popbox .pop-close-button", function() {
+                    $(".popbox").hide();
+                });
+                popWindowInited = true;
+            }
         },
         showInfo: function(message, code) {
             if (code) {
                 message += " code: " + code;
             }
-            alert(message);
+            $(".popbox").find(".pop-title").text("提示").end()
+                .find(".pop-message").text(message).end().show();
+            if ( ! popWindowInited) {
+                $(document).on("click", ".popbox .pop-close-button", function() {
+                    $(".popbox").hide();
+                });
+                popWindowInited = true;
+            }
+        },
+        loadingShow: function() {
+            $(".loadMask").show();
+        },
+        loadingClose: function() {
+            $(".loadMask").close();
         },
         goToPage: function(url) {
             window.location.href = url;        

@@ -111,6 +111,16 @@
         <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId ?: 1; ?>" />
         <!-- vars end -->
 </div>
+<div class="loadMask pa hide">
+    <img src="/images/loading.gif" alt="loading" /><span>加载中...</span>
+</div>
+<div class="popbox pa hide">
+    <div class="pop-wrapper hint">
+        <h2 class="pop-title"></h2>
+        <p class="pop-message"></p>
+        <button class="pop-close-button">关闭</button>
+    </div>
+</div>
 <script src="/js/jquery-1.9.0.min.js"></script>
 <script src="/js/classie.js?<?php echo $tag; ?>"></script>
 <script src="/js/common.js?<?php echo $tag; ?>"></script>
