@@ -129,13 +129,11 @@ class WechatController extends AbstractActionController
                     $event = $postObj->Event;
                     if ($event == "subscribe") {// 订阅
                         $contentStr = <<<WELCOME_TEXT
-HELLO,看这边！泡海明信片在这恭候你多时啦！
-美妙瞬间只能通过电子照回忆？SORRY，我想要触摸的质感。
-赶快DIY属于你的纸质明信片吧，中国邮政全国范围寄送上门！
-
-【国庆疯玩！5分钱大放送，不玩就亏了】
-黄金假期发福利，原价5元一张，现在只需5分钱啊！很疯狂有木有！只限前100张！手快有手慢无！
-DO IT NOW！
+Hello，看这边！趣邮终于把亲盼来啦！
+用电子照回忆美妙瞬间？Sorry，我们留恋触摸的质感；
+用千篇一律的明信片传递祝福？No！我们要独家定制的专属感！
+手机明信片第一品牌——趣邮，实现云端自制，邮政送达，
+还不快来DIY专属于你的纸质明信片吧！
 WELCOME_TEXT;
                     } else if ($event == "CLICK") {
                         $eventKey = $postObj->EventKey;
