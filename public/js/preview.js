@@ -72,14 +72,14 @@
             bg_w = frameImg.offsetWidth,
             bg_h = frameImg.offsetHeight;
 
-        var a, b;
-        a = pic_orig_w;
-        b = pic_orig_h;
+        var a = pic_orig_w, b = pic_orig_h;
         var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
+        var isRotate = (selectedTemplateIndex >= 6);
         var imageOffsetX = order.getPostcard().getImage().getOffsetX();
         var imageOffsetY = order.getPostcard().getImage().getOffsetY();
-        if (selectedTemplateIndex > 6) {
-            temp = a; a = b; b = temp;
+        if (isRotate) {
+            // temp = a; a = b; b = temp;
+            temp = bg_w; bg_w = bg_h; bg_h = temp;
         }
         var wRatio = bg_w / a;
         var hRatio = bg_h / b;
@@ -89,8 +89,22 @@
 
         userImg.style.width = pic_w + "px";
         userImg.style.height = pic_h + "px";
-        imageLayer.scrollLeft = -parseFloat(imageOffsetX) * pic_w;
-        imageLayer.scrollTop = -parseFloat(imageOffsetY) * pic_h;
+        if (isRotate) {
+            $(".imgLayer_img_a").addClass("img_rotate");
+        }
+        // if (isRotate) {
+        //     setTimeout(function(){
+        //         imageLayer.scrollTop = -parseFloat(imageOffsetX) * pic_w;
+        //         imageLayer.scrollLeft = -parseFloat(imageOffsetY) * pic_h;
+        //     },0);
+
+        // } else {
+
+            // setTimeout(function(){
+            //     imageLayer.scrollLeft = -parseFloat(imageOffsetX) * pic_w;
+            //     imageLayer.scrollTop = -parseFloat(imageOffsetY) * pic_h;
+            // },0);
+        // }
 
         $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
         $("#messagePreview").text(order.getPostcard().getMessage().getContent());
