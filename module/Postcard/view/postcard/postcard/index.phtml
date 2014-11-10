@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/css/common.css?<?php echo $tag; ?>"/>
 </head>
 <body>
+<div class="loadMask pa">
+    <img src="/images/loading.gif" alt="loading" /><span>加载中...</span>
+</div>
 <div class="container">
     <!--菜单条-->
     <div class="menuBar h42 pr">
@@ -52,9 +55,6 @@
         <input id="var-template-rotate-index" type="hidden" value="5" />
         <!-- vars end -->
     </div>
-</div>
-<div class="loadMask pa hide">
-    <img src="/images/loading.gif" alt="loading" /><span>加载中...</span>
 </div>
 <script src="/js/jquery-1.9.0.min.js"></script>
 <script src="/js/classie.js?<?php echo $tag; ?>"></script>

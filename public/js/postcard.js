@@ -39,9 +39,10 @@
             $(".loadMask").show();
         },
         loadingClose: function() {
-            $(".loadMask").close();
+            $(".loadMask").hide();
         },
         goToPage: function(url) {
+            $(".loadMask").show();
             window.location.href = url;        
         },
         getNonceStr: function() {

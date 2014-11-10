@@ -19,6 +19,9 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
     <link rel="stylesheet" href="/css/common.css"/>
 </head>
 <body>
+<div class="loadMask pa">
+    <img src="/images/loading.gif" alt="loading" /><span>加载中...</span>
+</div>
 <input id="var-user-name" type="hidden" value="" ></input>
 <input id="var-order-id" type="hidden" value="<?php echo $order->id ?>" ></input>
 <input id="var-user-picurl" type="hidden" value="<?php echo $order->picUrl ?>" ></input>
@@ -72,9 +75,6 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
         <input type="image" id="gotoPayButton" class="pay_conf pa w150h50" src="/images/querenzhifu.png" alt="确认支付"/>
         <input type="image" id="toggleFaceButton" class="pa w95" style="left:50%;top:260px;margin-left:10px;height:54px;z-index:15;" src="/images/turn_around_btn.png" alt="翻转"/>
     </div>
-</div>
-<div class="loadMask pa hide">
-    <img src="/images/loading.gif" alt="loading" /><span>加载中...</span>
 </div>
 <script src="/js/jquery-1.9.0.min.js"></script>
 <script src="/js/google.fastbutton.js"></script>

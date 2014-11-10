@@ -27,6 +27,8 @@
         $("#prev-step").on("click", function() {
             order.goToStepTwo();
         });
+
+        HC.loadingClose();
     });
 
     function initOrder() {

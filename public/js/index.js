@@ -22,6 +22,7 @@
                 order.updateImageForOrder();
             }
         });
+        HC.loadingClose();
     });
 
 

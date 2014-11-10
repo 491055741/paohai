@@ -164,6 +164,6 @@
         $("#prev-step").on("click", function() {
             order.goToStepOne();
         });
-
+        HC.loadingClose();
     });
 })(jQuery);
