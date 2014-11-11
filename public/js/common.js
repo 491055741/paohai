@@ -120,7 +120,13 @@ var HC = {
         var img_layer = HC.touch.img_layer;
         img_layer.scrollTop = img_layer.scrollTop - y;
         img_layer.scrollLeft = img_layer.scrollLeft - x;
-
+        /*huanghcun 2014-11-11*/
+        if(tp.s && tp.ratio == "hRatio" ){
+            img_layer.scrollTop = 0 ;
+        }else if(tp.s && tp.ratio == "wRatio" ){
+            img_layer.scrollLeft = 0
+        }
+        /**/
         tp.var_offset_x.value = -(img_layer.scrollLeft / tp.pic_w);//offset-x 2014-11-6
         tp.var_offset_y.value = -(img_layer.scrollTop / tp.pic_h);//offset-x 2014-11-6
     },
@@ -133,18 +139,31 @@ var HC = {
         var wRatio, hRatio, temp;
 
         if ( b ) {
-            temp = pic_orig_h; pic_orig_w = pic_orig_h; pic_orig_w = temp;
+            temp = pic_orig_h;
+            pic_orig_h = pic_orig_w;
+            pic_orig_w = temp;
         }
-
             wRatio = bg_w / pic_orig_w ;
             hRatio = bg_h / pic_orig_h ;
             var ratio = wRatio > hRatio ? wRatio : hRatio;
+                tp.ratio = wRatio > hRatio ? "wRatio" : "hRatio";//[huangchun 2014-11-11]
             //将缩放后的宽高赋值给变量 2014-11-6
             tp.pic_w = pic_orig_w * ratio;
             tp.pic_h = pic_orig_h * ratio;
 
-            tp.imgLayer_img.style.width = tp.pic_w + "px";
-            tp.imgLayer_img.style.height = tp.pic_h + "px";
+        if ( b ){
+            //[huangchun 2014-11-11]
+            tp.special_h = tp.pic_w;//[huangchun 2014-11-11 用于计算css3 旋转后应当平移的位移]
+            tp.special_w = tp.pic_h;//
+
+            tp.imgLayer_img.width = tp.pic_h;
+            tp.imgLayer_img.height = tp.pic_w;
+        }else {
+            //将缩放后的宽高赋值给变量
+            tp.imgLayer_img.width = tp.pic_w;
+            tp.imgLayer_img.height = tp.pic_h;
+        }
+
 
     },
     rotate : function(selectedTemplateIndex){ //旋转
@@ -154,8 +173,11 @@ var HC = {
         if( selectedTemplateIndex > tp.var_template_rotate_index.value ) {
             tp.s = true;
             HC.scale(tp.s);
-            tp.imgLayer_img.style.webkitTransform="rotate(90deg)";
-            tp.imgLayer_img.style.transform="rotate(90deg)";
+            //transform-origin: left bottom
+            tp.imgLayer_img.style.transformOrigin = "left bottom";
+            tp.imgLayer_img.style.webkitTransformOrigin = "left bottom";
+            tp.imgLayer_img.style.webkitTransform="rotate(90deg) translateX(-"+tp.special_h+"px)";
+            tp.imgLayer_img.style.transform="rotate(90deg) translateX(-"+tp.special_h+"px)";
         }else{
             tp.s = false ;
             HC.scale(tp.s);
@@ -173,7 +195,6 @@ var HC = {
         HC.calWidth();
         HC.clickImgTemp();
         setTimeout(function () {
-            HC.scale();
             //初始化，是否旋转 2014-11-6
             tp.ul_imgs[tp.var_template_index.value].click();
             //初始化，是否位移 2014-11-6
