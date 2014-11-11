@@ -1,7 +1,7 @@
 (function($) {
     var domain = "http://" + window.location.host;
     var isShowImageFace = true;
-    var userImg;
+    var userImage = new Image();
     $(function() {
 
         initOrder();
@@ -55,11 +55,11 @@
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
         frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
 
-        userImg = document.getElementsByClassName('imgLayer_img_a')[0];
-        userImg.onload = function() {
+        // userImage = document.getElementsByClassName('imgLayer_img_a')[0];
+        userImage.onload = function() {
             initPreview();
         }
-        userImg.src = order.getPostcard().getImage().getUrl();
+        userImage.src = order.getPostcard().getImage().getUrl();
     }
 
     function initPreview() {
@@ -67,8 +67,8 @@
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
         var imageLayer = document.getElementsByClassName('imgLayer_a')[0];
 
-        var pic_orig_w = userImg.width,
-            pic_orig_h = userImg.height,
+        var pic_orig_w = userImage.width,
+            pic_orig_h = userImage.height,
             bg_w = frameImg.offsetWidth,
             bg_h = frameImg.offsetHeight;
 
@@ -78,8 +78,8 @@
         var imageOffsetX = order.getPostcard().getImage().getOffsetX();
         var imageOffsetY = order.getPostcard().getImage().getOffsetY();
         if (isRotate) {
-            // temp = a; a = b; b = temp;
-            temp = bg_w; bg_w = bg_h; bg_h = temp;
+            temp = a; a = b; b = temp;
+            // temp = bg_w; bg_w = bg_h; bg_h = temp;
         }
         var wRatio = bg_w / a;
         var hRatio = bg_h / b;
@@ -87,11 +87,30 @@
         var pic_w = a * ratio;
         var pic_h = b * ratio;
 
-        userImg.style.width = pic_w + "px";
-        userImg.style.height = pic_h + "px";
-        if (isRotate) {
-            $(".imgLayer_img_a").addClass("img_rotate");
-        }
+    var canvas = document.getElementById('previewUserImg');
+    canvas.width = pic_w;
+    canvas.height = pic_h;
+    var ctx = canvas.getContext('2d');
+    if (!isRotate) {
+        ctx.save();
+        ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_w, pic_h);
+        ctx.restore();
+    } else {
+        ctx.save();
+        ctx.translate(pic_w,0);
+        ctx.rotate(90 * Math.PI / 180);
+        ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_h, pic_w);
+        ctx.restore();
+    }
+    $('#previewUserImg').css({
+        left: imageOffsetX * pic_w,
+        top: imageOffsetY * pic_h,
+    });
+        // userImg.style.width = pic_w + "px";
+        // userImg.style.height = pic_h + "px";
+        // if (isRotate) {
+        //     $(".imgLayer_img_a").addClass("img_rotate");
+        // }
         // if (isRotate) {
         //     setTimeout(function(){
         //         imageLayer.scrollTop = -parseFloat(imageOffsetX) * pic_w;

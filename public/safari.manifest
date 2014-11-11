@@ -29,7 +29,7 @@ CACHE MANIFEST
 /js/jquery.event.move.js
 /js/jquery.rotate-1.0.1.min.js
 /js/index.js
-/js/preview.js
+#/js/preview.js
 
 
 NETWORK:

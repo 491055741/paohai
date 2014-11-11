@@ -179,7 +179,7 @@ var HC = {
             tp.imgLayer_img.style.webkitTransform="rotate(90deg) translateX(-"+tp.special_h+"px)";
             tp.imgLayer_img.style.transform="rotate(90deg) translateX(-"+tp.special_h+"px)";
         }else{
-            tp.s = false ;
+            tp.s = false;
             HC.scale(tp.s);
             tp.imgLayer_img.style.webkitTransform="";
             tp.imgLayer_img.style.transform="";
