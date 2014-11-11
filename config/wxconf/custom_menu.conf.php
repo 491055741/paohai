@@ -7,19 +7,36 @@
 $menu = array(
     "button" => array(
         array(
-            "type" => "click",
             "name" => "制作明信片",
-            "key" => "begin",
-            "sub_button" => array(),
+            "sub_button" => array(
+                array(
+                    "type" => "click",
+                    "name" => "趣邮DIY",
+                    "key" => "begin",
+                    "sub_button" => array(),
+                ),
+                array(
+                    "type" => "click",
+                    "name" => "新手指引",
+                    "key" => "promotion",
+                    "sub_button" => array(),
+                ),
+                array(
+                    "type" => "click",
+                    "name" => "趣邮Q&A",
+                    "key" => "qa",
+                    "sub_button" => array(),
+                ),
+            ),
         ),
         array( 
             "type" => "click",
-            "name" => "怎么玩",
+            "name" => "趣邮活动",
             "key" => "promotion",
-            "sub_button" => []
+            "sub_button" => array(),
         ),
         array(
-            "name" => "我的明信片", 
+            "name" => "个人中心", 
             "sub_button" => array(
                 array(
                     "type" => "click",
@@ -29,7 +46,7 @@ $menu = array(
                 ),
                 array(
                     "type" => "view",
-                    "name" => "地址簿",
+                    "name" => "常用地址簿",
                     "url" => "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a41ea3d983b4538&redirect_uri=" . urlencode("http://paohai.ikamobile.com/wxpay/addr") . "&response_type=code&scope=snsapi_base#wechat_redirect",
                     "sub_button" => array(),
                 ),
@@ -37,5 +54,7 @@ $menu = array(
         ),
     ),
 );
+
+echo json_encode($menu);
 
 /* End of file */
