@@ -27,8 +27,12 @@
         $("#prev-step").on("click", function() {
             order.goToStepTwo();
         });
+        $(window).on("orientationchange", function() {
+            HC.checkOrientation();
+        });
 
         HC.loadingClose();
+        HC.checkOrientation();
     });
 
     function initOrder() {

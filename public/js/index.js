@@ -22,7 +22,11 @@
                 order.updateImageForOrder();
             }
         });
+        $(window).on("orientationchange", function() {
+            HC.checkOrientation();
+        });
         HC.loadingClose();
+        HC.checkOrientation();
     });
 
 

@@ -36,17 +36,30 @@
             }
         },
         loadingShow: function() {
-            $(".loadMask").show();
+            $(".loading-image").show();
         },
         loadingClose: function() {
-            $(".loadMask").hide();
+            $(".loading-image").hide();
         },
         goToPage: function(url) {
-            $(".loadMask").show();
+            HC.loadingShow();
             window.location.href = url;        
         },
         getNonceStr: function() {
             return "" + new Date().getTime();
+        },
+        checkOrientation: function() {
+            if (window.orientation == 90 || window.orientation == -90) {
+                $(".orientation-tips").show();
+            } else if (window.orientation === 0) {
+                if (window.innerWidth > window.innerHeight) {
+                    $(".orientation-tips").show();
+                } else {
+                    $(".orientation-tips").hide();
+                }
+            } else {
+                $(".orientation-tips").hide();
+            }
         },
     });
 

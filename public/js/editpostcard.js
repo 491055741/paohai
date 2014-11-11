@@ -164,6 +164,10 @@
         $("#prev-step").on("click", function() {
             order.goToStepOne();
         });
+        $(window).on("orientationchange", function() {
+            HC.checkOrientation();
+        });
         HC.loadingClose();
+        HC.checkOrientation();
     });
 })(jQuery);
