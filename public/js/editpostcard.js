@@ -112,6 +112,7 @@
         });
         /********** address book **************/
         $(".pop2 .save_add").on("click", function() { // 存入地址
+            // TODO class in
             receiptInfo.setVars({
                 name: $(".pop2 .to_who").val(),
                 address: $(".pop2 .to_address").val(),

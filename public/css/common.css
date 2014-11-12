@@ -639,23 +639,51 @@ a.on i {display: block;}
 }
 
 /* address book begin */
-.list-wrap-hc {top: 0;left: 0;width: 100%;height: 100%;z-index: 100;background: #fff;font-family: "微软雅黑";color: #000;overflow: hidden;}
-.list-wrap-hc h2 {text-align: center;border-bottom: 1px solid #ccc;padding: 5px;font-weight: bold;color: #bbb;letter-spacing: 5px;}
-.list-wrap-hc .list-ul-hc{top: 44px;bottom:50px;width: 100%;overflow: auto;}
-.list-ul-hc ul {position:relative;list-style: none;padding: 0 40px;border-bottom: 1px solid #ccc;}
-.list-ul-hc ul li{line-height: 33px;}
-.list-ul-hc ul li i{float: left; font-style: normal;font-weight: bold;}
-.list-ul-hc a{display:block;position: absolute;right: 20px;top: 50%;width:20px;height:20px;border-radius: 10px;background: purple;}
+.list-wrap-hc {top: 0;left: 0;width: 100%;height: 100%;z-index: 100;background: #fff;font-family: "微软雅黑";font-size:14px;color: #000;overflow: hidden;}
+.list-wrap-hc h2 {
+    top:7px;
+    left: 6px;
+    right: 6px;
+    border-top-left-radius: 28px;
+    border-top-right-radius: 30px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 5px;
+    background: #1c4770;
+}
+    .list-wrap-hc .list-ul-hc{top: 40px;bottom:71px;left: 7px;right: 7px;overflow: auto;padding: 0 10px;}
+    /*huangchun 2014-11-11*/
+    .list-ul-hc ul {position:relative;list-style: none;margin:5px 0;padding: 0 40px 0 10px;background: #eaeaea;}
+    .list-ul-hc ul li{line-height: 33px;}
+    .list-ul-hc ul li i{float: left; font-style: normal;font-weight: bold;}
+    /*huangchun 2014-11-11*/
+    .list-ul-hc a{display:block;position: absolute;right: 0;top: 40%;width:40px;height:40px;background: url("/images/nogou.gif") no-repeat center;}
+    .list-ul-hc a.on {background: url("/images/gou.gif") no-repeat center;}
 
-.menu-btn-hc {height: 50px;background: #fff;border-top: 1px solid #ccc;}
-.menu-btn-hc {position: absolute;left: 0; bottom: 0;width: 100%;height: 50px;z-index: 1000;}
-.menu-btn-hc a{display:inline-block;line-height:50px;width: 50%;letter-spacing: 5px;text-align:center;font-family: "微软雅黑";color: #000;}
-.menu-btn-hc a:hover{background: #387bbe;color: #ffffff}
-.addr-hc{display: block;margin-left: 40px;}
-.list-ul-hc a.on {background: #abb;}
-.close_hc {border-right: 1px solid #ccc;}
-#.sure_hc {float: right;}
-a.sure_hc {width: 48%;}
+    .menu-btn-hc {height: 50px;background: transparent;border-top: 1px solid #ccc;}
+    .menu-btn-hc {bottom: 20px;left:10px;right:10px;height: 50px;text-align: center;padding-top: 5px;}
+    .menu-btn-hc input{display:inline-block;width: 40%;}
+    /*.menu-btn-hc a:hover{background: #387bbe;color: #ffffff}*/
+    .addr-hc{display: block;margin-left: 40px;}
+.addr_bg {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+}
+.go_add {/*[huangchun 2014-11-11] 新增背景,更改了字体颜色*/
+    width: 140px;
+    height: 40px;
+    border: 0;
+    margin-left: 15px;
+    border-radius: 15px;
+    color: #fff;
+    background: #FF362B;
+}
 /* address book end */
 
 /**蒙层and弹出窗******/
