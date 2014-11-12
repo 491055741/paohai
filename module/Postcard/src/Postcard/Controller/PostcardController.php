@@ -23,7 +23,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201411112252'); // 好像不管用，待查
+define('JS_TAG', '201411121727'); // 好像不管用，待查
 
 
 class PostcardController extends AbstractActionController

@@ -20,10 +20,10 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
 </head>
 <body>
 <div class="loadMask loading-image pa">
-    <img src="/images/loading.gif" alt="loading" /><span>加载中...</span>
+    <div><img src="/images/loading.gif" alt="loading" /><span>加载中...</span></div>
 </div>
 <div class="loadMask orientation-tips pa" style="display:none">
-    <span>亲，竖屏操作体验更好哦</span>
+    <div><span>亲，竖屏操作体验更好哦</span></div>
 </div>
 <input id="var-user-name" type="hidden" value="" ></input>
 <input id="var-order-id" type="hidden" value="<?php echo $order->id ?>" ></input>

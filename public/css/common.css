@@ -670,6 +670,15 @@ a.sure_hc {width: 48%;}
     padding-top: 45%;
 }
 .loadMask img {margin-right:15px;width: 35px;height: 35px;}
+.loadMask div {/*huangchun 2014-11-11*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 100px;
+    margin: -50px 0 0 -150px;
+    line-height: 100px;
+}
 .hint {
     position:relative;
     color: #000;
