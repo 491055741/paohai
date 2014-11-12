@@ -18,7 +18,7 @@ $menu = array(
                 array(
                     "type" => "click",
                     "name" => "新手指引",
-                    "key" => "promotion",
+                    "key" => "tutorial",
                     "sub_button" => array(),
                 ),
                 array(
@@ -45,9 +45,11 @@ $menu = array(
                     "sub_button" => array(),
                 ),
                 array(
-                    "type" => "view",
+                    //"type" => "view",
+                    "type" => "click",
                     "name" => "常用地址簿",
-                    "url" => "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a41ea3d983b4538&redirect_uri=" . urlencode("http://paohai.ikamobile.com/wxpay/addr") . "&response_type=code&scope=snsapi_base#wechat_redirect",
+                    //"url" => "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a41ea3d983b4538&redirect_uri=" . urlencode("http://paohai.ikamobile.com/wxpay/addr") . "&response_type=code&scope=snsapi_base#wechat_redirect",
+                    "key" => "address_book",
                     "sub_button" => array(),
                 ),
             ),
