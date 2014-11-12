@@ -72,6 +72,9 @@
                 address: $(".pop2 .to_address").val(),
                 zipcode: $(".pop2 .postcode").val(),
             });
+            if ($(".pop2 .save_add").hasClass("in")) {
+                order.saveContact();
+            }
             $(".pop2").hide();
             setCardInfo();
         });
@@ -112,13 +115,15 @@
         });
         /********** address book **************/
         $(".pop2 .save_add").on("click", function() { // 存入地址
-            // TODO class in
+            $(this).toggleClass("in");
+            /*
             receiptInfo.setVars({
                 name: $(".pop2 .to_who").val(),
                 address: $(".pop2 .to_address").val(),
                 zipcode: $(".pop2 .postcode").val(),
             });
             order.saveContact();
+            */
         });
         $(".pop2 .go_add").on("click", function() { // 唤起地址簿按钮
             order.getContacts(function(contacts) {
