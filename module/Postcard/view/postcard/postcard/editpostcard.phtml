@@ -75,6 +75,7 @@
         <textarea class="liuyan pa" name="你想对TA说的话" cols="30" rows="10" placeholder="你想你对TA说的话..."></textarea>
         <div class="menu pa">
             <input class="voice_btn" type="image" src="/images/voice_icon.gif" alt="TTS" />
+            <input class="play_voice_btn" type="image" src="/images/voice_icon.gif" alt="TTS" />
             <input class="myName" type="text" placeholder="我的昵称" />
             <!--<input class="go_add" type="text" placeholder="我的昵称"/>-->
         </div>
@@ -115,6 +116,8 @@
         <input id="var-signature" type="hidden" value="<?php echo $order->signature; ?>" />
 
         <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId ?: 1; ?>" />
+        <input id="var-voice-media-id" type="hidden" value="<?php echo $order->voiceMediaId; ?>" />
+
         <!-- vars end -->
 </div>
 <div class="popbox pa hide">

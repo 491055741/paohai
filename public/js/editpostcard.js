@@ -85,6 +85,15 @@
             $(".pop3").hide();
             setCardInfo();
         });
+
+        var voiceMediaId = $('#var-voice-media-id').val();
+        if (!voiceMediaId || voiceMediaId == '0') {
+            $(".pop3 .play_voice_btn").css("display","none");
+        } else {
+            $(".pop3 .myName").css({width: 130});
+//            $("#voiceMessageButton").attr({'src': '/images/small/rerecord_voice_btn.png'});
+        }
+
         $(".pop3 .voice_btn").on("click", function() { //语音留言按钮
             messageInfo.setVars({
                 salutation: $(".pop3 .to_who").val(),
@@ -93,7 +102,14 @@
             });
             order.requestVoice();
         });
-        
+        $(".pop3 .play_voice_btn").on("click", function() {
+            var url = 'http://' + window.location.host + '/postcard/voice?mediaId=' + voiceMediaId + "&nonce=" + HC.getNonceStr();
+            var audio = document.createElement("audio");
+            if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
+                audio.src = url;
+                audio.play();
+            }
+        });
         /********** address book **************/
         $(".pop2 .save_add").on("click", function() { // 存入地址
             receiptInfo.setVars({
