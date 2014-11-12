@@ -61,6 +61,27 @@
                 $(".orientation-tips").hide();
             }
         },
+        checkAddress: function(address) {
+            // Check params
+            if ( ! address.getName()) {
+                return "请填写收件人姓名";
+            }
+            if (address.getName().length > 8) {
+                return "您输入的收件人姓名太长啦, 请不要超过8个字符哦";
+            }
+            if ( ! address.getAddress()) {
+                return "请填写收件人";
+            }
+            if (address.getAddress().length > 500) {
+                return "您输入的地址太长啦，请不要超过500个字符哦";
+            }
+            var re= /^[1-9][0-9]{5}$/;
+            if ( ! re.test(address.getZipcode())) {
+                return "您输入的邮编格式不正确";
+            }
+
+            return "";
+        },
     });
 
     /*************** Util begin   ***************************/

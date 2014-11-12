@@ -72,6 +72,12 @@
                 address: $(".pop2 .to_address").val(),
                 zipcode: $(".pop2 .postcode").val(),
             });
+            var errMsg = HC.checkAddress(receiptInfo);
+            if (errMsg) {
+                HC.showError(errMsg);
+                return;
+            }
+
             if ($(".pop2 .save_add").hasClass("in")) {
                 order.saveContact();
             }
