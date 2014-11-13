@@ -696,13 +696,13 @@ class PostcardController extends AbstractActionController
             return false;
         }
 
-        imagepng($image, $dstpath.$order->id.'_front.png');
+        imagejpeg($image, $dstpath.$order->id.'_front.jpg');
         imagedestroy($image);
 
         $canvas_w = 971.0;
         $canvas_h = 600.0;
         $image = $this->generatePostcardBack($order, $canvas_w, $canvas_h);
-        imagepng($image, $dstpath.$order->id.'_backface.png');
+        imagejpeg($image, $dstpath.$order->id.'_backface.jpg');
         imagedestroy($image);
         return true;
     }
