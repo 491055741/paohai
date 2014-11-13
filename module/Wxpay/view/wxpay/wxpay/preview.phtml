@@ -93,6 +93,15 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
     //调用微信JS api 支付
     function jsApiCall()
     {
+        // simulator
+        var url = window.location.host;
+        if (url.indexOf('ikamobile.com') == -1) {
+            var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + order.getOrderId();
+            $.get(url, function success(data) {});
+            self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
+            return;
+        }
+
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
             <?php echo $jsApiParameters; ?>,
