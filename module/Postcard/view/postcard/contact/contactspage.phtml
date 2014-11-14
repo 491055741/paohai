@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>趣邮明信片</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/reset.css"/>
+    <link rel="stylesheet" href="css/addressbook.css"/>
+</head>
+<body>
+<div class="container">
+    <!--弹出窗-->
+    <div class="pop2 pop2-ab pa hide">
+        <div class="bgK pa"><img src="images/pop1_bg.png" alt=""/></div>
+        <input class="to_who pa" type="text" placeholder="收件人"/>
+        <input class="postcode pa" type="text" placeholder="邮编"/>
+        <textarea class="to_address pa" name="收件人地址" cols="30" rows="10" placeholder="收件人地址"></textarea>
+        <div class='menu-btn-hc pa'>
+            <input type="image" src="images/cancel.gif" alt="取消"/>
+            <input type="image" src="images/youchuo-sure.png" alt="确定"/>
+        </div>
+    </div>
+
+    <!-- 地址簿 -->
+    <div class='list-wrap-hc pa' id='list'  style="display: block;" >
+        <img class="addr_bg pa" src="images/pop3_bg.png" alt="地址簿背景框"/><!--huangchun 2014-11-12-->
+        <h2 class="pa">地址簿</h2>
+        <div class='list-ul-hc pa list-ul-hc-ab'>
+            <!-- 好友1 -->
+            <div class="list-info-ab">
+                <p>小嗝嗝</p>
+                <ul>
+                    <li><i>姓名：</i><span class='name-hc'>小嗝嗝</span></li>
+                    <li>
+                        <i>地址：</i>
+                        <span class='addr-hc'>
+                            阿里萨点击阿斯利康极冻酷凌撒娇的可列集萨拉肯德基撒利康极冻酷凌撒娇的可列集萨拉肯德基撒冷酷祭典雷
+                        </span>
+                    </li>
+                    <li><i>邮编：</i><span class='post-hc'>646200</span></li>
+                    <button class='sel-btn-hc delete_hc'></button>
+                    <button class='sel-btn-hc edit_hc'></button>
+                </ul>
+            </div>
+            <!-- 好友2 -->
+            <div class="list-info-ab on"><!--huanghcun 2014-11-13 增加"on"时，p的箭头变成下箭头-->
+                <p>小嗝嗝</p>
+                <ul style="display: block"><!--huanghcun 2014-11-13 此处设为可见则整个条信息可见-->
+                    <li><i>姓名：</i><span class='name-hc'>小嗝嗝</span></li>
+                    <li>
+                        <i>地址：</i>
+                        <span class='addr-hc'>
+                            阿里萨点击阿斯利康极冻酷凌撒娇的可列集萨拉肯德基撒利康极冻酷凌撒娇的可列集萨拉肯德基撒冷酷祭典雷
+                        </span>
+                    </li>
+                    <li><i>邮编：</i><span class='post-hc'>646200</span></li>
+                    <button class='sel-btn-hc delete_hc'></button>
+                    <button class='sel-btn-hc edit_hc'></button>
+                </ul>
+            </div>
+            <!-- 好友3 -->
+            <div class="list-info-ab">
+                <p>小嗝嗝</p>
+                <ul>
+                    <li><i>姓名：</i><span class='name-hc'>小嗝嗝</span></li>
+                    <li><i>地址：</i>
+                        <span class='addr-hc'>
+                            阿里萨点击阿斯利康极冻酷凌撒娇的可列集萨拉肯德基撒利康极冻酷凌撒娇的可列集萨拉肯德基撒冷酷祭典雷
+                        </span>
+                    </li>
+                    <li><i>邮编：</i><span class='post-hc'>646200</span></li>
+                    <button class='sel-btn-hc delete_hc'></button>
+                    <button class='sel-btn-hc edit_hc'></button>
+                </ul>
+            </div>
+            <!-- 好友4 -->
+            <div class="list-info-ab">
+                <p>小嗝嗝</p>
+                <ul>
+                    <li><i>姓名：</i><span class='name-hc'>小嗝嗝</span></li>
+                    <li>
+                        <i>地址：</i>
+                        <span class='addr-hc'>
+                            阿里萨点击阿斯利康极冻酷凌撒娇的可列集萨拉肯德基撒利康极冻酷凌撒娇的可列集萨拉肯德基撒冷酷祭典雷
+                        </span>
+                    </li>
+                    <li><i>邮编：</i><span class='post-hc'>646200</span></li>
+                    <button class='sel-btn-hc delete_hc'></button>
+                    <button class='sel-btn-hc edit_hc'></button>
+                </ul>
+            </div>
+        </div>
+        <div class='menu-btn-hc menu-btn-hc-ab pa' id='m_btn'>
+            <button class="add_hc"></button>
+        </div>
+    </div>
+    <!-- 地址簿end -->
+</div>
+</body>
+</html>

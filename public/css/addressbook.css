@@ -1,0 +1,173 @@
+@charset "UTF-8";
+html,body {height: 100%;}
+.w100p {width: 100%;}
+.w95 {width: 95px;}
+.w80h80{width: 80px;height: 80px;}
+.w150h50{width: 120px;height: 50px;}
+.h42 {height: 42px;line-height: 42px;}
+.h38 {height: 38px;line-height: 38px;}
+.h28 {height: 28px;line-height: 28px;}
+.h18 {height: 18px;line-height: 18px;}
+
+.fl {float: left;}
+.fr {float: right;}
+.pt30 {padding-top: 30px;}
+.pt20 {padding-top: 20px;}
+
+.pa {position: absolute;}
+.pr {position: relative;}
+.ovfw {overflow: hidden;}
+.hide {display: none;}
+
+.container {height:100%;display: flex;flex-direction: column;min-width: 320px;background: #fff;}
+
+.list-wrap-hc {top: 0;left: 0;width: 100%;height: 100%;z-index: 100;background: #fff;font-family: "微软雅黑";font-size: 12px;;color: #000;overflow: hidden;}
+
+.list-wrap-hc h2 {
+    top:7px;
+    left: 6px;
+    right: 6px;
+    border-top-left-radius: 28px;
+    border-top-right-radius: 30px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 5px;
+    background: #1c4770;
+}
+.list-wrap-hc .list-ul-hc{top: 40px;bottom:71px;left: 7px;right: 7px;overflow: auto;padding: 0 10px;}
+.list-ul-hc ul {position:relative;list-style: none;margin:5px 0;padding: 0 40px 0 10px;background: #f2f2f2;min-height: 100px;}
+.list-ul-hc ul li{line-height: 25px;overflow: hidden;}/*huangchun 2014-11-13*/
+.list-ul-hc ul li i{float: left; font-style: normal;font-weight: bold;}
+
+.menu-btn-hc {height: 50px;background: transparent;border-top: 1px solid #ccc;}
+.menu-btn-hc {bottom: 20px;left:10px;right:10px;height: 50px;text-align: center;padding-top: 5px;}
+.menu-btn-hc input{display:inline-block;width: 35%; height: 50px;}
+/*.menu-btn-hc a:hover{background: #387bbe;color: #ffffff}*/
+.addr-hc{display: block;margin-left: 40px;}
+.addr_bg {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+/*每一条列表信息的容器*/
+.list-info-ab {
+    margin: 5px 0;
+}
+.list-info-ab p {
+    height: 30px;
+    line-height: 30px;
+    margin: 0;
+    padding-left: 5px;
+    background: rgb(210,210,210) url("../images/arrow-Right.png") no-repeat right center;
+}
+.list-info-ab.on p {background: rgb(210,210,210) url("../images/arrow-Buttom.png") no-repeat right center;}
+.list-ul-hc-ab ul {
+    display: none;
+    margin-top:0;
+    overflow: hidden;
+    padding-bottom: 15px;
+    padding-right: 0;
+}
+
+.sel-btn-hc {
+    position: absolute;
+    border: 0;
+    width: 32px;
+    height: 32px;
+    bottom:3px;
+    right: 15px;
+}
+.edit_hc{
+    background:url("../images/edits.png") no-repeat center;
+}
+.delete_hc{
+    right: 60px;
+    background:url("../images/delete.png") no-repeat center;
+}
+.add_hc {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background:#eaeaea url("../images/addpeople.png") no-repeat center;
+}
+.menu-btn-hc-ab {
+    bottom: 20px;
+    left: 17px;
+    right: 17px;
+    height: 50px;
+    text-align: center;
+    padding-top: 5px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    overflow: hidden;
+}
+
+/*弹出窗*/
+.pop2 {height:100%;width:100%;top: 0;left: 0;background: rgba(0,0,0,0.7);z-index: 5}
+.pop2-ab {z-index: 101;}
+.pop2-ab .bgK {top:20px;}
+.bgK {z-index: 1;top: 20px;left: 50%;margin-left: -175px;}
+.bgK img {width: 350px;height: 400px;}
+.pop2-ab .to_who {top:80px;}
+.pop2-ab .postcode {top:135px;}
+.pop2-ab .to_address {top:185px;height: 125px;}
+.pop2-ab .menu-btn-hc {top:330px;z-index: 5;border: 0;}
+@media all and (max-width: 320px) {
+
+    .pop2 .bgK {top: 50px;}
+    .bgK {margin-left: -155px;}
+    .bgK img {width: 310px;height: 350px;}
+
+    .pop2 .to_who,.pop2 .postcode {
+        z-index: 5;
+        width: 230px;
+        height: 30px;
+        top: 100px;
+        left: 50%;
+        margin-left: -115px;
+        border-radius: 15px;
+        border: 1px solid #999;
+        padding-left: 10px;
+        background: #eee;
+    }
+    .pop2 .postcode {top: 140px;}
+    .to_address{
+        z-index: 5;
+        width: 230px;
+        height: 100px;
+        left: 50%;
+        top: 180px;
+        margin-left: -115px;
+        border-radius: 15px;
+        padding: 5px;
+        background: #eee;
+    }
+    .pop2 .menu {
+        z-index: 5;
+        top: 290px;
+        left: 50%;
+        width: 250px;
+        margin-left: -125px;
+    }
+    .pop2 .save_add {
+        display: inline-block;
+        height: 42px;
+        line-height: 42px;
+        padding-left: 40px;
+        color: #000;
+    }
+    .pop2 .go_add {
+        width: 130px;
+        height: 40px;
+        margin-left: 0;
+    }
+}
