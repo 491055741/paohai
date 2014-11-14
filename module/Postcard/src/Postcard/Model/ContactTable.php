@@ -53,8 +53,11 @@ class ContactTable
         }
     }
 
-    // public function deleteContact($id)
-    // {
-    //     $this->tableGateway->delete(array('id' => $id));
-    // }
+    public function deleteContact($userName, $contactName)
+    {
+        $this->tableGateway->delete(array(
+            'userName' => $userName,
+            'contactName' => $contactName,    
+        ));
+    }
 }

@@ -3,6 +3,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Postcard\Controller\Postcard' => 'Postcard\Controller\PostcardController',
+            'Postcard\Controller\Contact' => 'Postcard\Controller\ContactController',
         ),
     ),
 
@@ -20,6 +21,19 @@ return array(
                     'defaults' => array(
                         'controller' => 'Postcard\Controller\Postcard',
                         'action'     => 'index',
+                    ),
+                ),
+            ),
+            'contacts' => array(
+                'type' => "segment",
+                "options" => array(
+                    "route" => "/contact[/:action]",
+                    "constraints" => array(
+                        "action" => "[a-zA-Z][a-zA-Z0-9_-]*",
+                    ),
+                    "defaults" => array(
+                        "controller" => "Postcard\Controller\Contact",
+                        "action" => "contactspage",
                     ),
                 ),
             ),
