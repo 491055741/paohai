@@ -83,7 +83,6 @@
         var imageOffsetY = order.getPostcard().getImage().getOffsetY();
         if (isRotate) {
             temp = a; a = b; b = temp;
-            // temp = bg_w; bg_w = bg_h; bg_h = temp;
         }
         var wRatio = bg_w / a;
         var hRatio = bg_h / b;
@@ -91,43 +90,25 @@
         var pic_w = a * ratio;
         var pic_h = b * ratio;
 
-    var canvas = document.getElementById('previewUserImg');
-    canvas.width = pic_w;
-    canvas.height = pic_h;
-    var ctx = canvas.getContext('2d');
-    if (!isRotate) {
-        ctx.save();
-        ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_w, pic_h);
-        ctx.restore();
-    } else {
-        ctx.save();
-        ctx.translate(pic_w,0);
-        ctx.rotate(90 * Math.PI / 180);
-        ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_h, pic_w);
-        ctx.restore();
-    }
-    $('#previewUserImg').css({
-        left: imageOffsetX * pic_w,
-        top: imageOffsetY * pic_h,
-    });
-        // userImg.style.width = pic_w + "px";
-        // userImg.style.height = pic_h + "px";
-        // if (isRotate) {
-        //     $(".imgLayer_img_a").addClass("img_rotate");
-        // }
-        // if (isRotate) {
-        //     setTimeout(function(){
-        //         imageLayer.scrollTop = -parseFloat(imageOffsetX) * pic_w;
-        //         imageLayer.scrollLeft = -parseFloat(imageOffsetY) * pic_h;
-        //     },0);
-
-        // } else {
-
-            // setTimeout(function(){
-            //     imageLayer.scrollLeft = -parseFloat(imageOffsetX) * pic_w;
-            //     imageLayer.scrollTop = -parseFloat(imageOffsetY) * pic_h;
-            // },0);
-        // }
+        var canvas = document.getElementById('previewUserImg');
+        canvas.width = pic_w;
+        canvas.height = pic_h;
+        var ctx = canvas.getContext('2d');
+        if (!isRotate) {
+            ctx.save();
+            ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_w, pic_h);
+            ctx.restore();
+        } else {
+            ctx.save();
+            ctx.translate(pic_w,0);
+            ctx.rotate(90 * Math.PI / 180);
+            ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_h, pic_w);
+            ctx.restore();
+        }
+        $('#previewUserImg').css({
+            left: imageOffsetX * pic_w,
+            top: imageOffsetY * pic_h,
+        });
 
         $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
         $("#messagePreview").text(order.getPostcard().getMessage().getContent());
