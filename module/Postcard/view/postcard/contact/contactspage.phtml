@@ -9,14 +9,15 @@
 </head>
 <body>
 <input type="hidden" id="var-user-name" value="<?php echo $userName; ?>" />
-<div class="popbox pa hide">
-    <div class="pop-wrapper hint">
-        <h2 class="pop-title"></h2>
-        <p class="pop-message"></p>
-        <button class="pop-close-button">关闭</button>
-    </div>
-</div>
 <div class="container">
+    <!-- message -->
+    <div class="popbox pa hide">
+        <div class="pop-wrapper hint">
+            <h2 class="pop-title"></h2>
+            <p class="pop-message"></p>
+            <button class="pop-close-button">关闭</button>
+        </div>
+    </div>
     <!--弹出窗-->
     <div id="pop-address" class="pop2 pop2-ab pa hide">
         <div class="bgK pa"><img src="/images/pop1_bg.png?<?php echo $tag; ?>" alt=""/></div>
