@@ -201,6 +201,83 @@ var HC = {
             tp.img_layer.scrollLeft = (-tp.var_offset_x.value * tp.pic_w);
             tp.img_layer.scrollTop = (-tp.var_offset_y.value * tp.pic_h);
         },1000);
-    }
+    },
+    popWindowInited: false,
+    log: function(data) {   //日志记录
+        console.log(data);
+    },
+    showError: function(message, code) {
+        if (code) {
+            message += " code: " + code;
+        }
+        $(".popbox").find(".pop-title").text("出错啦").end()
+            .find(".pop-message").text(message).end().show();
+        if ( ! HC.popWindowInited) {
+            $(document).on("click", ".popbox .pop-close-button", function() {
+                $(".popbox").hide();
+            });
+            HC.popWindowInited = true;
+        }
+    },
+    showInfo: function(message, code) {
+        if (code) {
+            message += " code: " + code;
+        }
+        $(".popbox").find(".pop-title").text("提示").end()
+            .find(".pop-message").text(message).end().show();
+        if ( ! HC.popWindowInited) {
+            $(document).on("click", ".popbox .pop-close-button", function() {
+                $(".popbox").hide();
+            });
+            HC.popWindowInited = true;
+        }
+    },
+    loadingShow: function() {
+        $(".loading-image").show();
+    },
+    loadingClose: function() {
+        $(".loading-image").hide();
+    },
+    goToPage: function(url) {
+        HC.loadingShow();
+        window.location.href = url;        
+    },
+    getNonceStr: function() {
+        return "" + new Date().getTime();
+    },
+    checkOrientation: function() {
+        if (window.orientation == 90 || window.orientation == -90) {
+            $(".orientation-tips").show();
+        } else if (window.orientation === 0) {
+            if (window.innerWidth > window.innerHeight) {
+                $(".orientation-tips").show();
+            } else {
+                $(".orientation-tips").hide();
+            }
+        } else {
+            $(".orientation-tips").hide();
+        }
+    },
+    checkAddress: function(address) {
+        // Check params
+        if ( ! address.getName()) {
+            return "请填写收件人姓名";
+        }
+        if (address.getName().length > 8) {
+            return "您输入的收件人姓名太长啦, 请不要超过8个字符哦";
+        }
+        if ( ! address.getAddress()) {
+            return "请填写收件人";
+        }
+        if (address.getAddress().length > 500) {
+            return "您输入的地址太长啦，请不要超过500个字符哦";
+        }
+        var re= /^[1-9][0-9]{5}$/;
+        if ( ! re.test(address.getZipcode())) {
+            return "您输入的邮编格式不正确";
+        }
+
+        return "";
+    },
 };
 

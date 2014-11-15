@@ -9,7 +9,7 @@ use Postcard\Model\Contact;
 
 class ContactController extends AbstractActionController
 {
-    const JS_TAG = "201411131530";
+    const JS_TAG = "201411152303";
 
     protected $contactTable;
 
@@ -76,7 +76,10 @@ class ContactController extends AbstractActionController
             ));
         }
 
-        return new JsonModel($this->getContactTable()->getContacts($userName));
+        return new JsonModel(array(
+            "code" => "0",
+            "data" => $this->getContactTable()->getContacts($userName)
+        ));
 
     }
 
