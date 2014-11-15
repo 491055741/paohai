@@ -171,7 +171,30 @@ Q：趣邮有哪些玩法？
 A：趣邮就是希望你能成为一个创意达人，趣邮明信片可以是最传统的亲友间的信件传递；可以每天寄给自己，成为心情日记；可以和同学合影，以二维码方式留下你的联系方式，做成毕业同学录；也可以放上婚纱照加上语音，变成婚礼邀请函……各种创意玩法，等你来发掘！
 QA_TEXT;
                         } else if ($eventKey == "address_book") {
-                            $contentStr = "地址簿功能开发中！谢谢您的关注";
+                            $newsTpl = "<xml>
+                                        <ToUserName><![CDATA[%s]]></ToUserName>
+                                        <FromUserName><![CDATA[%s]]></FromUserName>
+                                        <CreateTime>%s</CreateTime>
+                                        <MsgType><![CDATA[%s]]></MsgType>
+                                        <ArticleCount>1</ArticleCount>
+                                        <Articles>
+                                            <item>
+                                                <Title><![CDATA[%s]]></Title>
+                                                <Description><![CDATA[%s]]></Description>
+                                                <PicUrl><![CDATA[%s]]></PicUrl>
+                                                <Url><![CDATA[%s]]></Url>
+                                            </item>
+                                        </Articles>
+                                        </xml>";
+
+                            $picUrl = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/images/address_book.jpg';
+                            $replyMsgType = "news";
+                            $title = "趣邮明信片--我的地址簿";
+                            $desc = "把常用联系人的地址保存在此，能让之后的寄送更方便哦";
+                            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/contact/contactspage?userName='.$fromUsername;
+                            $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
+                            echo $resultStr;
+                            return;
                         } else {
                             $contentStr = "请上传一张照片";
                         }
