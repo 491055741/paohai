@@ -93,7 +93,7 @@
                 }).done(function(data) {
                     addressBook = [];
                     if (data.code != "0") {
-                        //HC.showError(data.msg, data.code);
+                        HC.showError(data.msg, data.code);
                         return self;
                     }
                     $.each(data.data, function(i, v) {
@@ -145,7 +145,7 @@
                 $("div.address-book").empty();
                 $.each(addressBook, function(index, address) {
                     var addrObj = $("#address-template div").clone();
-                    addrObj.find(".addr-title").text(address.getName()).end()
+                    addrObj.find(".addr-title").text(address.getName()).css("cursor", "pointer").end()
                         .find(".addr-name").text(address.getName()).end()
                         .find(".addr-addr").text(address.getAddress()).end()
                         .find(".addr-post").text(address.getZipcode()).end()
@@ -155,8 +155,13 @@
                 if ( ! isInited) {
                     // Event
                     $(document).on("click", ".list-wrap-hc .addr-title", function() {
-                        $(".list-wrap-hc .list-info-ab").removeClass("on").find("ul").hide();
-                        $(this).parents(".list-info-ab").addClass("on").find("ul").show();
+                        var currentAddress = $(this).parents(".list-info-ab");
+                        if (currentAddress.hasClass("on")) {
+                            currentAddress.removeClass("on").find("ul").hide();
+                        } else {
+                            $(".list-wrap-hc .list-info-ab").removeClass("on").find("ul").hide();
+                            currentAddress.addClass("on").find("ul").show();
+                        }
                     });
                     $(document).on("click", ".list-wrap-hc .delete_hc", function() {
                         var addressObj = $(this).parents(".list-info-ab");

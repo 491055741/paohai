@@ -267,7 +267,7 @@ var HC = {
             return "您输入的收件人姓名太长啦, 请不要超过8个字符哦";
         }
         if ( ! address.getAddress()) {
-            return "请填写收件人";
+            return "请填写收件人地址";
         }
         if (address.getAddress().length > 500) {
             return "您输入的地址太长啦，请不要超过500个字符哦";
