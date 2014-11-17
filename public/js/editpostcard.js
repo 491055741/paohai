@@ -49,10 +49,10 @@
             order.getUserLnglat();
         });
         $(".shoujianInput").on("click", function() { //显示弹窗2
-            $(".pop2").show();
+            $(".pop2").show().find(".to_who").trigger("focus");
         });
         $("#liuyan").on("click", function() { //显示弹窗3
-            $(".pop3").show();
+            $(".pop3").show().find(".to_who").trigger("focus");
         });
 
         $(".pop1 [data-index]").on("click", function() {
