@@ -4,7 +4,7 @@ ini_set("display_errors", true);
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/js_api_call.php");
 
 if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
-    $jsApiParameters = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id);
+    $jsApiParameters = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id, $payPrice);
 } else {
     $jsApiParameters = "'simulator'";
 }

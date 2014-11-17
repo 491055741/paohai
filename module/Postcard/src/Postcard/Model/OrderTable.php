@@ -105,6 +105,9 @@ class OrderTable
 
     public function CalculateOrderPrice() {
         $payPrice = 500;
+        return $payPrice;
+
+/*
         $priceRules = array(
             100 => 5,       // 前一百张支付 5 分
             300 => 100,     // 101 - 300 支付 100 分
@@ -124,6 +127,7 @@ class OrderTable
         }
 
         return $payPrice;
+        */
     }
 
 
