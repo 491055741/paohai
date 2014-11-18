@@ -4,6 +4,7 @@ namespace Postcard\Controller;
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
 // include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
 
+use Imagick;
 use CommonUtil;
 use WxPayHelper;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -702,12 +703,22 @@ class PostcardController extends AbstractActionController
         imagejpeg($image, $dstpath.$order->id.'_front.jpg');
         imagedestroy($image);
 
+//        $this->adjustBrightness($dstpath.$order->id.'_front.jpg', $dstpath.$order->id.'_bright.jpg');
+
         $canvas_w = 971.0;
         $canvas_h = 600.0;
         $image = $this->generatePostcardBack($order, $canvas_w, $canvas_h);
         imagejpeg($image, $dstpath.$order->id.'_backface.jpg');
         imagedestroy($image);
         return true;
+    }
+
+    private function adjustBrightness($srcFileName, $dstFileName)
+    {
+        $image = new Imagick($srcFileName);
+        $image->modulateImage(120, 100, 100);
+        $image->writeImage($dstFileName);
+        $image->destroy();
     }
 
     private function generateFront($order, $canvas_w, $canvas_h)
@@ -788,31 +799,31 @@ class PostcardController extends AbstractActionController
         $pos['left']     = 30;
         $pos['top']      = 155;
         $pos['width']    = 450;
-        $pos['fontsize'] = 20;
+        $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, $order->salutation);
         // message
         $pos['left']     = 30;
         $pos['top']      = 200;
         $pos['width']    = 450;
-        $pos['fontsize'] = 20;
+        $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, $order->message);
         // signature
         $pos['left']     = 350;
         $pos['top']      = 500;
         $pos['width']    = 300;
-        $pos['fontsize'] = 20;
+        $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, '－'.$order->signature);
         // recipient address
         $pos['left']     = 500;
         $pos['top']      = 250;
         $pos['width']    = 400;
-        $pos['fontsize'] = 20;
+        $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, $order->address);
         // recipient name
         $pos['left']     = 600;
         $pos['top']      = 400;
         $pos['width']    = 600;
-        $pos['fontsize'] = 30;
+        $pos['fontSize'] = 30;
         $this->draw_txt_to($dst, $pos, $order->recipient);
         // qr code
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
@@ -864,16 +875,98 @@ class PostcardController extends AbstractActionController
 //        }
 
         // Commemorative Chop
-        if ($order->postmarkId != null && $order->postmarkId != '0') {
+        if ($order->postmarkId != null) {
             $image = imagecreatefrompng('public/images/postmark/big/youchuo'.$order->postmarkId.'.png');
             $postmark_h = 100;
             $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
             imagecopyresampled($dst, $image, 700, $canvas_h - $postmark_h - 20, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
+
+            $textAttr = $this->getDateTextAttr($order->postmarkId);
+            $this->draw_txt_to($dst, $textAttr, date($textAttr['dateFormat'], time()));
         }
 
         return $dst;
     }
 
+    private function getDateTextAttr($postmarkId)
+    {
+        $dateTextArray = array(
+            array(
+//                'text'     => '成都',
+                'left'     => 774,
+                'top'      => 551,
+                'width'    => 600,
+                'fontSize' => 8,
+                'fontColor' => array(152, 45, 35),
+                'dateFormat' => 'Y.m.d',
+            ),
+
+            array(
+//                'text'     => '三亚',
+                'left'     => 884,
+                'top'      => 554,
+                'width'    => 600,
+                'fontSize' => 8,
+                'fontColor' => array(7, 111, 70),
+                'dateFormat' => 'Y.m.d',
+            ),
+
+            array(
+//                'text'     => '杭州',
+                'left'     => 830,
+                'top'      => 532,
+                'width'    => 600,
+                'fontSize' => 8,
+                'fontColor' => array(134, 91, 67),
+                'dateFormat' => 'Y.m.d',
+            ),
+
+            array(
+//                'text'     => '北京',
+                'left'     => 738,
+                'top'      => 558,
+                'width'    => 600,
+                'fontSize' => 8,
+                'fontColor' => array(68, 67, 67),
+                'dateFormat' => 'Y.m.d',
+            ),
+
+            array(
+                'text'     => '广州',
+                'left'     => 782,
+                'top'      => 534,
+                'width'    => 600,
+                'fontSize' => 8,
+                'fontColor' => array(60, 60, 60),
+                'dateFormat' => 'Y.m.d',
+            ),
+
+            array(
+//                'text'     => '上海',
+                'left'     => 760,
+                'top'      => 560,
+                'width'    => 600,
+                'fontSize' => 9,
+                'fontColor' => array(62, 62, 62),
+                'dateFormat' => 'Y    m.d',
+            ),
+
+            array(
+//                'text'     => '深圳',
+                'left'     => 762,
+                'top'      => 532,
+                'width'    => 600,
+                'fontSize' => 9,
+                'fontColor' => array(60, 60, 60),
+                'dateFormat' => 'Y.m.d',
+            ),
+        );
+        if ($postmarkId < count($dateTextArray)) {
+            return $dateTextArray[$postmarkId];
+        } else {
+            return NULL;
+        }
+    }
     private function getPostmark($city)
     {
         $chops = array(
@@ -881,7 +974,8 @@ class PostcardController extends AbstractActionController
                 'left'     => 600,
                 'top'      => 550,
                 'width'    => 600,
-                'fontsize' => 11,
+                'fontSize' => 11,
+                'fontColor' => array(255, 0, 0),
                 'dateFormat' => 'Y.m.d',
                 'image'    => 'youchuo3.png',
             ),
@@ -890,7 +984,8 @@ class PostcardController extends AbstractActionController
                 'left'     => 600,
                 'top'      => 536,
                 'width'    => 600,
-                'fontsize' => 11,
+                'fontSize' => 11,
+                'fontColor' => array(255, 0, 0),
                 'dateFormat' => 'Y  m.d',
                 'image'    => 'youchuo5.png',
             ),
@@ -899,7 +994,8 @@ class PostcardController extends AbstractActionController
                 'left'     => 600,
                 'top'      => 536,
                 'width'    => 600,
-                'fontsize' => 11,
+                'fontSize' => 11,
+                'fontColor' => array(255, 0, 0),
                 'dateFormat' => 'Y.m.d',
                 'image'    => 'youchuo4.png',
             ),
@@ -908,7 +1004,8 @@ class PostcardController extends AbstractActionController
                 'left'     => 600,
                 'top'      => 536,
                 'width'    => 600,
-                'fontsize' => 11,
+                'fontSize' => 11,
+                'fontColor' => array(255, 0, 0),
                 'dateFormat' => 'Y.m.d',
                 'image'    => 'youchuo6.png',
             ),
@@ -917,7 +1014,8 @@ class PostcardController extends AbstractActionController
                 'left'     => 600,
                 'top'      => 536,
                 'width'    => 600,
-                'fontsize' => 11,
+                'fontSize' => 11,
+                'fontColor' => array(255, 0, 0),
                 'dateFormat' => 'Y.m.d',
                 'image'    => 'youchuo0.png',
             ),
@@ -926,7 +1024,8 @@ class PostcardController extends AbstractActionController
                 'left'     => 600,
                 'top'      => 536,
                 'width'    => 600,
-                'fontsize' => 11,
+                'fontSize' => 8,
+                'fontColor' => array(255, 0, 0),
                 'dateFormat' => 'Y.m.d',
                 'image'    => 'youchuo1.png',
             ),
@@ -935,11 +1034,11 @@ class PostcardController extends AbstractActionController
                 'left'     => 600,
                 'top'      => 536,
                 'width'    => 600,
-                'fontsize' => 11,
+                'fontSize' => 11,
+                'fontColor' => array(255, 0, 0),
                 'dateFormat' => 'Y.m.d',
                 'image'    => 'youchuo2.png',
             ),
-
         );
         if (array_key_exists($city, $chops)) {
             return $chops[$city];
@@ -950,14 +1049,17 @@ class PostcardController extends AbstractActionController
 
     private function draw_txt_to($image, $pos, $string)
     {
-        $font_color = imagecolorallocate($image, 38, 38, 38);
+        if (!array_key_exists('fontColor', $pos)) {
+            $pos['fontColor'] = array(38, 38, 38);
+        }
+        $font_color = imagecolorallocate($image, $pos['fontColor'][0], $pos['fontColor'][1], $pos['fontColor'][2]);
         $font_file = "public/fonts/Kaiti.ttc";
         $_string = '';
         $__string = '';
         for ($i = 0; $i < mb_strlen($string); $i++) {
-            $box = imagettfbbox($pos['fontsize'], 0, $font_file, $_string);
+            $box = imagettfbbox($pos['fontSize'], 0, $font_file, $_string);
             $_string_length = $box[2] - $box[0];
-            $box = imagettfbbox($pos['fontsize'], 0, $font_file, mb_substr($string, $i, 1, "utf-8"));
+            $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($string, $i, 1, "utf-8"));
 
             if ($_string_length + $box[2] - $box[0] < $pos['width']) {
                 $_string .= mb_substr($string, $i, 1, "utf-8");
@@ -967,10 +1069,10 @@ class PostcardController extends AbstractActionController
             }
         }
         $__string .= $_string;
-        $box = imagettfbbox($pos['fontsize'], 0, $font_file, mb_substr($__string, 0, 1, "utf-8"));
+        $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($__string, 0, 1, "utf-8"));
         imagettftext(
             $image,
-            $pos['fontsize'],
+            $pos['fontSize'],
             0,
             $pos['left'],
             $pos['top'] + ($box[3] - $box[7]),  
