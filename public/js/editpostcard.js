@@ -13,7 +13,11 @@
         //祝福信息
         $("#liuyan").val(messageInfo.getContent());
         //邮戳
-        $("#post_stamp").attr("src", "/images/postmark/small/youchuo"+ postmarkIndex +".png");
+        if (postmarkIndex !== "") {
+            $("#post_stamp").attr("src", "/images/postmark/small/youchuo"+ postmarkIndex +".png").show();
+        } else {
+            $("#post_stamp").hide();
+        }
 
         //邮编回填
         var zipcode = receiptInfo.getZipcode() || "000000";//邮政编码
@@ -23,7 +27,11 @@
         });
 
         //弹窗1
-        $(".pop1 [data-index]").removeClass("on").eq(postmarkIndex).addClass("on")
+        if (postmarkIndex != "") {
+            $(".pop1 [data-index]").removeClass("on").eq(postmarkIndex).addClass("on")
+        } else {
+            $(".pop1 [data-index]").removeClass("on");
+        }
 
 
         //弹窗2
@@ -56,10 +64,15 @@
         });
 
         $(".pop1 [data-index]").on("click", function() {
+            var isChosen = $(this).hasClass("on");
+            var postmarkIndex = "";
             $(".pop1 [data-index]").removeClass("on");
-            $(this).addClass("on");
+            if ( ! isChosen) {
+                $(this).addClass("on");
+                postmarkIndex = $(this).data("index");
+            }
             // Set postcard object
-            order.getPostcard().setPostmarkIndex($(this).data("index"));
+            order.getPostcard().setPostmarkIndex(postmarkIndex);
         });
         $("#pop1_conf").on("click", function() { //确认按钮: 邮戳弹窗
             $(".pop1").hide();

@@ -116,7 +116,7 @@
         <input id="var-message" type="hidden" value="<?php echo $order->message; ?>" />
         <input id="var-signature" type="hidden" value="<?php echo $order->signature; ?>" />
 
-        <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId ?: 1; ?>" />
+        <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId !== NULL ? $order->postmarkId : "" ; ?>" />
         <input id="var-voice-media-id" type="hidden" value="<?php echo $order->voiceMediaId; ?>" />
 
         <!-- vars end -->

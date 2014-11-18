@@ -23,7 +23,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201411171718'); // 好像不管用，待查
+define('JS_TAG', '201411171739'); // 好像不管用，待查
 
 
 class PostcardController extends AbstractActionController
@@ -445,6 +445,9 @@ class PostcardController extends AbstractActionController
             $offsetY            = $this->getRequest()->getPost('offsetY');
 
             $postmarkId         = $this->getRequest()->getPost('postmarkId');
+            if ($postmarkId === "" || $postmarkId === NULL) {
+                $postmarkId = NULL;
+            }
             $zipCode            = $this->getRequest()->getPost('zipcode');
             $message            = $this->getRequest()->getPost('message');
             $senderName         = $this->getRequest()->getPost('senderName');
@@ -459,8 +462,8 @@ class PostcardController extends AbstractActionController
             $bank               = $this->getRequest()->getPost('bank');
             $mobile             = $this->getRequest()->getPost('mobile');
 
+            $order->postmarkId = $postmarkId;
             $templateId         ? $order->templateId       = $templateId    : null;
-            $postmarkId         ? $order->postmarkId        = $postmarkId   : null;
             $offsetX            ? $order->offsetX          = $offsetX       : null;
             $offsetY            ? $order->offsetY          = $offsetY       : null;
             $zipCode            ? $order->zipCode           = $zipCode       : null;

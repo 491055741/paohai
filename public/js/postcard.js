@@ -235,7 +235,7 @@
             image: new PostcardImage(),        // 明信片图片
             receiptAddress: new Address(),     // 收件人地址
             message: new Message(),            // 明信片祝福信息
-            postmarkIndex: 0,                  // 邮戳编号
+            postmarkIndex: "",                  // 邮戳编号, ''表示默认不选中
         };
 
         $.extend(Postcard.prototype, {
