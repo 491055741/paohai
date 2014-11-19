@@ -200,7 +200,12 @@
         setCardInfo();
 
         $("#next-step").on("click", function() {
-            order.updateOrderAfterEdit();
+            if (order.getPostcard().getReceiptAddress().isComplete()) {
+                order.updateOrderAfterEdit();
+                return;
+            } else {
+                HC.showError("亲，您还没有填写收件人信息哦");
+            }
         });
         $("#prev-step").on("click", function() {
             order.goToStepOne();

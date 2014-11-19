@@ -147,46 +147,46 @@
 
 
     function Address() {
-        var varCollection = {
+        this.varCollection = {
             name: "",
             address: "",
             zipcode: ""
         };
-
-        $.extend(Address.prototype, {
-            isComplete: function() {
-                if ( ! varCollection.name || ! varCollection.address || ! varCollection.zipcode) {
-                    return false;
-                }
-                return true;
-            },
-            setVars: function(paramData) {
-                $.extend(varCollection, paramData);
-                return this;
-            },
-            getName: function() {
-                return varCollection.name;
-            },
-            setName: function(name) {
-                varCollection.name = name;
-                return this;
-            },
-            getAddress: function() {
-                return varCollection.address;
-            },
-            setAddress: function(address) {
-                varCollection.address = address;
-                return this;
-            },
-            getZipcode: function() {
-                return varCollection.zipcode;
-            },
-            setZipcode: function(zipcode) {
-                varCollection.zipcode = zipcode;
-                return this;
-            }
-        });
     }
+    $.extend(Address.prototype, {
+        isComplete: function() {
+            if ( ! this.varCollection.name || ! this.varCollection.address || ! this.varCollection.zipcode) {
+                return false;
+            }
+            return true;
+        },
+        setVars: function(paramData) {
+            $.extend(this.varCollection, paramData);
+            return this;
+        },
+        getName: function() {
+            return this.varCollection.name;
+        },
+        setName: function(name) {
+            this.varCollection.name = name;
+            return this;
+        },
+        getAddress: function() {
+            return this.varCollection.address;
+        },
+        setAddress: function(address) {
+            this.varCollection.address = address;
+            return this;
+        },
+        getZipcode: function() {
+            return this.varCollection.zipcode;
+        },
+        setZipcode: function(zipcode) {
+            this.varCollection.zipcode = zipcode;
+            return this;
+        }
+    });
+
 
     function Message() {
         var varCollection = {
