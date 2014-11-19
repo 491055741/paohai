@@ -24,7 +24,6 @@ define('JS_TAG', '201411171758');
 class WxpayController extends AbstractActionController
 {
     protected $orderTable;
-
     public function previewAction()
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
@@ -43,10 +42,15 @@ class WxpayController extends AbstractActionController
             return $this->errorViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
         }
 
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        $location = $util->getUserGeoAddress($order->userName);
+
         return $this->viewModel(array(
             'payPrice' => $this->getOrderTable()->CalculateOrderPrice(),
             'order' => $order,
             'tag'   => JS_TAG,
+            'city'  => $location ? $location['city'] : '0',
         ));
     }
 
@@ -225,13 +229,13 @@ class WxpayController extends AbstractActionController
             }
         }
 
-        if (!@copy($this->postcardsPath($orderId).$orderId.'_front.png', $this->payedPicPath().$orderId.'_front.png')) {
-            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_front.png failed!');
+        if (!@copy($this->postcardsPath($orderId).$orderId.'_front.jpg', $this->payedPicPath().$orderId.'_front.jpg')) {
+            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_front.jpg failed!');
             return false;
         }
 
-        if (!@copy($this->postcardsPath($orderId).$orderId.'_backface.png', $this->payedPicPath().$orderId.'_backface.png')) {
-            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_backface.png failed!');
+        if (!@copy($this->postcardsPath($orderId).$orderId.'_backface.jpg', $this->payedPicPath().$orderId.'_backface.jpg')) {
+            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_backface.jpg failed!');
             return false;
         }
         return true;

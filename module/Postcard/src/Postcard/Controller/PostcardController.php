@@ -828,39 +828,10 @@ class PostcardController extends AbstractActionController
         // qr code
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
             $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
-            imagecopyresampled($dst, $image_pr, 30, 420, 0, 0, 150, 150, imagesx($image_pr), imagesy($image_pr));
+            imagecopyresampled($dst, $image_pr, 30, 420, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
         }
 
-        // location posrmark
-        $location = NULL;
-//        $location = $this->getUserGeoAddress($order->userName);
-//        $location = array('city' => '广元',);
 
-        if ($location != NULL) {
-            $postmark['left']     = 610;
-            $postmark['top']      = 503;
-            $postmark['width']    = 600;
-            $postmark['fontSize'] = 11;
-            $this->draw_txt_to($dst, $postmark, $location['city']);
-
-            $postmark['left']     = 590;
-            $postmark['top']      = 530;
-            $postmark['width']    = 600;
-            $postmark['fontSize'] = 8;
-            $this->draw_txt_to($dst, $postmark, strtoupper(PinYin::Pinyin($location['city'], 1)));
-
-            $postmark['left']     = 600;
-            $postmark['top']      = 544;
-            $postmark['width']    = 600;
-            $postmark['fontSize'] = 9;
-            $this->draw_txt_to($dst, $postmark, date('Y.m.d', time()));
-
-            $imageName = 'postmark_location.png';
-            $image = imagecreatefrompng('public/images/postmark/big/'.$imageName);
-            $postmark_h = 120;
-            $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
-            imagecopyresampled($dst, $image, 520, $canvas_h - $postmark_h - 30, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
-        }
 
         // Commemorative Chop
         if ($order->postmarkId != null) {
@@ -871,8 +842,41 @@ class PostcardController extends AbstractActionController
 
             $textAttr = $this->getDateTextAttr($order->postmarkId);
             $this->draw_txt_to($dst, $textAttr, date($textAttr['dateFormat'], time()));
-        }
+        } else {
 
+            // location posrmark
+            $location = NULL;
+            $util = new CommonUtil();
+            $util->setServiceLocator($this->getServiceLocator());
+            $location = $util->getUserGeoAddress($order->userName);
+//        $location = array('city' => '广元',);
+
+            if ($location != NULL) {
+                $postmark['left']     = 610;
+                $postmark['top']      = 503;
+                $postmark['width']    = 600;
+                $postmark['fontSize'] = 11;
+                $this->draw_txt_to($dst, $postmark, $location['city']);
+
+                $postmark['left']     = 590;
+                $postmark['top']      = 530;
+                $postmark['width']    = 600;
+                $postmark['fontSize'] = 8;
+                $this->draw_txt_to($dst, $postmark, strtoupper(PinYin::Pinyin($location['city'], 1)));
+
+                $postmark['left']     = 600;
+                $postmark['top']      = 544;
+                $postmark['width']    = 600;
+                $postmark['fontSize'] = 9;
+                $this->draw_txt_to($dst, $postmark, date('Y.m.d', time()));
+
+                $imageName = 'postmark_location.png';
+                $image = imagecreatefrompng('public/images/postmark/big/'.$imageName);
+                $postmark_h = 120;
+                $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
+                imagecopyresampled($dst, $image, 520, $canvas_h - $postmark_h - 30, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
+            }
+        }
         return $dst;
     }
 
@@ -955,85 +959,6 @@ class PostcardController extends AbstractActionController
             return NULL;
         }
     }
-    private function getPostmark($city)
-    {
-        $chops = array(
-            '北京'=> array(
-                'left'     => 600,
-                'top'      => 550,
-                'width'    => 600,
-                'fontSize' => 11,
-                'fontColor' => array(255, 0, 0),
-                'dateFormat' => 'Y.m.d',
-                'image'    => 'youchuo3.png',
-            ),
-
-            '上海'=> array(
-                'left'     => 600,
-                'top'      => 536,
-                'width'    => 600,
-                'fontSize' => 11,
-                'fontColor' => array(255, 0, 0),
-                'dateFormat' => 'Y  m.d',
-                'image'    => 'youchuo5.png',
-            ),
-
-            '广州'=> array(
-                'left'     => 600,
-                'top'      => 536,
-                'width'    => 600,
-                'fontSize' => 11,
-                'fontColor' => array(255, 0, 0),
-                'dateFormat' => 'Y.m.d',
-                'image'    => 'youchuo4.png',
-            ),
-
-            '深圳'=> array(
-                'left'     => 600,
-                'top'      => 536,
-                'width'    => 600,
-                'fontSize' => 11,
-                'fontColor' => array(255, 0, 0),
-                'dateFormat' => 'Y.m.d',
-                'image'    => 'youchuo6.png',
-            ),
-
-            '成都'=> array(
-                'left'     => 600,
-                'top'      => 536,
-                'width'    => 600,
-                'fontSize' => 11,
-                'fontColor' => array(255, 0, 0),
-                'dateFormat' => 'Y.m.d',
-                'image'    => 'youchuo0.png',
-            ),
-
-            '三亚'=> array(
-                'left'     => 600,
-                'top'      => 536,
-                'width'    => 600,
-                'fontSize' => 8,
-                'fontColor' => array(255, 0, 0),
-                'dateFormat' => 'Y.m.d',
-                'image'    => 'youchuo1.png',
-            ),
-
-            '杭州'=> array(
-                'left'     => 600,
-                'top'      => 536,
-                'width'    => 600,
-                'fontSize' => 11,
-                'fontColor' => array(255, 0, 0),
-                'dateFormat' => 'Y.m.d',
-                'image'    => 'youchuo2.png',
-            ),
-        );
-        if (array_key_exists($city, $chops)) {
-            return $chops[$city];
-        } else {
-            return NULL;
-        }
-    }
 
     private function draw_txt_to($image, $pos, $string)
     {
@@ -1067,38 +992,6 @@ class PostcardController extends AbstractActionController
             $font_color,
             $font_file, 
             $__string);
-    }
-
-    private function getUserGeoAddress($userName) {
-        $userLngLat = $this->getUserPositionTable()
-            ->getPositionByUserName($userName);
-        if ( ! $userLngLat) {
-            return NULL;
-        }
-
-        $longitude = $userLngLat->getLongitude();
-        $latitude = $userLngLat->getLatitude();
-
-        $res = Maps::geoLatLng2Address($longitude, $latitude);
-        $data = json_decode($res, true);
-        if ( ! $data) {
-            return NULL;
-        }
-
-        if ($data['status'] != '0') {
-            // TODO ERR LOG
-            $errorMsg = $data['msg'];
-            return NULL;
-        }
-        $addressComponent = $data['result']['addressComponent'];
-
-        return array(
-            'province' => $addressComponent['province'],
-            'city' => $addressComponent['city'],
-            'district' => $addressComponent['district'],
-            'street' => $addressComponent['street'],
-            'cityCode' => $data['result']['cityCode'],
-        );
     }
 
     private function getUserPositionTable() {

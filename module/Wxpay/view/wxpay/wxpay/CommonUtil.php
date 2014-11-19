@@ -2,6 +2,7 @@
 //---------------------------------------------------------
 //---------------------------------------------------------
 use Postcard\Model\WxPara;
+use Postcard\Libs\Maps;
 
 //include_once("WxPay.config.php");
 include_once(dirname(__FILE__) . "/WxPayPubHelper/WxPay.pub.config.php");
@@ -17,6 +18,7 @@ class CommonUtil
      * @return
      */
     protected $wxParaTable;
+    protected $userLocationTable;
     protected $serviceLocator;
     //证书文件
     var $certFile;
@@ -47,6 +49,49 @@ class CommonUtil
             $this->wxParaTable = $this->serviceLocator->get('Postcard\Model\WxParaTable');
         }
         return $this->wxParaTable;
+    }
+
+    private function getUserLocationTable()
+    {
+        if (!$this->serviceLocator) {
+            return FALSE;
+        }
+
+        if (!$this->userLocationTable) {
+            $this->userLocationTable = $this->serviceLocator->get('Postcard\Model\UserPositionTable');
+        }
+        return $this->userLocationTable;
+    }
+
+    public function getUserGeoAddress($userName) {
+        $userLngLat = $this->getUserLocationTable()->getPositionByUserName($userName);
+        if ( ! $userLngLat) {
+            return NULL;
+        }
+
+        $longitude = $userLngLat->getLongitude();
+        $latitude = $userLngLat->getLatitude();
+
+        $res = Maps::geoLatLng2Address($longitude, $latitude);
+        $data = json_decode($res, true);
+        if ( ! $data) {
+            return NULL;
+        }
+
+        if ($data['status'] != '0') {
+            // TODO ERR LOG
+            $errorMsg = $data['msg'];
+            return NULL;
+        }
+        $addressComponent = $data['result']['addressComponent'];
+
+        return array(
+//            'province' => $addressComponent['province'],
+            'city' => $addressComponent['city'],
+//            'district' => $addressComponent['district'],
+//            'street' => $addressComponent['street'],
+//            'cityCode' => $data['result']['cityCode'],
+        );
     }
 
     // must call '$util->setServiceLocator($this->getServiceLocator())' before call this function

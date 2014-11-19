@@ -123,6 +123,9 @@
         if (order.getPostcard().getPostmarkIndex() != "") {
             $("#postmarkPreview").css("display","inline");
             $("#postmarkPreview").attr("src","/images/postmark/small/youchuo"+order.getPostcard().getPostmarkIndex()+".png");
+        } else if ($("#var-city").val() != '0') {
+            $("#postmarkPreview").css("display","inline");
+            $("#postmarkPreview").attr("src","/images/postmark/small/postmark_location.png");
         }
     }
 
