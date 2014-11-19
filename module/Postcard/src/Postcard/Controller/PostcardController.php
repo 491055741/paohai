@@ -820,7 +820,7 @@ class PostcardController extends AbstractActionController
         $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, $order->address);
         // recipient name
-        $pos['left']     = 600;
+        $pos['left']     = 650;
         $pos['top']      = 400;
         $pos['width']    = 600;
         $pos['fontSize'] = 30;
@@ -832,54 +832,42 @@ class PostcardController extends AbstractActionController
         }
 
         // location posrmark
+        $location = NULL;
 //        $location = $this->getUserGeoAddress($order->userName);
-//        $location = array(
-//            'province' => '广西',
-//            'city' => '北京',
-//            'district' => '南山',
-//            'street' => '南京路',
-//            'cityCode' => '518000',
-//        );
-//
-//        if ($location != NULL) {
-//            $postmark = $this->getPostmark($location['city']);
-//            if ($postmark != NULL) {
-//                $this->draw_txt_to($dst, $postmark, date($postmark['dateFormat'], time()));
-//                $imageName = $postmark['image'];
-//            } else {
-//                $postmark['left']     = 610;
-//                $postmark['top']      = 500;
-//                $postmark['width']    = 600;
-//                $postmark['fontsize'] = 12;
-//                $this->draw_txt_to($dst, $postmark, $location['city']);
-//
-//                $postmark['left']     = 600;
-//                $postmark['top']      = 520;
-//                $postmark['width']    = 600;
-//                $postmark['fontsize'] = 11;
-//                $this->draw_txt_to($dst, $postmark, strtoupper(PinYin::Pinyin($location['city'], 1)));
-//
-//                $postmark['left']     = 600;
-//                $postmark['top']      = 536;
-//                $postmark['width']    = 600;
-//                $postmark['fontsize'] = 11;
-//                $this->draw_txt_to($dst, $postmark, date('Y.m.d', time()));
-//
-//                $imageName = 'postmark_default.png';
-//            }
-//
-//            $image = imagecreatefrompng('public/images/big/'.$imageName);
-//            $postmark_h = 100;
-//            $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
-//            imagecopyresampled($dst, $image, 600, $canvas_h - $postmark_h - 20, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
-//        }
+//        $location = array('city' => '广元',);
+
+        if ($location != NULL) {
+            $postmark['left']     = 610;
+            $postmark['top']      = 503;
+            $postmark['width']    = 600;
+            $postmark['fontSize'] = 11;
+            $this->draw_txt_to($dst, $postmark, $location['city']);
+
+            $postmark['left']     = 590;
+            $postmark['top']      = 530;
+            $postmark['width']    = 600;
+            $postmark['fontSize'] = 8;
+            $this->draw_txt_to($dst, $postmark, strtoupper(PinYin::Pinyin($location['city'], 1)));
+
+            $postmark['left']     = 600;
+            $postmark['top']      = 544;
+            $postmark['width']    = 600;
+            $postmark['fontSize'] = 9;
+            $this->draw_txt_to($dst, $postmark, date('Y.m.d', time()));
+
+            $imageName = 'postmark_location.png';
+            $image = imagecreatefrompng('public/images/postmark/big/'.$imageName);
+            $postmark_h = 120;
+            $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
+            imagecopyresampled($dst, $image, 520, $canvas_h - $postmark_h - 30, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
+        }
 
         // Commemorative Chop
         if ($order->postmarkId != null) {
             $image = imagecreatefrompng('public/images/postmark/big/youchuo'.$order->postmarkId.'.png');
-            $postmark_h = 100;
-            $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
-            imagecopyresampled($dst, $image, 700, $canvas_h - $postmark_h - 20, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
+            $postmark_w = 170;
+            $postmark_h = imagesy($image) / imagesx($image) * $postmark_w;
+            imagecopyresampled($dst, $image, 750, $canvas_h - $postmark_h - 30, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
 
             $textAttr = $this->getDateTextAttr($order->postmarkId);
             $this->draw_txt_to($dst, $textAttr, date($textAttr['dateFormat'], time()));
@@ -893,18 +881,18 @@ class PostcardController extends AbstractActionController
         $dateTextArray = array(
             array(
 //                'text'     => '成都',
-                'left'     => 774,
-                'top'      => 551,
+                'left'     => 831,
+                'top'      => 517,
                 'width'    => 600,
-                'fontSize' => 8,
+                'fontSize' => 9,
                 'fontColor' => array(152, 45, 35),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
 //                'text'     => '三亚',
-                'left'     => 884,
-                'top'      => 554,
+                'left'     => 842,
+                'top'      => 542,
                 'width'    => 600,
                 'fontSize' => 8,
                 'fontColor' => array(7, 111, 70),
@@ -913,50 +901,50 @@ class PostcardController extends AbstractActionController
 
             array(
 //                'text'     => '杭州',
-                'left'     => 830,
-                'top'      => 532,
+                'left'     => 860,
+                'top'      => 505,
                 'width'    => 600,
-                'fontSize' => 8,
+                'fontSize' => 10,
                 'fontColor' => array(134, 91, 67),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
 //                'text'     => '北京',
-                'left'     => 738,
-                'top'      => 558,
+                'left'     => 792,
+                'top'      => 545,
                 'width'    => 600,
-                'fontSize' => 8,
+                'fontSize' => 10,
                 'fontColor' => array(68, 67, 67),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
                 'text'     => '广州',
-                'left'     => 782,
-                'top'      => 534,
+                'left'     => 845,
+                'top'      => 515,
                 'width'    => 600,
-                'fontSize' => 8,
+                'fontSize' => 10,
                 'fontColor' => array(60, 60, 60),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
 //                'text'     => '上海',
-                'left'     => 760,
-                'top'      => 560,
+                'left'     => 816,
+                'top'      => 547,
                 'width'    => 600,
-                'fontSize' => 9,
+                'fontSize' => 10,
                 'fontColor' => array(62, 62, 62),
                 'dateFormat' => 'Y    m.d',
             ),
 
             array(
 //                'text'     => '深圳',
-                'left'     => 762,
-                'top'      => 532,
+                'left'     => 848,
+                'top'      => 508,
                 'width'    => 600,
-                'fontSize' => 9,
+                'fontSize' => 10,
                 'fontColor' => array(60, 60, 60),
                 'dateFormat' => 'Y.m.d',
             ),
