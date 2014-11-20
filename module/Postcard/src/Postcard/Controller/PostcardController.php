@@ -692,7 +692,7 @@ class PostcardController extends AbstractActionController
         imagejpeg($image, $dstpath.$order->id.'_front.jpg');
         imagedestroy($image);
 
-//        $this->adjustBrightness($dstpath.$order->id.'_front.jpg', $dstpath.$order->id.'_bright.jpg');
+        $this->adjustBrightness($dstpath.$order->id.'_front.jpg', $dstpath.$order->id.'_bright.jpg');
 
         $canvas_w = 971.0;
         $canvas_h = 600.0;
