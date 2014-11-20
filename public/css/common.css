@@ -559,10 +559,22 @@ a.on i {display: block;}
 }
 #postmarkPreview {
     left:230px;
-    top:158px;
-    width:40px;
-    height:30px;
-    position:absolute;    
+    top:150px;
+    width:50px;
+    height:40px;
+    position:absolute;
+}
+#postmarkCityPreview {
+    font-size:6px;
+    left:250px;
+    top:170px;
+    position:absolute;
+}
+#postmarkDatePreview {
+    font-size:4px;
+    left:250px;
+    top:178px;
+    position:absolute;
 }
 
 /* address book begin */

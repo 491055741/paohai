@@ -125,8 +125,20 @@
             $("#postmarkPreview").attr("src","/images/postmark/small/youchuo"+order.getPostcard().getPostmarkIndex()+".png");
         } else if ($("#var-city").val() != '0') {
             $("#postmarkPreview").css("display","inline");
+            $("#postmarkCityPreview").css("display","inline");
+            $("#postmarkDatePreview").css("display","inline");
             $("#postmarkPreview").attr("src","/images/postmark/small/postmark_location.png");
+            $("#postmarkCityPreview").text($("#var-city").val());
+            $("#postmarkDatePreview").text(getDateStr());
         }
+    }
+
+    function getDateStr() {
+        var myDate = new Date();
+        var year = myDate.getFullYear();
+        var month = myDate.getMonth() + 1;
+        var date = myDate.getDate();
+        return year + "." + month + "." + date;
     }
 
     function toggleFace() {

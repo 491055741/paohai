@@ -87,17 +87,6 @@ class PostcardController extends AbstractActionController
         $util->setServiceLocator($this->getServiceLocator());
         $token = $util->getAccessToken();
 
-        // $args["host"] = 'api.weixin.qq.com';
-        // $args["url"] = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token;
-        // $args["method"] = "POST";
-        // // var_dump($order);
-        // // for Chinese value, don't use json_encode, otherwise Chinese will be convert to \u8bf7\u8bf4...
-        // $args["data"] = $this->JSON(array(
-        //         'touser'  => $order->userName,
-        //         'msgtype' => 'text',
-        //         'text'    => array('content' => '请说出你的语音留言' ),
-        //         ));
-
         // $result = json_decode($util->asyn_request($args));
         $res = $util->httpPost('https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token,
                                 $this->JSON(array(
@@ -830,8 +819,6 @@ class PostcardController extends AbstractActionController
             $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
             imagecopyresampled($dst, $image_pr, 30, 420, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
         }
-
-
 
         // Commemorative Chop
         if ($order->postmarkId != null) {
