@@ -85,9 +85,16 @@ class CommonUtil
         }
         $addressComponent = $data['result']['addressComponent'];
 
+        $city = $addressComponent['city'];
+        $strLen = mb_strlen($city, "utf-8");
+        $tail = mb_substr($city, $strLen - 1, 1, "utf-8");
+        if (strcmp($tail, '市') == 0) {
+            $city = mb_substr($city, 0, $strLen - 1, "utf-8");
+        }
+
         return array(
 //            'province' => $addressComponent['province'],
-            'city' => $addressComponent['city'],
+            'city' => $city,
 //            'district' => $addressComponent['district'],
 //            'street' => $addressComponent['street'],
 //            'cityCode' => $data['result']['cityCode'],

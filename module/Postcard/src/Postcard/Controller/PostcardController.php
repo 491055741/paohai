@@ -807,7 +807,8 @@ class PostcardController extends AbstractActionController
         $pos['top']      = 250;
         $pos['width']    = 400;
         $pos['fontSize'] = 20;
-        $this->draw_txt_to($dst, $pos, $order->address);
+//        $this->draw_txt_to($dst, $pos, $order->address);
+        $this->draw_txt_to2($dst, $pos, $order->address, 55);
         // recipient name
         $pos['left']     = 650;
         $pos['top']      = 400;
@@ -956,7 +957,7 @@ class PostcardController extends AbstractActionController
         $font_file = "public/fonts/Kaiti.ttc";
         $_string = '';
         $__string = '';
-        for ($i = 0; $i < mb_strlen($string); $i++) {
+        for ($i = 0; $i < mb_strlen($string, "utf-8"); $i++) {
             $box = imagettfbbox($pos['fontSize'], 0, $font_file, $_string);
             $_string_length = $box[2] - $box[0];
             $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($string, $i, 1, "utf-8"));
@@ -980,6 +981,50 @@ class PostcardController extends AbstractActionController
             $font_file, 
             $__string);
     }
+
+    private function draw_txt_to2($image, $pos, $string, $lineSpace)
+    {
+        if (!array_key_exists('fontColor', $pos)) {
+            $pos['fontColor'] = array(38, 38, 38);
+        }
+        $font_color = imagecolorallocate($image, $pos['fontColor'][0], $pos['fontColor'][1], $pos['fontColor'][2]);
+        $font_file = "public/fonts/Kaiti.ttc";
+        $_string = '';
+        $offsetY = 0;
+
+        for ($i = 0; $i < mb_strlen($string, "utf-8"); $i++) {
+            $box = imagettfbbox($pos['fontSize'], 0, $font_file, $_string);
+            $_string_width = $box[2] - $box[0];
+            $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($string, $i, 1, "utf-8"));
+
+            if ($_string_width + $box[2] - $box[0] < $pos['width']) {
+                $_string .= mb_substr($string, $i, 1, "utf-8");
+            } else {
+                imagettftext(
+                    $image,
+                    $pos['fontSize'],
+                    0,
+                    $pos['left'],
+                    $pos['top'] + $offsetY,
+                    $font_color,
+                    $font_file,
+                    $_string);
+                $offsetY += $lineSpace;
+                $_string = mb_substr($string, $i, 1, "utf-8");
+            }
+        }
+
+        imagettftext(
+            $image,
+            $pos['fontSize'],
+            0,
+            $pos['left'],
+            $pos['top'] + $offsetY,
+            $font_color,
+            $font_file,
+            $_string);
+    }
+
 
     private function getUserPositionTable() {
         if ( ! $this->userPositionTable) {
