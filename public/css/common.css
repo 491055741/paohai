@@ -543,18 +543,25 @@ a.on i {display: block;}
     border: 0;
     position: absolute;
 }
-#addressPreview {
-    font-size:10px;
+#qrImageTextPreview {
+    font-size:5px;
     text-align:left;
-    top:80px;
+    top:190px;
+    left:22px;
+    position: absolute;
+}
+#addressPreview {
+    font-size:7px;
+    text-align:left;
+    top:75px;
     left:212px;
     width:80px;
     position:absolute;
 }
 #recipientPreview {
-    font-size:14px;
+    font-size:12px;
     left:230px;
-    top:120px;
+    top:122px;
     position:absolute;
 }
 #postmarkPreview {

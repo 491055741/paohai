@@ -767,10 +767,14 @@ class PostcardController extends AbstractActionController
     private function generatePostcardBack($order, $canvas_w, $canvas_h)
     {
         $dst = imagecreatetruecolor($canvas_w, $canvas_h);
-
         $white = imagecolorallocate($dst, 255, 255, 255);
         imagefill($dst, 0, 0, $white);
-
+/* for test
+        $background = imagecreatefromjpeg('public/images/big/backface.jpg');
+        imagealphablending($background, false);
+        imagesavealpha($background, true);
+        imagecopyresampled($dst, $background, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($background), imagesy($background));
+*/
         // can't use imagettftext because it can't adjust char spacing
         $size = 40;
         $x = 85;
@@ -807,8 +811,7 @@ class PostcardController extends AbstractActionController
         $pos['top']      = 250;
         $pos['width']    = 400;
         $pos['fontSize'] = 20;
-//        $this->draw_txt_to($dst, $pos, $order->address);
-        $this->draw_txt_to2($dst, $pos, $order->address, 55);
+        $this->draw_txt_with_linespace($dst, $pos, $order->address, 55);
         // recipient name
         $pos['left']     = 650;
         $pos['top']      = 400;
@@ -818,7 +821,13 @@ class PostcardController extends AbstractActionController
         // qr code
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
             $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
-            imagecopyresampled($dst, $image_pr, 30, 420, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
+            imagecopyresampled($dst, $image_pr, 30, 450, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
+
+            $pos['left']     = 50;
+            $pos['top']      = 570;
+            $pos['width']    = 120;
+            $pos['fontSize'] = 11;
+            $this->draw_txt_to($dst, $pos, '扫扫听留言');
         }
 
         // Commemorative Chop
@@ -832,12 +841,11 @@ class PostcardController extends AbstractActionController
             $this->draw_txt_to($dst, $textAttr, date($textAttr['dateFormat'], time()));
         } else {
 
-            // location posrmark
+            // location postmark
             $location = NULL;
             $util = new CommonUtil();
             $util->setServiceLocator($this->getServiceLocator());
             $location = $util->getUserGeoAddress($order->userName);
-//        $location = array('city' => '广元',);
 
             if ($location != NULL) {
                 $postmark['left']     = 610;
@@ -982,7 +990,7 @@ class PostcardController extends AbstractActionController
             $__string);
     }
 
-    private function draw_txt_to2($image, $pos, $string, $lineSpace)
+    private function draw_txt_with_linespace($image, $pos, $string, $lineSpace)
     {
         if (!array_key_exists('fontColor', $pos)) {
             $pos['fontColor'] = array(38, 38, 38);
@@ -997,8 +1005,9 @@ class PostcardController extends AbstractActionController
             $_string_width = $box[2] - $box[0];
             $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($string, $i, 1, "utf-8"));
 
-            if ($_string_width + $box[2] - $box[0] < $pos['width']) {
-                $_string .= mb_substr($string, $i, 1, "utf-8");
+            $char = mb_substr($string, $i, 1, "utf-8");
+            if (preg_match("/\d/", $char) || $_string_width + $box[2] - $box[0] < $pos['width']) {
+                $_string .= $char;
             } else {
                 imagettftext(
                     $image,
@@ -1010,7 +1019,7 @@ class PostcardController extends AbstractActionController
                     $font_file,
                     $_string);
                 $offsetY += $lineSpace;
-                $_string = mb_substr($string, $i, 1, "utf-8");
+                $_string = $char;
             }
         }
 

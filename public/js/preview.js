@@ -119,6 +119,8 @@
 
         if ($("#var-voice-media-id").val() != "") {
             $("#qrImagePreview").css("display","inline");
+            $("#qrImageTextPreview").css("display","inline");
+            $("#qrImageTextPreview").text("扫扫听留言");
         }
         if (order.getPostcard().getPostmarkIndex() != "") {
             $("#postmarkPreview").css("display","inline");
