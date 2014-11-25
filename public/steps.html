@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>趣邮明信片</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="css/tips_style.css" type="text/css">
+</head>
+<body class="body-bg">
+	<img src="images/big_bg.png" alt="背景" class="guide_bg">
+	<div class="tips-head">
+		<p class="guide">【DIY明信片】操作指引</p>
+	</div>
+	<div id="nav" style="">
+		<ul id="indicator">
+			<li class="active">
+				<span>上传图</span>
+			</li>
+			<li>
+				<span>编辑图</span>
+			</li>
+			<li>
+				<span>填地址</span>
+			</li>
+			<li>
+				<span>填祝福</span>
+			</li>
+			<li>
+				<span>选邮戳</span>
+			</li>
+			<li>
+				<span>去支付</span>
+			</li>
+		</ul>
+		<div style="clear: both;"></div>
+	</div>
+	<div id="wrapper" style="overflow: hidden;">
+		<div id="scroller" style="transition: transform 0ms; -webkit-transition: transform 0ms; transform-origin: 0px 0px 0px; transform: translate(0px, 0px) translateZ(0px);">
+			<ul id="thelist">
+				<li>
+					<img id="pimg1" style="margin-left: 3%; width: 263.2px;" src="images/helpImgDiy1.jpg"></li>
+				<li>
+					<img id="pimg2" style="margin-left: 3%; width: 263.2px;" src="images/helpImgDiy2.jpg"></li>
+				<li>
+					<img id="pimg3" style="margin-left: 3%; width: 263.2px;" src="images/helpImgDiy3.jpg"></li>
+				<li>
+					<img id="pimg4" style="margin-left: 3%; width: 263.2px;" src="images/helpImgDiy4.jpg"></li>
+				<li>
+					<img id="pimg5" style="margin-left: 3%; width: 263.2px;" src="images/helpImgDiy5.jpg"></li>
+				<li>
+					<img id="pimg6" style="margin-left: 3%; width: 263.2px;" src="images/helpImgDiy6.jpg"></li>
+			</ul>
+		</div>
+		<span id="upward-sign" class=""></span>
+		<span id="downward" class="downward"></span>
+	</div>
+	<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery-iScroll4.2.5.js"></script>
+	<script type="text/javascript">
+		var winH = window.screen.availHeight;//获取屏幕的高度 
+		var winW = document.body.clientWidth;//获取屏幕的宽度 
+		var myScroll;
+		window.onload = function() {
+			var i=1;
+			for(i;i<7;i++){
+				document.getElementById('pimg'+i).style.width = winW*0.7 +"px";
+			}
+		}
+		function loaded() {
+			myScroll = new iScroll(
+					'wrapper',
+					{
+						snap : "li",
+						momentum : false,
+						vScrollbar : false,
+						onScrollEnd : function() {
+							if(this.currPageY > 4)$("#downward").removeClass();
+							else $("#downward").addClass("downward");
+							if(this.currPageY > 0)$("#upward-sign").addClass("upward-sign");
+							else $("#upward-sign").removeClass();
+							//console.log(this.currPageY);
+							document.querySelector('#indicator > li.active').className = '';
+							document.querySelector('#indicator > li:nth-child('
+									+ (this.currPageY + 1) + ')').className = 'active';
+							
+						}
+					});
+		}
+		document.addEventListener('DOMContentLoaded', loaded, false);
+		
+	</script>
+
+</body>
+</html>

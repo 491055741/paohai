@@ -31,7 +31,7 @@ class CommonUtil
 
     public function qrcode($str, $filename = false)
     {
-        QRcode::png($str, $filename); //,$file,"Q",6,2
+        QRcode::jpg($str, $filename);
     }
 
     public function setServiceLocator($sm)

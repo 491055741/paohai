@@ -41,7 +41,7 @@ class PostcardController extends AbstractActionController
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
-        $image = file_get_contents('./userdata/voice/'.$mediaId.'.png');
+        $image = file_get_contents('./userdata/voice/'.$mediaId.'.jpg');
         header("Content-type: image/png");
         echo $image;
         $viewModel = new ViewModel();
@@ -368,7 +368,7 @@ class PostcardController extends AbstractActionController
         // generate qr code image under same folder
         $str = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voice?mediaId='.$mediaId;
         // echo $str;
-        $this->qrcode($str, $this->voicePath().$mediaId.'.png');
+        $this->qrcode($str, $this->voicePath().$mediaId.'.jpg');
 
         $res = array(
             'code' => 0,
@@ -533,8 +533,8 @@ class PostcardController extends AbstractActionController
 
                 if ($status == SHIPPED) {     // 调用发货通知接口通知微信
                     $this->deliverNotify(array('orderid' => $out_trade_no,
-                                       'tansid' => $transId,
-                                       'openid' => $openId,
+                                       'tansid' => $transId,  // todo !!
+                                       'openid' => $openId,   // todo !!
                                         )
                                 );
                 }
@@ -725,6 +725,10 @@ class PostcardController extends AbstractActionController
         if (!$image_user) {
             return FALSE;
         }
+        // save user's original picture
+        $dstpath = $this->postcardsPath();
+        imagejpeg($image_user, $dstpath.$order->id.'_orig.jpg');
+
         // rotate
         if ($order->templateId > 6) {
             $image_user = imagerotate($image_user, -90, 0);
@@ -769,12 +773,13 @@ class PostcardController extends AbstractActionController
         $dst = imagecreatetruecolor($canvas_w, $canvas_h);
         $white = imagecolorallocate($dst, 255, 255, 255);
         imagefill($dst, 0, 0, $white);
-/* for test
-        $background = imagecreatefromjpeg('public/images/big/backface.jpg');
+
+        //for test text-face background template
+        $background = imagecreatefromjpeg('public/images/big/postCardBack.jpg');
         imagealphablending($background, false);
         imagesavealpha($background, true);
         imagecopyresampled($dst, $background, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($background), imagesy($background));
-*/
+
         // can't use imagettftext because it can't adjust char spacing
         $size = 40;
         $x = 85;
@@ -787,7 +792,6 @@ class PostcardController extends AbstractActionController
         // zip code
         $zip_color = imagecolorallocate($dst, 38, 38, 38);
         imagepstext($dst, $order->zipCode, $font, $size, $zip_color, $white, $x ,$y, $space, 870);
-
         // salutation
         $pos['left']     = 30;
         $pos['top']      = 155;
@@ -802,28 +806,36 @@ class PostcardController extends AbstractActionController
         $this->draw_txt_to($dst, $pos, $order->message);
         // signature
         $pos['left']     = 350;
-        $pos['top']      = 500;
+        $pos['top']      = 450;
         $pos['width']    = 300;
         $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, '－'.$order->signature);
         // recipient address
         $pos['left']     = 500;
-        $pos['top']      = 250;
+        $pos['top']      = 260;
         $pos['width']    = 400;
         $pos['fontSize'] = 20;
         $this->draw_txt_with_linespace($dst, $pos, $order->address, 55);
         // recipient name
         $pos['left']     = 650;
-        $pos['top']      = 400;
+        $pos['top']      = 420;
         $pos['width']    = 600;
         $pos['fontSize'] = 30;
         $this->draw_txt_to($dst, $pos, $order->recipient);
-        // qr code
-        if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
-            $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
-            imagecopyresampled($dst, $image_pr, 30, 450, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
+        // quyou qr code
+        $image_pr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
+        imagecopyresampled($dst, $image_pr, 30, 450, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
+        $pos['left']     = 50;
+        $pos['top']      = 570;
+        $pos['width']    = 120;
+        $pos['fontSize'] = 11;
+        $this->draw_txt_to($dst, $pos, '趣邮明信片');
+        // voice qr code
+        if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.jpg')) {
+            $image_pr = imagecreatefromjpeg($this->voicePath().$order->voiceMediaId.'.jpg');
+            imagecopyresampled($dst, $image_pr, 180, 450, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
 
-            $pos['left']     = 50;
+            $pos['left']     = 200;
             $pos['top']      = 570;
             $pos['width']    = 120;
             $pos['fontSize'] = 11;
