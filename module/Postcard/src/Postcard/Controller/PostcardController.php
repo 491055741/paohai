@@ -368,7 +368,7 @@ class PostcardController extends AbstractActionController
         // generate qr code image under same folder
         $str = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voice?mediaId='.$mediaId;
         // echo $str;
-        $this->qrcode($str, $this->voicePath().$mediaId.'.jpg');
+        $this->qrcode($str, $this->voicePath().$mediaId.'.png');
 
         $res = array(
             'code' => 0,
@@ -692,12 +692,13 @@ class PostcardController extends AbstractActionController
         imagejpeg($image, $dstpath.$order->id.'_front.jpg');
         imagedestroy($image);
 
-        $this->adjustBrightness($dstpath.$order->id.'_front.jpg', $dstpath.$order->id.'_bright.jpg');
+//        $this->adjustBrightness($dstpath.$order->id.'_front.jpg', $dstpath.$order->id.'_bright.jpg');
 
         $canvas_w = 971.0;
         $canvas_h = 600.0;
         $image = $this->generatePostcardBack($order, $canvas_w, $canvas_h);
         imagejpeg($image, $dstpath.$order->id.'_backface.jpg');
+//        imagepng($image, $dstpath.$order->id.'_backface.png');
         imagedestroy($image);
         return true;
     }
@@ -781,66 +782,66 @@ class PostcardController extends AbstractActionController
         imagecopyresampled($dst, $background, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($background), imagesy($background));
 
         // can't use imagettftext because it can't adjust char spacing
-        $size = 40;
-        $x = 85;
-        $y = 95;
-        $space = 8;
+//        $size = 40; // font size
+//        $x = 85;
+//        $y = 95;
+//        $space = 8;
         $font = imagepsloadfont("public/fonts/Schneidler-HTF-Titling.pfb");
         if (!$font) {
             echo 'Load font Schneidler-HTF-Titling.pfb failed.';
         }
         // zip code
         $zip_color = imagecolorallocate($dst, 38, 38, 38);
-        imagepstext($dst, $order->zipCode, $font, $size, $zip_color, $white, $x ,$y, $space, 870);
+        //                                       size                     x   y      tightness
+        imagepstext($dst, $order->zipCode, $font, 30, $zip_color, $white, 62 ,75, 50, 1850);
         // salutation
-        $pos['left']     = 30;
-        $pos['top']      = 155;
+        $pos['left']     = 45;
+        $pos['top']      = 140;
         $pos['width']    = 450;
         $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, $order->salutation);
         // message
-        $pos['left']     = 30;
-        $pos['top']      = 200;
-        $pos['width']    = 450;
+        $pos['left']     = 45;
+        $pos['top']      = 240;
+        $pos['width']    = 420;
         $pos['fontSize'] = 20;
-        $this->draw_txt_to($dst, $pos, $order->message);
+        $this->draw_txt_with_linespace($dst, $pos, $order->message, 55);
         // signature
         $pos['left']     = 350;
-        $pos['top']      = 450;
+        $pos['top']      = 470;
         $pos['width']    = 300;
         $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, '－'.$order->signature);
         // recipient address
-        $pos['left']     = 500;
-        $pos['top']      = 260;
-        $pos['width']    = 400;
-        $pos['fontSize'] = 20;
-        $this->draw_txt_with_linespace($dst, $pos, $order->address, 55);
+        $pos['left']     = 620;
+        $pos['top']      = 230;
+        $pos['width']    = 300;
+        $pos['fontSize'] = 16;
+        $this->draw_txt_with_linespace($dst, $pos, $order->address, 45);
         // recipient name
-        $pos['left']     = 650;
-        $pos['top']      = 420;
+        $pos['left']     = 700;
+        $pos['top']      = 350;
         $pos['width']    = 600;
-        $pos['fontSize'] = 30;
+        $pos['fontSize'] = 16;
         $this->draw_txt_to($dst, $pos, $order->recipient);
-        // quyou qr code
-        $image_pr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
-        imagecopyresampled($dst, $image_pr, 30, 450, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
-        $pos['left']     = 50;
+
+        // voice qr code
+        $text = null;
+        $image_pr = null;
+        if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
+            $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
+            $text = '扫扫听留言';
+        } else {
+            // quyou qr code
+            $image_pr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
+            $text = '趣邮明信片';
+        }
+        imagecopyresampled($dst, $image_pr, 40, 450, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
+        $pos['left']     = 60;
         $pos['top']      = 570;
         $pos['width']    = 120;
         $pos['fontSize'] = 11;
-        $this->draw_txt_to($dst, $pos, '趣邮明信片');
-        // voice qr code
-        if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.jpg')) {
-            $image_pr = imagecreatefromjpeg($this->voicePath().$order->voiceMediaId.'.jpg');
-            imagecopyresampled($dst, $image_pr, 180, 450, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
-
-            $pos['left']     = 200;
-            $pos['top']      = 570;
-            $pos['width']    = 120;
-            $pos['fontSize'] = 11;
-            $this->draw_txt_to($dst, $pos, '扫扫听留言');
-        }
+        $this->draw_txt_to($dst, $pos, $text);
 
         // Commemorative Chop
         if ($order->postmarkId != null) {
@@ -860,20 +861,20 @@ class PostcardController extends AbstractActionController
             $location = $util->getUserGeoAddress($order->userName);
 
             if ($location != NULL) {
-                $postmark['left']     = 610;
-                $postmark['top']      = 503;
+                $postmark['left']     = 810;
+                $postmark['top']      = 523;
                 $postmark['width']    = 600;
                 $postmark['fontSize'] = 11;
                 $this->draw_txt_to($dst, $postmark, $location['city']);
 
-                $postmark['left']     = 590;
-                $postmark['top']      = 530;
+                $postmark['left']     = 790;
+                $postmark['top']      = 550;
                 $postmark['width']    = 600;
                 $postmark['fontSize'] = 8;
                 $this->draw_txt_to($dst, $postmark, strtoupper(PinYin::Pinyin($location['city'], 1)));
 
-                $postmark['left']     = 600;
-                $postmark['top']      = 544;
+                $postmark['left']     = 800;
+                $postmark['top']      = 564;
                 $postmark['width']    = 600;
                 $postmark['fontSize'] = 9;
                 $this->draw_txt_to($dst, $postmark, date('Y.m.d', time()));
@@ -882,7 +883,7 @@ class PostcardController extends AbstractActionController
                 $image = imagecreatefrompng('public/images/postmark/big/'.$imageName);
                 $postmark_h = 120;
                 $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
-                imagecopyresampled($dst, $image, 520, $canvas_h - $postmark_h - 30, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
+                imagecopyresampled($dst, $image, 720, $canvas_h - $postmark_h - 10, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
             }
         }
         return $dst;
@@ -1018,6 +1019,22 @@ class PostcardController extends AbstractActionController
             $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($string, $i, 1, "utf-8"));
 
             $char = mb_substr($string, $i, 1, "utf-8");
+            // place new line using custom line space
+            if ($char == "\n") {
+                imagettftext(
+                    $image,
+                    $pos['fontSize'],
+                    0,
+                    $pos['left'],
+                    $pos['top'] + $offsetY,
+                    $font_color,
+                    $font_file,
+                    $_string);
+                $offsetY += $lineSpace;
+                $_string = '';
+                continue;
+            }
+            // when char is number, not wrap up
             if (preg_match("/\d/", $char) || $_string_width + $box[2] - $box[0] < $pos['width']) {
                 $_string .= $char;
             } else {

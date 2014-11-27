@@ -11,10 +11,16 @@
  * file.
  */
 
+if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
+    $dbhost = 'rdsyuqef2yuqef2.mysql.rds.aliyuncs.com';
+} else {
+    $dbhost = 'localhost';
+}
+
 return array(
     'db' => array(
         'driver'         => 'Pdo',
-        'dsn'            => 'mysql:dbname=quyou_postcard;host=localhost',
+        'dsn'            => "mysql:dbname=quyou_postcard;host=$dbhost",
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ),

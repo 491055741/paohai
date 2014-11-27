@@ -4,14 +4,14 @@
 import sys, os, time, string
 import requests
 from upload import *
-from paohai_log import *
+from quyou_log import *
 
 def main():
     while 1:
         current_hour = time.strftime('%H', time.localtime(time.time()))
 
         # refresh access token every hour
-        r = requests.get('http://paohai.ikamobile.com/wechat/refreshaccesstoken')
+        r = requests.get('http://quyou.ikamobile.com/wechat/refreshaccesstoken')
         write_log('AccessToken: %s' % (r.text))
         # print r.text
 
@@ -21,7 +21,7 @@ def main():
 
 if __name__ == "__main__":
 
-    daemon_num = os.popen('ps -fe | grep "python" | grep "paohai_daemon" | grep -v "grep" | wc -l').read().strip()
+    daemon_num = os.popen('ps -fe | grep "python" | grep "quyou_daemon" | grep -v "grep" | wc -l').read().strip()
     if int(daemon_num) > 1:
         print "daemon already running. exit."
         sys.exit(0)
