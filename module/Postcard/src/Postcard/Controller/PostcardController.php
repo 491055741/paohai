@@ -798,19 +798,19 @@ class PostcardController extends AbstractActionController
         $pos['top']      = 140;
         $pos['width']    = 450;
         $pos['fontSize'] = 20;
-        $this->draw_txt_to($dst, $pos, $order->salutation);
+        $this->draw_txt_to($dst, $pos, $order->salutation, "/public/fonts/Xing.ttf");
         // message
         $pos['left']     = 45;
         $pos['top']      = 235;
         $pos['width']    = 420;
         $pos['fontSize'] = 20;
-        $this->draw_txt_with_linespace($dst, $pos, $order->message, 50);
+        $this->draw_txt_with_linespace($dst, $pos, $order->message, 50, "/public/fonts/Xing.ttf");
         // signature
         $pos['left']     = 350;
         $pos['top']      = 530;
         $pos['width']    = 300;
         $pos['fontSize'] = 20;
-        $this->draw_txt_to($dst, $pos, '－'.$order->signature);
+        $this->draw_txt_to($dst, $pos, '－'.$order->signature, "/public/fonts/Xing.ttf");
         // recipient address
         $pos['left']     = 620;
         $pos['top']      = 250;
@@ -968,13 +968,12 @@ class PostcardController extends AbstractActionController
         }
     }
 
-    private function draw_txt_to($image, $pos, $string)
+    private function draw_txt_to($image, $pos, $string, $font_file="public/fonts/Kaiti.ttc")
     {
         if (!array_key_exists('fontColor', $pos)) {
             $pos['fontColor'] = array(38, 38, 38);
         }
         $font_color = imagecolorallocate($image, $pos['fontColor'][0], $pos['fontColor'][1], $pos['fontColor'][2]);
-        $font_file = "public/fonts/Kaiti.ttc";
         $_string = '';
         $__string = '';
         for ($i = 0; $i < mb_strlen($string, "utf-8"); $i++) {
@@ -1002,13 +1001,12 @@ class PostcardController extends AbstractActionController
             $__string);
     }
 
-    private function draw_txt_with_linespace($image, $pos, $string, $lineSpace)
+    private function draw_txt_with_linespace($image, $pos, $string, $lineSpace, $font_file="public/fonts/Kaiti.ttc")
     {
         if (!array_key_exists('fontColor', $pos)) {
             $pos['fontColor'] = array(38, 38, 38);
         }
         $font_color = imagecolorallocate($image, $pos['fontColor'][0], $pos['fontColor'][1], $pos['fontColor'][2]);
-        $font_file = "public/fonts/Kaiti.ttc";
         $_string = '';
         $offsetY = 0;
 

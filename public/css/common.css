@@ -551,6 +551,14 @@ a.on i {display: block;}
     left:14px;
     position: absolute;
 }
+#stampPreview {
+    top:10px;
+    left:250px;
+    width:40px;
+    height:40px;
+    border: 1px solid;
+    position: absolute;
+}
 #addressPreview {
     font-size:7px;
     text-align:left;
