@@ -679,8 +679,7 @@ class PostcardController extends AbstractActionController
             }
         }
 
-        $date = date('YmdHis',time());
-        $canvas_w = 1970.6;
+        $canvas_w = 1946.0;
         $canvas_h = 2880.0;
 
         $image = $this->generateFront($order, $canvas_w, $canvas_h);
@@ -695,9 +694,9 @@ class PostcardController extends AbstractActionController
 //        $this->adjustBrightness($dstpath.$order->id.'_front.jpg', $dstpath.$order->id.'_bright.jpg');
 
         $canvas_w = 971.0;
-        $canvas_h = 600.0;
+        $canvas_h = 656.0;
         $image = $this->generatePostcardBack($order, $canvas_w, $canvas_h);
-        imagejpeg($image, $dstpath.$order->id.'_backface.jpg');
+        imagejpeg($image, $dstpath.$order->id.'_backface.jpg', 90);
 //        imagepng($image, $dstpath.$order->id.'_backface.png');
         imagedestroy($image);
         return true;
@@ -731,7 +730,7 @@ class PostcardController extends AbstractActionController
         imagejpeg($image_user, $dstpath.$order->id.'_orig.jpg');
 
         // rotate
-        if ($order->templateId > 6) {
+        if ($order->templateId >= 6) {
             $image_user = imagerotate($image_user, -90, 0);
         }
 
@@ -793,7 +792,7 @@ class PostcardController extends AbstractActionController
         // zip code
         $zip_color = imagecolorallocate($dst, 38, 38, 38);
         //                                       size                     x   y      tightness
-        imagepstext($dst, $order->zipCode, $font, 30, $zip_color, $white, 62 ,75, 50, 1850);
+        imagepstext($dst, $order->zipCode, $font, 30, $zip_color, $white, 62 ,80, 50, 1850);
         // salutation
         $pos['left']     = 45;
         $pos['top']      = 140;
@@ -802,25 +801,25 @@ class PostcardController extends AbstractActionController
         $this->draw_txt_to($dst, $pos, $order->salutation);
         // message
         $pos['left']     = 45;
-        $pos['top']      = 240;
+        $pos['top']      = 235;
         $pos['width']    = 420;
         $pos['fontSize'] = 20;
-        $this->draw_txt_with_linespace($dst, $pos, $order->message, 55);
+        $this->draw_txt_with_linespace($dst, $pos, $order->message, 50);
         // signature
         $pos['left']     = 350;
-        $pos['top']      = 470;
+        $pos['top']      = 530;
         $pos['width']    = 300;
         $pos['fontSize'] = 20;
         $this->draw_txt_to($dst, $pos, '－'.$order->signature);
         // recipient address
         $pos['left']     = 620;
-        $pos['top']      = 230;
+        $pos['top']      = 250;
         $pos['width']    = 300;
         $pos['fontSize'] = 16;
-        $this->draw_txt_with_linespace($dst, $pos, $order->address, 45);
+        $this->draw_txt_with_linespace($dst, $pos, $order->address, 50);
         // recipient name
         $pos['left']     = 700;
-        $pos['top']      = 350;
+        $pos['top']      = 380;
         $pos['width']    = 600;
         $pos['fontSize'] = 16;
         $this->draw_txt_to($dst, $pos, $order->recipient);
@@ -836,9 +835,9 @@ class PostcardController extends AbstractActionController
             $image_pr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
             $text = '趣邮明信片';
         }
-        imagecopyresampled($dst, $image_pr, 40, 450, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
+        imagecopyresampled($dst, $image_pr, 40, 500, 0, 0, 120, 120, imagesx($image_pr), imagesy($image_pr));
         $pos['left']     = 60;
-        $pos['top']      = 570;
+        $pos['top']      = 620;
         $pos['width']    = 120;
         $pos['fontSize'] = 11;
         $this->draw_txt_to($dst, $pos, $text);
@@ -862,19 +861,19 @@ class PostcardController extends AbstractActionController
 
             if ($location != NULL) {
                 $postmark['left']     = 810;
-                $postmark['top']      = 523;
+                $postmark['top']      = 580;//523;
                 $postmark['width']    = 600;
                 $postmark['fontSize'] = 11;
                 $this->draw_txt_to($dst, $postmark, $location['city']);
 
                 $postmark['left']     = 790;
-                $postmark['top']      = 550;
+                $postmark['top']      = 607;
                 $postmark['width']    = 600;
                 $postmark['fontSize'] = 8;
                 $this->draw_txt_to($dst, $postmark, strtoupper(PinYin::Pinyin($location['city'], 1)));
 
                 $postmark['left']     = 800;
-                $postmark['top']      = 564;
+                $postmark['top']      = 621;
                 $postmark['width']    = 600;
                 $postmark['fontSize'] = 9;
                 $this->draw_txt_to($dst, $postmark, date('Y.m.d', time()));

@@ -453,7 +453,7 @@ a.on i {display: block;}
 .page3{width: 100%; height: 440px;}
 .page3 .bigImg_a, .page3 .frontCover, .page3 .imgLayer_a, .page3 .bgLayer_a, .page3 .bgLayer_img_a {
     position: absolute;
-    width: 208px;
+    width: 203px;
     height: 300px;
     overflow: hidden;
     z-index: 1;
@@ -504,63 +504,64 @@ a.on i {display: block;}
     left: 50%;
     margin-left: -150px;
     -webkit-transform:rotate(90deg);
-    transform:rotate(90deg)
+    transform:rotate(90deg);
+    border: 1px solid #ccc;
 }
 #zipcodePreview {
-    font-size:17px;
-    letter-spacing:10px;
-    top:14px;
-    left:62px;
+    font-size:13px;
+    letter-spacing:15.5px;
+    top:20px;
+    left:18px;
     position:absolute;
 }
 #salutationPreview {
-    font-size:12px;
+    font-size:9px;
     text-align:left;
     top:45px;
-    left:20px;
-    width:155px;
+    left:13px;
+    width:140px;
     position:absolute;
 }
 #messagePreview {
-    font-size:12px;
+    font-size:9px;
     text-align:left;
     top:60px;
-    left:20px;
-    width:155px;
+    left:13px;
+    width:140px;
     position:absolute;
 }
 #signaturePreview {
-    font-size:12px;
-    top:165px;
-    left:130px;
+    font-size:9px;
+    top:150px;
+    left:120px;
     position:absolute;
 }
 #qrImagePreview {
     top:155px;
-    left:20px;
-    width:30px;
-    height:30px;
+    left:13px;
+    width:26px;
+    height:26px;
     border: 0;
     position: absolute;
 }
 #qrImageTextPreview {
     font-size:5px;
     text-align:left;
-    top:190px;
-    left:22px;
+    top:188px;
+    left:14px;
     position: absolute;
 }
 #addressPreview {
     font-size:7px;
     text-align:left;
-    top:75px;
-    left:212px;
-    width:80px;
+    top:78px;
+    left:190px;
+    width:100px;
     position:absolute;
 }
 #recipientPreview {
-    font-size:12px;
-    left:230px;
+    font-size:7px;
+    left:220px;
     top:122px;
     position:absolute;
 }

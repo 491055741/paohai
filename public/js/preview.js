@@ -69,7 +69,7 @@
     function initPreview() {
 
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
-        var imageLayer = document.getElementsByClassName('imgLayer_a')[0];
+//        var imageLayer = document.getElementsByClassName('imgLayer_a')[0];
 
         var pic_orig_w = userImage.width,
             pic_orig_h = userImage.height,
