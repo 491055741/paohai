@@ -841,7 +841,7 @@ class PostcardController extends AbstractActionController
         $pos['top']      = 1116;
         $pos['width']    = 216;
         $pos['fontSize'] = 20;
-        $this->draw_txt_to($dst, $pos, $text);
+        $this->draw_txt_to($dst, $pos, $text, "public/fonts/Kaiti.ttc");
 
         // Commemorative Chop
         if ($order->postmarkId != null) {

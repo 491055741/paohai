@@ -104,7 +104,7 @@ class OrderTable
 
 
     public function CalculateOrderPrice() {
-        $payPrice = 500;
+        $payPrice = 299;
         return $payPrice;
 
 /*
