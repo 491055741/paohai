@@ -100,15 +100,29 @@ class CommonUtil
 //            'cityCode' => $data['result']['cityCode'],
         );
     }
+    // get current id (1~100000) and save it back after increase by 1
+    public function getQrSceneId()
+    {
+        $para = $this->getWxParaTable()->getWxPara(WxPayConf_pub::CUR_QR_SCENE_ID_KEY);
+        if (!$para) {
+            $para = new WxPara();
+            $para->paraName = WxPayConf_pub::CUR_QR_SCENE_ID_KEY;
+            $para->value = 0;
+        }
+        $para->value += 1;
+        $this->getWxParaTable()->savePara($para);
+        return $para->value;
+    }
 
     // must call '$util->setServiceLocator($this->getServiceLocator())' before call this function
     public function getAccessToken()
     {
-        $wxpara = $this->getWxParaTable()->getWxPara(WxPayConf_pub::ACCESS_TOKEN_KEY);
-        if (!$wxpara || $wxpara->expireTime <= time()) {
+        $tokenPara = $this->getWxParaTable()->getWxPara(WxPayConf_pub::ACCESS_TOKEN_KEY);
+        $expireTimePara = $this->getWxParaTable()->getWxPara(WxPayConf_pub::TOKEN_EXPIRE_TIME_KEY);
+        if (!$tokenPara || !$expireTimePara || $expireTimePara->value <= time()) {
             $token = $this->refreshAccessToken();
         } else {
-            $token = $wxpara->value;
+            $token = $tokenPara->value;
         }
         return $token;
     }
@@ -118,7 +132,10 @@ class CommonUtil
         $para = new WxPara();
         $para->paraName = WxPayConf_pub::ACCESS_TOKEN_KEY;
         $para->value = $token;
-        $para->expireTime = WxPayConf_pub::ACCESS_TOKEN_EXPIRES + time();
+        $this->getWxParaTable()->savePara($para);
+
+        $para->paraName = WxPayConf_pub::TOKEN_EXPIRE_TIME_KEY;
+        $para->value = WxPayConf_pub::ACCESS_TOKEN_EXPIRES + time();
         $this->getWxParaTable()->savePara($para);
     }
 

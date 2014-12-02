@@ -32,36 +32,33 @@ class PostcardController extends AbstractActionController
     protected $orderTable;
     protected $userPositionTable;
     protected $contactTable;
-
-    public function voiceQrCodeAction()
-    {
-        $mediaId = $this->getRequest()->getQuery('mediaId', '0');
-        if ($mediaId == '0') {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'require media id'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
-        }
-        $image = file_get_contents('./userdata/voice/'.$mediaId.'.jpg');
-        header("Content-type: image/png");
-        echo $image;
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
-    }
+    protected $util;
+//    public function voiceQrCodeAction()
+//    {
+//        $mediaId = $this->getRequest()->getQuery('mediaId', '0');
+//        if ($mediaId == '0') {
+//            $view =  new ViewModel(array('code' => 1, 'msg' => 'require media id'));
+//            $view->setTemplate('postcard/postcard/error');
+//            return $view;
+//        }
+//        $image = file_get_contents('./userdata/voice/'.$mediaId.'.png');
+//        header("Content-type: image/png");
+//        echo $image;
+//        $viewModel = new ViewModel();
+//        $viewModel->setTerminal(true); // disable layout template
+//        return $viewModel;
+//    }
 
     public function voiceAction()
     {
         $mediaId = $this->getRequest()->getQuery('mediaId', '0');
         if ($mediaId == '0') {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'require media id'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'require media id'));
         }
 
         $fileName = $this->voicePath().$mediaId.'.mp3';
         if (!file_exists($fileName)) {
-            echo 'file '.$fileName.' not exist!';
-            return;
+            return $this->errorViewModel(array('code' => 2, 'msg' => 'file '.$fileName.' not exist!'));
         }
         $amr = file_get_contents($fileName);
         header("Content-type: audio/mp3");
@@ -77,18 +74,12 @@ class PostcardController extends AbstractActionController
 
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
         }
 
         // var_dump($order);
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-        $token = $util->getAccessToken();
-
-        // $result = json_decode($util->asyn_request($args));
-        $res = $util->httpPost('https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token,
+        $token = $this->getUtil()->getAccessToken();
+        $res = $this->getUtil()->httpPost('https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token,
                                 $this->JSON(array(
                                                 'touser'  => $order->userName,
                                                 'msgtype' => 'text',
@@ -134,30 +125,27 @@ class PostcardController extends AbstractActionController
         $orderId = $this->params()->fromRoute("id", "0");
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
         }
 
         if ($order->status == CANCEL) {
-            $view =  new ViewModel(array('code' => 2, 'msg' => '订单'.$orderId.'已失效，请重新创建明信片'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
+            return $this->errorViewModel(array('code' => 2, 'msg' => '订单'.$orderId.'已失效，请重新创建明信片'));
         }
 
         // update mediaId. Media will valid for 3 days on Tecent's server.
         $voiceMediaId = $this->getRequest()->getQuery('voiceMediaId');
         if ($voiceMediaId) {
             $order->voiceMediaId = $voiceMediaId;
+            $order->qrSceneId = $this->getUtil()->getQrSceneId();
+//            echo 'order qr sceneId:'.$order->qrSceneId;
+            $this->getWXQrImage($order->qrSceneId, $this->voicePath().$voiceMediaId.'.png');
             $this->getOrderTable()->saveOrder($order);
         }
 
-        $viewModel =  new ViewModel(array(
+        return $this->viewModel(array(
             'order' => $order,
             'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
         ));
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
     }
 
     public function userLngLatAction() {
@@ -192,7 +180,7 @@ class PostcardController extends AbstractActionController
 
         $longitude = $userLngLat->getLongitude();
         $latitude = $userLngLat->getLatitude();
-        $lastUpdateTimestamp = $userLngLat->getLastUpdateTimestamp();
+//        $lastUpdateTimestamp = $userLngLat->getLastUpdateTimestamp();
         return new JsonModel(array(
             'code' => 0,
             'lnglat' => array(
@@ -200,44 +188,6 @@ class PostcardController extends AbstractActionController
                 'latitude' => $latitude,
             ),
         ));
-    }
-
-    public function editMessageAction()
-    {
-        $orderId = $this->params()->fromRoute('id', '0');
-        $order = $this->getOrderTable()->getOrder($orderId);
-
-        if ($orderId == '0' || !$order) {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
-        }
-
-        if ($order->status == CANCEL) {
-            $view =  new ViewModel(array('code' => 2, 'msg' => '订单'.$orderId.'已失效，请重新创建明信片'));
-            $view->setTemplate('postcard/postcard/error');
-            return $view;
-        }
-
-        // update mediaId. Media will valid for 3 days on Tecent's server.
-        $voiceMediaId = $this->getRequest()->getQuery('voiceMediaId');
-        if ($voiceMediaId) {
-            $order->voiceMediaId = $voiceMediaId;
-            // var_dump($order);
-            $this->getOrderTable()->saveOrder($order);
-        }
-
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-//        $token = $util->getAccessToken();
-
-        $viewModel =  new ViewModel(array(
-            'order' => $order,
-            'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
-//            'token' => $token,
-        ));
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
     }
 
     public function shareImageAction()
@@ -348,9 +298,7 @@ class PostcardController extends AbstractActionController
 
     public function downloadVoiceMediaAction()
     {
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-        $token = $util->getAccessToken();
+        $token = $this->getUtil()->getAccessToken();
         $mediaId = $this->getRequest()->getQuery('mediaId', '0');
         if ($mediaId == '0') {
             $view =  new ViewModel(array('code' => 1, 'msg' => 'require mediaId'));
@@ -362,13 +310,12 @@ class PostcardController extends AbstractActionController
         // echo $this->voicePath().$mediaId.'.amr';
         $length = fwrite($voiceFile, $voiceContent);
         fclose($voiceFile);
-
+        // convert from amr to mp3
         $cmd = 'ffmpeg -i '.$this->voicePath().$mediaId.'.amr '.$this->voicePath().$mediaId.'.mp3';
         exec($cmd);
         // generate qr code image under same folder
         $str = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voice?mediaId='.$mediaId;
         // echo $str;
-        $this->qrcode($str, $this->voicePath().$mediaId.'.png');
 
         $res = array(
             'code' => 0,
@@ -561,9 +508,7 @@ class PostcardController extends AbstractActionController
 
     public function deliverNotify($data)
     {
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-        $access_token = $util->getAccessToken();
+        $access_token = $this->getUtil()->getAccessToken();
         $url = "https://api.weixin.qq.com/pay/delivernotify?access_token=".$access_token;
 
         $wxPayHelper = new WxPayHelper();
@@ -576,7 +521,7 @@ class PostcardController extends AbstractActionController
         $nativeObj['deliver_msg'] = 'ok';
         $nativeObj["app_signature"] = $wxPayHelper->get_biz_sign($nativeObj);
         $nativeObj["sign_method"] = SIGNTYPE;
-        $postResult = json_decode($util->httpPost($url, json_encode($nativeObj)));
+        $postResult = json_decode($this->getUtil()->httpPost($url, json_encode($nativeObj)));
 
         return $postResult;
     }
@@ -695,7 +640,6 @@ class PostcardController extends AbstractActionController
 
         $image = $this->generatePostcardBack($order);
         imagejpeg($image, $dstpath.$order->id.'_backface.jpg', 90);
-//        imagepng($image, $dstpath.$order->id.'_backface.png');
         imagedestroy($image);
         return true;
     }
@@ -827,16 +771,27 @@ class PostcardController extends AbstractActionController
 
         // voice qr code
         $text = null;
-        $image_pr = null;
+        $image_qr = null;
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
-            $image_pr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
+            $image_qr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
+
+            // add logo onto qr
+            $logo_canvas = imagecreatetruecolor(50, 50);
+            $white = imagecolorallocate($logo_canvas, 255, 255, 255);
+            imagefill($logo_canvas, 0, 0, $white);
+            $image_logo = imagecreatefromjpeg('public/images/small/logo.jpg');
+            imagecopyresampled($logo_canvas, $image_logo, 5, 5, 0, 0, 40, 40, imagesx($image_logo), imagesy($image_logo));
+            $logo_width = imagesx($image_qr)*0.15;
+            $logo_height = imagesy($image_qr)*0.15;
+            imagecopyresampled($image_qr, $logo_canvas, (imagesx($image_qr)-$logo_width)/2, (imagesy($image_qr)-$logo_height)/2, 0, 0,
+                $logo_width, $logo_height, imagesx($logo_canvas), imagesy($logo_canvas));
             $text = '扫扫听留言';
         } else {
             // quyou qr code
-            $image_pr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
+            $image_qr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
             $text = '趣邮明信片';
         }
-        imagecopyresampled($dst, $image_pr, 72, 900, 0, 0, 216, 216, imagesx($image_pr), imagesy($image_pr));
+        imagecopyresampled($dst, $image_qr, 72, 900, 0, 0, 216, 216, imagesx($image_qr), imagesy($image_qr));
         $pos['left']     = 108;
         $pos['top']      = 1116;
         $pos['width']    = 216;
@@ -855,10 +810,8 @@ class PostcardController extends AbstractActionController
         } else {
 
             // location postmark
-            $location = NULL;
-            $util = new CommonUtil();
-            $util->setServiceLocator($this->getServiceLocator());
-            $location = $util->getUserGeoAddress($order->userName);
+//            $location = NULL;
+            $location = $this->getUtil()->getUserGeoAddress($order->userName);
 
             if ($location != NULL) {
                 $font = "public/fonts/Kaiti.ttc";
@@ -1062,7 +1015,6 @@ class PostcardController extends AbstractActionController
             $_string);
     }
 
-
     private function getUserPositionTable() {
         if ( ! $this->userPositionTable) {
             $sm = $this->getServiceLocator();
@@ -1120,11 +1072,52 @@ class PostcardController extends AbstractActionController
 
     private function qrcode($str, $filename = false)
     {
-        $util = new CommonUtil();
-        $util->qrcode($str, $filename);
+        $this->getUtil()->qrcode($str, $filename);
 
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
+
+    private function viewModel($para = null)
+    {
+        $viewModel = new ViewModel($para);
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    private function errorViewModel($para = null)
+    {
+        $viewModel = new ViewModel($para);
+        $viewModel->setTemplate('postcard/postcard/error');
+        return $viewModel;
+    }
+
+    private function getUtil()
+    {
+        if (!$this->util) {
+            $this->util = new CommonUtil();
+            $this->util->setServiceLocator($this->getServiceLocator());
+        }
+        return $this->util;
+    }
+
+    private function getWXQrImage($sceneId, $fileName)
+    {
+        $tempJson = '{"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": '.$sceneId.'}}}';
+        $url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=".$this->getUtil()->getAccessToken();
+        $tempArr = json_decode($res = $this->getUtil()->httpPost($url, $tempJson), true);
+// ask for qr code from wx server
+//        if (@array_key_exists('ticket', $tempArr)) {
+//            return 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$tempArr['ticket'];
+//        } else {
+//            var_dump($tempArr);
+//            return null;
+//        }
+        if (@array_key_exists('url', $tempArr)) {
+//            var_dump($tempArr);
+            $this->getUtil()->qrcode($tempArr['url'], $fileName);
+        }
+    }
 }
+

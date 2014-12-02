@@ -38,6 +38,7 @@ class WxPayConf_pub
 	const CURL_TIMEOUT = 30;
 
     const ACCESS_TOKEN_KEY = "accessToken";
+    const TOKEN_EXPIRE_TIME_KEY = "tokenExpireTime";
     const ACCESS_TOKEN_EXPIRES = 7000;
     const CUR_QR_SCENE_ID_KEY  = "curQrSceneId";
 }

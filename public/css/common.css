@@ -508,9 +508,9 @@ a.on i {display: block;}
     border: 1px solid #ccc;
 }
 #zipcodePreview {
-    font-size:13px;
-    letter-spacing:15.5px;
-    top:20px;
+    font-size:12px;
+    letter-spacing:9.2px;
+    top:18px;
     left:18px;
     position:absolute;
 }

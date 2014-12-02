@@ -28,7 +28,6 @@ class WxParaTable
         $data = array(
             'paraName' => $para->paraName,
             'value'    => $para->value,
-            'expireTime' => $para->expireTime,
         );
 
         if ($this->getWxPara($para->paraName)) {

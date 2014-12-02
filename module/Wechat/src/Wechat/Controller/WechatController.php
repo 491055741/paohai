@@ -62,7 +62,6 @@ class WechatController extends AbstractActionController
             $fromUsername = $postObj->FromUserName;
             $toUsername = $postObj->ToUserName;
             $msgType = $postObj->MsgType;
-            $content = trim($postObj->Content);
             $time = time();
 
             if ($msgType == "voice") {
@@ -83,12 +82,11 @@ class WechatController extends AbstractActionController
                 } else {
                     $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia?mediaId='.urlencode($mediaId);
                     @file_get_contents($url);
-                    //$contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editmessage/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
                     $contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editpostcard/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
                 }
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
                 echo $resultStr;
-                return;
+                return true;
 
             } else if ($msgType == "image") {
                 $newsTpl = "<xml>
@@ -114,8 +112,8 @@ class WechatController extends AbstractActionController
                 $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard?picurl='.$picUrl.'&username='.$fromUsername;
                 $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                 echo $resultStr;
-                return;
-            } else {
+                return true;
+            } else { // event, txt
                 $textTpl = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
                             <FromUserName><![CDATA[%s]]></FromUserName>
@@ -127,7 +125,49 @@ class WechatController extends AbstractActionController
                 $replyMsgType = "text";
                 if ($msgType == "event") {
                     $event = $postObj->Event;
-                    if ($event == "subscribe") {// 订阅
+// test
+//                    $newsTpl = "<xml>
+//                                    <ToUserName><![CDATA[%s]]></ToUserName>
+//                                    <FromUserName><![CDATA[%s]]></FromUserName>
+//                                    <CreateTime>%s</CreateTime>
+//                                    <MsgType><![CDATA[%s]]></MsgType>
+//                                    <ArticleCount>1</ArticleCount>
+//                                    <Articles>
+//                                        <item>
+//                                            <Title><![CDATA[%s]]></Title>
+//                                            <Description><![CDATA[%s]]></Description>
+//                                            <PicUrl><![CDATA[%s]]></PicUrl>
+//                                            <Url><![CDATA[%s]]></Url>
+//                                        </item>
+//                                    </Articles>
+//                                    </xml>";
+//
+//                    $picUrl = 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg';
+//                    $replyMsgType = "news";
+//                    $title = "扫码测试";
+//                    $desc = "点击图片收听留言";
+//                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voice?mediaId='.$order->mediaId;
+//                    $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
+
+//                    $contentStr = $postObj->Event;
+//                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
+//                    echo $resultStr;
+//                    return true;
+// end of test
+                    if (($event == "subscribe" || $event == "SCAN") && isset($postObj->EventKey)) {
+                        $sceneId = str_replace('qrscene_', '', $postObj->EventKey);
+                        if (strlen($sceneId) > 0) {
+                            $order = $this->getOrderTable()->getOrderByQrSceneId($sceneId);
+                            if ($order && isset($order->voiceMediaId)) {
+                                $contentStr = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voice?mediaId='.$order->voiceMediaId;
+                            } else {
+                                $contentStr = '没有找到语音留言,sceneId:'.$sceneId;
+                            }
+                        } else {
+                            $contentStr = 'sceneId为空';
+                        }
+                    } else if ($event == "subscribe") {// 订阅
+
                         $contentStr = <<<WELCOME_TEXT
 Hello，看这边！趣邮终于把亲盼来啦！
 用电子照回忆美妙瞬间？Sorry，我们留恋触摸的质感；
@@ -135,6 +175,7 @@ Hello，看这边！趣邮终于把亲盼来啦！
 手机明信片第一品牌——趣邮，实现云端自制，邮政送达，
 还不快来DIY专属于你的纸质明信片吧！
 WELCOME_TEXT;
+
                     } else if ($event == "CLICK") {
                         $eventKey = $postObj->EventKey;
                         if ($eventKey == "begin") {// 开始
@@ -194,18 +235,18 @@ QA_TEXT;
                             $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/contact/contactspage?userName='.$fromUsername;
                             $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                             echo $resultStr;
-                            return;
+                            return true;
                         } else {
                             $contentStr = "请上传一张照片";
                         }
                     } else if ($event == 'LOCATION') {
                         $this->receiveUserLatitude($postObj);
-                        return;
-
+                        return true;
                     } else {
                         $contentStr = "请上传一张照片";
                     }
-                } else { // text
+                } else if ($msgType == "text") {
+                    $content = trim($postObj->Content);
                     if ($content == 'pay') { // test wxpay
                         // $contentStr = 'http://paohai.ikamobile.com/wxpay';
                         $newsTpl = "<xml>
@@ -231,7 +272,7 @@ QA_TEXT;
                         $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/wxpay/test';
                         $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                         echo $resultStr;
-                        return;
+                        return true;
                     } else {
                         $contentStr = "请上传一张照片";
                     }
@@ -239,7 +280,7 @@ QA_TEXT;
 
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
                 echo $resultStr;
-                return;
+                return true;
             }
         } else {
             $msg = "no post data";

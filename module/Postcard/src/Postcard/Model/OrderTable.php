@@ -49,6 +49,19 @@ class OrderTable
         return $lastRow;
     }
 
+    public function getOrderByQrSceneId($sceneId)
+    {
+        $rowset = $this->tableGateway->select(array('qrSceneId' => $sceneId));
+        if (!$rowset) {
+            return FALSE;
+        }
+        $lastRow = null;
+        foreach ($rowset as $row) {
+            $lastRow = $row;
+        }
+        return $lastRow;
+    }
+
     public function getOrder($id)
     {
         $id  = (int) $id;
@@ -88,6 +101,7 @@ class OrderTable
             'offsetX'           => $order->offsetX,
             'offsetY'           => $order->offsetY,
             'refundFee'         => $order->refundFee,
+            'qrSceneId'         => $order->qrSceneId,
         );
 
         if ($this->getOrder($order->id)) {
@@ -158,9 +172,7 @@ class OrderTable
      * 
      * @return int $affectedRows
      */
-    public function updateOrder2Payed(
-        $orderId, $price, $payedDate, $transId, $wxTransId
-    ) {
+    public function updateOrder2Payed($orderId, $price, $payedDate, $wxTransId, $wxTransId) {
         $data = array(
             'payDate' => $payedDate,
             'status' => Order::STATUS_PAYED,
@@ -168,8 +180,6 @@ class OrderTable
             'wx_trans_id' => $wxTransId,
         );
 
-        return $this->tableGateway->update(
-            $data, array('id' => $orderId)
-        );
+        return $this->tableGateway->update($data, array('id' => $orderId));
     }
 }
