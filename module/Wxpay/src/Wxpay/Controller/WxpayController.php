@@ -221,10 +221,10 @@ class WxpayController extends AbstractActionController
 
     private function copyPicture($orderId)
     {
-        $dstpath = $this->payedPicPath();
-        if (!is_dir($dstpath)) {
-            if (!@mkdir($dstpath)) {
-                $this->payLogger('Create folder '.$dstpath.' failed!');
+        $dstPath = $this->payedPicPath();
+        if (!is_dir($dstPath)) {
+            if (!@mkdir($dstPath)) {
+                $this->payLogger('Create folder '.$dstPath.' failed!');
                 return false;
             }
         }
@@ -254,10 +254,23 @@ class WxpayController extends AbstractActionController
 
     private function payedPicPath()
     {
-        return dirname(__FILE__).'/../../../../../userdata/payed/' . date('Ymd', time()) . '/';
+        $payPath = dirname(__FILE__).'/../../../../../userdata/payed/';
+        $this->checkPath($payPath);
+        $payPath = $payPath.date('Ymd', time());
+        $this->checkPath($payPath);
+        return $payPath.'/';
     }
 
-
+    private function checkPath($path)
+    {
+        if (!is_dir($path)) {
+            if (!mkdir($path)) {
+                echo 'Create folder '.$path.' failed!';
+                return false;
+            }
+        }
+        return true;
+    }
 /*
 post:
 {"appid":"wx4a41ea3d983b4538","package":"out_trade_no=1406267508&partner=1219350001&sign=B6EE01B3B797C4AF6DBB730D2C92457A",

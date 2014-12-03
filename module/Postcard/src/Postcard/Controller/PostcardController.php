@@ -712,6 +712,7 @@ class PostcardController extends AbstractActionController
 
     private function generatePostcardBack($order)
     {
+        // 148mm*100mm, 300dpi, 1mm => 11.81px
         $canvas_w = 1748.0;
         $canvas_h = 1181.0;
 
@@ -737,34 +738,44 @@ class PostcardController extends AbstractActionController
         // zip code
         $zip_color = imagecolorallocate($dst, 38, 38, 38);
         //                                       size                     x   y      tightness
-        imagepstext($dst, $order->zipCode, $font, 54, $zip_color, $white, 112, 150, 50, 1200);
+        imagepstext($dst, $order->zipCode, $font, 54, $zip_color, $white, 112, 150, 50, 1185);
         // salutation
-        $pos['left']     = 81;
-        $pos['top']      = 260;
-        $pos['width']    = 810;
-        $pos['fontSize'] = 36;
-        $this->draw_txt_to($dst, $pos, $order->salutation);
+        if ($order->salutation) {
+            $pos['left']     = 80;
+            $pos['top']      = 260;
+            $pos['width']    = 810;
+            $pos['fontSize'] = 36;
+            $this->draw_txt_to($dst, $pos, $order->salutation);
+        }
         // message
-        $pos['left']     = 81;
-        $pos['top']      = 423;
-        $pos['width']    = 756;
-        $pos['fontSize'] = 36;
-        $this->draw_txt_with_linespace($dst, $pos, $order->message, 90);
+        if ($order->message) {
+            $pos['left']     = 160;
+            $pos['top']      = 423;
+            $pos['width']    = 756;
+            $pos['fontSize'] = 36;
+            $pos['lineSpace'] = 90;
+            $this->draw_txt_to($dst, $pos, $order->message);
+        }
         // signature
-        $pos['left']     = 630;
-        $pos['top']      = 954;
-        $pos['width']    = 540;
-        $pos['fontSize'] = 36;
-        $this->draw_txt_to($dst, $pos, '－'.$order->signature);
+        if ($order->signature) {
+            $pos['left']     = 450;
+            $pos['top']      = 954;
+            $pos['width']    = 500;
+            $pos['fontSize'] = 36;
+            $pos['rightAlign'] = true;
+            $this->draw_txt_to($dst, $pos, '－'.$order->signature);
+            unset($pos['rightAlign']);
+        }
         // recipient address
         $pos['left']     = 1116;
-        $pos['top']      = 450;
+        $pos['top']      = 500;
         $pos['width']    = 540;
         $pos['fontSize'] = 30;
-        $this->draw_txt_with_linespace($dst, $pos, $order->address, 90);
+        $pos['lineSpace'] = 90;
+        $this->draw_txt_to($dst, $pos, $order->address);
         // recipient name
         $pos['left']     = 1270;
-        $pos['top']      = 690;
+        $pos['top']      = 770;
         $pos['width']    = 1080;
         $pos['fontSize'] = 30;
         $this->draw_txt_to($dst, $pos, $order->recipient);
@@ -791,21 +802,29 @@ class PostcardController extends AbstractActionController
             $image_qr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
             $text = '趣邮明信片';
         }
-        imagecopyresampled($dst, $image_qr, 72, 900, 0, 0, 216, 216, imagesx($image_qr), imagesy($image_qr));
-        $pos['left']     = 108;
-        $pos['top']      = 1116;
+        imagecopyresampled($dst, $image_qr, 1465, 910, 0, 0, 216, 216, imagesx($image_qr), imagesy($image_qr));
+        $pos['left']     = 1500;
+        $pos['top']      = 1150;
         $pos['width']    = 216;
         $pos['fontSize'] = 20;
-        $this->draw_txt_to($dst, $pos, $text, "public/fonts/Kaiti.ttc");
+        $pos['fontFile'] = "public/fonts/Kaiti.ttc";
+        $this->draw_txt_to($dst, $pos, $text);
+
+        // stamp
+        $image = imagecreatefrompng('public/images/big/stamp.png');
+        imagecopyresampled($dst, $image, 1358, 36, 0, 0, 354, 354, imagesx($image), imagesy($image));
 
         // Commemorative Chop
         if ($order->postmarkId != null) {
             $image = imagecreatefrompng('public/images/postmark/big/youchuo'.$order->postmarkId.'.png');
             $postmark_w = 306;
             $postmark_h = imagesy($image) / imagesx($image) * $postmark_w;
-            imagecopyresampled($dst, $image, 1350, $canvas_h - $postmark_h - 54, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
+            $postmark_x = 1150;
+            $postmark_y = 170;
 
-            $textAttr = $this->getDateTextAttr($order->postmarkId);
+            imagecopyresampled($dst, $image, $postmark_x, $postmark_y, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
+
+            $textAttr = $this->getDateTextAttr($order->postmarkId, $postmark_x, $postmark_y);
             $this->draw_txt_to($dst, $textAttr, date($textAttr['dateFormat'], time()));
         } else {
 
@@ -814,209 +833,191 @@ class PostcardController extends AbstractActionController
             $location = $this->getUtil()->getUserGeoAddress($order->userName);
 
             if ($location != NULL) {
-                $font = "public/fonts/Kaiti.ttc";
-                $postmark['left']     = 1458;
-                $postmark['top']      = 1044;
-                $postmark['width']    = 1080;
-                $postmark['fontSize'] = 20;
-                $this->draw_txt_to($dst, $postmark, $location['city'], $font);
+                $postmark_x = 1150;
+                $postmark_y = 200;
 
-                $postmark['left']     = 1422;
-                $postmark['top']      = 1093;
-                $postmark['width']    = 1080;
-                $postmark['fontSize'] = 15;
-                $this->draw_txt_to($dst, $postmark, strtoupper(PinYin::Pinyin($location['city'], 1)), $font);
+                $pos['left']     = $postmark_x + 162;
+                $pos['top']      = $postmark_y + 117;
+                $pos['width']    = 1080;
+                $pos['fontSize'] = 20;
+                $this->draw_txt_to($dst, $pos, $location['city']);
 
-                $postmark['left']     = 1440;
-                $postmark['top']      = 1118;
-                $postmark['width']    = 1080;
-                $postmark['fontSize'] = 16;
-                $this->draw_txt_to($dst, $postmark, date('Y.m.d', time()), $font);
+                $pos['left']     = $postmark_x + 134;
+                $pos['top']      = $postmark_y + 144;
+                $pos['width']    = 1080;
+                $pos['fontSize'] = 15;
+                $this->draw_txt_to($dst, $pos, strtoupper(PinYin::Pinyin($location['city'], 1)));
+
+                $pos['left']     = $postmark_x + 144;
+                $pos['top']      = $postmark_y + 167;
+                $pos['width']    = 1080;
+                $pos['fontSize'] = 16;
+                $this->draw_txt_to($dst, $pos, date('Y.m.d', time()));
 
                 $imageName = 'postmark_location.png';
                 $image = imagecreatefrompng('public/images/postmark/big/'.$imageName);
                 $postmark_h = 216;
                 $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
-                imagecopyresampled($dst, $image, 1296, $canvas_h - $postmark_h - 18, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
+                imagecopyresampled($dst, $image, $postmark_x, $postmark_y, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
             }
         }
         return $dst;
     }
 
-    private function getDateTextAttr($postmarkId)
+    private function getDateTextAttr($postmarkId, $x, $y)
     {
         $dateTextArray = array(
             array(
 //                'text'     => '成都',
-                'left'     => 831,
-                'top'      => 517,
+                'left'     => $x + 150,
+                'top'      => $y + 216,
                 'width'    => 600,
-                'fontSize' => 9,
+                'fontSize' => 16,
                 'fontColor' => array(152, 45, 35),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
 //                'text'     => '三亚',
-                'left'     => 842,
-                'top'      => 542,
+                'left'     => $x + 168,
+                'top'      => $y + 156,
                 'width'    => 600,
-                'fontSize' => 8,
+                'fontSize' => 15,
                 'fontColor' => array(7, 111, 70),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
 //                'text'     => '杭州',
-                'left'     => 860,
-                'top'      => 505,
+                'left'     => $x + 196,
+                'top'      => $y + 102,
                 'width'    => 600,
-                'fontSize' => 10,
+                'fontSize' => 18,
                 'fontColor' => array(134, 91, 67),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
 //                'text'     => '北京',
-                'left'     => 792,
-                'top'      => 545,
+                'left'     => $x + 80,
+                'top'      => $y + 165,
                 'width'    => 600,
-                'fontSize' => 10,
+                'fontSize' => 18,
                 'fontColor' => array(68, 67, 67),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
                 'text'     => '广州',
-                'left'     => 845,
-                'top'      => 515,
+                'left'     => $x + 160,
+                'top'      => $y + 130,
                 'width'    => 600,
-                'fontSize' => 10,
+                'fontSize' => 18,
                 'fontColor' => array(60, 60, 60),
                 'dateFormat' => 'Y.m.d',
             ),
 
             array(
 //                'text'     => '上海',
-                'left'     => 816,
-                'top'      => 547,
+                'left'     => $x + 116,
+                'top'      => $y + 165,
                 'width'    => 600,
-                'fontSize' => 10,
+                'fontSize' => 18,
                 'fontColor' => array(62, 62, 62),
                 'dateFormat' => 'Y    m.d',
             ),
 
             array(
 //                'text'     => '深圳',
-                'left'     => 848,
-                'top'      => 508,
+                'left'     => $x + 180,
+                'top'      => $y + 145,
                 'width'    => 600,
-                'fontSize' => 10,
+                'fontSize' => 18,
                 'fontColor' => array(60, 60, 60),
                 'dateFormat' => 'Y.m.d',
             ),
         );
         if ($postmarkId < count($dateTextArray)) {
+            $dateTextArray[$postmarkId]['fontFile'] = "public/fonts/Kaiti.ttc";
             return $dateTextArray[$postmarkId];
         } else {
             return NULL;
         }
     }
 
-    private function draw_txt_to($image, $pos, $string, $font_file="public/fonts/Xing.ttf")
+    private function draw_txt_to($image, $pos, $string)
     {
+        $rightAlign = array_key_exists('rightAlign', $pos);
+
         if (!array_key_exists('fontColor', $pos)) {
             $pos['fontColor'] = array(38, 38, 38);
         }
-        $font_color = imagecolorallocate($image, $pos['fontColor'][0], $pos['fontColor'][1], $pos['fontColor'][2]);
-        $_string = '';
-        $__string = '';
-        for ($i = 0; $i < mb_strlen($string, "utf-8"); $i++) {
-            $box = imagettfbbox($pos['fontSize'], 0, $font_file, $_string);
-            $_string_length = $box[2] - $box[0];
-            $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($string, $i, 1, "utf-8"));
-
-            if ($_string_length + $box[2] - $box[0] < $pos['width']) {
-                $_string .= mb_substr($string, $i, 1, "utf-8");
-            } else {
-                $__string .= $_string . "\n";
-                $_string = mb_substr($string, $i, 1, "utf-8");
-            }
+        if (!array_key_exists('fontFile', $pos)) {
+            $pos['fontFile'] = "public/fonts/Xing.ttf";
         }
-        $__string .= $_string;
-        $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($__string, 0, 1, "utf-8"));
-        imagettftext(
-            $image,
-            $pos['fontSize'],
-            0,
-            $pos['left'],
-            $pos['top'] + ($box[3] - $box[7]),  
-            $font_color,
-            $font_file, 
-            $__string);
-    }
-
-    private function draw_txt_with_linespace($image, $pos, $string, $lineSpace, $font_file="public/fonts/Xing.ttf")
-    {
-        if (!array_key_exists('fontColor', $pos)) {
-            $pos['fontColor'] = array(38, 38, 38);
+        if (!array_key_exists('lineSpace', $pos)) {
+            $pos['lineSpace'] = 50;
         }
+
         $font_color = imagecolorallocate($image, $pos['fontColor'][0], $pos['fontColor'][1], $pos['fontColor'][2]);
         $_string = '';
         $offsetY = 0;
 
         for ($i = 0; $i < mb_strlen($string, "utf-8"); $i++) {
-            $box = imagettfbbox($pos['fontSize'], 0, $font_file, $_string);
+            $box = imagettfbbox($pos['fontSize'], 0, $pos['fontFile'], $_string);
             $_string_width = $box[2] - $box[0];
-            $box = imagettfbbox($pos['fontSize'], 0, $font_file, mb_substr($string, $i, 1, "utf-8"));
+            $box = imagettfbbox($pos['fontSize'], 0, $pos['fontFile'], mb_substr($string, $i, 1, "utf-8"));
 
             $char = mb_substr($string, $i, 1, "utf-8");
+            $x = $rightAlign ? ($pos['left'] + $pos['width'] - $_string_width) : $pos['left'];
             // place new line using custom line space
             if ($char == "\n") {
                 imagettftext(
                     $image,
                     $pos['fontSize'],
                     0,
-                    $pos['left'],
+                    $x,
                     $pos['top'] + $offsetY,
                     $font_color,
-                    $font_file,
+                    $pos['fontFile'],
                     $_string);
-                $offsetY += $lineSpace;
+                $offsetY += $pos['lineSpace'];
                 $_string = '';
                 continue;
             }
             // when char is number, not wrap up
             if (preg_match("/\d/", $char) || $_string_width + $box[2] - $box[0] < $pos['width']) {
                 $_string .= $char;
-            } else {
+            } else { // auto wrap up
                 imagettftext(
                     $image,
                     $pos['fontSize'],
                     0,
-                    $pos['left'],
+                    $x,
                     $pos['top'] + $offsetY,
                     $font_color,
-                    $font_file,
+                    $pos['fontFile'],
                     $_string);
-                $offsetY += $lineSpace;
+                $offsetY += $pos['lineSpace'];
                 $_string = $char;
             }
         }
-
+        $box = imagettfbbox($pos['fontSize'], 0, $pos['fontFile'], $_string);
+        $_string_width = $box[2] - $box[0];
+        $x = $rightAlign ? ($pos['left'] + $pos['width'] - $_string_width) : $pos['left'];
         imagettftext(
             $image,
             $pos['fontSize'],
             0,
-            $pos['left'],
+            $x,
             $pos['top'] + $offsetY,
             $font_color,
-            $font_file,
+            $pos['fontFile'],
             $_string);
     }
 
     private function getUserPositionTable() {
-        if ( ! $this->userPositionTable) {
+        if (! $this->userPositionTable) {
             $sm = $this->getServiceLocator();
             $this->userPositionTable = $sm->get('Postcard\Model\UserPositionTable');
         }
