@@ -744,28 +744,28 @@ class PostcardController extends AbstractActionController
         }
         // message
         if ($order->message) {
-            $pos['left']     = 160;
-            $pos['top']      = 423;
-            $pos['width']    = 756;
-            $pos['fontSize'] = 36;
+            $pos['left']      = 160;
+            $pos['top']       = 423;
+            $pos['width']     = 756;
+            $pos['fontSize']  = 36;
             $pos['lineSpace'] = 94;
             $this->draw_txt_to($dst, $pos, $order->message);
         }
         // signature
         if ($order->signature) {
-            $pos['left']     = 450;
-            $pos['top']      = 954;
-            $pos['width']    = 500;
-            $pos['fontSize'] = 36;
+            $pos['left']       = 450;
+            $pos['top']        = 954;
+            $pos['width']      = 500;
+            $pos['fontSize']   = 36;
             $pos['rightAlign'] = true;
             $this->draw_txt_to($dst, $pos, '－'.$order->signature);
             unset($pos['rightAlign']);
         }
         // recipient address
-        $pos['left']     = 1116;
-        $pos['top']      = 500;
-        $pos['width']    = 540;
-        $pos['fontSize'] = 30;
+        $pos['left']      = 1116;
+        $pos['top']       = 500;
+        $pos['width']     = 540;
+        $pos['fontSize']  = 30;
         $pos['lineSpace'] = 94;
         $this->draw_txt_to($dst, $pos, $order->address);
         // recipient name
