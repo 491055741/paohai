@@ -726,11 +726,6 @@ class PostcardController extends AbstractActionController
         imagesavealpha($background, true);
         imagecopyresampled($dst, $background, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($background), imagesy($background));
 
-        // can't use imagettftext because it can't adjust char spacing
-//        $size = 40; // font size
-//        $x = 85;
-//        $y = 95;
-//        $space = 8;
         $font = imagepsloadfont("public/fonts/Schneidler-HTF-Titling.pfb");
         if (!$font) {
             echo 'Load font Schneidler-HTF-Titling.pfb failed.';
@@ -738,11 +733,11 @@ class PostcardController extends AbstractActionController
         // zip code
         $zip_color = imagecolorallocate($dst, 38, 38, 38);
         //                                       size                     x   y      tightness
-        imagepstext($dst, $order->zipCode, $font, 54, $zip_color, $white, 112, 150, 50, 1185);
+        imagepstext($dst, $order->zipCode, $font, 54, $zip_color, $white, 120, 155, 50, 1500);
         // salutation
         if ($order->salutation) {
             $pos['left']     = 80;
-            $pos['top']      = 260;
+            $pos['top']      = 300;
             $pos['width']    = 810;
             $pos['fontSize'] = 36;
             $this->draw_txt_to($dst, $pos, $order->salutation);
@@ -753,7 +748,7 @@ class PostcardController extends AbstractActionController
             $pos['top']      = 423;
             $pos['width']    = 756;
             $pos['fontSize'] = 36;
-            $pos['lineSpace'] = 90;
+            $pos['lineSpace'] = 94;
             $this->draw_txt_to($dst, $pos, $order->message);
         }
         // signature
@@ -771,18 +766,16 @@ class PostcardController extends AbstractActionController
         $pos['top']      = 500;
         $pos['width']    = 540;
         $pos['fontSize'] = 30;
-        $pos['lineSpace'] = 90;
+        $pos['lineSpace'] = 94;
         $this->draw_txt_to($dst, $pos, $order->address);
         // recipient name
         $pos['left']     = 1270;
-        $pos['top']      = 770;
+        $pos['top']      = $pos['top'] + 282;
         $pos['width']    = 1080;
         $pos['fontSize'] = 30;
         $this->draw_txt_to($dst, $pos, $order->recipient);
 
         // voice qr code
-        $text = null;
-        $image_qr = null;
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
             $image_qr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
 
@@ -802,17 +795,19 @@ class PostcardController extends AbstractActionController
             $image_qr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
             $text = '趣邮明信片';
         }
-        imagecopyresampled($dst, $image_qr, 1465, 910, 0, 0, 216, 216, imagesx($image_qr), imagesy($image_qr));
-        $pos['left']     = 1500;
+        $width=$height=260;
+        imagecopyresampled($dst, $image_qr, $canvas_w-$width-60, $canvas_h-$height-60, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
+        $pos['left']     = 1490;
         $pos['top']      = 1150;
         $pos['width']    = 216;
         $pos['fontSize'] = 20;
         $pos['fontFile'] = "public/fonts/Kaiti.ttc";
         $this->draw_txt_to($dst, $pos, $text);
 
-        // stamp
+        // stamp   82px => 7mm
+        $width=$height=300;
         $image = imagecreatefrompng('public/images/big/stamp.png');
-        imagecopyresampled($dst, $image, 1358, 36, 0, 0, 354, 354, imagesx($image), imagesy($image));
+        imagecopyresampled($dst, $image, $canvas_w-82-$width, 82, 0, 0, $width, $height, imagesx($image), imagesy($image));
 
         // Commemorative Chop
         if ($order->postmarkId != null) {

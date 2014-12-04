@@ -126,15 +126,15 @@ body {background: rgba(0,0,0,0.7);}
     margin-left: -122px;
     transition: all 0.3s ease-in 0;
 }
-.bgLayer_img {width: 244px;height: 360px;transition: all 0.3s ease-in 0;}
+.bgLayer_img {width: 243px;height: 360px;transition: all 0.3s ease-in 0;}
 .imgLayer {
     position: absolute;
     z-index: 4;
     top: 14px;
     left: 50%;
-    margin-left: -119px;
+    margin-left: -118px;
     overflow: auto;
-    width: 238px;
+    width: 236px;
     height: 350px;
     transition: all 0.3s ease-in 0;
 }
@@ -509,8 +509,8 @@ a.on i {display: block;}
 }
 #zipcodePreview {
     font-size:12px;
-    letter-spacing:9.2px;
-    top:18px;
+    letter-spacing:12.8px;
+    top:19px;
     left:18px;
     position:absolute;
 }
@@ -526,19 +526,19 @@ a.on i {display: block;}
     font-size:9px;
     text-align:left;
     top:60px;
-    left:13px;
+    left:27px;
     width:140px;
     position:absolute;
 }
 #signaturePreview {
     font-size:9px;
     top:150px;
-    left:120px;
+    left:110px;
     position:absolute;
 }
 #qrImagePreview {
-    top:155px;
-    left:13px;
+    top:160px;
+    left:260px;
     width:26px;
     height:26px;
     border: 0;
@@ -548,12 +548,12 @@ a.on i {display: block;}
     font-size:5px;
     text-align:left;
     top:188px;
-    left:14px;
+    left:260px;
     position: absolute;
 }
 #stampPreview {
-    top:10px;
-    left:250px;
+    top:18px;
+    left:245px;
     width:40px;
     height:40px;
     border: 1px solid;
@@ -562,34 +562,34 @@ a.on i {display: block;}
 #addressPreview {
     font-size:7px;
     text-align:left;
-    top:78px;
-    left:190px;
-    width:100px;
+    top:85px;
+    left:193px;
+    width:90px;
     position:absolute;
 }
 #recipientPreview {
     font-size:7px;
     left:220px;
-    top:122px;
+    top:130px;
     position:absolute;
 }
 #postmarkPreview {
-    left:230px;
-    top:150px;
-    width:50px;
-    height:40px;
+    left:215px;
+    top:30px;
+    width:45px;
+    height:35px;
     position:absolute;
 }
 #postmarkCityPreview {
     font-size:6px;
-    left:250px;
-    top:170px;
+    left:237px;
+    top:48px;
     position:absolute;
 }
 #postmarkDatePreview {
     font-size:4px;
-    left:250px;
-    top:178px;
+    left:235px;
+    top:55px;
     position:absolute;
 }
 
