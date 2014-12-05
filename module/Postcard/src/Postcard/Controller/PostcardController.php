@@ -24,6 +24,10 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
+define('LEFT', 0);
+define('RIGHT', 1);
+define('CENTER', 2);
+
 define('JS_TAG', '201411191311'); // 好像不管用，待查
 
 
@@ -739,7 +743,7 @@ class PostcardController extends AbstractActionController
             $pos['left']     = 80;
             $pos['top']      = 300;
             $pos['width']    = 810;
-            $pos['fontSize'] = 36;
+            $pos['font-size'] = 36;
             $this->draw_txt_to($dst, $pos, $order->salutation);
         }
         // message
@@ -747,7 +751,7 @@ class PostcardController extends AbstractActionController
             $pos['left']      = 160;
             $pos['top']       = 423;
             $pos['width']     = 756;
-            $pos['fontSize']  = 36;
+            $pos['font-size']  = 36;
             $pos['lineSpace'] = 94;
             $this->draw_txt_to($dst, $pos, $order->message);
         }
@@ -756,23 +760,23 @@ class PostcardController extends AbstractActionController
             $pos['left']       = 450;
             $pos['top']        = 954;
             $pos['width']      = 500;
-            $pos['fontSize']   = 36;
-            $pos['rightAlign'] = true;
+            $pos['font-size']   = 36;
+            $pos['text-align'] = true;
             $this->draw_txt_to($dst, $pos, '－'.$order->signature);
-            unset($pos['rightAlign']);
+            unset($pos['text-align']);
         }
         // recipient address
         $pos['left']      = 1116;
         $pos['top']       = 500;
         $pos['width']     = 540;
-        $pos['fontSize']  = 30;
+        $pos['font-size']  = 30;
         $pos['lineSpace'] = 94;
         $this->draw_txt_to($dst, $pos, $order->address);
         // recipient name
         $pos['left']     = 1270;
         $pos['top']      = $pos['top'] + 282;
         $pos['width']    = 1080;
-        $pos['fontSize'] = 30;
+        $pos['font-size'] = 30;
         $this->draw_txt_to($dst, $pos, $order->recipient);
 
         // voice qr code
@@ -800,7 +804,7 @@ class PostcardController extends AbstractActionController
         $pos['left']     = 1490;
         $pos['top']      = 1150;
         $pos['width']    = 216;
-        $pos['fontSize'] = 20;
+        $pos['font-size'] = 20;
         $pos['fontFile'] = "public/fonts/Kaiti.ttc";
         $this->draw_txt_to($dst, $pos, $text);
 
@@ -825,28 +829,31 @@ class PostcardController extends AbstractActionController
 
             // location postmark
 //            $location = NULL;
-            $location = $this->getUtil()->getUserGeoAddress($order->userName);
-
+//            $location = $this->getUtil()->getUserGeoAddress($order->userName);
+            $location = array('city' => '猪牛羊');
             if ($location != NULL) {
                 $postmark_x = 1150;
                 $postmark_y = 200;
 
-                $pos['left']     = $postmark_x + 162;
-                $pos['top']      = $postmark_y + 117;
-                $pos['width']    = 1080;
-                $pos['fontSize'] = 20;
+                $pos['text-align'] = CENTER;
+                $pos['nowrap'] = true;
+
+                $pos['left']     = $postmark_x + 142;
+                $pos['top']      = $postmark_y + 127;
+                $pos['width']    = 90;
+                $pos['font-size'] = 20;
                 $this->draw_txt_to($dst, $pos, $location['city']);
 
-                $pos['left']     = $postmark_x + 134;
-                $pos['top']      = $postmark_y + 144;
-                $pos['width']    = 1080;
-                $pos['fontSize'] = 15;
+                $pos['left']     = $postmark_x + 130;
+                $pos['top']      = $postmark_y + 155;
+                $pos['width']    = 110;
+                $pos['font-size'] = 15;
                 $this->draw_txt_to($dst, $pos, strtoupper(PinYin::Pinyin($location['city'], 1)));
 
-                $pos['left']     = $postmark_x + 144;
-                $pos['top']      = $postmark_y + 167;
-                $pos['width']    = 1080;
-                $pos['fontSize'] = 16;
+                $pos['left']     = $postmark_x + 128;
+                $pos['top']      = $postmark_y + 180;
+                $pos['width']    = 110;
+                $pos['font-size'] = 16;
                 $this->draw_txt_to($dst, $pos, date('Y.m.d', time()));
 
                 $imageName = 'postmark_location.png';
@@ -867,8 +874,8 @@ class PostcardController extends AbstractActionController
                 'left'     => $x + 150,
                 'top'      => $y + 216,
                 'width'    => 600,
-                'fontSize' => 16,
-                'fontColor' => array(152, 45, 35),
+                'font-size' => 16,
+                'font-color' => array(152, 45, 35),
                 'dateFormat' => 'Y.m.d',
             ),
 
@@ -877,8 +884,8 @@ class PostcardController extends AbstractActionController
                 'left'     => $x + 168,
                 'top'      => $y + 156,
                 'width'    => 600,
-                'fontSize' => 15,
-                'fontColor' => array(7, 111, 70),
+                'font-size' => 15,
+                'font-color' => array(7, 111, 70),
                 'dateFormat' => 'Y.m.d',
             ),
 
@@ -887,8 +894,8 @@ class PostcardController extends AbstractActionController
                 'left'     => $x + 196,
                 'top'      => $y + 102,
                 'width'    => 600,
-                'fontSize' => 18,
-                'fontColor' => array(134, 91, 67),
+                'font-size' => 18,
+                'font-color' => array(134, 91, 67),
                 'dateFormat' => 'Y.m.d',
             ),
 
@@ -897,8 +904,8 @@ class PostcardController extends AbstractActionController
                 'left'     => $x + 80,
                 'top'      => $y + 165,
                 'width'    => 600,
-                'fontSize' => 18,
-                'fontColor' => array(68, 67, 67),
+                'font-size' => 18,
+                'font-color' => array(68, 67, 67),
                 'dateFormat' => 'Y.m.d',
             ),
 
@@ -907,8 +914,8 @@ class PostcardController extends AbstractActionController
                 'left'     => $x + 160,
                 'top'      => $y + 130,
                 'width'    => 600,
-                'fontSize' => 18,
-                'fontColor' => array(60, 60, 60),
+                'font-size' => 18,
+                'font-color' => array(60, 60, 60),
                 'dateFormat' => 'Y.m.d',
             ),
 
@@ -917,8 +924,8 @@ class PostcardController extends AbstractActionController
                 'left'     => $x + 116,
                 'top'      => $y + 165,
                 'width'    => 600,
-                'fontSize' => 18,
-                'fontColor' => array(62, 62, 62),
+                'font-size' => 18,
+                'font-color' => array(62, 62, 62),
                 'dateFormat' => 'Y    m.d',
             ),
 
@@ -927,8 +934,8 @@ class PostcardController extends AbstractActionController
                 'left'     => $x + 180,
                 'top'      => $y + 145,
                 'width'    => 600,
-                'fontSize' => 18,
-                'fontColor' => array(60, 60, 60),
+                'font-size' => 18,
+                'font-color' => array(60, 60, 60),
                 'dateFormat' => 'Y.m.d',
             ),
         );
@@ -940,12 +947,29 @@ class PostcardController extends AbstractActionController
         }
     }
 
+    private function get_txt_pos($textAlign, $left, $width, $strWidth) {
+        $x = $left;
+        if ($textAlign == RIGHT) {
+            $x = $left + $width - $strWidth;
+        } else if ($textAlign == CENTER) {
+            $x = $left + $width/2 - $strWidth/2;
+        }
+        return $x;
+    }
+
     private function draw_txt_to($image, $pos, $string)
     {
-        $rightAlign = array_key_exists('rightAlign', $pos);
+        $nowrap = false;
+        if (array_key_exists('nowrap', $pos)) {
+            $nowrap = $pos['nowrap'];
+        }
 
-        if (!array_key_exists('fontColor', $pos)) {
-            $pos['fontColor'] = array(38, 38, 38);
+        if (!array_key_exists('text-align', $pos)) {
+            $pos['text-align'] = LEFT;
+        }
+
+        if (!array_key_exists('font-color', $pos)) {
+            $pos['font-color'] = array(38, 38, 38);
         }
         if (!array_key_exists('fontFile', $pos)) {
             $pos['fontFile'] = "public/fonts/Xing.ttf";
@@ -954,28 +978,34 @@ class PostcardController extends AbstractActionController
             $pos['lineSpace'] = 50;
         }
 
-        $font_color = imagecolorallocate($image, $pos['fontColor'][0], $pos['fontColor'][1], $pos['fontColor'][2]);
+        $font_color = imagecolorallocate($image, $pos['font-color'][0], $pos['font-color'][1], $pos['font-color'][2]);
         $_string = '';
         $offsetY = 0;
 
         for ($i = 0; $i < mb_strlen($string, "utf-8"); $i++) {
-            $box = imagettfbbox($pos['fontSize'], 0, $pos['fontFile'], $_string);
+            $box = imagettfbbox($pos['font-size'], 0, $pos['fontFile'], $_string);
             $_string_width = $box[2] - $box[0];
-            $box = imagettfbbox($pos['fontSize'], 0, $pos['fontFile'], mb_substr($string, $i, 1, "utf-8"));
+            $box = imagettfbbox($pos['font-size'], 0, $pos['fontFile'], mb_substr($string, $i, 1, "utf-8"));
 
             $char = mb_substr($string, $i, 1, "utf-8");
-            $x = $rightAlign ? ($pos['left'] + $pos['width'] - $_string_width) : $pos['left'];
+
+            $x = $this->get_txt_pos($pos['text-align'], $pos['left'], $pos['width'], $_string_width);
             // place new line using custom line space
             if ($char == "\n") {
                 imagettftext(
                     $image,
-                    $pos['fontSize'],
+                    $pos['font-size'],
                     0,
                     $x,
                     $pos['top'] + $offsetY,
                     $font_color,
                     $pos['fontFile'],
                     $_string);
+
+                if ($nowrap) {
+                    return;
+                }
+
                 $offsetY += $pos['lineSpace'];
                 $_string = '';
                 continue;
@@ -986,23 +1016,28 @@ class PostcardController extends AbstractActionController
             } else { // auto wrap up
                 imagettftext(
                     $image,
-                    $pos['fontSize'],
+                    $pos['font-size'],
                     0,
                     $x,
                     $pos['top'] + $offsetY,
                     $font_color,
                     $pos['fontFile'],
                     $_string);
+
+                if ($nowrap) {
+                    return;
+                }
+
                 $offsetY += $pos['lineSpace'];
                 $_string = $char;
             }
         }
-        $box = imagettfbbox($pos['fontSize'], 0, $pos['fontFile'], $_string);
+        $box = imagettfbbox($pos['font-size'], 0, $pos['fontFile'], $_string);
         $_string_width = $box[2] - $box[0];
-        $x = $rightAlign ? ($pos['left'] + $pos['width'] - $_string_width) : $pos['left'];
+        $x = $this->get_txt_pos($pos['text-align'], $pos['left'], $pos['width'], $_string_width);
         imagettftext(
             $image,
-            $pos['fontSize'],
+            $pos['font-size'],
             0,
             $x,
             $pos['top'] + $offsetY,
