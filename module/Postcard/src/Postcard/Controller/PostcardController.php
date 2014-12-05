@@ -101,7 +101,7 @@ class PostcardController extends AbstractActionController
         $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
 
         if ($orderId == '0' || !$order) {
-            $selectedTemplateIndex = 0;
+            $selectedTemplateIndex = -1;
             $offsetX = 0;
             $offsetY = 0;
         } else {
@@ -116,7 +116,7 @@ class PostcardController extends AbstractActionController
             'offsetX' => $offsetX,
             'offsetY' => $offsetY,
             'orderId' => $this->getRequest()->getQuery('orderId', '0'),
-            'picurl' => $picUrl,
+            'picurl'  => $picUrl,
             'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
             'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
         ));

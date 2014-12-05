@@ -189,18 +189,24 @@ var HC = {
      init : function () {
         var  tp = HC.touch;
         tp.imgLayer_img.src = tp.var_user_picurl.value;
-        tp.bgLayer_img.src = tp.ul_imgs[tp.var_template_index.value].src;
 
         HC.up();
         HC.calWidth();
         HC.clickImgTemp();
         setTimeout(function () {
+
+            if (tp.var_template_index.value == -1) {
+                var w = tp.imgLayer_img.offsetWidth,
+                    h = tp.imgLayer_img.offsetHeight;
+                tp.var_template_index.value = (h > w) ? 0 : 6;
+            }
+            tp.bgLayer_img.src = tp.ul_imgs[tp.var_template_index.value].src;
             //初始化，是否旋转 2014-11-6
             tp.ul_imgs[tp.var_template_index.value].click();
             //初始化，是否位移 2014-11-6
             tp.img_layer.scrollLeft = (-tp.var_offset_x.value * tp.pic_w);
             tp.img_layer.scrollTop = (-tp.var_offset_y.value * tp.pic_h);
-        },1000);
+        },1500);
     },
     popWindowInited: false,
     log: function(data) {   //日志记录
