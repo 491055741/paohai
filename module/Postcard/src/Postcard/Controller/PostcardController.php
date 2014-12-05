@@ -799,10 +799,10 @@ class PostcardController extends AbstractActionController
             $image_qr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
             $text = '趣邮明信片';
         }
-        $width=$height=260;
-        imagecopyresampled($dst, $image_qr, $canvas_w-$width-60, $canvas_h-$height-60, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
-        $pos['left']     = 1490;
-        $pos['top']      = 1150;
+        $width=$height=250;
+        imagecopyresampled($dst, $image_qr, $canvas_w-$width-70, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
+        $pos['left']     = 1480;
+        $pos['top']      = 1100;
         $pos['width']    = 216;
         $pos['font-size'] = 20;
         $pos['fontFile'] = "public/fonts/Kaiti.ttc";
@@ -829,8 +829,9 @@ class PostcardController extends AbstractActionController
 
             // location postmark
 //            $location = NULL;
-//            $location = $this->getUtil()->getUserGeoAddress($order->userName);
-            $location = array('city' => '猪牛羊');
+//            $location = array('city' => '猪牛羊');
+            $location = $this->getUtil()->getUserGeoAddress($order->userName);
+
             if ($location != NULL) {
                 $postmark_x = 1150;
                 $postmark_y = 200;
