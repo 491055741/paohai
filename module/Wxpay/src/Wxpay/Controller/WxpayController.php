@@ -203,7 +203,7 @@ class WxpayController extends AbstractActionController
         ));
     }
 
-    // pay test page. say 'pay' to paohai postcard in wechat, you will get the url of this page
+    // pay test page. say 'pay' to quyou postcard in Wechat, you will get the url of this page
     public function testAction()
     {
         return $this->viewModel();
@@ -211,7 +211,7 @@ class WxpayController extends AbstractActionController
 
     private function payLogger($content)
     {
-        file_put_contents(dirname(__FILE__).'/../../../../../userdata/paying.log', date('m/d H:i:s').' '.$content."\n", FILE_APPEND);
+        file_put_contents($this->payedPicPath().'/../paying.log', date('m/d H:i:s').' '.$content."\n", FILE_APPEND);
     }
 
     private function refundLogger($content)
@@ -219,37 +219,56 @@ class WxpayController extends AbstractActionController
         file_put_contents(dirname(__FILE__).'/../../../../../userdata/refund.log', date('m/d H:i:s').' '.$content."\n", FILE_APPEND);
     }
 
-    private function copyPicture($orderId)
+    public function copyPictureAction()
     {
-        $dstPath = $this->payedPicPath();
-        if (!is_dir($dstPath)) {
-            if (!@mkdir($dstPath)) {
-                $this->payLogger('Create folder '.$dstPath.' failed!');
-                return false;
-            }
+        $orderId = $this->params()->fromRoute('id', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'order '.$orderId.' not exist.'));
         }
 
-        if (!@copy($this->postcardsPath($orderId).$orderId.'_front.jpg', $this->payedPicPath().$orderId.'_front.jpg')) {
+        $res = $this->copyPicture($orderId);
+        return $this->errorViewModel(array('code' => 0, 'msg' => $res ? 'copy success' : 'copy failed'));
+    }
+
+    private function copyPicture($orderId)
+    {
+        if (!$this->tryCopy($this->postcardsPath($orderId).$orderId.'_front.jpg', $this->payedPicPath().$orderId.'_front.jpg')) {
             $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_front.jpg failed!');
             return false;
         }
 
-        if (!@copy($this->postcardsPath($orderId).$orderId.'_backface.jpg', $this->payedPicPath().$orderId.'_backface.jpg')) {
+        if (!$this->tryCopy($this->postcardsPath($orderId).$orderId.'_backface.jpg', $this->payedPicPath().$orderId.'_backface.jpg')) {
             $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_backface.jpg failed!');
             return false;
         }
         return true;
     }
 
+    private function tryCopy($src, $dst)
+    {
+        $retryTimes = 3;
+        $sleepTime = 3;
+        for ($i = 0; $i < $retryTimes; $i++) {
+            if (@copy($src, $dst)) {
+                return true;
+            }
+            sleep($sleepTime++);
+        }
+        return false;
+    }
+
     private function postcardsPath($orderId)
     {
         $dateStr = '20'.substr($orderId, 0, 6);
-        $year = ((int)substr($dateStr, 0, 4));
+        $year  = ((int)substr($dateStr, 0, 4));
         $month = ((int)substr($dateStr, 4, 2));
-        $day = ((int)substr($dateStr, 6, 2));
-        $time = mktime(0, 0, 0, $month, $day, $year);
+        $day   = ((int)substr($dateStr, 6, 2));
+        $time  = mktime(0, 0, 0, $month, $day, $year);
         $orderDate = date("Ymd", $time);
-        return dirname(__FILE__).'/../../../../../userdata/postcards/' . $orderDate . '/';
+        $path  = dirname(__FILE__).'/../../../../../userdata/postcards/' . $orderDate;
+        $this->checkPath($path);
+        return $path . '/';
     }
 
     private function payedPicPath()
@@ -266,6 +285,7 @@ class WxpayController extends AbstractActionController
         if (!is_dir($path)) {
             if (!mkdir($path)) {
                 echo 'Create folder '.$path.' failed!';
+                $this->payLogger('Create folder '.$path.' failed!');
                 return false;
             }
         }
