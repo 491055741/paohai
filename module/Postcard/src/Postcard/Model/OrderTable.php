@@ -20,6 +20,14 @@ class OrderTable
         return $rowset;
     }
 
+    public function getPayedOrders()
+    {
+        $select = $this->tableGateway->getSql()->select();
+        $select->where('status = "101"')->order('payDate DESC'); ; // 101: payed
+        $resultSet = $this->tableGateway->selectWith($select);
+        return $resultSet;
+    }
+
     public function getOrdersToRefund()
     {
         $select = $this->tableGateway->getSql()->select();
@@ -115,7 +123,6 @@ class OrderTable
     {
         $this->tableGateway->delete(array('id' => $id));
     }
-
 
     public function CalculateOrderPrice() {
         $payPrice = 299;

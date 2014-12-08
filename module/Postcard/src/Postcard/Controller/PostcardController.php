@@ -204,9 +204,9 @@ class PostcardController extends AbstractActionController
             return $view;
         }
 
-        $canvas_w = 960.0;
+        $canvas_w = 973.0;
         $canvas_h = 1440.0;
-        $image = $this->generateFront($order->templateId, $order->offsetX, $order->offsetY, $order->picUrl, $canvas_w, $canvas_h);
+        $image = $this->generateFront($order, $canvas_w, $canvas_h);
         if ($image) {
             header("Content-type: image/png");
             imagepng($image);
@@ -228,6 +228,13 @@ class PostcardController extends AbstractActionController
     {
         return new ViewModel(array(
             'orders' => $this->getOrderTable()->fetchAll(),
+        ));
+    }
+
+    public function payedAction()
+    {
+        return new ViewModel(array(
+            'orders' => $this->getOrderTable()->getPayedOrders(),
         ));
     }
 
@@ -620,13 +627,6 @@ class PostcardController extends AbstractActionController
     private function makePicture($order)
     {
         $dstpath = $this->postcardsPath();
-        if (!is_dir($dstpath)) {
-            if (!mkdir($dstpath)) {
-                echo 'Create folder '.$dstpath.' failed!';
-                $this->logger('Create folder '.$dstpath.' failed!');
-                return false;
-            }
-        }
 
         $canvas_w = 1946.0;
         $canvas_h = 2880.0;
@@ -648,6 +648,49 @@ class PostcardController extends AbstractActionController
         return true;
     }
 
+    public function getPictureAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $face = $this->params()->fromRoute('status', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
+        $canvas_w = 1946.0;
+        $canvas_h = 2880.0;
+        if ($face == '0') {
+            $image = $this->generateFront($order, $canvas_w, $canvas_h);
+        } else {
+            $image = $this->generatePostcardBack($order);
+        }
+
+        if ($image) {
+//            header("Content-type: mine");//image/png
+            $filename = $orderId.($face == '0' ? '_front.png' : '_backface.png');
+
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename='.$filename);
+            header('Content-Transfer-Encoding: binary');
+//            header("viewport: width=device-width, initial-scale=1");
+//            header("title:".$orderId.$name);
+            imagepng($image);
+            imagedestroy($image);
+            $viewModel = new ViewModel();
+            $viewModel->setTerminal(true); // disable layout template
+            return $viewModel;
+        } else {
+            $res = array(
+                'code' => 1,
+                'msg'  => 'generate picture failed, original image url:'.$order->picUrl,
+            );
+            return new JsonModel($res);
+        }
+    }
+
+    // need imagick module
     private function adjustBrightness($srcFileName, $dstFileName)
     {
         $image = new Imagick($srcFileName);
@@ -1135,7 +1178,7 @@ class PostcardController extends AbstractActionController
         $tempJson = '{"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": '.$sceneId.'}}}';
         $url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=".$this->getUtil()->getAccessToken();
         $tempArr = json_decode($res = $this->getUtil()->httpPost($url, $tempJson), true);
-// ask for qr code from wx server
+// not ask for qr code from wx server, we generate it locally.
 //        if (@array_key_exists('ticket', $tempArr)) {
 //            return 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='.$tempArr['ticket'];
 //        } else {

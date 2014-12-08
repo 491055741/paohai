@@ -1,0 +1,47 @@
+<?php
+$title = '已付费明信片';
+$this->headTitle($title);
+?>
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base target="_blank">
+    <script language="javascript">
+    function deleteDiv(ele){
+     ele.parentNode.parentNode.removeChild(ele.parentNode);
+    }
+    </script>
+</head>
+
+<body>
+    <h1><?php echo $this->escapeHtml($title); ?></h1>
+    <table class="table">
+    <tr>
+        <th>支付日期</th>
+        <th>订单号</th>
+        <th>收信地址</th>
+        <th>收信人</th>
+<!--        <th>留言</th>-->
+        <th>实时生成图片</th>
+    </tr>
+    <?php foreach ($orders as $order) : ?>
+    <tr>
+        <td><?php echo $this->escapeHtml($order->payDate);?></td>
+        <td><?php echo $this->escapeHtml($order->id);?></td>
+        <td><?php echo $this->escapeHtml($order->address);?></td>
+        <td><?php echo $this->escapeHtml($order->recipient);?></td>
+<!--        <td>--><?php //echo $this->escapeHtml($order->message);?><!--</td>-->
+        <td>
+            <?php 
+            echo "<a href=" . $this->url('postcard', array('action'=>'getpicture', 'id' => $order->id, 'status' => '0')).'>正面</a>';
+            echo "  ｜  ";
+            echo "<a href=" . $this->url('postcard', array('action'=>'getpicture', 'id' => $order->id, 'status' => '1')).'>背面</a>';
+                // echo "<input type='button' style='background:#fce3b1' value=".$status." onclick=updateStatus()>";
+            // echo $this->escapeHtml($status); <div style="border:1px solid #ccc;">
+            ?>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+    </table>
+</body>
