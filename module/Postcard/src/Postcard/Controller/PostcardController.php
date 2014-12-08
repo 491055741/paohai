@@ -730,9 +730,24 @@ class PostcardController extends AbstractActionController
         $x = -$order->offsetX * $a;
         $y = -$order->offsetY * $b;
 
-        $croped = imagecreatetruecolor($a - $x, $b - $y);
-        imagecopy($croped, $image_user, 0, 0, $x, $y, $a, $b);
+        $moved = imagecreatetruecolor($a - $x, $b - $y);
+        imagecopy($moved, $image_user, 0, 0, $x, $y, $a, $b);
         imagedestroy($image_user);
+
+        $a = imagesx($moved);
+        $b = imagesy($moved);
+        $ratio = 1.48;
+        $w = $a; $h = $b;
+        if ($h/$w > $ratio) {
+            $h = $w * $ratio;
+        } else {
+            $w = $h / $ratio;
+        }
+
+        $croped = imagecreatetruecolor($w, $h);
+        imagecopy($croped, $moved, 0, 0, 0, 0, $a, $b);
+        imagedestroy($moved);
+//        return $croped;
 
         $image_dst = imageCreatetruecolor($canvas_w, $canvas_h); // canvas
         imagealphablending($image_dst, true);
