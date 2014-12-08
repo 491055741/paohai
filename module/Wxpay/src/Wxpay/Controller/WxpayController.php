@@ -62,6 +62,14 @@ class WxpayController extends AbstractActionController
         return $this->errorViewModel(array('code' => 0, 'msg' => 'Send ok.'));
     }
 
+    public function asynCopyPictureAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $util = new CommonUtil();
+        $util->httpGet('http://'.$_SERVER['SERVER_NAME'].'/wxpay/copypicture/'.$orderId, 1); // timeout = 1s， not wait response
+        return $this->errorViewModel(array('code' => 0, 'msg' => 'Copy command send ok.'));
+    }
+
     public function payAction()
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
@@ -112,7 +120,8 @@ class WxpayController extends AbstractActionController
                     $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/'.$out_trade_no.'/101';
                     $html = file_get_contents($url);
                     // copy postcard pictures to 'payed' folder
-                    $this->copyPicture($out_trade_no);
+                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/wxpay/asyncopypicture/'.$out_trade_no;
+                    $html = file_get_contents($url);
                 }
             }
         }
@@ -234,12 +243,12 @@ class WxpayController extends AbstractActionController
     private function copyPicture($orderId)
     {
         if (!$this->tryCopy($this->postcardsPath($orderId).$orderId.'_front.jpg', $this->payedPicPath().$orderId.'_front.jpg')) {
-            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_front.jpg failed!');
+            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId."_front.jpg failed!\n");
             return false;
         }
 
         if (!$this->tryCopy($this->postcardsPath($orderId).$orderId.'_backface.jpg', $this->payedPicPath().$orderId.'_backface.jpg')) {
-            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId.'_backface.jpg failed!');
+            $this->payLogger('copy '.$this->postcardsPath($orderId).$orderId."_backface.jpg failed!\n");
             return false;
         }
         return true;
@@ -253,7 +262,7 @@ class WxpayController extends AbstractActionController
             if (@copy($src, $dst)) {
                 return true;
             }
-            sleep($sleepTime++);
+            sleep($sleepTime*2);
         }
         return false;
     }

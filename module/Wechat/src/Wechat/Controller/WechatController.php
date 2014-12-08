@@ -154,7 +154,7 @@ class WechatController extends AbstractActionController
 //                    echo $resultStr;
 //                    return true;
 // end of test
-                    if (($event == "subscribe" || $event == "SCAN") && isset($postObj->EventKey)) {
+                    if (($event == "subscribe" || $event == "SCAN") && isset($postObj->Ticket)) {
                         $sceneId = str_replace('qrscene_', '', $postObj->EventKey);
                         if (strlen($sceneId) > 0) {
                             $order = $this->getOrderTable()->getOrderByQrSceneId($sceneId);
