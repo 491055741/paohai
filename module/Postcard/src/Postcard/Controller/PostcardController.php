@@ -682,35 +682,25 @@ class PostcardController extends AbstractActionController
 
         $a = imagesx($image_user);
         $b = imagesy($image_user);
-        $wRatio = $canvas_w / $a;
-        $hRatio = $canvas_h / $b;
-        $ratio = $wRatio > $hRatio ? $wRatio : $hRatio;
-        $pic_w = $a * $ratio;
-        $pic_h = $b * $ratio;
-        // var_dump($a);
-        // var_dump($b);
-        // var_dump($canvas_w);
-        // var_dump($canvas_h);
-        // var_dump($wRatio);
-        // var_dump($hRatio);
-        // var_dump($ratio);
-        // var_dump($pic_w);
-        // var_dump($pic_h);
+
+        // 用户照片移动
+        $x = -$order->offsetX * $a;
+        $y = -$order->offsetY * $b;
+
+        $croped = imagecreatetruecolor($a - $x, $b - $y);
+        imagecopy($croped, $image_user, 0, 0, $x, $y, $a, $b);
+        imagedestroy($image_user);
 
         $image_dst = imageCreatetruecolor($canvas_w, $canvas_h); // canvas
         imagealphablending($image_dst, true);
         $white = imagecolorallocate($image_dst, 255, 255, 255);
         imagefill($image_dst, 0, 0, $white);
 
-        // 用户照片缩放fitsize
-        $x = -$order->offsetX * imagesx($image_user);
-        $y = -$order->offsetY * imagesy($image_user);
-
-        imagecopyresampled($image_dst, $image_user, 0, 0, $x, $y, $pic_w, $pic_h, $a, $b);
+        imagecopyresampled($image_dst, $croped, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($croped), imagesy($croped));
         imagecopyresampled($image_dst, $image_template, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($image_template), imagesy($image_template));
 
         imagedestroy($image_template);
-        imagedestroy($image_user);
+        imagedestroy($croped);
         return $image_dst;
     }
 
