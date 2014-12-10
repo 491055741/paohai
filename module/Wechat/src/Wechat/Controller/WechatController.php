@@ -171,10 +171,13 @@ class WechatController extends AbstractActionController
 
                         $contentStr = <<<WELCOME_TEXT
 Hello，看这边！趣邮终于把亲盼来啦！
-用电子照回忆美妙瞬间？Sorry，我们留恋触摸的质感；
-用千篇一律的明信片传递祝福？No！我们要独家定制的专属感！
-手机明信片第一品牌——趣邮，实现云端自制，邮政送达，
-点击左下角切换到对话框，点“+”号上传照片，开始DIY专属于你的纸质明信片吧！
+用电子照回忆美妙瞬间？
+Sorry，我们留恋触摸的质感；
+用千篇一律的明信片传祝福？
+No！还要独家定制的专属感！
+趣邮，手机明信片第一品牌，
+实现云端自制，邮政送达，
+点左下切换到对话框，点“+”号上传照片，开始DIY专属于你的纸质明信片吧！
 WELCOME_TEXT;
 
                     } else if ($event == "CLICK") {

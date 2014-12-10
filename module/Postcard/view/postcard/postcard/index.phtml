@@ -42,8 +42,9 @@
         <!--模板缩略图-->
         <div class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
+            <?php $christmasIds = array(1, 2, 9, 10); ?>
             <?php for ($i = 0; $i < 12; $i += 1): ?>
-                <li><img class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>"</li>
+                <li><img class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>" <?php if (in_array($i, $christmasIds)): ?> style="border: 2px solid red;"<?php endif; ?> /></li>
             <?php endfor; ?>
             </ul>
         </div>
@@ -55,7 +56,7 @@
         <input id="var-offset-x" type="hidden" value="<?php echo $offsetX; ?>" />
         <input id="var-offset-y" type="hidden" value="<?php echo $offsetY; ?>" />
         <input id="var-template-index" type="hidden" value="<?php echo $templateIndex; ?>" />
-        <input id="var-template-rotate-index" type="hidden" value="5" />
+        <input id="var-template-rotate-index" type="hidden" value="7" />
         <!-- vars end -->
     </div>
 </div>
