@@ -28,7 +28,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412051311'); // 好像不管用，待查
+define('JS_TAG', '201412091800'); // 好像不管用，待查
 
 
 class PostcardController extends AbstractActionController
@@ -37,21 +37,6 @@ class PostcardController extends AbstractActionController
     protected $userPositionTable;
     protected $contactTable;
     protected $util;
-//    public function voiceQrCodeAction()
-//    {
-//        $mediaId = $this->getRequest()->getQuery('mediaId', '0');
-//        if ($mediaId == '0') {
-//            $view =  new ViewModel(array('code' => 1, 'msg' => 'require media id'));
-//            $view->setTemplate('postcard/postcard/error');
-//            return $view;
-//        }
-//        $image = file_get_contents('./userdata/voice/'.$mediaId.'.png');
-//        header("Content-type: image/png");
-//        echo $image;
-//        $viewModel = new ViewModel();
-//        $viewModel->setTerminal(true); // disable layout template
-//        return $viewModel;
-//    }
 
     public function voiceAction()
     {
@@ -118,7 +103,7 @@ class PostcardController extends AbstractActionController
             'orderId' => $this->getRequest()->getQuery('orderId', '0'),
             'picurl'  => $picUrl,
             'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
-            'tag' => JS_TAG, // if only want update 'kacha.js', modify the tag.   ????????   not work
+            'tag' => JS_TAG,
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -238,6 +223,20 @@ class PostcardController extends AbstractActionController
         ));
     }
 
+    public function orderListAction() // user query his orders via wechat menu
+    {
+        $userName = $this->getRequest()->getQuery('userName', '0');
+        if ($userName == '0') {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid username: '.$userName));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+        $orders = $this->getOrderTable()->getOrdersByUserName($userName, 'status >='.UNPAY);
+        $view = new ViewModel(array('orders' => $orders,));
+        $view->setTerminal(true); // disable layout template
+        return $view;
+    }
+
     public function ordersToRefundAction()
     {
         $view =  new ViewModel(array('orders' => $this->getOrderTable()->getOrdersToRefund()));
@@ -281,6 +280,21 @@ class PostcardController extends AbstractActionController
             'msg'  => 'Contact add OK.',
         );
         return new JsonModel($res);
+    }
+
+    public function makeAllPicAction()
+    {
+        $subDay = $this->params()->fromRoute('id', '0');
+        $orders = $this->getOrderTable()->fetchAll();
+        $msg = '';
+        foreach ($orders as $order) {
+            if (substr($order->orderDate, 0, 10) == date('Y-m-d', strtotime('-'.$subDay.' day'))) {
+                $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/wxpay/asyncmakepicture/'.$order->id;
+                @file_get_contents($url);
+                $msg .= 'make pic of '.$order->id."\n";
+            }
+        }
+        return $this->errorViewModel(array('code' => 0, 'msg' => $msg));
     }
 
     public function makePictureAction()
@@ -342,12 +356,11 @@ class PostcardController extends AbstractActionController
         // cancel old order first
         $userName = $this->getRequest()->getPost('userName', DEFAULT_USER);
 
-        $order = $this->getOrderTable()->getOrderByUserName($userName);
-        while ($order) {
+        $orders = $this->getOrderTable()->getOrdersByUserName($userName, 'status='.UNPAY);
+        foreach ($orders as $order) {
             $order->status = CANCEL;
             $this->getOrderTable()->saveOrder($order);
             // echo 'order: '.$order->id.' canceled.';
-            $order = $this->getOrderTable()->getOrderByUserName($userName);
         }
 
         // new order
@@ -576,26 +589,6 @@ class PostcardController extends AbstractActionController
         return true;
     }
 
-    private function postcardsPath()
-    {
-        $path = dirname(__FILE__).'/../../../../../userdata';
-        if (!$this->checkPath($path)) {
-            return false;
-        }
-
-        $path = $path.'/postcards';
-        if (!$this->checkPath($path)) {
-            return false;
-        }
-
-        $path = $path.'/'.date('Ymd', time());
-        if (!$this->checkPath($path)) {
-            return false;
-        }
-
-        return $path.'/';
-    }
-
     private function voicePath()
     {
         $path = dirname(__FILE__).'/../../../../../userdata';
@@ -626,7 +619,7 @@ class PostcardController extends AbstractActionController
 
     private function makePicture($order)
     {
-        $dstpath = $this->postcardsPath();
+        $dstpath = $this->postcardsPath($order->id);
 
         $canvas_w = 1946.0;
         $canvas_h = 2880.0;
@@ -715,7 +708,7 @@ class PostcardController extends AbstractActionController
             return FALSE;
         }
         // save user's original picture
-        $dstpath = $this->postcardsPath();
+        $dstpath = $this->postcardsPath($order->id);
         imagejpeg($image_user, $dstpath.$order->id.'_orig.jpg');
 
         // rotate
@@ -1204,6 +1197,36 @@ class PostcardController extends AbstractActionController
 //            var_dump($tempArr);
             $this->getUtil()->qrcode($tempArr['url'], $fileName);
         }
+    }
+
+    private function postcardsPath($orderId = null)
+    {
+        $path = dirname(__FILE__).'/../../../../../userdata';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+        $path = $path.'/postcards';
+        if (!$this->checkPath($path)) {
+            return false;
+        }
+
+        if ($orderId == null) {
+            $path = $path.'/'.date('Ymd', time());
+            if (!$this->checkPath($path)) {
+                return false;
+            }
+            return $path.'/';
+        }
+
+        $dateStr = '20'.substr($orderId, 0, 6);
+        $year  = ((int)substr($dateStr, 0, 4));
+        $month = ((int)substr($dateStr, 4, 2));
+        $day   = ((int)substr($dateStr, 6, 2));
+        $time  = mktime(0, 0, 0, $month, $day, $year);
+        $orderDate = date("Ymd", $time);
+        $path  = $path.'/'. $orderDate;
+        $this->checkPath($path);
+        return $path . '/';
     }
 }
 

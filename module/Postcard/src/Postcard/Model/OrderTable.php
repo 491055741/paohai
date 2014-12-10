@@ -16,7 +16,9 @@ class OrderTable
 
     public function fetchAll()
     {
-        $rowset = $this->tableGateway->select();
+        $select = $this->tableGateway->getSql()->select();
+        $select->order('orderDate DESC');
+        $rowset = $this->tableGateway->selectWith($select);
         return $rowset;
     }
 
@@ -44,17 +46,11 @@ class OrderTable
         return $resultSet;
     }
 
-    public function getOrderByUserName($name)
+    public function getOrdersByUserName($name, $condition)
     {
-        $rowset = $this->tableGateway->select(array('userName' => $name, 'status' => '100')); // '100':UNPAY
-        if (!$rowset) {
-            return FALSE;
-        }
-        $lastRow = null;
-        foreach ($rowset as $row) {
-            $lastRow = $row;
-        }
-        return $lastRow;
+        $select = $this->tableGateway->getSql()->select();
+        $select->where('userName = "'.$name.'"')->where($condition)->order('orderDate DESC');;
+        return $this->tableGateway->selectWith($select);
     }
 
     public function getOrderByQrSceneId($sceneId)

@@ -19,7 +19,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201411171758');
+define('JS_TAG', '201412091802');
 
 class WxpayController extends AbstractActionController
 {
@@ -62,7 +62,7 @@ class WxpayController extends AbstractActionController
         return $this->errorViewModel(array('code' => 0, 'msg' => 'Send ok.'));
     }
 
-    public function asynCopyPictureAction()
+    public function asyncCopyPictureAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
         $util = new CommonUtil();
@@ -120,7 +120,7 @@ class WxpayController extends AbstractActionController
                     $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/'.$out_trade_no.'/101';
                     $html = file_get_contents($url);
                     // copy postcard pictures to 'payed' folder
-                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/wxpay/asyncopypicture/'.$out_trade_no;
+                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/wxpay/asynccopypicture/'.$out_trade_no;
                     $html = file_get_contents($url);
                 }
             }

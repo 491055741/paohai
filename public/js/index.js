@@ -5,6 +5,7 @@
 
     $(function() {
         // init order
+
         $("#next-step").on("click", function() {
             order.setOrderId($("#var-order-id").val())
                 .setUserName($("#var-user-name").val());
@@ -25,7 +26,6 @@
         $(window).on("orientationchange", function() {
             HC.checkOrientation();
         });
-        HC.loadingClose();
         HC.checkOrientation();
     });
 

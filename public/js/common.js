@@ -186,15 +186,9 @@ var HC = {
         }
         tp.var_template_index.value = selectedTemplateIndex ;
     },
-     init : function () {
+    init : function () {
         var  tp = HC.touch;
-        tp.imgLayer_img.src = tp.var_user_picurl.value;
-
-        HC.up();
-        HC.calWidth();
-        HC.clickImgTemp();
-        setTimeout(function () {
-
+        tp.imgLayer_img.onload = function() {
             if (tp.var_template_index.value == -1) {
                 var w = tp.imgLayer_img.offsetWidth,
                     h = tp.imgLayer_img.offsetHeight;
@@ -206,7 +200,13 @@ var HC = {
             //初始化，是否位移 2014-11-6
             tp.img_layer.scrollLeft = (-tp.var_offset_x.value * tp.pic_w);
             tp.img_layer.scrollTop = (-tp.var_offset_y.value * tp.pic_h);
-        },1500);
+            HC.loadingClose();
+        }
+        tp.imgLayer_img.src = tp.var_user_picurl.value;
+
+        HC.up();
+        HC.calWidth();
+        HC.clickImgTemp();
     },
     popWindowInited: false,
     log: function(data) {   //日志记录

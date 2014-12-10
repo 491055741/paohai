@@ -1,7 +1,8 @@
 (function($) {
     var domain = "http://" + window.location.host;
     var isShowImageFace = true;
-    var userImage = new Image();
+//    var userImage = new Image();
+    var userImage;
     $(function() {
 
         initOrder();
@@ -24,7 +25,7 @@
             toggleFace();
         });
 
-        $("#prev-step").on("click", function() {
+        $("#prev-step").fastClick(function() {
             order.goToStepTwo();
         });
         $(window).on("orientationchange", function() {
@@ -59,13 +60,101 @@
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
         frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
 
-        // userImage = document.getElementsByClassName('imgLayer_img_a')[0];
+        userImage = document.getElementById("previewUserImg");
         userImage.onload = function() {
             initPreview();
         }
         userImage.src = order.getPostcard().getImage().getUrl();
     }
 
+    function initPreview() {
+
+        var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
+
+        var pic_orig_w = userImage.width,
+            pic_orig_h = userImage.height,
+            bg_w = frameImg.offsetWidth,
+            bg_h = frameImg.offsetHeight;
+
+        var a = pic_orig_w, b = pic_orig_h;
+        var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
+        var isRotate = (selectedTemplateIndex >= 6);
+        var imageOffsetX = order.getPostcard().getImage().getOffsetX();
+        var imageOffsetY = order.getPostcard().getImage().getOffsetY();
+
+        if (isRotate) {
+            var temp = a; a = b; b = temp;
+
+            $("#previewUserImg").addClass('img_rotate');
+        }
+        var wRatio = bg_w / a;
+        var hRatio = bg_h / b;
+        var ratio = wRatio > hRatio ? wRatio : hRatio;
+        var pic_w = a * ratio;
+        var pic_h = b * ratio;
+
+        var imgLayer_a = document.getElementsByClassName('imgLayer_a')[0];
+
+        var bgLayer_a = document.getElementsByClassName('bgLayer_a')[0];
+        EventUtil.addhandler(bgLayer_a,"touchmove", handtouch);
+
+
+        imgLayer_a.scrollLeft = (-imageOffsetX * pic_w);
+        imgLayer_a.scrollTop = (-imageOffsetY * pic_h);
+
+        if (isRotate) {
+            temp = pic_w; pic_w = pic_h; pic_h = temp;
+        }
+
+        $('#previewUserImg').css({
+            width: pic_w,
+            height: pic_h
+        });
+
+        $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
+        $("#messagePreview").text(order.getPostcard().getMessage().getContent());
+        $("#addressPreview").text(order.getPostcard().getReceiptAddress().getAddress());
+        $("#zipcodePreview").text(order.getPostcard().getReceiptAddress().getZipcode());
+        $("#signaturePreview").text('－' + order.getPostcard().getMessage().getSignature());
+        $("#recipientPreview").text(order.getPostcard().getReceiptAddress().getName());
+
+        if ($("#var-voice-media-id").val() != "") {
+            $("#qrImagePreview").css("display","inline");
+            $("#qrImageTextPreview").css("display","inline");
+            $("#qrImageTextPreview").text("扫扫听留言");
+        }
+        if (order.getPostcard().getPostmarkIndex() != "") {
+            $("#postmarkPreview").css("display","inline");
+            $("#postmarkPreview").attr("src","/images/postmark/small/youchuo"+order.getPostcard().getPostmarkIndex()+".png");
+        } else if ($("#var-city").val() != '0') {
+            $("#postmarkPreview").css("display","inline");
+            $("#postmarkCityPreview").css("display","inline");
+            $("#postmarkDatePreview").css("display","inline");
+            $("#postmarkPreview").attr("src","/images/postmark/small/postmark_location.png");
+            $("#postmarkCityPreview").text($("#var-city").val());
+            $("#postmarkDatePreview").text(getDateStr());
+        }
+    }
+
+    function handtouch (e) { //
+//        if(e.touches.length == 1){
+            switch(e.type){
+
+                case "touchmove":
+                    e.preventDefault();
+                    break;
+//                    tp.tex = parseInt(e.changedTouches[0].clientX);
+//                    tp.tey = parseInt(e.changedTouches[0].clientY);
+//                    tp.x = parseInt(e.changedTouches[0].clientX - tp.tsx ) ;
+//                    tp.y = parseInt( e.changedTouches[0].clientY - tp.tsy);
+//                    HC.scrolling(tp.x,tp.y);
+//                    tp.tsx = tp.tex;
+//                    tp.tsy = tp.tey;
+//                    break;
+            }
+//        }
+    }
+/*
     function initPreview() {
 
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
@@ -134,7 +223,7 @@
             $("#postmarkDatePreview").text(getDateStr());
         }
     }
-
+*/
     function getDateStr() {
         var myDate = new Date();
         var year = myDate.getFullYear();

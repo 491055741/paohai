@@ -76,10 +76,11 @@ class WechatController extends AbstractActionController
                             </xml>";
                 $replyMsgType = "text";
 
-                $order = $this->getOrderTable()->getOrderByUserName($fromUsername);
-                if (!$order) {
+                $orders = $this->getOrderTable()->getOrdersByUserName($fromUsername, '100'); // query UNPAY order
+                if (!$orders) {
                     $contentStr = '请先上传照片(内测调试中，不能真正邮寄明信片，敬请期待)';
                 } else {
+                    $order = $orders[0];
                     $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia?mediaId='.urlencode($mediaId);
                     @file_get_contents($url);
                     $contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editpostcard/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
@@ -196,21 +197,30 @@ TUTORIAL_TEXT;
 亲，活动准备中，即将推出
 PROMOTION_TEXT;
                         } else if ($eventKey == "orders") { // 我的订单
-                            $contentStr = '订单查询功能开发中！谢谢您的关注';
-                        } else if ($eventKey == "qa") {
-                            $contentStr = <<<QA_TEXT
-Q：趣邮明信片的费用是多少？邮资又是多少？
-A：趣邮明信片绝对好玩又省钱，5元你就可以定制这样一张专属明信片，而且邮资免费！
+                            $newsTpl = "<xml>
+                                        <ToUserName><![CDATA[%s]]></ToUserName>
+                                        <FromUserName><![CDATA[%s]]></FromUserName>
+                                        <CreateTime>%s</CreateTime>
+                                        <MsgType><![CDATA[%s]]></MsgType>
+                                        <ArticleCount>1</ArticleCount>
+                                        <Articles>
+                                            <item>
+                                                <Title><![CDATA[%s]]></Title>
+                                                <Description><![CDATA[%s]]></Description>
+                                                <PicUrl><![CDATA[%s]]></PicUrl>
+                                                <Url><![CDATA[%s]]></Url>
+                                            </item>
+                                        </Articles>
+                                        </xml>";
 
-Q：我在哪里可以用趣邮明信片？
-A：无论你身在何处，只要有网络，就可以使用趣邮邮寄明信片，但目前收件地址暂不支持港澳台和海外地区。
-
-Q：趣邮对照片有什么要求？
-A：照片大小请保证1M以上，jpg或png格式，这才能保证你的美照达到最好效果！
-
-Q：趣邮有哪些玩法？
-A：趣邮就是希望你能成为一个创意达人，趣邮明信片可以是最传统的亲友间的信件传递；可以每天寄给自己，成为心情日记；可以和同学合影，以二维码方式留下你的联系方式，做成毕业同学录；也可以放上婚纱照加上语音，变成婚礼邀请函……各种创意玩法，等你来发掘！
-QA_TEXT;
+                            $picUrl = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/images/address_book.jpg';
+                            $replyMsgType = "news";
+                            $title = "趣邮明信片--我寄出的明信片";
+                            $desc = "查看我都寄出了哪些明信片";
+                            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard/orderlist?userName='.$fromUsername;
+                            $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
+                            echo $resultStr;
+                            return true;
                         } else if ($eventKey == "address_book") {
                             $newsTpl = "<xml>
                                         <ToUserName><![CDATA[%s]]></ToUserName>

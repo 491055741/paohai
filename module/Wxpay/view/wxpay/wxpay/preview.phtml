@@ -60,8 +60,9 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
         <div class="bigImg_a pa" id="imageFace">
             <div class="bgLayer_a pa"><img class="bgLayer_img_a"></div>
             <div class="imgLayer_a pa">
-                <!-- <img class="imgLayer_img_a"> -->
-                <canvas id="previewUserImg" style="position:absolute; left:0"></canvas>
+<!--                 <img class="imgLayer_img_a">-->
+                <img id="previewUserImg" style="position:absolute; left:0"></img>
+<!--                <canvas id="previewUserImg" style="position:absolute; left:0"></canvas>-->
             </div>
         </div>
         <div class="frontCover pa" id="textFace" style="display:none;">
@@ -91,9 +92,9 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
 <script src="/js/google.fastbutton.js"></script>
 <script src="/js/jquery.google.fastbutton.js"></script>
 <script src="/js/classie.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/postcard.js"></script>
-<script src="/js/preview.js"></script>
+<script src="/js/common.js?<?php echo $tag; ?>"></script>
+<script src="/js/postcard.js?<?php echo $tag; ?>"></script>
+<script src="/js/preview.js?<?php echo $tag; ?>"></script>
 <script language="javascript">
     //调用微信JS api 支付
     function jsApiCall()
