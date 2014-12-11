@@ -249,6 +249,10 @@ PROMOTION_TEXT;
                             $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                             echo $resultStr;
                             return true;
+                        } else if ($eventKey == "preset_card") {
+                            $contentStr = $this->getPresetCardMessage($postObj);
+                            echo $contentStr;
+                            return true;
                         } else {
                             $contentStr = "请上传一张照片";
                         }
@@ -351,6 +355,7 @@ PROMOTION_TEXT;
     }
 
 
+    /********************** event handler ************************/
     private function receiveUserLatitude($receiveData) {
         $latitude = $receiveData->Latitude;
         $longitude = $receiveData->Longitude;
@@ -362,6 +367,53 @@ PROMOTION_TEXT;
             ->updateTimestamp();
 
         $this->getUserPositionTable()->savePosition($userPosition);
+    }
+
+
+    private function getPresetCardMessage($receiveData) {
+        $images = array(
+            "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo9NgZibTY6ibk77hXmUqO7fIlyrQ4oLyaRypSyZT9F8gEQ9kFFdG4DJvicoPO9eia5IKUh87kyvuoMKGg/0",
+        );
+        
+        $items = <<<PRESET_TITLE_TEXT
+    <item>
+        <Title><![CDATA[We wish U Merry Christmas \r\n1分钱传递你最真挚的爱]]></Title>
+        <PicUrl><![CDATA[https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo9NgZibTY6ibk77hXmUqO7fIlIv0apsQMT6D1ePyrjlg1IAlNLQ7GpB43RmWPMJAGvalicoH6ZRX0cwA/0]]></PicUrl>
+        <Url><![CDATA[http://quyou.ikamobile.com/activity_chrismas.html]]></Url>
+    </item>
+PRESET_TITLE_TEXT;
+        foreach ($images as $picUrl) {
+            $url = 'http://'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"] . 
+                '/postcard?picurl=' . $picUrl . '&username=' . $receiveData->FromUserName;
+            $items .= <<<PRESET_ITEM_TEXT
+    <item>
+        <Title><![CDATA[圣诞限定！2014珍藏版Christmas Card]]></Title>
+        <PicUrl><![CDATA[{$picUrl}]]></PicUrl>
+        <Url><![CDATA[{$url}]]></Url>
+    </item>
+PRESET_ITEM_TEXT;
+        }
+
+        $vars = array(
+            "currtTime" => time(),
+            "itemsCount" => count($images) + 1,
+            "items" => $items, 
+        );
+
+        $content = <<<PRESET_CARD_TEXT
+<xml>
+    <ToUserName><![CDATA[{$receiveData->FromUserName}]]></ToUserName>
+    <FromUserName><![CDATA[{$receiveData->ToUserName}]]></FromUserName>
+    <CreateTime>{$vars["currtTime"]}</CreateTime>
+    <MsgType><![CDATA[news]]></MsgType>
+    <ArticleCount>{$vars["itemsCount"]}</ArticleCount>
+    <Articles>
+    {$vars["items"]}
+    </Articles>
+</xml>
+PRESET_CARD_TEXT;
+
+        return $content;
     }
 
 
