@@ -10,7 +10,7 @@ $(document).on("pageshow", "#completePage", function() {
     output("completePage show");
     var postcardurl = "http://" + window.location.host + "/postcard/shareimage/" + orderId;
     bShare.addEntry({
-        title: "我的泡海明信片",
+        title: "我的趣邮明信片",
         url: postcardurl,
         summary: "",
         pic: postcardurl
