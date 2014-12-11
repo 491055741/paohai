@@ -187,31 +187,6 @@ class WxpayController extends AbstractActionController
         return $this->viewModel();
     }
 
-    public function addressAction()
-    {
-        $orderId = $this->getRequest()->getQuery('orderId', '0');
-        if ($orderId == '0') {
-            $orderId = $this->getRequest()->getQuery('state', '0');
-        }
-        $order = $this->getOrderTable()->getOrder($orderId);
-
-        if ($orderId == '0' || !$order) {
-            return $this->errorViewModel(array('code' => 1, 'msg' => 'invalid order id :'.$orderId));
-        }
-
-        if ($order->status == CANCEL) {
-            return $this->errorViewModel(array('code' => 2, 'msg' => '订单:'.$orderId. '已失效，请重新创建明信片'));
-        }
-
-        return $this->viewModel(array(
-            'payPrice' => $this->getOrderTable()->CalculateOrderPrice(),
-            'order' => $order,
-            'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
-            // 'url'   => 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
-            // 'token' => $res->access_token,
-        ));
-    }
-
     // pay test page. say 'pay' to quyou postcard in Wechat, you will get the url of this page
     public function testAction()
     {

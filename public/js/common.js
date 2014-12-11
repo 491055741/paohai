@@ -207,6 +207,7 @@ var HC = {
         HC.up();
         HC.calWidth();
         HC.clickImgTemp();
+        HC.addBridgeListener();
     },
     popWindowInited: false,
     log: function(data) {   //日志记录
@@ -285,5 +286,22 @@ var HC = {
 
         return "";
     },
+
+    addBridgeListener : function () {
+        if (typeof WeixinJSBridge == "undefined") {
+            if ( document.addEventListener ) {
+                document.addEventListener('WeixinJSBridgeReady', HC.onBridgeReady, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', HC.onBridgeReady);
+                document.attachEvent('onWeixinJSBridgeReady', HC.onBridgeReady);
+            }
+        } else {
+            HC.onBridgeReady();
+        }
+    },
+
+    onBridgeReady : function () {
+        WeixinJSBridge.call('hideOptionMenu');
+    }
 };
 

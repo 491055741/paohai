@@ -78,7 +78,7 @@
 
         var a = pic_orig_w, b = pic_orig_h;
         var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
-        var isRotate = (selectedTemplateIndex >= 6);
+        var isRotate = (selectedTemplateIndex >= 8);
         var imageOffsetX = order.getPostcard().getImage().getOffsetX();
         var imageOffsetY = order.getPostcard().getImage().getOffsetY();
 
@@ -136,23 +136,13 @@
         }
     }
 
-    function handtouch (e) { //
-//        if(e.touches.length == 1){
-            switch(e.type){
+    function handtouch (e) {
+        switch(e.type){
 
-                case "touchmove":
-                    e.preventDefault();
-                    break;
-//                    tp.tex = parseInt(e.changedTouches[0].clientX);
-//                    tp.tey = parseInt(e.changedTouches[0].clientY);
-//                    tp.x = parseInt(e.changedTouches[0].clientX - tp.tsx ) ;
-//                    tp.y = parseInt( e.changedTouches[0].clientY - tp.tsy);
-//                    HC.scrolling(tp.x,tp.y);
-//                    tp.tsx = tp.tex;
-//                    tp.tsy = tp.tey;
-//                    break;
-            }
-//        }
+            case "touchmove":
+                e.preventDefault();
+                break;
+        }
     }
 /*
     function initPreview() {
