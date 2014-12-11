@@ -216,7 +216,7 @@ PROMOTION_TEXT;
                                         </Articles>
                                         </xml>";
 
-                            $picUrl = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/images/address_book.jpg';
+                            $picUrl = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/images/order_list.jpg';
                             $replyMsgType = "news";
                             $title = "趣邮明信片--我寄出的明信片";
                             $desc = "查看我都寄出了哪些明信片";

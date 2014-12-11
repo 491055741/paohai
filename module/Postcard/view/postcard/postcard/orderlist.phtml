@@ -4,8 +4,21 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <style type="text/css">
+        .table {
+            margin-left: 5px;
+            margin-top:40px;
+        }
         table tr th, table tr td {
             font-size: 12;
+        }
+        .background {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            position: absolute;
         }
     </style>
 </head>
@@ -19,7 +32,7 @@
     </tr>
 <?php foreach ($orders as $order) : ?>
     <tr>
-
+        <img class="background" src="/images/pop3_bg.png" alt="地址簿背景框"/>
         <td><?php
             if ($order->status == 100) { // only unpay order could click
                 echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">'.$order->id.'</a>';
