@@ -1,5 +1,5 @@
-
 <head>
+    <title>趣邮明信片</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -75,4 +75,24 @@
         </td>
     </tr>
 <?php endforeach; ?>
+
+    <script language="javascript">
+        window.onload = function() {
+            if (typeof WeixinJSBridge == "undefined") {
+                if ( document.addEventListener ) {
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                }
+            } else {
+                onBridgeReady();
+            }
+        }
+
+        function onBridgeReady() {
+            WeixinJSBridge.call('hideOptionMenu');
+        }
+
+    </script>
 </body>

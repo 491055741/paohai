@@ -703,18 +703,15 @@ class PostcardController extends AbstractActionController
         imagealphablending($image_template, false);
         imagesavealpha($image_template, true);
 
-        $image_user = imagecreatefromjpeg($order->picUrl);
-        if (!$image_user) {
-            return FALSE;
-        }
-        // save user's original picture
-        $dstpath = $this->postcardsPath($order->id);
-        imagejpeg($image_user, $dstpath.$order->id.'_orig.jpg');
 
-        // rotate
-        if ($order->templateId >= 6) {
-            $image_user = imagerotate($image_user, -90, 0);
-        }
+        // save user's original picture
+        $dstPath = $this->postcardsPath($order->id);
+        $origPicName = $dstPath.$order->id.'_orig.jpg';
+//        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl));
+        file_put_contents($origPicName, file_get_contents($order->picUrl));
+
+        $angel = ($order->templateId >= 8) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
+        $image_user = $this->getAutoRotatedImg($origPicName, $angel);
 
         $a = imagesx($image_user);
         $b = imagesy($image_user);
@@ -753,6 +750,39 @@ class PostcardController extends AbstractActionController
         imagedestroy($image_template);
         imagedestroy($croped);
         return $image_dst;
+    }
+
+    private function getAutoRotatedImg($imgName, $angelAdjust)
+    {
+        $exif = exif_read_data($imgName, 'IFD0');
+        if ($exif === false) {
+            $orientation = 0;
+        } else {
+            $orientation = $exif['Orientation'];
+        }
+//        var_dump($exif);
+        $img = imagecreatefromjpeg($imgName);
+        switch ($orientation) {
+            case 1:
+                $angel = 0;
+                break;
+            case 6:
+                $angel = -90;
+                break;
+            case 8:
+                $angel = 90;
+                break;
+            case 3:
+                $angel = 180;
+                break;
+            default:
+                $angel = 0;
+                break;
+        }
+        if ($angel + $angelAdjust != 0) {
+            $img = imagerotate($img, $angel + $angelAdjust, 0);  // 旋转角度为正值表示反时针方向旋转
+        }
+        return $img;
     }
 
     private function generatePostcardBack($order)

@@ -316,7 +316,7 @@ class CommonUtil
             return false;
     }
 
-    function httpGet($url, $waitTime = 10)
+    function httpGet($url, $waitTime = 20)
     {
         $this->logger("httpGet:$url");
         $ch = curl_init($url);
@@ -330,6 +330,16 @@ class CommonUtil
         else  
             return false;
     }
+//    function curl_get_contents($url)
+//    {
+//        $curl = curl_init();
+//        curl_setopt($curl, CURLOPT_URL, $url);
+//        curl_setopt($curl, CURLOPT_HEADER, 0);
+//        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+//        $data = curl_exec($curl);
+//        curl_close($curl);
+//        return $data;
+//    }
 
     private function logger($content)
     {
@@ -338,7 +348,7 @@ class CommonUtil
 
     private function logFileName()
     {
-        return '/tmp/paohai_error.log';
+        return '/tmp/quyou.log';
     }
 }
 
