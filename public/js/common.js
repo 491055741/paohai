@@ -204,6 +204,8 @@ var HC = {
         }
         tp.imgLayer_img.src = tp.var_user_picurl.value;
 
+        $(".thumb_frame").click(function() { $(this).prev("li").find("img").click(); })
+
         HC.up();
         HC.calWidth();
         HC.clickImgTemp();

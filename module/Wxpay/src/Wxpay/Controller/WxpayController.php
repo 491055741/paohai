@@ -45,9 +45,11 @@ class WxpayController extends AbstractActionController
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
         $location = $util->getUserGeoAddress($order->userName);
+        $christmasIds = array(1, 2, 9, 10);
+        $isChristmasTemplate = in_array($order->templateIndex, $christmasIds);
 
         return $this->viewModel(array(
-            'payPrice' => $this->getOrderTable()->CalculateOrderPrice(),
+            'payPrice' => $this->getOrderTable()->calculateOrderPrice($order->userName, $isChristmasTemplate),
             'order' => $order,
             'tag'   => JS_TAG,
             'city'  => $location ? $location['city'] : '0',

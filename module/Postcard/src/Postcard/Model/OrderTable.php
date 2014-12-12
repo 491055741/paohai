@@ -25,7 +25,7 @@ class OrderTable
     public function getPayedOrders()
     {
         $select = $this->tableGateway->getSql()->select();
-        $select->where('status = "101"')->order('payDate DESC'); ; // 101: payed
+        $select->where('status = "101"')->order('payDate DESC'); // 101: payed
         $resultSet = $this->tableGateway->selectWith($select);
         return $resultSet;
     }
@@ -120,10 +120,19 @@ class OrderTable
         $this->tableGateway->delete(array('id' => $id));
     }
 
-    public function CalculateOrderPrice() {
+    public function calculateOrderPrice($userName, $isChristmasTemplate)
+    {
         $payPrice = 299;
-        return $payPrice;
+        if ($isChristmasTemplate) {
 
+            $select = $this->tableGateway->getSql()->select();
+            $select->where('userName = "'.$userName.'"')->where('price = "1"');
+            $resultSet = $this->tableGateway->selectWith($select);
+            if (!$resultSet) {
+                $payPrice = 1;
+            }
+        }
+        return $payPrice;
 /*
         $priceRules = array(
             100 => 5,       // 前一百张支付 5 分

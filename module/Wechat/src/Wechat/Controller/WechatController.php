@@ -76,15 +76,16 @@ class WechatController extends AbstractActionController
                             </xml>";
                 $replyMsgType = "text";
 
-                $orders = $this->getOrderTable()->getOrdersByUserName($fromUsername, 'status=100'); // query UNPAY order
-//                $orders = null;
+                $orders = $this->getOrderTable()->getOrdersByUserName($fromUsername, 'status = 100'); // query UNPAY order
                 if (!$orders) {
                     $contentStr = '请先上传照片';
                 } else {
-                    $order = $orders[0];
-                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia?mediaId='.urlencode($mediaId);
-                    @file_get_contents($url);
-                    $contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editpostcard/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
+                    foreach ($orders as $order) {
+                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia?mediaId='.urlencode($mediaId);
+                        @file_get_contents($url);
+                        $contentStr = "已收到语音留言，<a href='http://".$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/editpostcard/'.$order->id.'?voiceMediaId='.$mediaId."'>点击继续编辑</a>";
+                        break;
+                    }
                 }
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
                 echo $resultStr;

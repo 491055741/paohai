@@ -44,13 +44,13 @@
             <ul class="pt20" id="thumb_ul">
             <?php $christmasIds = array(1, 2, 9, 10); ?>
             <?php for ($i = 0; $i < 12; $i += 1): ?>
-                <li><img class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>" /></li>
+                <li><img id="thumb_img_<?php echo $i ?>" class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>" /></li>
 
                 <?php if (in_array($i, $christmasIds)): ?>
                     <?php $x = $i*70; ?>
-                    <img class="pa" style="left:<?php echo $x ?>px ; top:15px; width: 70px; height: 70px;" src="/images/small/thumbnail_frame.png"></img>
+<!--                    <img class="pa thumb_frame" style="left:--><?php //echo $x ?><!--px ;" src="https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo8lFWa5TprPficNhSricKbd1fFSmcFbgNBicqootXeGJT3SOmfZia7UwLJ38NdlI5UPm34U5GsBOArPXQ/0" />-->
+                    <div class="pa thumb_frame" style="left:<?php echo $x ?>px ;"></div>
                 <?php endif; ?>
-
             <?php endfor; ?>
             </ul>
         </div>
