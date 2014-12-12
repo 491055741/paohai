@@ -378,7 +378,7 @@ PROMOTION_TEXT;
         $items = <<<PRESET_TITLE_TEXT
     <item>
         <Title><![CDATA[We wish U Merry Christmas \r\n1分钱传递你最真挚的爱]]></Title>
-        <PicUrl><![CDATA[https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo9NgZibTY6ibk77hXmUqO7fIlIv0apsQMT6D1ePyrjlg1IAlNLQ7GpB43RmWPMJAGvalicoH6ZRX0cwA/0]]></PicUrl>
+        <PicUrl><![CDATA[https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo8lFWa5TprPficNhSricKbd1fRibhQBItapkhkU7r19wD0GMJG83bzakMYTH3FhBKctkstmBCoaZsfZw/0]]></PicUrl>
         <Url><![CDATA[http://quyou.ikamobile.com/activity_chrismas.html]]></Url>
     </item>
 PRESET_TITLE_TEXT;
