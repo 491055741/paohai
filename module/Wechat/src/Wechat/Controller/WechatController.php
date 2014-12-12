@@ -76,9 +76,10 @@ class WechatController extends AbstractActionController
                             </xml>";
                 $replyMsgType = "text";
 
-                $orders = $this->getOrderTable()->getOrdersByUserName($fromUsername, '100'); // query UNPAY order
+                $orders = $this->getOrderTable()->getOrdersByUserName($fromUsername, 'status=100'); // query UNPAY order
+//                $orders = null;
                 if (!$orders) {
-                    $contentStr = '请先上传照片(内测调试中，不能真正邮寄明信片，敬请期待)';
+                    $contentStr = '请先上传照片';
                 } else {
                     $order = $orders[0];
                     $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/downloadvoicemedia?mediaId='.urlencode($mediaId);
