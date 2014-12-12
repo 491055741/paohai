@@ -47,10 +47,6 @@ class WxpayController extends AbstractActionController
         $christmasIds = array(1, 2, 9, 10);
         $isChristmasTemplate = in_array($order->templateId, $christmasIds);
 
-        echo 'user:'.$order->userName.' tplId:'.$order->templateId.' isIn:'.$isChristmasTemplate;
-        echo ' price::'.$this->getOrderTable()->calculateOrderPrice($order->userName, $isChristmasTemplate);
-
-
         return $this->viewModel(array(
             'payPrice' => $this->getOrderTable()->calculateOrderPrice($order->userName, $isChristmasTemplate),
             'order' => $order,

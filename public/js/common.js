@@ -200,11 +200,12 @@ var HC = {
             //初始化，是否位移 2014-11-6
             tp.img_layer.scrollLeft = (-tp.var_offset_x.value * tp.pic_w);
             tp.img_layer.scrollTop = (-tp.var_offset_y.value * tp.pic_h);
+            $(".thumb_frame").click(function() { $(this).prev("li").find("img").click(); })
+
             HC.loadingClose();
         }
         tp.imgLayer_img.src = tp.var_user_picurl.value;
 
-        $(".thumb_frame").click(function() { $(this).prev("li").find("img").click(); })
 
         HC.up();
         HC.calWidth();
