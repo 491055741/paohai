@@ -49,7 +49,7 @@ class OrderTable
     public function getOrdersByUserName($name, $condition)
     {
         $select = $this->tableGateway->getSql()->select();
-        $select->where('userName = "'.$name.'"')->where($condition)->order('orderDate DESC');;
+        $select->where('userName = "'.$name.'"')->where($condition)->order('orderDate DESC');
         return $this->tableGateway->selectWith($select);
     }
 
