@@ -126,9 +126,11 @@ class OrderTable
         if ($isChristmasTemplate) {
 
             $select = $this->tableGateway->getSql()->select();
-            $select->where('userName = "'.$userName.'"')->where('price = "1"');
+            $select->where('userName = "'.$userName.'"')
+                   ->where('price = "1"')    // RMB 0.01
+                   ->where('status = "101"');// payed
             $resultSet = $this->tableGateway->selectWith($select);
-            if (!$resultSet) {
+            if ($resultSet->count() == 0) {// 首次购买1分钱明信片
                 $payPrice = 1;
             }
         }

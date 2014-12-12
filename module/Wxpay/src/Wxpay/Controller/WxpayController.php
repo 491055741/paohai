@@ -41,12 +41,15 @@ class WxpayController extends AbstractActionController
         if ($order->status == CANCEL) {
             return $this->errorViewModel(array('code' => 2, 'msg' => '订单已失效，请重新创建明信片'));
         }
-
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
         $location = $util->getUserGeoAddress($order->userName);
         $christmasIds = array(1, 2, 9, 10);
         $isChristmasTemplate = in_array($order->templateId, $christmasIds);
+
+        echo 'user:'.$order->userName.' tplId:'.$order->templateId.' isIn:'.$isChristmasTemplate;
+        echo ' price::'.$this->getOrderTable()->calculateOrderPrice($order->userName, $isChristmasTemplate);
+
 
         return $this->viewModel(array(
             'payPrice' => $this->getOrderTable()->calculateOrderPrice($order->userName, $isChristmasTemplate),
