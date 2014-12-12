@@ -372,7 +372,7 @@ PROMOTION_TEXT;
 
     private function getPresetCardMessage($receiveData) {
         $images = array(
-            "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo9NgZibTY6ibk77hXmUqO7fIlyrQ4oLyaRypSyZT9F8gEQ9kFFdG4DJvicoPO9eia5IKUh87kyvuoMKGg/0",
+            "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo8lFWa5TprPficNhSricKbd1f62Lu6cMloOOpkSt6oG3z5XsdFXibqVGlrSsSULu4cuqickWFYicDot0JQ/0",
         );
         
         $items = <<<PRESET_TITLE_TEXT
