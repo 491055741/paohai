@@ -19,7 +19,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201412091802');
+define('JS_TAG', '201412122245');
 
 class WxpayController extends AbstractActionController
 {
@@ -46,7 +46,7 @@ class WxpayController extends AbstractActionController
         $util->setServiceLocator($this->getServiceLocator());
         $location = $util->getUserGeoAddress($order->userName);
         $christmasIds = array(1, 2, 9, 10);
-        $isChristmasTemplate = in_array($order->templateIndex, $christmasIds);
+        $isChristmasTemplate = in_array($order->templateId, $christmasIds);
 
         return $this->viewModel(array(
             'payPrice' => $this->getOrderTable()->calculateOrderPrice($order->userName, $isChristmasTemplate),
