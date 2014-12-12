@@ -121,26 +121,28 @@ body {background: rgba(0,0,0,0.7);}
 .bgLayer {
     position: absolute;
     z-index: 5;
-    top: 10px;
+    top: 14px;
     left: 50%;
+    width: 236px;
+    height: 350px;
     margin-left: -122px;
     transition: all 0.3s ease-in 0;
 }
-.bgLayer_img {width: 243px;height: 360px;transition: all 0.3s ease-in 0;}
+.bgLayer_img {width: 236px;height: 350px;transition: all 0.3s ease-in 0;}
 .imgLayer {
     position: absolute;
     z-index: 4;
     top: 14px;
     left: 50%;
-    margin-left: -118px;
+    margin-left: -122px;
     overflow: auto;
     width: 236px;
     height: 350px;
     transition: all 0.3s ease-in 0;
 }
 
-.up.bgLayer {margin-left: -91px;}
-.up.bgLayer_img {width: 182px; height: 270px;}
+.up.bgLayer {margin-left: -89px;width: 178px;height: 264px;}
+.up.bgLayer_img {width: 178px;height: 264px;}
 .up.imgLayer {margin-left: -89px;width: 178px;height: 264px;}
 /*选择模板按键*/
 .selectTemp {
@@ -339,7 +341,7 @@ a.on i {display: block;}
     .bgLayer {margin-left: -90px;}
     .bgLayer_img {width: 180px;height: 265px;}
     .imgLayer {
-        top: 10px;
+        top: 14px;
         left: 50%;
         margin-left: -90px;
         overflow: auto;
@@ -347,9 +349,8 @@ a.on i {display: block;}
         height: 265px;
     }
 
-    .up.bgLayer {margin-left: -64px;}
-    .up.bgLayer_img {width: 128px;height: 190px;}
-    .up.imgLayer {margin-left: -64px;width: 128px;height: 190px;}
+    .up.bgLayer, .up.bgLayer_img, .up.imgLayer {margin-left: -64px;width: 128px;height: 190px;}
+    .up.bgLayer_img {margin-left: 0;}
 
     .up.selectTemp{bottom: 98px;}
     .up.thumbImg{height: 98px;bottom: 0;}

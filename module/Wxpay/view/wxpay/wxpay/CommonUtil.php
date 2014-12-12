@@ -278,7 +278,7 @@ class CommonUtil
     
     function httpPost($url, $data)
     {
-        $this->logger("httpPost:$url");
+//        $this->logger("httpPost:$url");
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -318,7 +318,6 @@ class CommonUtil
 
     function httpGet($url, $waitTime = 20)
     {
-        $this->logger("httpGet:$url");
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
@@ -327,19 +326,11 @@ class CommonUtil
         curl_close($ch);
         if ($res)
             return $res;
-        else  
+        else {
+            $this->logger('httpGet:'.$url.' failed.');
             return false;
+        }
     }
-//    function curl_get_contents($url)
-//    {
-//        $curl = curl_init();
-//        curl_setopt($curl, CURLOPT_URL, $url);
-//        curl_setopt($curl, CURLOPT_HEADER, 0);
-//        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-//        $data = curl_exec($curl);
-//        curl_close($curl);
-//        return $data;
-//    }
 
     private function logger($content)
     {
