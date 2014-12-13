@@ -727,6 +727,7 @@ a.on i {display: block;}
 }
 
 /*iphone 6 plus*/
+/*
 @media screen and (min-width: 414px){
     .up.bgLayer_img {
         width: 292px;
@@ -753,3 +754,4 @@ a.on i {display: block;}
         height: 515px;
     }
 }
+    */
