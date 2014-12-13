@@ -28,7 +28,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412131541'); // 好像不管用，待查
+define('JS_TAG', '201412132112'); // 好像不管用，待查
 
 
 class PostcardController extends AbstractActionController
@@ -441,6 +441,7 @@ class PostcardController extends AbstractActionController
             $bank               ? $order->bank              = $bank          : null;
             $mobile             ? $order->recipientMobile   = $mobile        : null;
             $this->getOrderTable()->saveOrder($order);
+            $this->logger('msg:['.$order->message.']');
             $res = array(
                 'code' => 0,
                 'msg' => 'success',
@@ -557,7 +558,7 @@ class PostcardController extends AbstractActionController
 
     private function logFileName()
     {
-        return '/tmp/paohai_error.log';
+        return '/tmp/quyou.log';
     }
 
     private function getOrderTable()
