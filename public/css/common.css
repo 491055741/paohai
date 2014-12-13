@@ -699,6 +699,7 @@ a.on i {display: block;}
 
 /**适配iphone 6 和iphone 6 plus**/
 /*iphone 6*/
+/*
 @media screen and (min-width: 375px){
     .up.bgLayer_img {
         width: 244px;
@@ -725,6 +726,7 @@ a.on i {display: block;}
         height: 440px;
     }
 }
+    */
 
 /*iphone 6 plus*/
 /*
