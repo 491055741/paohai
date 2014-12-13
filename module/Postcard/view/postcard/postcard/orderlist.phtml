@@ -48,7 +48,7 @@
                 case 99:
                     echo $this->escapeHtml("已取消");
                     break;
-                case 100:
+                case 100:// unpay
                 {
                     echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">待付款</a>';
                     break;
