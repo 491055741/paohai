@@ -11,16 +11,22 @@
  * file.
  */
 
-if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com')) {
+if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false) {
     $dbhost = 'rdsyuqef2yuqef2.mysql.rds.aliyuncs.com';
 } else {
     $dbhost = 'localhost';
 }
 
+// if (stripos($_SERVER['SERVER_NAME'], 'quyou') !== false) {
+    $database = 'quyou_postcard';
+// } else {
+    // $database = 'paohai_postcard';
+// }
+
 return array(
     'db' => array(
         'driver'         => 'Pdo',
-        'dsn'            => "mysql:dbname=quyou_postcard;host=$dbhost",
+        'dsn'            => "mysql:dbname=$database;host=$dbhost",
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ),

@@ -56,7 +56,7 @@ class WXJsPay {
         $unifiedOrder->setParameter("body","趣邮明信片");//商品描述
         $unifiedOrder->setParameter("out_trade_no","$orderId");//商户订单号
         $unifiedOrder->setParameter("total_fee",$payPrice);//总金额
-        $unifiedOrder->setParameter("notify_url",WxPayConf_pub::NOTIFY_URL);//通知地址
+        $unifiedOrder->setParameter("notify_url",WxPayConf_pub::notifyUrl());//通知地址
         $unifiedOrder->setParameter("trade_type","JSAPI");//交易类型
         //非必填参数，商户可根据实际情况选填
         //$unifiedOrder->setParameter("sub_mch_id","XXXX");//子商户号

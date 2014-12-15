@@ -2,11 +2,11 @@
 namespace Postcard\Controller;
 
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
-// include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayHelper.php");
+include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/WxPay.pub.config.php");
 
 use Imagick;
 use CommonUtil;
-use WxPayHelper;
+use WxPayConf_pub;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
@@ -537,7 +537,7 @@ class PostcardController extends AbstractActionController
         $url = "https://api.weixin.qq.com/pay/delivernotify?access_token=".$access_token;
 
         $wxPayHelper = new WxPayHelper();
-        $nativeObj['appid'] = APPID;
+        $nativeObj['appid'] = WxPayConf_pub::appId();
         $nativeObj['openid'] = $data['openid'];
         $nativeObj['transid'] = $data['transid'];
         $nativeObj['out_trade_no'] = $data['orderid'];
@@ -704,7 +704,6 @@ class PostcardController extends AbstractActionController
         imagealphablending($image_template, false);
         imagesavealpha($image_template, true);
 
-
         // save user's original picture
         $dstPath = $this->postcardsPath($order->id);
         $origPicName = $dstPath.$order->id.'_orig.jpg';
@@ -750,7 +749,13 @@ class PostcardController extends AbstractActionController
 
         imagedestroy($image_template);
         imagedestroy($croped);
-        return $image_dst;
+
+        $bigBg = imagecreatetruecolor($canvas_w + 80, $canvas_h + 80); // add 4mm
+//        $white = imagecolorallocate($dst, 255, 255, 255);
+        imagefill($bigBg, 0, 0, $white);
+        imagecopy($bigBg, $image_dst, 40, 40, 0, 0, $canvas_w, $canvas_h);
+        imagedestroy($image_dst);
+        return $bigBg;
     }
 
     private function getAutoRotatedImg($imgName, $angelAdjust)
@@ -937,7 +942,13 @@ class PostcardController extends AbstractActionController
                 imagecopyresampled($dst, $image, $postmark_x, $postmark_y, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
             }
         }
-        return $dst;
+
+        $bigBg = imagecreatetruecolor($canvas_w + 48, $canvas_h + 48); // add 4mm
+//        $white = imagecolorallocate($dst, 255, 255, 255);
+        imagefill($bigBg, 0, 0, $white);
+        imagecopy($bigBg, $dst, 24, 24, 0, 0, $canvas_w, $canvas_h);
+        imagedestroy($dst);
+        return $bigBg;
     }
 
     private function getDateTextAttr($postmarkId, $x, $y)

@@ -127,7 +127,7 @@ class CommonUtil
         return $token;
     }
 
-    function saveAccessToken($token)
+    function saveAccessToken($token, $expires_in)
     {
         $para = new WxPara();
         $para->paraName = WxPayConf_pub::ACCESS_TOKEN_KEY;
@@ -135,17 +135,16 @@ class CommonUtil
         $this->getWxParaTable()->savePara($para);
 
         $para->paraName = WxPayConf_pub::TOKEN_EXPIRE_TIME_KEY;
-        $para->value = WxPayConf_pub::ACCESS_TOKEN_EXPIRES + time();
+        $para->value = $expires_in + time();
         $this->getWxParaTable()->savePara($para);
     }
 
     function refreshAccessToken()
     {
-        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WxPayConf_pub::APPID.'&secret='.WxPayConf_pub::APPSECRET;
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WxPayConf_pub::appId().'&secret='.WxPayConf_pub::appSecret();
         $obj = json_decode(file_get_contents($url));
-        $access_token = $obj->access_token; // another para is "expires_in"
-        $this->saveAccessToken($access_token);
-        return $access_token;
+        $this->saveAccessToken($obj->access_token, $obj->expires_in);
+        return $obj->access_token;
     }
 
     function setCertInfo($certFile, $certPasswd, $certType="PEM") {
@@ -180,7 +179,7 @@ class CommonUtil
         for ( $i = 0; $i < $length; $i++ )  {  
             $str.= substr($chars, mt_rand(0, strlen($chars)-1), 1);  
             //$str .= $chars[ mt_rand(0, strlen($chars) - 1) ];  
-        }  
+        }
         return $str;  
     }
     /**
