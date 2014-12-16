@@ -17,11 +17,11 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false) {
     $dbhost = 'localhost';
 }
 
-// if (stripos($_SERVER['SERVER_NAME'], 'quyou') !== false) {
+if (stripos($_SERVER['SERVER_NAME'], 'quyou') !== false) {
     $database = 'quyou_postcard';
-// } else {
-    // $database = 'paohai_postcard';
-// }
+} else {
+    $database = 'paohai_postcard';
+}
 
 return array(
     'db' => array(

@@ -218,7 +218,7 @@ PROMOTION_TEXT;
                                         </Articles>
                                         </xml>";
 
-                            $picUrl = "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoibpTWlZPyzwvEz8fE9Fd3zRmicLiaGQsGPvp1XNCxicHFj0SQxOH9PGjOf4NBZfl6gxBgJHRvLMeb5bg/0";
+                            $picUrl = "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo9aDhVh05nNVbPbNFNNef2eY8I61Sgic2wa5893n1QFWnibqYLD2Xo3Tm6sJNBB7K6ibacSoZ8gwy93w/0";
                             $replyMsgType = "news";
                             $title = "趣邮明信片--我寄出的明信片";
                             $desc = "查看我都寄出了哪些明信片";
@@ -243,7 +243,7 @@ PROMOTION_TEXT;
                                         </Articles>
                                         </xml>";
 
-                            $picUrl = "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoibpTWlZPyzwvEz8fE9Fd3zRmtgtXIC14WT69icugzCjBhUIbSUUgU5uuyiaJTA2Ykibqhk62NN8d1Y9g/0";
+                            $picUrl = "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo9aDhVh05nNVbPbNFNNef2eAkcCicria1kB0wL3NO4BCNMNibnibUyl5arCiaicZdalZCaQU403icOhDTJYw/0";
                             $replyMsgType = "news";
                             $title = "趣邮明信片--我的地址簿";
                             $desc = "把常用联系人的地址保存在此，能让之后的寄送更方便哦";
