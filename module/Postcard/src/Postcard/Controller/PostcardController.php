@@ -700,14 +700,14 @@ class PostcardController extends AbstractActionController
             return FALSE;
         }
 
-        $image_template = imagecreatefrompng('public/images/big/template' . $order->templateId . '.png');
+        $image_template = imagecreatefrompng('public/images/big/template'.$order->templateId.'.png');
         imagealphablending($image_template, false);
         imagesavealpha($image_template, true);
 
         // save user's original picture
         $dstPath = $this->postcardsPath($order->id);
         $origPicName = $dstPath.$order->id.'_orig.jpg';
-        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl));
+        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
 //        file_put_contents($origPicName, file_get_contents($order->picUrl));
 
         $angel = ($order->templateId >= 8) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
@@ -737,7 +737,6 @@ class PostcardController extends AbstractActionController
         $croped = imagecreatetruecolor($w, $h);
         imagecopy($croped, $moved, 0, 0, 0, 0, $a, $b);
         imagedestroy($moved);
-//        return $croped;
 
         $image_dst = imageCreatetruecolor($canvas_w, $canvas_h); // canvas
         imagealphablending($image_dst, true);
@@ -751,7 +750,6 @@ class PostcardController extends AbstractActionController
         imagedestroy($croped);
 
         $bigBg = imagecreatetruecolor($canvas_w + 80, $canvas_h + 80); // add 4mm
-//        $white = imagecolorallocate($dst, 255, 255, 255);
         imagefill($bigBg, 0, 0, $white);
         imagecopy($bigBg, $image_dst, 40, 40, 0, 0, $canvas_w, $canvas_h);
         imagedestroy($image_dst);
@@ -807,14 +805,17 @@ class PostcardController extends AbstractActionController
         imagesavealpha($background, true);
         imagecopyresampled($dst, $background, 0, 0, 0, 0, $canvas_w, $canvas_h, imagesx($background), imagesy($background));
 
-        $font = imagepsloadfont("public/fonts/Schneidler-HTF-Titling.pfb");
-        if (!$font) {
-            echo 'Load font Schneidler-HTF-Titling.pfb failed.';
-        }
         // zip code
-        $zip_color = imagecolorallocate($dst, 38, 38, 38);
-        //                                       size                     x   y      tightness
-        imagepstext($dst, $order->zipCode, $font, 54, $zip_color, $white, 120, 155, 50, 1500);
+        $pos['top'] = 155;
+        $pos['width'] = 94;
+        $pos['font-size'] = 50;
+        $pos['font-file'] = "public/fonts/simkai.ttf";
+        for ($i = 0; $i < mb_strlen($order->zipCode, "utf-8") && $i < 6; $i++) {
+            $char = mb_substr($order->zipCode, $i, 1, "utf-8");
+            $pos['left'] = 115 + $i * 112;
+            $this->draw_txt_to($dst, $pos, $char);
+        }
+        unset($pos['font-file']);
         // salutation
         if ($order->salutation) {
             $pos['left']     = 80;
@@ -883,7 +884,7 @@ class PostcardController extends AbstractActionController
         $pos['top']      = 1100;
         $pos['width']    = 216;
         $pos['font-size'] = 20;
-        $pos['fontFile'] = "public/fonts/Kaiti.ttc";
+        $pos['font-file'] = "public/fonts/simkai.ttf";
         $this->draw_txt_to($dst, $pos, $text);
 
         // stamp   82px => 7mm
@@ -1025,7 +1026,7 @@ class PostcardController extends AbstractActionController
             ),
         );
         if ($postmarkId < count($dateTextArray)) {
-            $dateTextArray[$postmarkId]['fontFile'] = "public/fonts/Kaiti.ttc";
+            $dateTextArray[$postmarkId]['font-file'] = "public/fonts/simkai.ttf";
             return $dateTextArray[$postmarkId];
         } else {
             return NULL;
@@ -1056,8 +1057,8 @@ class PostcardController extends AbstractActionController
         if (!array_key_exists('font-color', $pos)) {
             $pos['font-color'] = array(38, 38, 38);
         }
-        if (!array_key_exists('fontFile', $pos)) {
-            $pos['fontFile'] = "public/fonts/Xing.ttf";
+        if (!array_key_exists('font-file', $pos)) {
+            $pos['font-file'] = "public/fonts/Xing.ttf";
         }
         if (!array_key_exists('lineSpace', $pos)) {
             $pos['lineSpace'] = 50;
@@ -1068,10 +1069,10 @@ class PostcardController extends AbstractActionController
         $offsetY = 0;
 
         for ($i = 0; $i < mb_strlen($string, "utf-8"); $i++) {
-            $box = imagettfbbox($pos['font-size'], 0, $pos['fontFile'], $_string);
+            $box = imagettfbbox($pos['font-size'], 0, $pos['font-file'], $_string);
             $_string_width = $box[2] - $box[0];
             $_string_height = $box[3] - $box[5];
-            $box = imagettfbbox($pos['font-size'], 0, $pos['fontFile'], mb_substr($string, $i, 1, "utf-8"));
+            $box = imagettfbbox($pos['font-size'], 0, $pos['font-file'], mb_substr($string, $i, 1, "utf-8"));
 
             $char = mb_substr($string, $i, 1, "utf-8");
 
@@ -1085,7 +1086,7 @@ class PostcardController extends AbstractActionController
                     $x,
                     $pos['top'] + $offsetY,
                     $font_color,
-                    $pos['fontFile'],
+                    $pos['font-file'],
                     $_string);
 
                 if ($nowrap) {
@@ -1109,7 +1110,7 @@ class PostcardController extends AbstractActionController
                     $x,
                     $pos['top'] + $offsetY,
                     $font_color,
-                    $pos['fontFile'],
+                    $pos['font-file'],
                     $_string);
 
                 if ($nowrap) {
@@ -1120,7 +1121,7 @@ class PostcardController extends AbstractActionController
                 $_string = $char;
             }
         }
-        $box = imagettfbbox($pos['font-size'], 0, $pos['fontFile'], $_string);
+        $box = imagettfbbox($pos['font-size'], 0, $pos['font-file'], $_string);
         $_string_width = $box[2] - $box[0];
         $_string_height = $box[3] - $box[5];
         $x = $this->get_txt_pos($pos['text-align'], $pos['left'], $pos['width'], $_string_width);
@@ -1131,7 +1132,7 @@ class PostcardController extends AbstractActionController
             $x,
             $pos['top'] + $offsetY,
             $font_color,
-            $pos['fontFile'],
+            $pos['font-file'],
             $_string);
         return $pos['top'] + $offsetY + $_string_height;
     }
