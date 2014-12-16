@@ -215,5 +215,6 @@
         });
         HC.loadingClose();
         HC.checkOrientation();
+        HC.addBridgeListener();
     });
 })(jQuery);
