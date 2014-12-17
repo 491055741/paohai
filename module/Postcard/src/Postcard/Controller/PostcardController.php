@@ -49,9 +49,8 @@ class PostcardController extends AbstractActionController
         if (!file_exists($fileName)) {
             return $this->errorViewModel(array('code' => 2, 'msg' => 'file '.$fileName.' not exist!'));
         }
-        $amr = file_get_contents($fileName);
         header("Content-type: audio/mp3");
-        echo $amr;
+        echo file_get_contents($fileName);
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
