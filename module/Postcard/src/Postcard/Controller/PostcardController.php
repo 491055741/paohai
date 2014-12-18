@@ -28,7 +28,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412161712');
+define('JS_TAG', '201412181512');
 
 
 class PostcardController extends AbstractActionController
@@ -56,6 +56,23 @@ class PostcardController extends AbstractActionController
         return $viewModel;
     }
 
+    public function playVoiceAction()
+    {
+        $mediaId = $this->getRequest()->getQuery('mediaId', '0');
+        if ($mediaId == '0') {
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'require media id'));
+        }
+
+        $fileName = $this->voicePath().$mediaId.'.mp3';
+        if (!file_exists($fileName)) {
+            return $this->errorViewModel(array('code' => 2, 'msg' => 'file '.$fileName.' not exist!'));
+        }
+        $viewModel = new ViewModel(array('file'=>'http://'.$_SERVER['HTTP_HOST'].'/postcard/voice?mediaId='.$mediaId));
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    // 发送提示给用户，让用户语音留言
     public function requestVoiceAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
@@ -329,7 +346,8 @@ class PostcardController extends AbstractActionController
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
-        $voiceContent = file_get_contents('http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId);
+//        $voiceContent = file_get_contents('http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId);
+        $voiceContent = $this->getUtil()->httpGet('http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId, 30);
         $voiceFile = fopen($this->voicePath().$mediaId.'.amr', 'w') or die("Unable to open file!");
         // echo $this->voicePath().$mediaId.'.amr';
         $length = fwrite($voiceFile, $voiceContent);
@@ -338,7 +356,7 @@ class PostcardController extends AbstractActionController
         $cmd = 'ffmpeg -i '.$this->voicePath().$mediaId.'.amr '.$this->voicePath().$mediaId.'.mp3';
         exec($cmd);
         // generate qr code image under same folder
-        $str = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voice?mediaId='.$mediaId;
+        $str = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/playvoice?mediaId='.$mediaId;
         // echo $str;
 
         $res = array(

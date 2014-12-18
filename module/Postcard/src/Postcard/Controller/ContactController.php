@@ -9,14 +9,29 @@ use Postcard\Model\Contact;
 
 class ContactController extends AbstractActionController
 {
-    const JS_TAG = "201411161240";
+    const JS_TAG = "201412161240";
 
     protected $contactTable;
 
+    public function testShareAction()
+    {
+        $userName = $this->getRequest()->getQuery('userName', '');
+        $viewModel = new ViewModel(array('tag' => self::JS_TAG, 'userName' => $userName));
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
+    public function fillAddressAction()
+    {
+        $userName = $this->getRequest()->getQuery('userName', '');
+        $viewModel = new ViewModel(array('tag' => self::JS_TAG, 'userName' => $userName));
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
 
     public function saveAction() {
-        $userName = $this->getRequest()->getPost("userName", "");
-        $contactName = $this->getRequest()->getPost("contactName", "");
+        $userName = $this->getRequest()->getPost('userName', '');
+        $contactName = $this->getRequest()->getPost('contactName', '');
         if (empty($userName) || empty($contactName)) {
             return new JsonModel(array(
                 "code" => "10000",
@@ -40,7 +55,6 @@ class ContactController extends AbstractActionController
         );
         return new JsonModel($res);
     }
-
 
     public function deleteAction() {
         $userName = $this->getRequest()->getPost("userName", "");
@@ -66,7 +80,6 @@ class ContactController extends AbstractActionController
         ));
     }
 
-
     public function listContactsAction() {
         $userName = $this->getRequest()->getQuery("userName", "");
         if (empty($userName)) {
@@ -80,9 +93,7 @@ class ContactController extends AbstractActionController
             "code" => "0",
             "data" => $this->getContactTable()->getContacts($userName)
         ));
-
     }
-
 
     public function contactsPageAction() {
         $userName = $this->getRequest()->getQuery("userName", "");
@@ -102,7 +113,6 @@ class ContactController extends AbstractActionController
         $viewModel->setTerminal(true);
         return $viewModel;
     }
-
 
     private function getContactTable()
     {

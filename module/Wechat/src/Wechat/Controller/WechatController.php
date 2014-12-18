@@ -162,7 +162,7 @@ class WechatController extends AbstractActionController
                         if (strlen($sceneId) > 0) {
                             $order = $this->getOrderTable()->getOrderByQrSceneId($sceneId);
                             if ($order && isset($order->voiceMediaId)) {
-                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/voice?mediaId='.$order->voiceMediaId.'">快来听听你的留言吧</a>';
+                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?mediaId='.$order->voiceMediaId.'">快来听听你的留言吧</a>';
                             } else {
                                 $contentStr = '没有找到语音留言,sceneId:'.$sceneId;
                             }
@@ -266,8 +266,7 @@ PROMOTION_TEXT;
                     }
                 } else if ($msgType == "text") {
                     $content = trim($postObj->Content);
-                    if ($content == 'pay') { // test wxpay
-                        // $contentStr = 'http://paohai.ikamobile.com/wxpay';
+                    if ($content == 'share') { // test share
                         $newsTpl = "<xml>
                                     <ToUserName><![CDATA[%s]]></ToUserName>
                                     <FromUserName><![CDATA[%s]]></FromUserName>
@@ -286,9 +285,9 @@ PROMOTION_TEXT;
 
                         $picUrl = 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg';
                         $replyMsgType = "news";
-                        $title = "支付测试";
-                        $desc = "点击图片进入支付测试";
-                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/wxpay/test';
+                        $title = "分享测试";
+                        $desc = "点击图片进入测试";
+                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT']. '/contact/testshare?userName='.$fromUsername;
                         $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                         echo $resultStr;
                         return true;
