@@ -1,10 +1,21 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/css/common.css?<?php echo $tag; ?>"/>
 </head>
 <body>
-    <audio src=<?php echo '"'.$file.'"'?> controls="controls" autoplay name="media">
-        您的浏览器不支持收听，请用其他手机尝试。
-    </audio>
+    <div style="font-size:10; position: absolute; top: 10px; left: 10;">
+        <a href="#" onclick="javascript:WeixinJSBridge.call('closeWindow');">按返回来制作自己的明信片吧</a>
+    </div>
+    <div class="page3 pa">
+        <div class="imgLayer_a pa">
+            <img style="width: 203px" src=<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/postcard/shareimage/'. $orderId; ?> >
+        </div>
+    </div>
+    <div style="position: absolute; top: 310px; left: 50%; margin-left: -150px;">
+        <audio src=<?php echo '"'.$file.'"'?> controls="controls" autoplay name="media">
+            您的浏览器不支持收听，请用其他手机尝试。
+        </audio>
+    </div>
 </body>
 </html>

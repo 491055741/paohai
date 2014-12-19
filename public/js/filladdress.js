@@ -9,7 +9,7 @@
         };
     }
 
-   $.extend(Address.prototype, {
+    $.extend(Address.prototype, {
         isComplete: function() {
             if ( ! this.varCollection.name || ! this.varCollection.address || ! this.varCollection.zipcode) {
                 return false;
@@ -73,7 +73,7 @@
                     if (err == "timeout") {
                         HC.showError("网速不给力，请稍候再试哦");
                     } else {
-                        HC.showError("add contact failed !");
+                        HC.showError("添加联系人失败!");
                     }
                 });
 

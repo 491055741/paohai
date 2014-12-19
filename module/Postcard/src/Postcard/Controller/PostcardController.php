@@ -58,6 +58,7 @@ class PostcardController extends AbstractActionController
 
     public function playVoiceAction()
     {
+        $orderId = $this->getRequest()->getQuery('orderId', '0');
         $mediaId = $this->getRequest()->getQuery('mediaId', '0');
         if ($mediaId == '0') {
             return $this->errorViewModel(array('code' => 1, 'msg' => 'require media id'));
@@ -67,7 +68,11 @@ class PostcardController extends AbstractActionController
         if (!file_exists($fileName)) {
             return $this->errorViewModel(array('code' => 2, 'msg' => 'file '.$fileName.' not exist!'));
         }
-        $viewModel = new ViewModel(array('file'=>'http://'.$_SERVER['HTTP_HOST'].'/postcard/voice?mediaId='.$mediaId));
+        $viewModel = new ViewModel(array(
+            'orderId' => $orderId,
+            'file'    =>'http://'.$_SERVER['HTTP_HOST'].'/postcard/voice?mediaId='.$mediaId,
+            'tag'     => JS_TAG
+        ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
@@ -346,26 +351,18 @@ class PostcardController extends AbstractActionController
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
-//        $voiceContent = file_get_contents('http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId);
-        $voiceContent = $this->getUtil()->httpGet('http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId, 30);
-        $voiceFile = fopen($this->voicePath().$mediaId.'.amr', 'w') or die("Unable to open file!");
-        // echo $this->voicePath().$mediaId.'.amr';
-        $length = fwrite($voiceFile, $voiceContent);
-        fclose($voiceFile);
+        $url = 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId;
+        $fileName = $this->voicePath().$mediaId.'.amr';
+        $len = file_put_contents($fileName, $this->getUtil()->httpGet($url, 60));
         // convert from amr to mp3
-        $cmd = 'ffmpeg -i '.$this->voicePath().$mediaId.'.amr '.$this->voicePath().$mediaId.'.mp3';
+        $cmd = 'ffmpeg -i '.$fileName.' '.$this->voicePath().$mediaId.'.mp3';
+//        echo 'url: '.$url.PHP_EOL.'len: '.$len.PHP_EOL.'exec: '.$cmd.PHP_EOL;
         exec($cmd);
-        // generate qr code image under same folder
-        $str = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/playvoice?mediaId='.$mediaId;
-        // echo $str;
 
-        $res = array(
+        return new JsonModel(array(
             'code' => 0,
             'msg'  => 'download voice file success',
-            'length' => $length,
-            'url'  => $str, 
-        );
-        return new JsonModel($res);
+        ));
     }
 
     public function placeOrderAction()
@@ -808,6 +805,11 @@ class PostcardController extends AbstractActionController
 
     private function generatePostcardBack($order)
     {
+        if ($order->voiceMediaId && !file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
+            echo 'voice qr code image ['.$order->voiceMediaId.'.png] not exist!';
+            return null;
+        }
+
         // 148mm*100mm, 300dpi, 1mm => 11.81px
         $canvas_w = 1748.0;
         $canvas_h = 1181.0;
@@ -816,7 +818,6 @@ class PostcardController extends AbstractActionController
         $white = imagecolorallocate($dst, 255, 255, 255);
         imagefill($dst, 0, 0, $white);
 
-        //for test text-face background template
         $background = imagecreatefromjpeg('public/images/big/postCardBack.jpg');
         imagealphablending($background, false);
         imagesavealpha($background, true);
@@ -1209,14 +1210,14 @@ class PostcardController extends AbstractActionController
         return urldecode($json);
     }
 
-    private function qrcode($str, $filename = false)
-    {
-        $this->getUtil()->qrcode($str, $filename);
-
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
-    }
+//    private function qrcode($str, $filename = false)
+//    {
+//        $this->getUtil()->qrcode($str, $filename);
+//
+//        $viewModel = new ViewModel();
+//        $viewModel->setTerminal(true); // disable layout template
+//        return $viewModel;
+//    }
 
     private function viewModel($para = null)
     {
