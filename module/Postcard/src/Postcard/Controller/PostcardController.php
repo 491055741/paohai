@@ -28,7 +28,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412201512');
+define('JS_TAG', '201412221112');
 
 
 class PostcardController extends AbstractActionController
@@ -1031,7 +1031,7 @@ class PostcardController extends AbstractActionController
                 'width'    => 600,
                 'font-size' => 18,
                 'font-color' => array(62, 62, 62),
-                'dateFormat' => 'Y    m.d',
+                'dateFormat' => 'Y  m.d',
             ),
 
             array(
