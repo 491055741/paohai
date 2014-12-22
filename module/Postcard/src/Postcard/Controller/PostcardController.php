@@ -28,7 +28,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412181512');
+define('JS_TAG', '201412201512');
 
 
 class PostcardController extends AbstractActionController
@@ -154,7 +154,7 @@ class PostcardController extends AbstractActionController
 
         return $this->viewModel(array(
             'order' => $order,
-            'tag'   => JS_TAG, // if only want update x.js, modify the tag.   ????????   not work
+            'tag'   => JS_TAG,
         ));
     }
 
@@ -677,14 +677,14 @@ class PostcardController extends AbstractActionController
 
         if ($image) {
 //            header("Content-type: mine");//image/png
-            $filename = $orderId.($face == '0' ? '_front.png' : '_backface.png');
+            $filename = $orderId.($face == '0' ? '_front.jpg' : '_backface.jpg');
 
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename='.$filename);
             header('Content-Transfer-Encoding: binary');
 //            header("viewport: width=device-width, initial-scale=1");
 //            header("title:".$orderId.$name);
-            imagepng($image);
+            imagejpeg($image, NULL, 90);
             imagedestroy($image);
             $viewModel = new ViewModel();
             $viewModel->setTerminal(true); // disable layout template
@@ -721,8 +721,9 @@ class PostcardController extends AbstractActionController
         // save user's original picture
         $dstPath = $this->postcardsPath($order->id);
         $origPicName = $dstPath.$order->id.'_orig.jpg';
-        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
-//        file_put_contents($origPicName, file_get_contents($order->picUrl));
+        if (!file_exists($origPicName)) {
+            file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
+        }
 
         $angel = ($order->templateId >= 8) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);

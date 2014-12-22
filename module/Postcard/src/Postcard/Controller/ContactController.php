@@ -9,7 +9,7 @@ use Postcard\Model\Contact;
 
 class ContactController extends AbstractActionController
 {
-    const JS_TAG = "201412161240";
+    const JS_TAG = "201412191840";
 
     protected $contactTable;
 

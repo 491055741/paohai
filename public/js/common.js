@@ -259,11 +259,11 @@ var HC = {
         if (window.orientation == 90 || window.orientation == -90) {
             $(".orientation-tips").show();
         } else if (window.orientation === 0) {
-            if (window.innerWidth > window.innerHeight) {
-                $(".orientation-tips").show();
-            } else {
+//            if (window.innerWidth > window.innerHeight) {
+//                $(".orientation-tips").show();
+//            } else {
                 $(".orientation-tips").hide();
-            }
+//            }
         } else {
             $(".orientation-tips").hide();
         }
