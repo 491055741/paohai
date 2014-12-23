@@ -28,7 +28,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412221112');
+define('JS_TAG', '201412231112');
 
 
 class PostcardController extends AbstractActionController
@@ -438,9 +438,9 @@ class PostcardController extends AbstractActionController
             $mobile             = $this->getRequest()->getPost('mobile');
 
             $order->postmarkId = $postmarkId;
-            $templateId         ? $order->templateId       = $templateId    : null;
-            $offsetX            ? $order->offsetX          = $offsetX       : null;
-            $offsetY            ? $order->offsetY          = $offsetY       : null;
+            $templateId         ? $order->templateId        = $templateId    : null;
+            $offsetX            ? $order->offsetX           = $offsetX       : null;
+            $offsetY            ? $order->offsetY           = $offsetY       : null;
             $zipCode            ? $order->zipCode           = $zipCode       : null;
             $message            ? $order->message           = $message       : null;
             $senderName         ? $order->senderName        = $senderName    : null;
@@ -777,7 +777,7 @@ class PostcardController extends AbstractActionController
         if ($exif === false) {
             $orientation = 0;
         } else {
-            $orientation = $exif['Orientation'];
+            $orientation = isset($exif['Orientation'])?$exif['Orientation']:1;
         }
 //        var_dump($exif);
         $img = imagecreatefromjpeg($imgName);
@@ -894,17 +894,49 @@ class PostcardController extends AbstractActionController
             $text = '扫扫听留言';
         } else {
             // quyou qr code
-            $image_qr = imagecreatefromjpeg('public/images/big/quyou_qr.jpg');
+            $image_qr = imagecreatefromjpeg('public/images/big/qr_quyou.jpg');
             $text = '趣邮明信片';
         }
         $width=$height=250;
         imagecopyresampled($dst, $image_qr, $canvas_w-$width-70, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
-        $pos['left']     = 1480;
+        $pos['text-align'] = CENTER;
+        $pos['left']     = $canvas_w-$width-70;
         $pos['top']      = 1100;
-        $pos['width']    = 216;
+        $pos['width']    = $width;
         $pos['font-size'] = 20;
         $pos['font-file'] = "public/fonts/simkai.ttf";
         $this->draw_txt_to($dst, $pos, $text);
+
+        // partner Qr code
+        if ($order->partnerQrFileName) {
+            $file = 'public/images/big/'.$order->partnerQrFileName;
+            if (!file_exists($file)) {
+                echo 'qr code image ['.$file.'] not exist!';
+                return null;
+            }
+
+            if ($this->endWith($file, '.jpg')) {
+                $image_qr = imagecreatefromjpeg($file);
+            } else if ($this->endWith($file, '.png')) {
+                $image_qr = imagecreatefrompng($file);
+            } else {
+                echo 'qr code image ['.$file.'] not support!';
+                return null;
+            }
+
+            $width=$height=250;
+            imagecopyresampled($dst, $image_qr, 1180, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
+
+            if ($order->partnerQrText) {
+                $pos['text-align'] = CENTER;
+                $pos['left']     = 1180;
+                $pos['top']      = 1100;
+                $pos['width']    = $width;
+                $pos['font-size'] = 20;
+                $pos['font-file'] = "public/fonts/simkai.ttf";
+                $this->draw_txt_to($dst, $pos, $order->partnerQrText);
+            }
+        }
 
         // stamp   82px => 7mm
         $width=$height=300;
@@ -922,7 +954,10 @@ class PostcardController extends AbstractActionController
             imagecopyresampled($dst, $image, $postmark_x, $postmark_y, 0, 0, $postmark_w, $postmark_h, imagesx($image), imagesy($image));
 
             $textAttr = $this->getDateTextAttr($order->postmarkId, $postmark_x, $postmark_y);
-            $this->draw_txt_to($dst, $textAttr, date($textAttr['dateFormat'], time()));
+            if ($textAttr != NULL) {
+                $this->draw_txt_to($dst, $textAttr, date($textAttr['dateFormat'], time()));
+            }
+
         } else {
 
             // location postmark
@@ -955,7 +990,7 @@ class PostcardController extends AbstractActionController
                 $pos['font-size'] = 16;
                 $this->draw_txt_to($dst, $pos, date('Y.m.d', time()));
 
-                $imageName = 'postmark_location.png';
+                $imageName = 'youchuo_empty.png';
                 $image = imagecreatefrompng('public/images/postmark/big/'.$imageName);
                 $postmark_h = 216;
                 $postmark_w = imagesx($image) / imagesy($image) * $postmark_h;
@@ -1289,6 +1324,16 @@ class PostcardController extends AbstractActionController
         $path  = $path.'/'. $orderDate;
         $this->checkPath($path);
         return $path . '/';
+    }
+
+    private function endWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        if($length == 0)
+        {
+            return true;
+        }
+        return (substr($haystack, -$length) === $needle);
     }
 }
 

@@ -130,7 +130,7 @@
             $("#postmarkPreview").css("display","inline");
             $("#postmarkCityPreview").css("display","inline");
             $("#postmarkDatePreview").css("display","inline");
-            $("#postmarkPreview").attr("src","/images/postmark/small/postmark_location.png");
+            $("#postmarkPreview").attr("src","/images/postmark/small/youchuo_empty.png");
             $("#postmarkCityPreview").text($("#var-city").val());
             $("#postmarkDatePreview").text(getDateStr());
         }
@@ -208,7 +208,7 @@
             $("#postmarkPreview").css("display","inline");
             $("#postmarkCityPreview").css("display","inline");
             $("#postmarkDatePreview").css("display","inline");
-            $("#postmarkPreview").attr("src","/images/postmark/small/postmark_location.png");
+            $("#postmarkPreview").attr("src","/images/postmark/small/youchuo_empty.png");
             $("#postmarkCityPreview").text($("#var-city").val());
             $("#postmarkDatePreview").text(getDateStr());
         }
