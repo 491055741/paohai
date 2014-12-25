@@ -269,7 +269,7 @@ class PostcardController extends AbstractActionController
     {
         $userName = $this->getRequest()->getQuery('userName', '0');
         if ($userName == '0') {
-            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$userName));
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid user name: '.$userName));
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
@@ -764,11 +764,7 @@ class PostcardController extends AbstractActionController
         imagedestroy($image_template);
         imagedestroy($croped);
 
-        $bigBg = imagecreatetruecolor($canvas_w + 80, $canvas_h + 80); // add 4mm
-        imagefill($bigBg, 0, 0, $white);
-        imagecopy($bigBg, $image_dst, 40, 40, 0, 0, $canvas_w, $canvas_h);
-        imagedestroy($image_dst);
-        return $bigBg;
+        return $image_dst;
     }
 
     private function getAutoRotatedImg($imgName, $angelAdjust)
@@ -998,12 +994,7 @@ class PostcardController extends AbstractActionController
             }
         }
 
-        $bigBg = imagecreatetruecolor($canvas_w + 48, $canvas_h + 48); // add 4mm
-//        $white = imagecolorallocate($dst, 255, 255, 255);
-        imagefill($bigBg, 0, 0, $white);
-        imagecopy($bigBg, $dst, 24, 24, 0, 0, $canvas_w, $canvas_h);
-        imagedestroy($dst);
-        return $bigBg;
+        return $dst;
     }
 
     private function getDateTextAttr($postmarkId, $x, $y)

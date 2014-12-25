@@ -62,6 +62,7 @@ class OrderTable
         $lastRow = null;
         foreach ($rowset as $row) {
             $lastRow = $row;
+            break;
         }
         return $lastRow;
     }

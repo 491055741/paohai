@@ -10,7 +10,10 @@
 <body>
 <input type="hidden" id="var-user-name" value="<?php echo $userName; ?>" />
 <div class="container">
-    <!-- message -->
+
+    <div id="sharetips" class="popbox pa hide" style="padding-top:0">
+        <img src="../images/share_tips.png" style="width: 100%; height: 100%" />
+    </div>
     <div class="popbox pa hide">
         <div class="pop-wrapper hint">
             <h2 class="pop-title"></h2>
@@ -20,13 +23,18 @@
     </div>
     <!--弹出窗-->
     <div id="pop-address" class="pop2 pop2-ab pa hide">
-        <div class="bgK pa"><img src="/images/pop1_bg.png?<?php echo $tag; ?>" alt=""/></div>
-        <input class="to_who pa" type="text" placeholder="收件人"/>
-        <input class="postcode pa" type="text" placeholder="邮编"/>
-        <textarea class="to_address pa" name="收件人地址" cols="30" rows="10" placeholder="收件人地址（须填收件人所在城市）"></textarea>
+        <div class="bgK pa"><img src="/images/edit_contact_bg.png?<?php echo $tag; ?>" alt=""/></div>
+        <div class="edit_title pa">编辑收信人地址</div>
+        <input class="recipient_input pa" type="text" placeholder="收件人姓名"/>
+        <input class="province_input pa" type="text" placeholder="省"/>
+        <input class="city_input pa" type="text" placeholder="市"/>
+        <input class="district_input pa" type="text" placeholder="区"/>
+        <input class="address_input pa" type="text" placeholder="街道地址、门牌号"></input>
+        <input class="postcode_input pa" type="text" placeholder="邮政编码"/>
+        <input class="mobile_input pa" type="text" placeholder="联系电话"/>
         <div class='menu-btn-hc pa'>
-            <input id="pop-cancel" type="image" src="/images/cancel.gif?<?php echo $tag; ?>" alt="取消"/>
-            <input id="pop-confirm" type="image" src="/images/youchuo-sure.png?<?php echo $tag; ?>" alt="确定"/>
+            <input id="pop-cancel" type="image" src="/images/back_btn.png?<?php echo $tag; ?>" alt="取消"/>
+            <input id="pop-confirm" type="image" src="/images/save_btn.png?<?php echo $tag; ?>" alt="确定"/>
         </div>
     </div>
 
@@ -35,12 +43,12 @@
         <div class="list-info-ab">
             <p class="addr-title"></p>
             <ul>
-                <li><i>姓名：</i><span class='name-hc addr-name'>小嗝嗝</span></li>
+                <li><i>姓名：</i><span class='name-hc addr-name'></span></li>
                 <li>
                     <i>地址：</i>
                     <span class='addr-hc addr-addr'>test</span>
                 </li>
-                <li><i>邮编：</i><span class='post-hc addr-post'>646200</span></li>
+                <li><i>邮编：</i><span class='post-hc addr-post'></span></li>
                 <button class='sel-btn-hc delete_hc'></button>
                 <button class='sel-btn-hc edit_hc'></button>
             </ul>
@@ -53,12 +61,15 @@
         <h2 class="pa">地址簿</h2>
         <div class='list-ul-hc pa list-ul-hc-ab address-book'></div>
         <div class='menu-btn-hc menu-btn-hc-ab pa' id='m_btn'>
-            <button id="add-contact" class="add_hc"></button>
+            <button id="add-contact" class="add_hc w150h50 pa"></button>
+            <button id="share-contact" class="share_hc w150h50 pa"></button>
         </div>
     </div>
     <!-- 地址簿end -->
 </div>
 <script src="/js/jquery-1.9.0.min.js"></script>
+<script src="/js/google.fastbutton.js"></script>
+<script src="/js/jquery.google.fastbutton.js"></script>
 <script src="/js/common.js?<?php echo $tag; ?>"></script>
 <script src="/js/address-book.js?<?php echo $tag; ?>"></script>
 </body>

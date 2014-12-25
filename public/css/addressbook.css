@@ -93,17 +93,26 @@ html,body {height: 100%;}
     background:url("../images/delete.png") no-repeat center;
 }
 .add_hc {
-    display: block;
-    width: 100%;
-    height: 100%;
+    /*display: block;*/
+    left: 50%;
+    margin-left: -130px;
     border: 0;
-    background:#eaeaea url("../images/addpeople.png") no-repeat center;
+    background: url("../images/add_contact.png") no-repeat;
+    background-size: 100% 100%;
+}
+.share_hc {
+    /*display: block;*/
+    left: 50%;
+    margin-left: 10px;
+    border: 0;
+    background: url("../images/share_contact.png") no-repeat;
+    background-size: 100% 100%;
 }
 .menu-btn-hc-ab {
     bottom: 20px;
     left: 17px;
     right: 17px;
-    height: 50px;
+    height: 60px;
     text-align: center;
     padding-top: 5px;
     border-bottom-left-radius: 25px;
@@ -117,30 +126,41 @@ html,body {height: 100%;}
 .pop2-ab .bgK {top:20px;}
 .bgK {z-index: 1;top: 20px;left: 50%;margin-left: -175px;}
 .bgK img {width: 350px;height: 400px;}
-.pop2-ab .to_who {top:80px;}
-.pop2-ab .postcode {top:135px;}
-.pop2-ab .to_address {top:185px;height: 125px;}
-.pop2-ab .menu-btn-hc {top:330px;z-index: 5;border: 0;}
+.edit_title {top: 60px; color: #ffffff;text-align: center;}
+.recipient_input {top:100px;}
+.province_input, .city_input, .district_input {top:140px;}
+.address_input {top:180px;}
+.postcode_input {top:220px;}
+.mobile_input {top:260px;}
+.menu-btn-hc {top:330px;z-index: 5;border: 0;}
 
-.to_who,.postcode,.to_address {
+.edit_title,.recipient_input,.postcode_input,.address_input,.mobile_input,.province_input,.city_input,.district_input {
 	z-index: 5;
-    width: 270px;
 	left: 50%;
     margin-left: -135px;
-    border-radius: 15px;
-	background: #eee;
-}
-.to_who,.postcode {
-    height: 40px;
-    top: 150px;
-    border: 1px solid #999;
+    height: 25px;
+    border: 0;
     padding-left: 10px;
 }
-.to_address {
-    height: 100px;
-    top: 255px;
-    padding: 5px;
-
+.edit_title {
+    margin-left: -54px;
+    padding-left: 0;
+}
+.recipient_input,.postcode_input,.address_input,.mobile_input {
+    width: 270px;
+    background:url("../images/edit_contact_input_bg.png") no-repeat;
+    background-size: 100%, 100%;
+}
+.province_input,.city_input,.district_input {
+    width: 80px;
+    background:url("../images/edit_contact_input_short_bg.png") no-repeat;
+    background-size: 100%, 100%;
+}
+.city_input {
+    margin-left: -40px;
+}
+.district_input {
+    margin-left: 55px;
 }
 
 @media all and (max-width: 320px) {

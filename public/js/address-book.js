@@ -1,6 +1,13 @@
 (function($) {
     var domain = "http://" + window.location.host;
 
+    var imgUrl = 'https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoib04c8tvEHviaFSFtLGJ5Ox1H9CibIfOiauH0UEiaso13g5zgJ5E8SozibwIibESViaXMQ5keYwQAZwHLylw/0';
+    var descContent = '亲，您的好友在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦';
+    var shareTitle = '我在趣邮向您索要收件地址';
+    var appid = 'wxbd6694a085209f4d';
+    var userName = $('#var-user-name').val();
+    var shareLink = domain + '/contact/filladdress?userName=' + userName;
+
     /*************** Contacts begin ***********************/
     function Address() {
         this.varCollection = {
@@ -173,9 +180,9 @@
                     $(document).on("click", ".list-wrap-hc .edit_hc", function() {
                         var addressObj = $(this).parents(".list-info-ab");
                         $("#pop-address")
-                            .find(".to_who").val(addressObj.find(".addr-name").text()).attr("disabled", true).end()
-                            .find(".postcode").val(addressObj.find(".addr-post").text()).end()
-                            .find(".to_address").val(addressObj.find(".addr-addr").text()).end()
+                            .find(".recipient_input").val(addressObj.find(".addr-name").text()).end() // attr("disabled", true).
+                            .find(".postcode_input").val(addressObj.find(".addr-post").text()).end()
+                            .find(".address_input").val(addressObj.find(".addr-addr").text()).end()
                             .show();
                     });
                     $(document).on("click", "#pop-cancel", function() {
@@ -184,9 +191,12 @@
                     $(document).on("click", "#pop-confirm", function() {
                         var address = new Address();
                         address.setVars({
-                            "name": $("#pop-address .to_who").val(),
-                            "address": $("#pop-address .to_address").val(),
-                            "zipcode": $("#pop-address .postcode").val(),
+                            "name": $("#pop-address .recipient_input").val(),
+                            "address": $("#pop-address .province_input").val()
+                                       + $("#pop-address .city_input").val()
+                                       + $("#pop-address .district_input").val()
+                                       + $("#pop-address .address_input").val(),
+                            "zipcode": $("#pop-address .postcode_input").val(),
                         });
                         var msg = HC.checkAddress(address);
                         if (msg) {
@@ -198,24 +208,73 @@
                     });
                     $(document).on("click", "#add-contact", function() {
                         $("#pop-address")
-                            .find(".to_who").val("").attr("disabled", false).end()
-                            .find(".postcode").val("").end()
-                            .find(".to_address").val("").end()
+                            .find(".recipient_input").val("").attr("disabled", false).end()
+                            .find(".postcode_input").val("").end()
+                            .find(".address_input").val("").end()
+                            .find(".mobile_input").val("").end()
+                            .find(".province_input").val("").end()
+                            .find(".city_input").val("").end()
+                            .find(".district_input").val("").end()
                             .show();
                     });
-
+                    $(document).on("click", "#share-contact", function() {
+                        $("#sharetips").show();
+                    });
+                    $("#sharetips").fastClick(function() {
+                        $("#sharetips").hide();
+                    });
                     isInited = true;
                 }
             },
         });
     }
 
+    function shareFriend() {
+        WeixinJSBridge.invoke('sendAppMessage',{
+            "appid": appid,
+            "img_url": imgUrl,
+            "img_width": "640",
+            "img_height": "640",
+            "link": shareLink,
+            "desc": descContent,
+            "title": shareTitle
+        }, function(res) {
+            _report('send_msg', res.err_msg);
+        })
+    }
+
+    function shareTimeline() {
+        WeixinJSBridge.invoke('shareTimeline',{
+            "img_url": imgUrl,
+            "img_width": "640",
+            "img_height": "640",
+            "link": shareLink,
+            "desc": descContent,
+            "title": shareTitle
+        }, function(res) {
+            _report('timeline', res.err_msg);
+        });
+    }
+
+    function onBridgeReady() {
+        WeixinJSBridge.on('menu:share:appmessage', function(argv){  // 好友
+            shareFriend();
+        });
+        WeixinJSBridge.on('menu:share:timeline', function(argv){ // 朋友圈
+            shareTimeline();
+        });
+    }
+
     var addressBook = new Contacts();
-    /*************** Contacts end *************************/
-
-
     $(function() {
         addressBook.setUserName($("#var-user-name").val())
             .fetchContacts();
+
+        if (typeof WeixinJSBridge == "undefined") {
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        } else {
+            onBridgeReady();
+        }
     });
+
 })(jQuery);

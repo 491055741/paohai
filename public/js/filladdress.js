@@ -59,16 +59,16 @@
                     userName: userName,
                     contactName: address.getName(),
                     address: address.getAddress(),
-                    zipCode: address.getZipcode(),
+                    zipCode: address.getZipcode()
                 };
                 $.ajax({
                     url: url,
                     type: "POST",
                     data: params,
                     dataType: "json",
-                    timeout: 10000,
+                    timeout: 10000
                 }).done(function(data) {
-                    
+                    WeixinJSBridge.call('closeWindow');
                 }).fail(function(xmlhttprequest, err, e) {
                     if (err == "timeout") {
                         HC.showError("网速不给力，请稍候再试哦");
@@ -79,7 +79,6 @@
 
                 return this;
             }
-
         })
     }
 
@@ -94,9 +93,12 @@
         $(document).on("click", "#pop-confirm", function() {
             var address = new Address();
             address.setVars({
-                "name": $("#pop-address .to_who").val(),
-                "address": $("#pop-address .to_address").val(),
-                "zipcode": $("#pop-address .postcode").val(),
+                "name": $("#pop-address .recipient_input").val(),
+                "address": $("#pop-address .province_input").val()
+                    + $("#pop-address .city_input").val()
+                    + $("#pop-address .district_input").val()
+                    + $("#pop-address .address_input").val(),
+                "zipcode": $("#pop-address .postcode_input").val()
             });
             // var msg = HC.checkAddress(address);
             // if (msg) {
