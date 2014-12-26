@@ -132,7 +132,7 @@ html,body {height: 100%;}
 .address_input {top:180px;}
 .postcode_input {top:220px;}
 .mobile_input {top:260px;}
-.menu-btn-hc {top:330px;z-index: 5;border: 0;}
+.menu-btn-hc {z-index: 5;border: 0;}
 
 .edit_title,.recipient_input,.postcode_input,.address_input,.mobile_input,.province_input,.city_input,.district_input {
 	z-index: 5;
@@ -169,44 +169,26 @@ html,body {height: 100%;}
     .bgK {margin-left: -155px;}
     .bgK img {width: 310px;height: 350px;}
 
-    .pop2 .to_who,.pop2 .postcode,.pop2 .to_address {
-        z-index: 5;
+    .recipient_input,.postcode_input,.address_input,.mobile_input {
         width: 230px;
-        height: 30px;
-        top: 100px;
-        left: 50%;
         margin-left: -115px;
-        border-radius: 15px;
-        border: 1px solid #999;
         padding-left: 10px;
-        background: #eee;
+        height: 20px;
     }
-
-    .pop2 .postcode {top: 140px;}
-    .pop2 .to_address{
-		height:125px;
-        top: 185px;
-        padding: 5px;
+    .province_input,.city_input,.district_input {
+        width: 70px;
+        background:url("../images/edit_contact_input_short_bg.png") no-repeat;
+        background-size: 100%, 100%;
+        height: 20px;
     }
-
-    .pop2 .menu {
-        z-index: 5;
-        top: 290px;
-        left: 50%;
-        width: 250px;
-        margin-left: -125px;
+    .province_input {
+        margin-left: -115px;
     }
-    .pop2 .save_add {
-        display: inline-block;
-        height: 42px;
-        line-height: 42px;
-        padding-left: 40px;
-        color: #000;
+    .city_input {
+        margin-left: -35px;
     }
-    .pop2 .go_add {
-        width: 130px;
-        height: 40px;
-        margin-left: 0;
+    .district_input {
+        margin-left: 45px;
     }
 	.menu-btn-hc input {
 		width:100px;

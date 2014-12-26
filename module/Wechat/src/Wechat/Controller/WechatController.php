@@ -218,7 +218,7 @@ PROMOTION_TEXT;
                                         </Articles>
                                         </xml>";
 
-                            $picUrl = "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo9aDhVh05nNVbPbNFNNef2eY8I61Sgic2wa5893n1QFWnibqYLD2Xo3Tm6sJNBB7K6ibacSoZ8gwy93w/0";
+                            $picUrl = "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoibe4vTSJeXxicKYuRSTRl5noFE8VWHGsQoeiaS89mMPaDe1FWYxsl0zm9v9OPQLiaNianSKe0iaPz0QGSw/0";
                             $replyMsgType = "news";
                             $title = "趣邮明信片--我寄出的明信片";
                             $desc = "查看我都寄出了哪些明信片";
@@ -243,7 +243,7 @@ PROMOTION_TEXT;
                                         </Articles>
                                         </xml>";
 
-                            $picUrl = "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo9aDhVh05nNVbPbNFNNef2eAkcCicria1kB0wL3NO4BCNMNibnibUyl5arCiaicZdalZCaQU403icOhDTJYw/0";
+                            $picUrl = "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoibe4vTSJeXxicKYuRSTRl5noxkjxMU9W4rzN08TSIgyib1l3wXTMdDPpHsTnseEcLZuRJZAIlbHv5kg/0";
                             $replyMsgType = "news";
                             $title = "趣邮明信片--我的地址簿";
                             $desc = "把常用联系人的地址保存在此，能让之后的寄送更方便哦";
@@ -252,9 +252,10 @@ PROMOTION_TEXT;
                             echo $resultStr;
                             return true;
                         } else if ($eventKey == "preset_card") {
-                            $contentStr = $this->getPresetCardMessage($postObj);
-                            echo $contentStr;
-                            return true;
+//                            $contentStr = $this->getPresetCardMessage($postObj);
+//                            echo $contentStr;
+                            $contentStr = "新用户关注有礼，首次0.01元";
+//                            return true;
                         } else {
                             $contentStr = "请上传一张照片";
                         }
@@ -372,6 +373,7 @@ PROMOTION_TEXT;
 
 
     private function getPresetCardMessage($receiveData) {
+/*
         $images = array(
             "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo8lFWa5TprPficNhSricKbd1f62Lu6cMloOOpkSt6oG3z5XsdFXibqVGlrSsSULu4cuqickWFYicDot0JQ/0",
         );
@@ -413,7 +415,7 @@ PRESET_ITEM_TEXT;
     </Articles>
 </xml>
 PRESET_CARD_TEXT;
-
+*/
         return $content;
     }
 
