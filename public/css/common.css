@@ -173,13 +173,6 @@ body {background: rgba(0,0,0,0.7);}
     overflow-x: auto;
 }
 
-.thumb_frame {
-    top:15px;
-    width:70px;
-    height:70px;
-    border: 0;
-    background:url("https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo8lFWa5TprPficNhSricKbd1fFSmcFbgNBicqootXeGJT3SOmfZia7UwLJ38NdlI5UPm34U5GsBOArPXQ/0");
-}
 @media (max-width: 320px) and (max-height: 480px){
     .thumb_frame {top:10px;}
 }

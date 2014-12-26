@@ -170,7 +170,7 @@ var HC = {
         var tp = HC.touch;
         console.log("a:"+selectedTemplateIndex);
         console.log(tp.var_template_rotate_index.value);
-        if( selectedTemplateIndex > tp.var_template_rotate_index.value ) {
+        if( selectedTemplateIndex >= tp.var_template_rotate_index.value ) {
             tp.s = true;
             HC.scale(tp.s);
             //transform-origin: left bottom

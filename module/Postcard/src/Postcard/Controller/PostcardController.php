@@ -28,7 +28,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412231112');
+define('JS_TAG', '201412251112');
 
 
 class PostcardController extends AbstractActionController
@@ -725,7 +725,7 @@ class PostcardController extends AbstractActionController
             file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
         }
 
-        $angel = ($order->templateId >= 8) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
+        $angel = ($order->templateId >= 6) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
 
         $a = imagesx($image_user);
