@@ -28,7 +28,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412251112');
+define('JS_TAG', '201412300039');
 
 
 class PostcardController extends AbstractActionController
@@ -725,7 +725,7 @@ class PostcardController extends AbstractActionController
             file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
         }
 
-        $angel = ($order->templateId >= 6) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
+        $angel = ($order->templateId >= 7) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
 
         $a = imagesx($image_user);
@@ -1001,7 +1001,7 @@ class PostcardController extends AbstractActionController
     {
         $dateTextArray = array(
             array(
-//                'text'     => '成都',
+// 0               'text'     => '成都',
                 'left'     => $x + 150,
                 'top'      => $y + 216,
                 'width'    => 600,
@@ -1011,7 +1011,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-//                'text'     => '三亚',
+// 1               'text'     => '三亚',
                 'left'     => $x + 168,
                 'top'      => $y + 156,
                 'width'    => 600,
@@ -1021,7 +1021,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-//                'text'     => '杭州',
+// 2               'text'     => '杭州',
                 'left'     => $x + 196,
                 'top'      => $y + 102,
                 'width'    => 600,
@@ -1031,7 +1031,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-//                'text'     => '北京',
+// 3               'text'     => '北京',
                 'left'     => $x + 80,
                 'top'      => $y + 165,
                 'width'    => 600,
@@ -1041,7 +1041,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-                'text'     => '广州',
+// 4               'text'     => '广州',
                 'left'     => $x + 160,
                 'top'      => $y + 130,
                 'width'    => 600,
@@ -1051,7 +1051,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-//                'text'     => '上海',
+// 5               'text'     => '上海',
                 'left'     => $x + 116,
                 'top'      => $y + 165,
                 'width'    => 600,
@@ -1061,7 +1061,27 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-//                'text'     => '深圳',
+// 6               'text'     => '深圳',
+                'left'     => $x + 180,
+                'top'      => $y + 145,
+                'width'    => 600,
+                'font-size' => 18,
+                'font-color' => array(60, 60, 60),
+                'dateFormat' => 'Y.m.d',
+            ),
+
+            array(
+// 10               'text'     => '厦门',
+                'left'     => $x + 180,
+                'top'      => $y + 145,
+                'width'    => 600,
+                'font-size' => 18,
+                'font-color' => array(60, 60, 60),
+                'dateFormat' => 'Y.m.d',
+            ),
+
+            array(
+// 11               'text'     => '昆明',
                 'left'     => $x + 180,
                 'top'      => $y + 145,
                 'width'    => 600,

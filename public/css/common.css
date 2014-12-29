@@ -202,7 +202,7 @@ body {background: rgba(0,0,0,0.7);}
 
 /****************页面2*******************/
 .bgK {z-index: 1;top: 20px;left: 50%;margin-left: -175px;}
-.bgK img {width: 350px;height: 400px;}
+.bgK img {width: 350px;height: 500px;}
 
 .infoWrap {z-index: 2;top: 60px;width: 290px;height:100px;left: 50%;margin-left:-145px;}
 .youzhen {z-index: 3;width:213px;height:32px;top: 0;left: 0;}
@@ -220,14 +220,14 @@ body {background: rgba(0,0,0,0.7);}
 
 /*弹窗*/
 .pop1,.pop2,.pop3 {height:100%;width:100%;top: 0;left: 0;background: rgba(0,0,0,0.7);z-index: 5}
-.pop1 .bgK,.pop2 .bgK,.pop3 .bgK {top:100px;}
+.pop1 .bgK,.pop2 .bgK,.pop3 .bgK {top:0px;}
 
 /*弹窗1*/
-.lab2 {width: 188px;height: 30px;z-index:5;top:150px;left: 50%;margin-left: -94px;font-size: 20px;font-weight: bold;color: #DD4E5A;}
+.lab2 {width: 188px;height: 30px;z-index:5;top:50px;left: 50%;margin-left: -94px;font-size: 20px;font-weight: bold;color: #DD4E5A;}
 .youchuoWraper {
     width: 300px;
-    height: 200px;
-    top: 200px;
+    height: 300px;
+    top: 100px;
     left: 50%;
     margin-left: -160px;
     z-index: 6;
@@ -395,11 +395,11 @@ a.on i {display: block;}
     /*弹出窗1*/
     .pop1 .bgK, .pop2 .bgK, .pop3 .bgK {top: 50px;}
     .bgK {margin-left: -155px;}
-    .bgK img { width: 310px;height: 350px;}
+    .bgK img { width: 310px;height: 450px;}
     .lab2{top: 100px;}
     .youchuoWraper { width: 300px;height: 200px;top: 135px;  margin-left: -150px;}
     .youchuoWraper a {margin-left: 7px;}
-    .youchuo_confirm { top: 340px; }
+    .youchuo_confirm { top: 420px; }
     /*弹出窗2*/
     .pop2 .bgK {top:30px;}
     .pop2 .to_who,.pop2 .postcode {

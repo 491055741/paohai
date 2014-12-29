@@ -145,7 +145,6 @@
         });
     }
 
-
     function Address() {
         this.varCollection = {
             name: "",
