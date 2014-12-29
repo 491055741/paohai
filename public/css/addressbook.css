@@ -41,9 +41,24 @@ html,body {height: 100%;}
 .list-ul-hc ul li{line-height: 25px;overflow: hidden;}/*huangchun 2014-11-13*/
 .list-ul-hc ul li i{float: left; font-style: normal;font-weight: bold;}
 
-.menu-btn-hc {height: 50px;background: transparent;border-top: 1px solid #ccc;}
-.menu-btn-hc {bottom: 20px;left:10px;right:10px;height: 50px;text-align: center;padding-top: 5px;}
-.menu-btn-hc input{display:inline-block;width: 120px; height: 50px; margin: 0 5px;}
+.menu-btn-hc {
+    height: 50px;
+    background: transparent;
+    border-top: 1px solid #ccc;
+    bottom: 20px;
+    left: 10px;
+    right: 10px;
+    height: 50px;
+    text-align: center;
+    padding-top: 5px;
+}
+.menu-btn-hc input {display:inline-block;width: 120px; height: 50px; margin: 0 5px;}
+
+.menu-btn-pop {
+    bottom: auto;
+    top: 300px;
+}
+
 /*.menu-btn-hc a:hover{background: #387bbe;color: #ffffff}*/
 .addr-hc{display: block;margin-left: 40px;}
 .addr_bg {
@@ -54,8 +69,6 @@ html,body {height: 100%;}
     width: 100%;
     height: 100%;
 }
-
-
 
 /*ÿһ???б???Ϣ??????*/
 .list-info-ab {
@@ -126,7 +139,7 @@ html,body {height: 100%;}
 .pop2-ab .bgK {top:20px;}
 .bgK {z-index: 1;top: 20px;left: 50%;margin-left: -175px;}
 .bgK img {width: 350px;height: 400px;}
-.edit_title {top: 60px; color: #ffffff;text-align: center;}
+.edit_title {top: 35px; color: #ffffff;text-align: center;}
 .recipient_input {top:100px;}
 .province_input, .city_input, .district_input {top:140px;}
 .address_input {top:180px;}
@@ -165,7 +178,7 @@ html,body {height: 100%;}
 
 @media all and (max-width: 320px) {
 
-    .pop2 .bgK {top: 50px;}
+    .pop2 .bgK {top: 20px;}
     .bgK {margin-left: -155px;}
     .bgK img {width: 310px;height: 350px;}
 
