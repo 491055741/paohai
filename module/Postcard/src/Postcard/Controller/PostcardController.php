@@ -12,6 +12,7 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Postcard\Model\Order;
 use Postcard\Model\Contact;
+use Postcard\Model\UserPosition;
 use Postcard\Libs\PinYin;
 
 define('DEFAULT_PICURL', 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg');
@@ -155,6 +156,7 @@ class PostcardController extends AbstractActionController
         return $this->viewModel(array(
             'order' => $order,
             'tag'   => JS_TAG,
+            'userName' => $order->userName,
         ));
     }
 
@@ -190,12 +192,13 @@ class PostcardController extends AbstractActionController
 
         $longitude = $userLngLat->getLongitude();
         $latitude = $userLngLat->getLatitude();
-//        $lastUpdateTimestamp = $userLngLat->getLastUpdateTimestamp();
+        $lastUpdateTimestamp = $userLngLat->getLastUpdateTimestamp();
         return new JsonModel(array(
             'code' => 0,
             'lnglat' => array(
                 'longitude' => $longitude,
                 'latitude' => $latitude,
+                'lastUpdateTime' => $lastUpdateTimestamp,
             ),
         ));
     }
@@ -563,6 +566,42 @@ class PostcardController extends AbstractActionController
         $postResult = json_decode($this->getUtil()->httpPost($url, json_encode($nativeObj)));
 
         return $postResult;
+    }
+
+    public function clientReportLnglatAction()
+    {
+        $userName = $this->getRequest()->getPost('username');
+        $latitude = $this->getRequest()->getPost('latitude');
+        $longitude = $this->getRequest()->getPost('longitude');
+
+        if ( ! $userName) {
+            return new JsonModel(array(
+                'code' => 1,
+                'msg' => '用户不能为空'
+            ));
+        }
+        $latlngParttern = "/^\d+\.\d+$/";
+        if (
+            preg_match($latlngParttern, $latitude) == 0 ||
+            preg_match($latlngParttern, $longitude) == 0
+        ) {
+            return new JsonModel(array(
+                'code' => 1,
+                'msg' => '经纬度格式错误'
+            ));
+        }
+        
+        $userPosition = new UserPosition();
+        $userPosition->setUserName($userName)
+            ->setLatitude($latitude)
+            ->setLongitude($longitude)
+            ->updateTimestamp();
+        $this->getUserPositionTable()->savePosition($userPosition);
+
+        return new JsonModel(array(
+            'code' => 0,
+            'msg' => 'update user position successed',    
+        ));
     }
 
     private function logger($content)
