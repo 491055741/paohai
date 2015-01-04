@@ -3,7 +3,7 @@
 
     var imgUrl = 'https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoib04c8tvEHviaFSFtLGJ5Ox1H9CibIfOiauH0UEiaso13g5zgJ5E8SozibwIibESViaXMQ5keYwQAZwHLylw/0';
     var shareTitle = '我在趣邮向您索要收件地址';
-    var appid = 'wxbd6694a085209f4d';
+    var appid = 'wx4a41ea3d983b4538';  //'wxbd6694a085209f4d';
     var userName = $('#var-user-name').val();
     var nickName = $('#var-nick-name').val();
     var descContent = nickName.length > 0 ? '亲，您的好友['+nickName+']在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦' : '亲，您的好友在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦';
@@ -258,8 +258,10 @@
     }
 
     function onBridgeReady() {
+        alert("onBridgeReady");
         WeixinJSBridge.on('menu:share:appmessage', function(argv){  // 好友
-            shareFriend();
+            alert("share to friend");
+//            shareFriend();
         });
         WeixinJSBridge.on('menu:share:timeline', function(argv){ // 朋友圈
             shareTimeline();
@@ -347,14 +349,10 @@
 
     var addressBook = new Contacts();
     $(function() {
-        addressBook.setUserName($("#var-user-name").val())
-            .fetchContacts();
-
-        if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
             document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-        } else {
-            onBridgeReady();
         }
+        addressBook.setUserName($("#var-user-name").val()).fetchContacts();
         initSelect();
         $("#province_select").change(function(){select();});
 

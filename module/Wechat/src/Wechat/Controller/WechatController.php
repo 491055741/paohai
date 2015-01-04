@@ -112,7 +112,7 @@ class WechatController extends AbstractActionController
                 $replyMsgType = "news";
                 $title = "点击创建明信片";
                 $desc = "就是这张么？如果确定了，就戳戳图片开始制作明信片啦~";
-                $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard?picurl='.$picUrl.'&username='.$fromUsername;
+                $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard?picurl='.$picUrl.'&username='.$fromUsername.'&nonce='.time();
                 $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                 echo $resultStr;
                 return true;
@@ -162,7 +162,7 @@ class WechatController extends AbstractActionController
                         if (strlen($sceneId) > 0) {
                             $order = $this->getOrderTable()->getOrderByQrSceneId($sceneId);
                             if ($order && isset($order->voiceMediaId)) {
-                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?orderId='.$order->id.'&mediaId='.$order->voiceMediaId.'">快来听听你的留言吧</a>';
+                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?orderId='.$order->id.'&mediaId='.$order->voiceMediaId.'&nonce='.time().'">快来听听你的留言吧</a>';
                             } else {
                                 $contentStr = '没有找到语音留言,sceneId:'.$sceneId;
                             }
@@ -222,7 +222,7 @@ PROMOTION_TEXT;
                             $replyMsgType = "news";
                             $title = "趣邮明信片--我寄出的明信片";
                             $desc = "查看我都寄出了哪些明信片";
-                            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard/orderlist?userName='.$fromUsername;
+                            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard/orderlist?userName='.$fromUsername.'&nonce='.time();
                             $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                             echo $resultStr;
                             return true;
@@ -248,7 +248,7 @@ PROMOTION_TEXT;
                             $replyMsgType = "news";
                             $title = "趣邮明信片--我的地址簿";
                             $desc = "把常用联系人的地址保存在此，能让之后的寄送更方便哦";
-                            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/contact/contactspage?userName='.$fromUsername;
+                            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/contact/contactspage?userName='.$fromUsername.'&nonce='.time();
                             $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                             echo $resultStr;
                             return true;
