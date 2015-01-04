@@ -227,6 +227,7 @@ PROMOTION_TEXT;
                             echo $resultStr;
                             return true;
                         } else if ($eventKey == "address_book") {
+
                             $newsTpl = "<xml>
                                         <ToUserName><![CDATA[%s]]></ToUserName>
                                         <FromUserName><![CDATA[%s]]></FromUserName>
@@ -252,10 +253,10 @@ PROMOTION_TEXT;
                             echo $resultStr;
                             return true;
                         } else if ($eventKey == "preset_card") {
-//                            $contentStr = $this->getPresetCardMessage($postObj);
-//                            echo $contentStr;
-                            $contentStr = "新用户关注有礼，首次0.01元";
-//                            return true;
+                            $contentStr = $this->getPresetCardMessage($postObj);
+                            echo $contentStr;
+//                            $contentStr = "新用户关注有礼，首次0.01元";
+                            return true;
                         } else {
                             $contentStr = "请上传一张照片";
                         }
@@ -356,12 +357,10 @@ PROMOTION_TEXT;
         }
     }
 
-
     /********************** event handler ************************/
     private function receiveUserLatitude($receiveData) {
-        $latitude = $receiveData->Latitude;
-        $longitude = $receiveData->Longitude;
-
+//        $latitude = $receiveData->Latitude;
+//        $longitude = $receiveData->Longitude;
         $userPosition = new UserPosition();
         $userPosition->setUserName($receiveData->FromUserName)
             ->setLatitude($receiveData->Latitude)
@@ -371,35 +370,36 @@ PROMOTION_TEXT;
         $this->getUserPositionTable()->savePosition($userPosition);
     }
 
-
     private function getPresetCardMessage($receiveData) {
-/*
-        $images = array(
-            "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo8lFWa5TprPficNhSricKbd1f62Lu6cMloOOpkSt6oG3z5XsdFXibqVGlrSsSULu4cuqickWFYicDot0JQ/0",
-        );
-        
+
+//        $images = array(
+//            "https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoicVx982wian4uhRZf4WK7EQib0pLd6hS9eHLhVhwGqjFmWNDRGEcPAs77ZC17228JDQg26tGDTwxibwA/0",
+//        );
+
+        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/activity.html';
         $items = <<<PRESET_TITLE_TEXT
     <item>
-        <Title><![CDATA[We wish U Merry Christmas \r\n1分钱传递你最真挚的爱]]></Title>
-        <PicUrl><![CDATA[https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo8lFWa5TprPficNhSricKbd1fRibhQBItapkhkU7r19wD0GMJG83bzakMYTH3FhBKctkstmBCoaZsfZw/0]]></PicUrl>
-        <Url><![CDATA[http://quyou.ikamobile.com/activity_chrismas.html]]></Url>
-    </item>
-PRESET_TITLE_TEXT;
-        foreach ($images as $picUrl) {
-            $url = 'http://'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"] . 
-                '/postcard?picurl=' . $picUrl . '&username=' . $receiveData->FromUserName;
-            $items .= <<<PRESET_ITEM_TEXT
-    <item>
-        <Title><![CDATA[圣诞限定！2014珍藏版Christmas Card]]></Title>
-        <PicUrl><![CDATA[{$picUrl}]]></PicUrl>
+        <Title><![CDATA[即日起，只要关注“趣邮明信片”微信公众号，并首次使用“趣邮”DIY 明信片即可享受0.01元/首张的优惠价格哦\r\n快来呼朋唤友DIY自己的明信片吧！]]></Title>
+        <PicUrl><![CDATA[https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoicVx982wian4uhRZf4WK7EQibeRLH6TpTZ6ftTAnljmzXP3JHHSylRbIQbJia9k70Oj7Kcs2u4Saec5Q/0]]></PicUrl>
         <Url><![CDATA[{$url}]]></Url>
     </item>
-PRESET_ITEM_TEXT;
-        }
+PRESET_TITLE_TEXT;
+
+//        foreach ($images as $picUrl) {
+//            $url = 'http://'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER["SERVER_PORT"] .
+//                '/postcard?picurl=' . $picUrl . '&username=' . $receiveData->FromUserName;
+//            $items .= <<<PRESET_ITEM_TEXT
+//    <item>
+//        <Title><![CDATA[圣诞限定！2014珍藏版Christmas Card]]></Title>
+//        <PicUrl><![CDATA[{$picUrl}]]></PicUrl>
+//        <Url><![CDATA[{$url}]]></Url>
+//    </item>
+//PRESET_ITEM_TEXT;
+//        }
 
         $vars = array(
             "currtTime" => time(),
-            "itemsCount" => count($images) + 1,
+            "itemsCount" => 1,
             "items" => $items, 
         );
 
@@ -415,7 +415,7 @@ PRESET_ITEM_TEXT;
     </Articles>
 </xml>
 PRESET_CARD_TEXT;
-*/
+
         return $content;
     }
 

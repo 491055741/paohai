@@ -1071,7 +1071,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-// 10               'text'     => '厦门',
+// 7               'text'     => '厦门',
                 'left'     => $x + 180,
                 'top'      => $y + 145,
                 'width'    => 600,
@@ -1081,7 +1081,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-// 11               'text'     => '昆明',
+// 8               'text'     => '昆明',
                 'left'     => $x + 180,
                 'top'      => $y + 145,
                 'width'    => 600,

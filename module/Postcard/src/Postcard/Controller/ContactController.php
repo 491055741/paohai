@@ -1,17 +1,19 @@
 <?php
 namespace Postcard\Controller;
+include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Postcard\Model\Contact;
-
+use CommonUtil;
 
 class ContactController extends AbstractActionController
 {
-    const JS_TAG = "201412251802";
+    const JS_TAG = "201412311102";
 
     protected $contactTable;
+    protected $util;
 
     public function testShareAction()
     {
@@ -106,9 +108,17 @@ class ContactController extends AbstractActionController
             return $view;
         }
 
+        $nickName = '';
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->getUtil()->getAccessToken().'&openid='.$userName.'&lang=zh_CN';
+        $result = json_decode($this->getUtil()->httpGet($url), true);
+        if (isset($result['nickname'])) {
+            $nickName = $result['nickname'];
+        }
+
         $viewModel = new ViewModel(array(
-            "userName" => $userName,
-            "tag" => self::JS_TAG,
+            'userName' => $userName,
+            'nickName' => $nickName,
+            'tag' => self::JS_TAG,
         ));
         $viewModel->setTerminal(true);
         return $viewModel;
@@ -121,6 +131,15 @@ class ContactController extends AbstractActionController
             $this->contactTable = $sm->get('Postcard\Model\contactTable');
         }
         return $this->contactTable;
+    }
+
+    private function getUtil()
+    {
+        if (!$this->util) {
+            $this->util = new CommonUtil();
+            $this->util->setServiceLocator($this->getServiceLocator());
+        }
+        return $this->util;
     }
 }
 
