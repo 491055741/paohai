@@ -14,6 +14,7 @@ use Postcard\Model\Order;
 use Postcard\Model\Contact;
 use Postcard\Model\UserPosition;
 use Postcard\Libs\PinYin;
+use Postcard\Libs\Maps;
 
 define('DEFAULT_PICURL', 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg');
 define('DEFAULT_USER', 'default_user_openid'); // default user (my openid is ocKsTuKbE4QqHbwGEXmVnuLHO_sY)
@@ -546,6 +547,15 @@ class PostcardController extends AbstractActionController
         $view =  new ViewModel(array('code' => $rc->errcode, 'msg' => $rc->errmsg));
         $view->setTemplate('postcard/postcard/error');
         return $view;
+    }
+
+
+    public function testGeoAction() {
+        $latitude = $this->getRequest()->getQuery('latitude', '0'); 
+        $longitude = $this->getRequest()->getQuery('longitude', '0');
+        var_dump($latitude, $longitude);
+        $res = Maps::geoLatLng2Address($longitude, $latitude);
+        var_dump($res);exit;
     }
 
     public function deliverNotify($data)
