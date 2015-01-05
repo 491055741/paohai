@@ -15,6 +15,8 @@ class UserPosition
         $this->userName = (isset($data['userName'])) ? $data['userName'] : null;
         $this->latitude = (isset($data['latitude'])) ? $data['latitude'] : null;
         $this->longitude = (isset($data['longitude'])) ? $data['longitude'] : null;
+        $this->lastUpdateTimestamp = (isset($data['lastUpdateTimestamp'])) ?
+            $data['lastUpdateTimestamp'] : 0;
     }
 
 

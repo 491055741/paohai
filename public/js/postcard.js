@@ -21,6 +21,7 @@
                 });
                 popWindowInited = true;
             }
+            exit;
         },
         showInfo: function(message, code) {
             if (code) {
@@ -34,6 +35,7 @@
                 });
                 popWindowInited = true;
             }
+            exit;
         },
         loadingShow: function() {
             $(".loading-image").show();
@@ -367,10 +369,97 @@
 
     /*************** Contacts end *************************/
 
+
+    /************ GeoLocation begin *******************/
+    function GeoLocation() {
+        this.CODE_TABLE = {
+            OK: 0,
+            PERMISSION_DENIED: 80001,       //用户未开启地理位置定位
+            POSITION_UNAVAILABLE: 80002,    //地理位置信息不可得
+            TIMEOUT: 80003,                 //获取地理位置超时
+            UNKNOWN_ERROR: 80004,           
+            BROSWER_NOT_SUPPORT: 80005,     //用户浏览器不支持地理位置地位
+        };
+        this.latlngExpireTime = 3600;       //位置过期时间 60 * 60
+
+        this.coords = {
+            latitude: 0,
+            longitude: 0,
+            lastUpdateTime: 0
+        };
+
+        this.code = this.CODE_TABLE.OK;
+        
+    };
+    $.extend(GeoLocation.prototype, {
+        init: function(latitude, longitude, lastUpdateTime) {
+            this.coords.latitude = latitude;
+            this.coords.longitude = longitude;
+            this.coords.lastUpdateTime = lastUpdateTime;
+        },
+        getCoords: function() {
+            return this.coords;
+        },
+        genLocation: function(successCallback, orderObj) {
+            var self = this;
+            this.code = this.CODE_TABLE.OK;
+
+            var currTime = Date.parse(new Date()) / 1000;
+            if (parseInt(this.coords.lastUpdateTime) + parseInt(this.latlngExpireTime) > parseInt(currTime)) {
+                HC.showInfo("您已经获取定位戳，请到\"第三步\"预览页面查看");
+            }
+
+            if ( ! navigator.geolocation) {
+                HC.showInfo("您的设备不支持地理位置定位");
+            }
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    self.init(
+                        position.coords.latitude,
+                        position.coords.longitude,
+                        currTime
+                    );
+                    successCallback.apply(orderObj);
+                },
+            this.processLatlngError);
+
+        },
+        processLatlngError: function(error) {
+            var msg = "";
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    msg = "亲，您还没有开启定位功能";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    msg = "亲，地理位置获取失败，请重试";
+                    break;
+                case error.TIMEOUT:
+                    msg = "亲，网络不给力，请重试";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    msg = "亲，您所在的位置不支持定位";
+                    break;
+            }
+            HC.showError(msg);
+        },
+        getCode: function() {
+            return this.code;
+        }
+    });
+    GeoLocation.h5GeoAvailable = function() {
+        if (window.navigator.userAgent.indexOf('iPhone') != -1) {
+            return true;
+        }
+        return false;
+    };
+
+    /************ GeoLocation end *******************/
+
     /*************** Order begin *****************/
     function Order() {
         this.orderId = null;
         this.postcard = new Postcard();
+        this.geo = new GeoLocation();
         this.userName = userOpenId;                     // 用户的OpenId
 
         var orderIsInited = false;
@@ -497,6 +586,7 @@
                 );
             });
         },
+                      /*
         getUserLnglat: function() {
             var url = domain + "/postcard/userlnglat/" + this.orderId;
             $.get(
@@ -512,6 +602,63 @@
                 },
                 "json"
             );
+        },
+        */
+        getUserLnglat: function() {
+            var self = this;
+            var url = domain + "/postcard/userlnglat/" + this.orderId;
+            $.get(
+                url,
+                function success(data) {
+                    if (data.code != "0") {
+                        HC.showError(data.msg, data.code);
+                    } else if (data.lnglat.length == 0) {
+                        if ( ! GeoLocation.h5GeoAvailable()) {
+                            HC.showError("请您设置微信，允许我们获取您的地理位置");
+                        }
+                    } else {
+                        if ( ! GeoLocation.h5GeoAvailable()) {
+                            HC.showInfo("您已经获取定位戳，请到\"第三步\"预览页面查看");
+                        }
+                        self.geo.init(
+                            data.lnglat.latitude,
+                            data.lnglat.longitude,
+                            data.lnglat.lastUpdateTime
+                        );
+                    }
+                    self.geo.genLocation(self.clientReportLnglat, self);
+                },
+                "json"
+            );
+        },
+        clientReportLnglat: function() {
+            var self = this;
+            var url = domain + "/postcard/clientreportlnglat/" + this.orderId;
+            var geoData = this.geo.getCoords();
+            var params = {
+                username: this.userName,
+                latitude: geoData.latitude,
+                longitude: geoData.longitude,
+            };
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: params,
+                dataType: "json",
+                timeout: 10000,
+            }).done(function(data) {
+                if (data.code != 0) {
+                    HC.showError(data.msg, data.code);
+                } else {
+                    HC.showInfo("您已经获取定位戳，请到\"第三步\"预览页面查看");
+                }
+            }).fail(function(xmlhttprequest, err, e) {
+                if (err == "timeout") {
+                    HC.showError("网速不给力，请稍候再试");
+                } else {
+                    HC.showError("report position failed!");
+                }
+            });
         },
         saveContact: function() {
             var url = domain + "/postcard/addcontact";    
