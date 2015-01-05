@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="/css/reset.css?<?php echo $tag; ?>"/>
     <link rel="stylesheet" href="/css/addressbook.css?<?php echo $tag; ?>"/>
 </head>
+<!--onLoad="init()"-->
 <body>
 <input type="hidden" id="var-user-name" value="<?php echo $userName; ?>" />
+<input type="hidden" id="var-nick-name" value="<?php echo $nickName; ?>" />
 <div class="container">
 
     <div id="sharetips" class="popbox pa hide" style="padding-top:0">
@@ -26,10 +28,12 @@
         <div class="bgK pa"><img src="/images/edit_contact_bg.png?<?php echo $tag; ?>" alt=""/></div>
         <div class="edit_title pa">编辑收信人地址</div>
         <input class="recipient_input pa" type="text" placeholder="收件人姓名"/>
-        <input class="province_input pa" type="text" placeholder="省"/>
-        <input class="city_input pa" type="text" placeholder="市"/>
+        <form name="creator">
+            <select id="province_select" name="province" class="province_input pa" placeholder="省"></select>
+            <select id="city_select" name="city" class="city_input pa" placeholder="市"> </select>
+        </form>
         <input class="district_input pa" type="text" placeholder="区"/>
-        <input class="address_input pa" type="text" placeholder="街道地址、门牌号"></input>
+        <input class="address_input pa" type="text" placeholder="街道地址、门牌号"/>
         <input class="postcode_input pa" type="text" placeholder="邮政编码"/>
         <input class="mobile_input pa" type="text" placeholder="联系电话"/>
         <div class='menu-btn-hc menu-btn-pop pa'>
@@ -61,8 +65,8 @@
         <h2 class="pa">好友管理</h2>
         <div class='list-ul-hc pa list-ul-hc-ab address-book'></div>
         <div class='menu-btn-hc menu-btn-hc-ab pa' id='m_btn'>
-            <button id="add-contact" class="add_hc w150h50 pa"></button>
-            <button id="share-contact" class="share_hc w150h50 pa"></button>
+            <button id="add-contact" class="add_hc w120h50 pa"></button>
+            <button id="share-contact" class="share_hc w120h50 pa"></button>
         </div>
     </div>
     <!-- 地址簿end -->
@@ -72,5 +76,7 @@
 <script src="/js/jquery.google.fastbutton.js"></script>
 <script src="/js/common.js?<?php echo $tag; ?>"></script>
 <script src="/js/address-book.js?<?php echo $tag; ?>"></script>
+<script language="javascript" >
+</script>
 </body>
 </html>

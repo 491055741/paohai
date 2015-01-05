@@ -77,7 +77,7 @@
             if (address.getAddress().length > 500) {
                 return "您输入的地址太长啦，请不要超过500个字符哦";
             }
-            var re= /^[1-9][0-9]{5}$/;
+            var re= /^[0-9]{6}$/;
             if ( ! re.test(address.getZipcode())) {
                 return "您输入的邮编格式不正确";
             }
@@ -519,7 +519,7 @@
                 successCallback();
             }).fail(function(xmlhttprequest, err, e) {
                 if (err == "timeout") {
-                    HC.showError("网速不给力，请稍候再试");
+                    HC.showError("网速不给力，请稍后再试");
                 } else {
                     HC.showError("update order failed!");
                 }

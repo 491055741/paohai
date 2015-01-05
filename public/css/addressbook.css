@@ -3,7 +3,7 @@ html,body {height: 100%;}
 .w100p {width: 100%;}
 .w95 {width: 95px;}
 .w80h80{width: 80px;height: 80px;}
-.w150h50{width: 120px;height: 50px;}
+.w120h50{width: 120px;height: 50px;}
 .h42 {height: 42px;line-height: 42px;}
 .h38 {height: 38px;line-height: 38px;}
 .h28 {height: 28px;line-height: 28px;}
@@ -108,7 +108,7 @@ html,body {height: 100%;}
 .add_hc {
     /*display: block;*/
     left: 50%;
-    margin-left: -130px;
+    margin-left: -130px; /*-60px;*/
     border: 0;
     background: url("../images/add_contact.png") no-repeat;
     background-size: 100% 100%;

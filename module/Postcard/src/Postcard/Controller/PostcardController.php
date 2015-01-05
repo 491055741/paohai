@@ -29,7 +29,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201412300039');
+define('JS_TAG', '20150105039');
 
 
 class PostcardController extends AbstractActionController
@@ -926,7 +926,7 @@ class PostcardController extends AbstractActionController
             $logo_height = imagesy($image_qr)*0.15;
             imagecopyresampled($image_qr, $logo_canvas, (imagesx($image_qr)-$logo_width)/2, (imagesy($image_qr)-$logo_height)/2, 0, 0,
                 $logo_width, $logo_height, imagesx($logo_canvas), imagesy($logo_canvas));
-            $text = '扫扫听留言';
+            $text = '听取你的留言';
         } else {
             // quyou qr code
             $image_qr = imagecreatefromjpeg('public/images/big/qr_quyou.jpg');
@@ -1110,7 +1110,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-// 10               'text'     => '厦门',
+// 7               'text'     => '厦门',
                 'left'     => $x + 180,
                 'top'      => $y + 145,
                 'width'    => 600,
@@ -1120,7 +1120,7 @@ class PostcardController extends AbstractActionController
             ),
 
             array(
-// 11               'text'     => '昆明',
+// 8               'text'     => '昆明',
                 'left'     => $x + 180,
                 'top'      => $y + 145,
                 'width'    => 600,
