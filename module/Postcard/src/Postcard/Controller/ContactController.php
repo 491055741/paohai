@@ -10,7 +10,7 @@ use CommonUtil;
 
 class ContactController extends AbstractActionController
 {
-    const JS_TAG = "20150104111141";
+    const JS_TAG = "2015010411111111";
 
     protected $contactTable;
     protected $util;

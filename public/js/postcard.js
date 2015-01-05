@@ -75,7 +75,7 @@
             if (address.getAddress().length > 500) {
                 return "您输入的地址太长啦，请不要超过500个字符哦";
             }
-            var re= /^[1-9][0-9]{5}$/;
+            var re= /^[0-9]{6}$/;
             if ( ! re.test(address.getZipcode())) {
                 return "您输入的邮编格式不正确";
             }

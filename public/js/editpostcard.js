@@ -33,7 +33,6 @@
             $(".pop1 [data-index]").removeClass("on");
         }
 
-
         //弹窗2
         $(".pop2 .to_who").val(receiptInfo.getName());
         $(".pop2 .postcode").val(receiptInfo.getZipcode());

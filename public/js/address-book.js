@@ -1,14 +1,6 @@
 (function($) {
     var domain = "http://" + window.location.host;
 
-    var imgUrl = 'https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoib04c8tvEHviaFSFtLGJ5Ox1H9CibIfOiauH0UEiaso13g5zgJ5E8SozibwIibESViaXMQ5keYwQAZwHLylw/0';
-    var shareTitle = '我在趣邮向您索要收件地址';
-    var appid = 'wx4a41ea3d983b4538';  //'wxbd6694a085209f4d';
-    var userName = $('#var-user-name').val();
-    var nickName = $('#var-nick-name').val();
-    var descContent = nickName.length > 0 ? '亲，您的好友['+nickName+']在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦' : '亲，您的好友在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦';
-    var shareLink = domain + '/contact/filladdress?userName=' + userName;
-
     /*************** Contacts begin ***********************/
     function Address() {
         this.varCollection = {
@@ -230,41 +222,38 @@
         });
     }
 
-    function shareFriend() {
-        WeixinJSBridge.invoke('sendAppMessage',{
-            "appid": appid,
-            "img_url": imgUrl,
-            "img_width": "640",
-            "img_height": "640",
-            "link": shareLink,
-            "desc": descContent,
-            "title": shareTitle
-        }, function(res) {
-            _report('send_msg', res.err_msg);
-        })
-    }
-
-    function shareTimeline() {
-        WeixinJSBridge.invoke('shareTimeline',{
-            "img_url": imgUrl,
-            "img_width": "640",
-            "img_height": "640",
-            "link": shareLink,
-            "desc": descContent,
-            "title": shareTitle
-        }, function(res) {
-            _report('timeline', res.err_msg);
-        });
-    }
-
     function onBridgeReady() {
-        alert("onBridgeReady");
+        var imgUrl = 'https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoib04c8tvEHviaFSFtLGJ5Ox1H9CibIfOiauH0UEiaso13g5zgJ5E8SozibwIibESViaXMQ5keYwQAZwHLylw/0';
+        var shareTitle = '我在趣邮向您索要收件地址';
+        var userName = $('#var-user-name').val();
+        var nickName = $('#var-nick-name').val();
+        var descContent = nickName.length > 0 ? '亲，您的好友['+nickName+']在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦' : '亲，您的好友在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦';
+        var shareLink = domain + '/contact/filladdress?userName=' + userName;
+
         WeixinJSBridge.on('menu:share:appmessage', function(argv){  // 好友
             alert("share to friend");
-//            shareFriend();
+//            WeixinJSBridge.invoke('sendAppMessage',{
+//                "appid": "",
+//                "img_url": imgUrl,
+//                "img_width": "640",
+//                "img_height": "640",
+//                "link": shareLink,
+//                "desc": descContent,
+//                "title": shareTitle
+//            }, function(res) {
+//            });
         });
         WeixinJSBridge.on('menu:share:timeline', function(argv){ // 朋友圈
-            shareTimeline();
+            alert("share to timeline");
+//            WeixinJSBridge.invoke('shareTimeline',{
+//                "img_url": imgUrl,
+//                "img_width": "640",
+//                "img_height": "640",
+//                "link": shareLink,
+//                "desc": descContent,
+//                "title": shareTitle
+//            }, function(res) {
+//            });
         });
     }
 
