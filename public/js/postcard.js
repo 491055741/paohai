@@ -430,7 +430,7 @@
                 successCallback();
             }).fail(function(xmlhttprequest, err, e) {
                 if (err == "timeout") {
-                    HC.showError("网速不给力，请稍候再试");
+                    HC.showError("网速不给力，请稍后再试");
                 } else {
                     HC.showError("update order failed!");
                 }
