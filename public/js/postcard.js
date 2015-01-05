@@ -617,8 +617,14 @@
                             HC.showError("请您设置微信，允许我们获取您的地理位置");
                         }
                     } else {
+                        var lastUpdateTime = isNaN(data.lnglat.lastUpdateTime) ? 0 : parseInt(data.lnglat.lastUpdateTime);
                         if ( ! GeoLocation.h5GeoAvailable()) {
-                            HC.showInfo("您已经获取定位戳，请到\"第三步\"预览页面查看");
+                            var currTime = Date.parse(new Date()) / 1000;
+                            if (lastUpdateTime + 21600 < parseInt(currTime)) {
+                                HC.showError("请您设置微信，允许我们获取您的地理位置");
+                            } else {
+                                HC.showInfo("您已经获取定位戳，请到\"第三步\"预览页面查看");
+                            }
                         }
                         self.geo.init(
                             data.lnglat.latitude,
