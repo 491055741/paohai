@@ -122,13 +122,13 @@ class OrderTable
         $this->tableGateway->delete(array('id' => $id));
     }
 
-    public function calculateOrderPrice($userName)
+    public function calculateOrderPrice($order)
     {
         $payPrice = 299;
         return $payPrice;
         /*
         $select = $this->tableGateway->getSql()->select();
-        $select->where('userName = "'.$userName.'"')
+        $select->where('userName = "'.$order->userName.'"')
                ->where('price = "1"')    // RMB 0.01
                ->where('status >= "101"');// payed
         $resultSet = $this->tableGateway->selectWith($select);
@@ -157,6 +157,53 @@ class OrderTable
 
         return $payPrice;
         */
+    }
+
+    private function actSpecifiedTemplatePrice($order) {
+        $price = 299;
+        $actPrice = 0;
+        $specifiedTemplateIds = [];
+        $totalNum = 1000;
+        $perNum = 5;            // max number per user
+        $beginTime = "2015-01-15 00:00:00";
+        $endTime = "2015-01-15 23:59:59";
+        $currTime = date("Y-m-d H:i:s");
+
+        if ( ! in_array($order->templateId, $specifiedTemplateIds)) {
+            return $price;
+        }
+        if ($currTime >= $beginTime && $currTime <= $endTime) {
+            return $price;
+        }
+        // check perNum
+        $select = $this->tableGateway->getSql()->select();
+        $select->where(function($where) use ($actPrice, $beginTime, $endTime) {
+            $where->equalTo("userName", $order->userName);
+            $where->equalTo("price", $actPrice);
+            $where->greaterThanOrEqualTo("status", 101);  // payed
+            $where->between("payDate", $beginTime, $endTime);
+            return $where;
+        });
+        $resultSet = $this->tableGateway->selectWith($select);
+        if ($resultSet->count() >= $perNum) {
+            return $price;
+        }
+
+        // check totalNum
+        $select = $this->tableGateway->getSql()->select();
+        $select->where(function($where) use ($actPrice, $beginTime, $endTime) {
+            $where->equalTo("price", $actPrice);
+            $where->greaterThanOrEqualTo("status", 101);  // payed
+            $where->between("payDate", $beginTime, $endTime);
+            return $where;
+        });
+        $resultSet = $this->tableGateway->selectWith($select);
+        if ($resultSet->count() >= $totalNum) {
+            return $price;
+        }
+
+        $price = $actPrice;
+        return $price;
     }
 
 
