@@ -46,7 +46,7 @@
 
     function callPop() {
         var postmarkIndex = order.getPostcard().getPostmarkIndex();
-
+        var isVoiceTipShown = false;
         $("#memory-stamp-button").on("click", function() { //显示弹窗1
             $(".pop1").show();
             setCardInfo();
@@ -58,8 +58,17 @@
         $(".shoujianInput").on("click", function() { //显示弹窗2
             $(".pop2").show().find(".to_who").trigger("focus");
         });
-        $("#liuyan").on("click", function() { //显示弹窗3
+        $(".voice-tips").on("click" , function() {
+            $(".voice-tips").hide();
             $(".pop3").show().find(".to_who").trigger("focus");
+            isVoiceTipShown = true;
+        });
+        $("#liuyan").on("click", function() { //显示弹窗3
+            if (isVoiceTipShown) {
+                $(".pop3").show().find(".to_who").trigger("focus");
+            } else {
+                $(".voice-tips").show();
+            }
         });
 
         $(".pop1 [data-index]").on("click", function() {

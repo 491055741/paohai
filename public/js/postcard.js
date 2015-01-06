@@ -21,7 +21,7 @@
                 });
                 popWindowInited = true;
             }
-            exit;
+//            exit;
         },
         showInfo: function(message, code) {
             if (code) {
@@ -35,7 +35,7 @@
                 });
                 popWindowInited = true;
             }
-            exit;
+//            exit;
         },
         loadingShow: function() {
             $(".loading-image").show();
