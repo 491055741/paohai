@@ -223,6 +223,10 @@
     }
 
     function onBridgeReady() {
+
+        WeixinJSBridge.call('hideOptionMenu');
+        return;
+
         var imgUrl = 'https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoib04c8tvEHviaFSFtLGJ5Ox1H9CibIfOiauH0UEiaso13g5zgJ5E8SozibwIibESViaXMQ5keYwQAZwHLylw/0';
         var shareTitle = '我在趣邮向您索要收件地址';
         var userName = $('#var-user-name').val();

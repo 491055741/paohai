@@ -125,6 +125,8 @@ class OrderTable
     public function calculateOrderPrice($userName)
     {
         $payPrice = 299;
+        return $payPrice;
+        /*
         $select = $this->tableGateway->getSql()->select();
         $select->where('userName = "'.$userName.'"')
                ->where('price = "1"')    // RMB 0.01
@@ -134,7 +136,7 @@ class OrderTable
             $payPrice = 1;
         }
         return $payPrice;
-/*
+
         $priceRules = array(
             100 => 5,       // 前一百张支付 5 分
             300 => 100,     // 101 - 300 支付 100 分

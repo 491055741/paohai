@@ -11,7 +11,6 @@ use Postcard\Model\UserPosition;
 use Postcard\Libs\Maps;
 use CommonUtil;
 
-
 define("TOKEN", "quyoumessagetoken");
 ini_set("display_errors", true);
 
@@ -253,10 +252,11 @@ PROMOTION_TEXT;
                             echo $resultStr;
                             return true;
                         } else if ($eventKey == "preset_card") {
-                            $contentStr = $this->getPresetCardMessage($postObj);
-                            echo $contentStr;
+//                            $contentStr = $this->getPresetCardMessage($postObj);
+//                            echo $contentStr;
 //                            $contentStr = "新用户关注有礼，首次0.01元";
-                            return true;
+//                            return true;
+                            $contentStr = "订制明信片只需2.99元！";
                         } else {
                             $contentStr = "请上传一张照片";
                         }
@@ -289,7 +289,8 @@ PROMOTION_TEXT;
                         $replyMsgType = "news";
                         $title = "分享测试";
                         $desc = "点击图片进入测试";
-                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT']. '/contact/testshare?userName='.$fromUsername;
+//                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT']. '/contact/testshare?userName='.$fromUsername;
+                        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/testshare.html';
                         $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                         echo $resultStr;
                         return true;

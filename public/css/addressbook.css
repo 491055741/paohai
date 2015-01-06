@@ -108,7 +108,7 @@ html,body {height: 100%;}
 .add_hc {
     /*display: block;*/
     left: 50%;
-    margin-left: -130px; /*-60px;*/
+    margin-left: -60px; /*-130px;*/
     border: 0;
     background: url("../images/add_contact.png") no-repeat;
     background-size: 100% 100%;

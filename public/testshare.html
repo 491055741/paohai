@@ -1,0 +1,63 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>趣邮明信片</title>
+</head>
+<body>
+test share
+</body>
+<script src="/js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript">
+  $(function(){
+
+        var link_set = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx687f787cb41f1e99&redirect_uri="+encodeURI("http://www.weiyoutong.cn"+"/weiyoutong/Card/tofriend/follow_id/7629/nickname/lipeng/shareTag/78587.html")+"&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+        var title_set = "我在微邮筒向您索要收件地址";
+        var desc_set = "亲，您的好友["+'lipeng'+"]在微邮筒向您索要收件地址，快去填写吧，可能有惊喜礼物收喔";
+
+        function onBridgeReady() {
+            imgUrl = "http://www.weiyoutong.cn/weiyoutong/Public/Home/images/weiyoutong.jpg",
+            link   = link_set,
+            title  = title_set,
+            desc   = desc_set,
+            fakeid = "";
+            desc   = desc || link;
+
+            alert("onBridgeReady2");
+            WeixinJSBridge.call('showToolbar');
+            WeixinJSBridge.call('showOptionMenu');
+
+
+                // 发送给好友; 
+            WeixinJSBridge.on('menu:share:appmessage', function(argv){
+                            WeixinJSBridge.invoke('sendAppMessage',{
+                              "appid"      : '',
+                              "img_url"    : imgUrl,
+                              "img_width"  : "640",
+                              "img_height" : "640",
+                              "link"       : link_set,
+                              "desc"       : desc_set || link_set,
+                              "title"      : title_set
+                            }, function(res) {});
+            });
+
+            // 分享到朋友圈;
+            WeixinJSBridge.on('menu:share:timeline', function(argv){
+                            alert("share timeline");
+                                    
+                                // WeixinJSBridge.invoke('shareTimeline',{
+                                //   "img_url"    : imgUrl,
+                                //   "img_width"  : "640",
+                                //   "img_height" : "640",
+                                //   "link"       : link_set||'#wechat_redirect',
+                                //   "desc"       : desc_set || link_set,
+                                //   "title"      : title_set
+                                // }, function(res) {});
+                        
+            });
+        }
+
+        if(document.addEventListener)
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+    });
+</script>
+</html>
