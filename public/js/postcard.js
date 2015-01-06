@@ -21,7 +21,6 @@
                 });
                 popWindowInited = true;
             }
-//            exit;
         },
         showInfo: function(message, code) {
             if (code) {
@@ -35,7 +34,6 @@
                 });
                 popWindowInited = true;
             }
-//            exit;
         },
         loadingShow: function() {
             $(".loading-image").show();
@@ -612,9 +610,11 @@
                 function success(data) {
                     if (data.code != "0") {
                         HC.showError(data.msg, data.code);
+                        return;
                     } else if (data.lnglat.length == 0) {
                         if ( ! GeoLocation.h5GeoAvailable()) {
                             HC.showError("请您设置微信，允许我们获取您的地理位置");
+                            return;
                         }
                     } else {
                         var lastUpdateTime = isNaN(data.lnglat.lastUpdateTime) ? 0 : parseInt(data.lnglat.lastUpdateTime);
@@ -622,8 +622,10 @@
                             var currTime = Date.parse(new Date()) / 1000;
                             if (lastUpdateTime + 21600 < parseInt(currTime)) {
                                 HC.showError("请您设置微信，允许我们获取您的地理位置");
+                                return;
                             } else {
                                 HC.showInfo("您已经获取定位戳，请到\"第三步\"预览页面查看");
+                                return;
                             }
                         }
                         self.geo.init(
