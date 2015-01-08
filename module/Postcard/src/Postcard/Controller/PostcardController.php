@@ -30,7 +30,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501051553');
+define('JS_TAG', '201501061542');
 
 
 class PostcardController extends AbstractActionController
@@ -39,6 +39,14 @@ class PostcardController extends AbstractActionController
     protected $userPositionTable;
     protected $contactTable;
     protected $util;
+
+    public function makeOrders()
+    {
+
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
 
     public function voiceAction()
     {
@@ -773,7 +781,7 @@ class PostcardController extends AbstractActionController
             file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
         }
 
-        $angel = ($order->templateId >= 7) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
+        $angel = ($order->templateId >= 8) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
 
         $a = imagesx($image_user);
