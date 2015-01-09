@@ -124,7 +124,8 @@ class OrderTable
 
     public function calculateOrderPrice($order)
     {
-        $payPrice = 299;
+        $payPrice = $this->actSpecifiedTemplatePrice($order);
+        //$payPrice = 299;
         return $payPrice;
         /*
         $select = $this->tableGateway->getSql()->select();
@@ -162,7 +163,8 @@ class OrderTable
     private function actSpecifiedTemplatePrice($order) {
         $price = 299;
         $actPrice = 0;
-        $specifiedTemplateIds = [];
+        //TODO set activity templateId
+        $specifiedTemplateIds = [0, 1, 6];
         $totalNum = 1000;
         $perNum = 5;            // max number per user
         $beginTime = "2015-01-15 00:00:00";
@@ -172,12 +174,12 @@ class OrderTable
         if ( ! in_array($order->templateId, $specifiedTemplateIds)) {
             return $price;
         }
-        if ($currTime >= $beginTime && $currTime <= $endTime) {
+        if ($currTime < $beginTime || $currTime > $endTime) {
             return $price;
         }
         // check perNum
         $select = $this->tableGateway->getSql()->select();
-        $select->where(function($where) use ($actPrice, $beginTime, $endTime) {
+        $select->where(function($where) use ($order, $actPrice, $beginTime, $endTime) {
             $where->equalTo("userName", $order->userName);
             $where->equalTo("price", $actPrice);
             $where->greaterThanOrEqualTo("status", 101);  // payed
