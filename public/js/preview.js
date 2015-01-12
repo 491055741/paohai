@@ -78,7 +78,7 @@
 
         var a = pic_orig_w, b = pic_orig_h;
         var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
-        var isRotate = (selectedTemplateIndex >= 7);
+        var isRotate = (selectedTemplateIndex >= 8);
         var imageOffsetX = order.getPostcard().getImage().getOffsetX();
         var imageOffsetY = order.getPostcard().getImage().getOffsetY();
 
