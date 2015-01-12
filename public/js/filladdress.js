@@ -91,6 +91,12 @@
         addressBook.setUserName($("#var-user-name").val());
 
         $(document).on("click", "#pop-confirm", function() {
+
+            if ($("#pop-address .province_input").val() == "省份" || $("#pop-address .city_input").val() == "城市") {
+                HC.showError("请选择省/市/区");
+                return;
+            }
+
             var address = new Address();
             address.setVars({
                 "name": $("#pop-address .recipient_input").val(),

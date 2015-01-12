@@ -9,6 +9,7 @@
 </head>
 <body onLoad="init()">
 <input type="hidden" id="var-user-name" value="<?php echo $userName; ?>" />
+
 <div class="container">
     <div id="pop-address" class="pop2 pop2-ab pa"  style="background-color: white;">
         <div class="bgK pa" style="top:10px;"><img src="/images/fill_contact_bg.png?<?php echo $tag; ?>" alt=""/></div>
@@ -19,7 +20,7 @@
             <select name="city" onChange="select()" class="city_input pa" placeholder="市"> </select>
         </form>
         <input class="district_input pa" type="text" placeholder="区"/>
-        <input class="address_input pa" type="text" placeholder="街道地址、门牌号"></input>
+        <input class="address_input pa" type="text" placeholder="街道地址、门牌号"/>
         <input class="postcode_input pa" type="text" placeholder="邮政编码"/>
         <input class="mobile_input pa" type="text" placeholder="联系电话"/>
         <div class='menu-btn-hc pa' style="top:290px">

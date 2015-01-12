@@ -26,7 +26,9 @@ class WxPayConf_pub
 	const CURL_TIMEOUT = 30;
 
     const ACCESS_TOKEN_KEY      = "accessToken";
+    const JSAPI_TICKET_KEY      = "jsapiTicket";
     const TOKEN_EXPIRE_TIME_KEY = "tokenExpireTime";
+    const JSAPI_TICKET_EXPIRE_TIME_KEY = "jsapiTicketExpireTime";
     const CUR_QR_SCENE_ID_KEY   = "curQrSceneId";
 
     static public function appId()

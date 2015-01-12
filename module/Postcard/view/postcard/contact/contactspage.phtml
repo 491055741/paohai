@@ -11,6 +11,7 @@
 <body>
 <input type="hidden" id="var-user-name" value="<?php echo $userName; ?>" />
 <input type="hidden" id="var-nick-name" value="<?php echo $nickName; ?>" />
+
 <div class="container">
 
     <div id="sharetips" class="popbox pa hide" style="padding-top:0">
@@ -75,8 +76,17 @@
 <script src="/js/google.fastbutton.js"></script>
 <script src="/js/jquery.google.fastbutton.js"></script>
 <script src="/js/common.js?<?php echo $tag; ?>"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="/js/address-book.js?<?php echo $tag; ?>"></script>
 <script language="javascript" >
+    wx.config({
+        debug: false,
+        appId: '<?php echo $appId; ?>',
+        timestamp: <?php echo $timeStamp; ?>,
+        nonceStr: '<?php echo $noncestr; ?>',
+        signature: '<?php echo $sign; ?>',
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+    });
 </script>
 </body>
 </html>

@@ -113,7 +113,22 @@ class Common_util_pub
 //		echo "【result】 ".$result_."</br>";
 		return $result_;
 	}
-	
+
+    function getJsapiSign($Obj)
+    {
+        foreach ($Obj as $k => $v) {
+            $Parameters[$k] = $v;
+        }
+        //签名步骤一：按字典序排序参数
+        ksort($Parameters);
+        $String = $this->formatBizQueryParaMap($Parameters, false);
+//		echo '【string1】'.$String.'</br>';
+        //签名步骤二：sha1加密
+        $sign = sha1($String);
+//		echo "【result】 ".$result_."</br>";
+        return $sign;
+    }
+
 	/**
 	 * 	作用：array转xml
 	 */

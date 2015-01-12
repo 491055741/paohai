@@ -88,10 +88,19 @@
         });
         $("#pop2_conf").on("click", function() { //确认按钮: 收件人信息弹窗
             // Set postcard object
+            if ($("#pop-address .province_input").val() == "省份" || $("#pop-address .city_input").val() == "城市") {
+                HC.showError("请选择省/市/区");
+                return;
+            }
+
             receiptInfo.setVars({
                 name: $(".pop2 .to_who").val(),
-                address: $(".pop2 .to_address").val(),
-                zipcode: $(".pop2 .postcode").val(),
+//                address: $(".pop2 .to_address").val(),
+                address: $("#pop-address .province_input").val()
+                    + $("#pop-address .city_input").val()
+                    + $("#pop-address .district_input").val()
+                    + $("#pop-address .address_input").val(),
+                zipcode: $(".pop2 .postcode").val()
             });
             var errMsg = HC.checkAddress(receiptInfo);
             if (errMsg) {

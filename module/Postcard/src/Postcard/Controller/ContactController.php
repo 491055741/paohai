@@ -1,12 +1,16 @@
 <?php
 namespace Postcard\Controller;
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
+include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/WxPayPubHelper.php");
+include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/WxPay.pub.config.php");
 
+use WxPayConf_pub;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Postcard\Model\Contact;
 use CommonUtil;
+use Wxpay_client_pub;
 
 class ContactController extends AbstractActionController
 {
@@ -26,12 +30,14 @@ class ContactController extends AbstractActionController
     public function fillAddressAction()
     {
         $userName = $this->getRequest()->getQuery('userName', '');
-        $viewModel = new ViewModel(array('tag' => self::JS_TAG, 'userName' => $userName));
+        $viewModel = new ViewModel(array('tag' => self::JS_TAG,
+            'userName' => $userName));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
         $userName = $this->getRequest()->getPost('userName', '');
         $contactName = $this->getRequest()->getPost('contactName', '');
         if (empty($userName) || empty($contactName)) {
@@ -98,6 +104,7 @@ class ContactController extends AbstractActionController
     }
 
     public function contactsPageAction() {
+
         $userName = $this->getRequest()->getQuery("userName", "");
         if (empty($userName)) {
             $view = new ViewModel(array(
@@ -107,6 +114,18 @@ class ContactController extends AbstractActionController
             $view->setTemplate("postcard/postcard/error");
             return $view;
         }
+        $ticket = $this->getUtil()->getJsapiTicket();
+        echo 'ticket: '.$ticket.PHP_EOL;
+        $timeStamp = time();
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $wxPayHelper = new Wxpay_client_pub();
+        $nonce = $wxPayHelper->createNoncestr(16);
+        $wxPayHelper->setParameter("noncestr", $nonce);
+        $wxPayHelper->setParameter("jsapi_ticket", $ticket);
+        $wxPayHelper->setParameter("timestamp", $timeStamp);
+        $wxPayHelper->setParameter("url", $url);
+        echo $url;
+        $sign = $wxPayHelper->getJsapiSign($wxPayHelper->parameters);
 
         $nickName = '';
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->getUtil()->getAccessToken().'&openid='.$userName.'&lang=zh_CN';
@@ -116,9 +135,13 @@ class ContactController extends AbstractActionController
         }
 
         $viewModel = new ViewModel(array(
-            'userName' => $userName,
-            'nickName' => $nickName,
-            'tag' => self::JS_TAG,
+            'userName'  => $userName,
+            'nickName'  => $nickName,
+            'tag'       => self::JS_TAG,
+            'appId'     => WxPayConf_pub::appId(),
+            'noncestr'  => $nonce,
+            'timeStamp' => $timeStamp,
+            'sign'      => $sign
         ));
         $viewModel->setTerminal(true);
         return $viewModel;

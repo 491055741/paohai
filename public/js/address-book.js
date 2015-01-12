@@ -196,7 +196,7 @@
                                        + $("#pop-address .city_input").val()
                                        + $("#pop-address .district_input").val()
                                        + $("#pop-address .address_input").val(),
-                            "zipcode": $("#pop-address .postcode_input").val(),
+                            "zipcode": $("#pop-address .postcode_input").val()
                         });
                         var msg = HC.checkAddress(address);
                         if (msg) {
@@ -229,10 +229,11 @@
         });
     }
 
+
     function onBridgeReady() {
 
-        WeixinJSBridge.call('hideOptionMenu');
-        return;
+//        WeixinJSBridge.call('hideOptionMenu');
+//        return;
 
         var imgUrl = 'https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoib04c8tvEHviaFSFtLGJ5Ox1H9CibIfOiauH0UEiaso13g5zgJ5E8SozibwIibESViaXMQ5keYwQAZwHLylw/0';
         var shareTitle = '我在趣邮向您索要收件地址';
@@ -241,8 +242,36 @@
         var descContent = nickName.length > 0 ? '亲，您的好友['+nickName+']在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦' : '亲，您的好友在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦';
         var shareLink = domain + '/contact/filladdress?userName=' + userName;
 
-        WeixinJSBridge.on('menu:share:appmessage', function(argv){  // 好友
-            alert("share to friend");
+        wx.onMenuShareAppMessage({
+            title: shareTitle, // 分享标题
+            desc: descContent, // 分享描述
+            link: shareLink, // 分享链接
+            imgUrl: imgUrl, // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+
+        wx.onMenuShareAppMessage({
+            title: shareTitle, // 分享标题
+            desc: descContent, // 分享描述
+            link: shareLink, // 分享链接
+            imgUrl: imgUrl, // 分享图标
+            type: '', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+//        WeixinJSBridge.on('menu:share:appmessage', function(argv){  // 好友
 //            WeixinJSBridge.invoke('sendAppMessage',{
 //                "appid": "",
 //                "img_url": imgUrl,
@@ -253,9 +282,9 @@
 //                "title": shareTitle
 //            }, function(res) {
 //            });
-        });
-        WeixinJSBridge.on('menu:share:timeline', function(argv){ // 朋友圈
-            alert("share to timeline");
+//        });
+//        WeixinJSBridge.on('menu:share:timeline', function(argv){ // 朋友圈
+//            alert("share to timeline");
 //            WeixinJSBridge.invoke('shareTimeline',{
 //                "img_url": imgUrl,
 //                "img_width": "640",
@@ -265,7 +294,7 @@
 //                "title": shareTitle
 //            }, function(res) {
 //            });
-        });
+//        });
     }
 
     // province and city selection
@@ -349,6 +378,16 @@
 
     var addressBook = new Contacts();
     $(function() {
+
+//        wx.config({
+//            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+//            appId: $('#var-appid').val(), // 必填，公众号的唯一标识
+//            timestamp: $('#var-timestamp').val(), // 必填，生成签名的时间戳
+//            nonceStr: $('#var-noncestr').val(), // 必填，生成签名的随机串
+//            signature: $('#var-sign').val(),// 必填，签名，见附录1
+//            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+//        });
+
         if (document.addEventListener) {
             document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
         }

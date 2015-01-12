@@ -1,0 +1,23 @@
+<?php
+ini_set("display_errors", isset($_GET["debug"]));
+?>
+
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <base target="_blank">
+    </head>
+
+    <body>
+        <div align="center">
+            <form id="step2form" action="/postcard/makeorders" onsubmit="return validForm(this);" method="post" enctype="multipart/form-data" data-ajax="false">
+                <div>选择要上传的订单CSV文件（UTF－8编码格式）</div>
+                <input type="file" name="uploadFile" id="uploadFile"/>
+                <input type="submit" name="submit" value="提交" />
+            </form>
+        </div>
+
+    <script src="./js/jquery-1.9.0.min.js"></script>
+    </body>
+</html>
