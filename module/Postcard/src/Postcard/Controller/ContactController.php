@@ -115,7 +115,7 @@ class ContactController extends AbstractActionController
             return $view;
         }
         $ticket = $this->getUtil()->getJsapiTicket();
-        echo 'ticket: '.$ticket.PHP_EOL;
+//        echo 'ticket: '.$ticket.PHP_EOL;
         $timeStamp = time();
         $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $wxPayHelper = new Wxpay_client_pub();
@@ -124,7 +124,7 @@ class ContactController extends AbstractActionController
         $wxPayHelper->setParameter("jsapi_ticket", $ticket);
         $wxPayHelper->setParameter("timestamp", $timeStamp);
         $wxPayHelper->setParameter("url", $url);
-        echo $url;
+//        echo $url;
         $sign = $wxPayHelper->getJsapiSign($wxPayHelper->parameters);
 
         $nickName = '';
