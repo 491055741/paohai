@@ -14,7 +14,7 @@ use Wxpay_client_pub;
 
 class ContactController extends AbstractActionController
 {
-    const JS_TAG = "20150104111111";
+    const JS_TAG = "20150112111111";
 
     protected $contactTable;
     protected $util;
@@ -114,18 +114,7 @@ class ContactController extends AbstractActionController
             $view->setTemplate("postcard/postcard/error");
             return $view;
         }
-        $ticket = $this->getUtil()->getJsapiTicket();
-//        echo 'ticket: '.$ticket.PHP_EOL;
-        $timeStamp = time();
-        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $wxPayHelper = new Wxpay_client_pub();
-        $nonce = $wxPayHelper->createNoncestr(16);
-        $wxPayHelper->setParameter("noncestr", $nonce);
-        $wxPayHelper->setParameter("jsapi_ticket", $ticket);
-        $wxPayHelper->setParameter("timestamp", $timeStamp);
-        $wxPayHelper->setParameter("url", $url);
-//        echo $url;
-        $sign = $wxPayHelper->getJsapiSign($wxPayHelper->parameters);
+        $jsApiSignPackage = $this->getUtil()->getJsApiSignPackage();
 
         $nickName = '';
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->getUtil()->getAccessToken().'&openid='.$userName.'&lang=zh_CN';
@@ -138,10 +127,7 @@ class ContactController extends AbstractActionController
             'userName'  => $userName,
             'nickName'  => $nickName,
             'tag'       => self::JS_TAG,
-            'appId'     => WxPayConf_pub::appId(),
-            'noncestr'  => $nonce,
-            'timeStamp' => $timeStamp,
-            'sign'      => $sign
+            'jsApiSignPackage' => $jsApiSignPackage,
         ));
         $viewModel->setTerminal(true);
         return $viewModel;

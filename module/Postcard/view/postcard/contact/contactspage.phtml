@@ -81,10 +81,10 @@
 <script language="javascript" >
     wx.config({
         debug: false,
-        appId: '<?php echo $appId; ?>',
-        timestamp: <?php echo $timeStamp; ?>,
-        nonceStr: '<?php echo $noncestr; ?>',
-        signature: '<?php echo $sign; ?>',
+        appId: '<?php echo $jsApiSignPackage["appId"]; ?>',
+        timestamp:  <?php echo $jsApiSignPackage["timestamp"];?>,
+        nonceStr:  '<?php echo $jsApiSignPackage["nonceStr"];?>',
+        signature: '<?php echo $jsApiSignPackage["signature"];?>',
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
     });
 </script>

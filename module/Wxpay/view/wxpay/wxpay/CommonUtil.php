@@ -127,7 +127,7 @@ class CommonUtil
         return $token;
     }
 
-    public function getJsapiTicket()
+    function getJsapiTicket()
     {
         $ticketPara = $this->getWxParaTable()->getWxPara(WxPayConf_pub::JSAPI_TICKET_KEY);
         $expireTimePara = $this->getWxParaTable()->getWxPara(WxPayConf_pub::JSAPI_TICKET_EXPIRE_TIME_KEY);
@@ -137,6 +137,28 @@ class CommonUtil
             $ticket = $ticketPara->value;
         }
         return $ticket;
+    }
+
+    public function getJsApiSignPackage() {
+        $jsapiTicket = $this->getJsApiTicket();
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $timestamp = time();
+        $nonceStr = $this->createNonceStr();
+
+        // 这里参数的顺序要按照 key 值 ASCII 码升序排序
+        $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
+
+        $signature = sha1($string);
+
+        $signPackage = array(
+            "appId"     => WxPayConf_pub::appId(),
+            "nonceStr"  => $nonceStr,
+            "timestamp" => $timestamp,
+            "url"       => $url,
+            "signature" => $signature
+//            "rawString" => $string
+        );
+        return $signPackage;
     }
 
     function saveAccessToken($token, $expires_in)
@@ -205,7 +227,7 @@ class CommonUtil
         return $allUrl;
     }
 
-    function create_noncestr( $length = 16 )
+    function createNoncestr( $length = 16 )
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $str = "";

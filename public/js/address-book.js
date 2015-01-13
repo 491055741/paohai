@@ -230,7 +230,7 @@
     }
 
 
-    function onBridgeReady() {
+    wx.ready(function() {
 
 //        WeixinJSBridge.call('hideOptionMenu');
 //        return;
@@ -271,31 +271,7 @@
                 // 用户取消分享后执行的回调函数
             }
         });
-//        WeixinJSBridge.on('menu:share:appmessage', function(argv){  // 好友
-//            WeixinJSBridge.invoke('sendAppMessage',{
-//                "appid": "",
-//                "img_url": imgUrl,
-//                "img_width": "640",
-//                "img_height": "640",
-//                "link": shareLink,
-//                "desc": descContent,
-//                "title": shareTitle
-//            }, function(res) {
-//            });
-//        });
-//        WeixinJSBridge.on('menu:share:timeline', function(argv){ // 朋友圈
-//            alert("share to timeline");
-//            WeixinJSBridge.invoke('shareTimeline',{
-//                "img_url": imgUrl,
-//                "img_width": "640",
-//                "img_height": "640",
-//                "link": shareLink,
-//                "desc": descContent,
-//                "title": shareTitle
-//            }, function(res) {
-//            });
-//        });
-    }
+    });
 
     // province and city selection
     var where = new Array(34);
@@ -378,19 +354,10 @@
 
     var addressBook = new Contacts();
     $(function() {
-
-//        wx.config({
-//            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-//            appId: $('#var-appid').val(), // 必填，公众号的唯一标识
-//            timestamp: $('#var-timestamp').val(), // 必填，生成签名的时间戳
-//            nonceStr: $('#var-noncestr').val(), // 必填，生成签名的随机串
-//            signature: $('#var-sign').val(),// 必填，签名，见附录1
-//            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-//        });
-
-        if (document.addEventListener) {
-            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-        }
+//
+//        if (document.addEventListener) {
+//            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+//        }
         addressBook.setUserName($("#var-user-name").val()).fetchContacts();
         initSelect();
         $("#province_select").change(function(){select();});
