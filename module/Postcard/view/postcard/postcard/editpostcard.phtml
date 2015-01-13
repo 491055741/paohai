@@ -61,9 +61,19 @@
     <!--弹出窗2 收件人信息-->
     <div class="pop2 pa hide">
         <div class="bgK pa"><img src="/images/postmark/small/youchuo-bg.png" alt="邮戳盒背景"/></div>
-        <input class="to_who pa" type="text" placeholder="收件人"/>
-        <input class="postcode pa" type="text" placeholder="邮编"/>
-        <textarea class="to_address pa" name="收件人地址" cols="30" rows="10" placeholder="收件人地址（须填收件人所在城市）"></textarea>
+<!--        <input class="to_who pa" type="text" placeholder="收件人"/>-->
+<!--        <input class="postcode pa" type="text" placeholder="邮编"/>-->
+<!--        <textarea class="to_address pa" name="收件人地址" cols="30" rows="10" placeholder="收件人地址（须填收件人所在城市）"></textarea>-->
+        <input class="recipient_input pa" type="text" placeholder="收件人姓名"/>
+        <form name="creator">
+            <select id="province_select" name="province" class="province_input pa" placeholder="省"></select>
+            <select id="city_select" name="city" class="city_input pa" placeholder="市"> </select>
+        </form>
+        <input class="district_input pa" type="text" placeholder="区"/>
+        <input class="address_input pa" type="text" placeholder="街道地址、门牌号"/>
+        <input class="postcode_input pa" type="text" placeholder="邮政编码"/>
+        <input class="mobile_input pa" type="text" placeholder="联系电话"/>
+
         <div class="menu pa">
             <a href="#" class="save_add in">存入地址簿</a>
             <button class="go_add">去地址簿抓一个</button>
@@ -134,6 +144,7 @@
 <script src="/js/jquery-1.9.0.min.js"></script>
 <script src="/js/classie.js?<?php echo $tag; ?>"></script>
 <script src="/js/common.js?<?php echo $tag; ?>"></script>
+<script src="/js/locality-select.js?<?php echo $tag; ?>"></script>
 <script src="/js/postcard.js?<?php echo $tag; ?>"></script>
 <script src="/js/editpostcard.js?<?php echo $tag; ?>"></script>
 </body>

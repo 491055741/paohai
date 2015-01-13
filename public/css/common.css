@@ -263,7 +263,7 @@ body {background: rgba(0,0,0,0.7);}
 a.on i {display: block;}
 /*弹窗2*/
 .pop2 {}
-.to_who,.postcode {
+.recipient_input,.postcode_input {
     z-index: 5;
     width: 270px;
     height: 40px;
@@ -275,8 +275,8 @@ a.on i {display: block;}
     padding-left: 10px;
     background: #eee;
 }
-.postcode {top:205px;}
-.to_address,.liuyan {
+.postcode_input {top:205px;}
+.address_input,.liuyan {
     z-index: 5;
     width: 270px;
     height: 100px;
@@ -402,7 +402,7 @@ a.on i {display: block;}
     .youchuo_confirm { top: 420px; }
     /*弹出窗2*/
     .pop2 .bgK {top:30px;}
-    .pop2 .to_who,.pop2 .postcode {
+    .pop2 .recipient_input,.pop2 .postcode_input {
         z-index: 5;
         width: 230px;
         height: 30px;
@@ -414,8 +414,8 @@ a.on i {display: block;}
         padding-left: 10px;
         background: #eee;
     }
-    .pop2 .postcode {top: 120px;}
-    .to_address, .liuyan {
+    .pop2 .postcode_input {top: 120px;}
+    .address_input, .liuyan {
         z-index: 5;
         width: 230px;
         height: 100px;
@@ -449,7 +449,7 @@ a.on i {display: block;}
     /*弹出窗3*/
     .pop3 .bgK{top: 30px;margin-left:-155px;}
     .pop3 .bgK img{width:310px;}
-    .pop3 .to_who {top: 70px; }
+    .pop3 .recipient_input {top: 70px; }
     .pop3 .liuyan { width: 270px;height: 100px;top:130px; margin-left: -135px; }
     .pop3 .menu {top: 255px;}
     .pop3 .youchuo_confirm { top: 310px;}

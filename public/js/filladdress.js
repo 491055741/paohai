@@ -87,6 +87,8 @@
     /*************** Contacts end *************************/
 
     $(function() {
+        LocalitySelection.initSelect();
+        $("#province_select").change(function(){LocalitySelection.select();});
 
         addressBook.setUserName($("#var-user-name").val());
 
@@ -106,18 +108,19 @@
                     + $("#pop-address .address_input").val(),
                 "zipcode": $("#pop-address .postcode_input").val()
             });
-            // var msg = HC.checkAddress(address);
-            // if (msg) {
-            //     HC.showError(msg);
-            //     return;
-            // }
+            var msg = HC.checkAddress(address);
+            if (msg) {
+                 HC.showError(msg);
+                 return;
+            }
 
             addressBook.saveContact(address);
-        });
-
-        $(document).on("click", "#pop-cancel", function() {
             WeixinJSBridge.call('closeWindow');
         });
+
+//        $(document).on("click", "#pop-cancel", function() {
+//
+//        });
     });
 
 })(jQuery);

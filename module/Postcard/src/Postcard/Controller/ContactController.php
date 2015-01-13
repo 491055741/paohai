@@ -1,20 +1,16 @@
 <?php
 namespace Postcard\Controller;
 include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.php");
-include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/WxPayPubHelper.php");
-include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/WxPay.pub.config.php");
 
-use WxPayConf_pub;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Postcard\Model\Contact;
 use CommonUtil;
-use Wxpay_client_pub;
 
 class ContactController extends AbstractActionController
 {
-    const JS_TAG = "20150112111111";
+    const JS_TAG = "201501121111";
 
     protected $contactTable;
     protected $util;
