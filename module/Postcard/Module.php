@@ -13,6 +13,17 @@ use Postcard\Model\ContactTable;
 use Postcard\Model\UserPosition;
 use Postcard\Model\UserPositionTable;
 
+use Postcard\Module\Activity;
+use Postcard\Module\ActivityTable;
+use Postcard\Module\ActivityTemplateConfig;
+use Postcard\Module\ActivityTemplateConfigTable;
+use Postcard\Module\ActivityTemplatePriceRule;
+use Postcard\Module\ActivityTemplatePriceRuleTable;
+use Postcard\Module\ActivityJoinRecord;
+use Postcard\Module\ActivityJoinRecordTable;
+use Postcard\Module\Image;
+use Postcard\Module\ImageTable;
+
 
 class Module
 {
@@ -62,7 +73,31 @@ class Module
                     $table = new UserPositionTable($tableGateway);
                     return $table;
                 },
-
+                'Postcard\Model\ActivityTable' => function($sm) {
+                    $tableGateway = $sm->get('ActivityTableGateway');
+                    $table = new ActivityTable($tableGateway);
+                    return $table;
+                },
+                'Postcard\Model\ActivityTemplateConfigTable' => function($sm) {
+                    $tableGateway = $sm->get('ActivityTemplateConfigTableGateway');
+                    $table = new ActivityTemplateConfigTable($tableGateway);
+                    return $table;
+                },
+                'Postcard\Model\ActivityTemplatePriceRuleTable' => function($sm) {
+                    $tableGateway = $sm->get('ActivityTemplatePriceRuleTableGateway');
+                    $table = new ActivityTemplatePriceRuleTable($tableGateway);
+                    return $table;
+                },
+                'Postcard\Model\ActivityJoinRecordTable' => function($sm) {
+                    $tableGateway = $sm->get('ActivityJoinRecordTableGateway');
+                    $table = new ActivityJoinRecordTable($tableGateway);
+                    return $table;
+                },
+                'Postcard\Model\ImageTable' => function($sm) {
+                    $tableGateway = $sm->get('ImageTableGateway');
+                    $table = new ImageTable($tableGateway);
+                    return $table;
+                },
                 'PostcardTableGateway' => function ($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
@@ -89,7 +124,37 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new UserPosition());
                     return new TableGateway('user_position', $dbAdapter, null, $resultSetPrototype);
-                }
+                },
+                'ActivityTableGateway' => function($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Activity());
+                    return new TableGateway("activity", $dbAdapter, null, $resultSetPrototype);
+                },
+                'ActivityTemplateConfigTable' => function($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new ActivityTemplateConfig());
+                    return new TableGateway("activity_template_config", $dbAdapter, null, $resultSetPrototype);
+                },
+                'ActivityTemplatePriceRuleTableGateway' => function($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new ActivityTemplatePriceRule());
+                    return new TableGateway("activity_template_price_rule", $dbAdapter, null, $resultSetPrototype);
+                },
+                'ActivityJoinRecordTableGateway' => function($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new ActivityJoinRecord());
+                    return new TableGateway("activity_join_record", $dbAdapter, null, $resultSetPrototype);
+                },
+                'ImageTableGateway' => function($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Image());
+                    return new TableGateway("image", $dbAdapter, null, $resultSetPrototype);
+                },
             ),
         );
     }

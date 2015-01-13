@@ -15,6 +15,7 @@ class ActivityTemplateConfig
     private $id;
     private $actId;
     private $imgId;
+    private $imgThumbId;
     private $rotate;
     private $priceRuleId;
     private $status;
@@ -24,6 +25,7 @@ class ActivityTemplateConfig
         $this->id = (isset($data["id"])) ? $data["id"] : null;
         $this->actId = (isset($data["actId"])) ? $data["actId"] : null;
         $this->imgId = (isset($data["imgId"])) ? $data["imgId"] : null;
+        $this->imgThumbId = (isset($data["imgThumbId"])) ? $data["imgThumbId"] : null;
         $this->rotate = (isset($data["rotate"])) ? $data["rotate"] : null;
         $this->priceRuleId = (isset($data["priceRuleId"])) ?
             $data["priceRuleId"] : null;
@@ -54,6 +56,17 @@ class ActivityTemplateConfig
 
     public function setImgId($imgId) {
         $this->imgId = $imgId;
+        return $this;
+    }
+
+
+    public function getImgThumbId() {
+        return $this->imgThumbId;
+    }
+
+
+    public function setImgThumbId($imgThumbId) {
+        $this->imgThumbId = $imgThumbId;
         return $this;
     }
 

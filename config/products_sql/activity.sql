@@ -39,6 +39,7 @@ CREATE TABLE `activity_template_config` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `actId` INT(11) UNSIGNED NOT NULL,
     `imgId` INT(11) UNSIGNED NOT NULL,
+    `imgThumbId` INT(11) UNSIGNED NOT NULL,
     `rotate` TINYINT(4) NOT NULL DEFAULT '0' COMMENT 'clockwise. 0-0; 1-90; 2-180; 3-270;',
     `priceRuleId` INT(11) UNSIGNED NOT NULL COMMENT 'template price rule config id',
     `status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-unused; 1-used',
