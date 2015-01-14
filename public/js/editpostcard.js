@@ -37,11 +37,12 @@
         $(".pop2 .recipient_input").val(receiptInfo.getName());
         $(".pop2 .postcode_input").val(receiptInfo.getZipcode());
 
-        var address = receiptInfo.getAddress();
-        $(".pop2 .address_input").val(LocalitySelection.selectWithAddress(receiptInfo.getAddress()));
+        var address = receiptInfo.getAddress()
+        address = LocalitySelection.selectWithAddress(address);
+        $(".pop2 .address_input").val(address);
 
         //弹窗3
-        $(".pop3 .to_who").val(messageInfo.getSalutation());
+        $(".pop3 .recipient_input").val(messageInfo.getSalutation());
         $(".pop3 .liuyan").val(messageInfo.getContent());
         $(".pop3 .myName").val(messageInfo.getSignature());
     }
@@ -62,12 +63,12 @@
         });
         $(".voice-tips").on("click" , function() {
             $(".voice-tips").hide();
-            $(".pop3").show().find(".to_who").trigger("focus");
+            $(".pop3").show().find(".recipient_input").trigger("focus");
             isVoiceTipShown = true;
         });
         $("#liuyan").on("click", function() { //显示弹窗3
             if (isVoiceTipShown) {
-                $(".pop3").show().find(".to_who").trigger("focus");
+                $(".pop3").show().find(".recipient_input").trigger("focus");
             } else {
                 $(".voice-tips").show();
             }
@@ -118,7 +119,7 @@
         $("#pop3_conf").on("click", function() { //确认按钮: 祝福信息弹窗
             // Set postcard object
             messageInfo.setVars({
-                salutation: $(".pop3 .to_who").val(),
+                salutation: $(".pop3 .recipient_input").val(),
                 content: $(".pop3 .liuyan").val(),
                 signature: $(".pop3 .myName").val(),
             });
@@ -136,7 +137,7 @@
 
         $(".pop3 .voice_btn").on("click", function() { //语音留言按钮
             messageInfo.setVars({
-                salutation: $(".pop3 .to_who").val(),
+                salutation: $(".pop3 .recipient_input").val(),
                 content: $(".pop3 .liuyan").val(),
                 signature: $(".pop3 .myName").val(),
             });
@@ -155,7 +156,7 @@
             $(this).toggleClass("in");
             /*
             receiptInfo.setVars({
-                name: $(".pop2 .to_who").val(),
+                name: $(".pop2 .recipient_input").val(),
                 address: $(".pop2 .to_address").val(),
                 zipcode: $(".pop2 .postcode").val(),
             });

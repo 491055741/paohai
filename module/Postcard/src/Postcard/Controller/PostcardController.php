@@ -30,17 +30,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '2015011415422');
-
-function addQuotes($str)
-{
-    return sprintf("'%s'", $str);
-}
-
-function convertArray($array)
-{
-    return array_map('addQuotes', $array);
-}
+define('JS_TAG', '201501141542');
 
 class PostcardController extends AbstractActionController
 {

@@ -299,6 +299,9 @@ a.on i {display: block;}
     height: 100px;
     top: 255px;
     padding: 5px;
+    border-radius: 15px;
+    border: 1px solid #999;
+    background: #eee;
 }
 .save_add,.voice_btn {
     display: inline-block;
