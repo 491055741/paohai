@@ -175,7 +175,7 @@ class OrderTable
         //TODO set activity templateId
         $specifiedTemplateIds = [0, 8, 9];
         $totalNum = 1000;
-        $perNum = 5;            // max number per user
+        $perNum = 2;            // max number per user
         $beginTime = "2015-01-15 00:00:00";
         $endTime = "2015-01-15 23:59:59";
         $currTime = date("Y-m-d H:i:s");
