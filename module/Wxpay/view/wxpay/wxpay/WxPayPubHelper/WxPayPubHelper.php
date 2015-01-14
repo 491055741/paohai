@@ -345,7 +345,7 @@ class UnifiedOrder_pub extends Wxpay_client_pub
 				throw new SDKRuntimeException("缺少统一支付接口必填参数out_trade_no！"."<br>");
 			}elseif($this->parameters["body"] == null){
 				throw new SDKRuntimeException("缺少统一支付接口必填参数body！"."<br>");
-			}elseif ($this->parameters["total_fee"] == null ) {
+			}elseif ($this->parameters["total_fee"] === null ) {
 				throw new SDKRuntimeException("缺少统一支付接口必填参数total_fee！"."<br>");
 			}elseif ($this->parameters["notify_url"] == null) {
 				throw new SDKRuntimeException("缺少统一支付接口必填参数notify_url！"."<br>");
@@ -449,7 +449,7 @@ class Refund_pub extends Wxpay_client_pub
 				throw new SDKRuntimeException("退款申请接口中，out_trade_no、transaction_id至少填一个！"."<br>");
 			}elseif($this->parameters["out_refund_no"] == null){
 				throw new SDKRuntimeException("退款申请接口中，缺少必填参数out_refund_no！"."<br>");
-			}elseif($this->parameters["total_fee"] == null){
+			}elseif($this->parameters["total_fee"] === null){
 				throw new SDKRuntimeException("退款申请接口中，缺少必填参数total_fee！"."<br>");
 			}elseif($this->parameters["refund_fee"] == null){
 				throw new SDKRuntimeException("退款申请接口中，缺少必填参数refund_fee！"."<br>");

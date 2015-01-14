@@ -171,7 +171,7 @@ class OrderTable
 
     private function actSpecifiedTemplatePrice($order) {
         $price = 299;
-        $actPrice = 0;
+        $actPrice = 115;
         //TODO set activity templateId
         $specifiedTemplateIds = [0, 8, 9];
         $totalNum = 1000;

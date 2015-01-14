@@ -109,7 +109,7 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false && ($order->picU
         }
 
         var payPrice = <?php echo (int) $payPrice; ?>;
-        if (payPrice == 0) {
+        if (payPrice == 115) {
             self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
             return;
         }
