@@ -30,7 +30,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '2015010615422');
+define('JS_TAG', '201501141559');
 
 function addQuotes($str)
 {

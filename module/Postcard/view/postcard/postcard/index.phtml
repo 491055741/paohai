@@ -42,8 +42,13 @@
         <!--模板缩略图-->
         <div class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
+            <?php $synofiIds = array(0, 8, 9); ?>
             <?php for ($i = 0; $i < 15; $i += 1): ?>
                 <li><img id="thumb_img_<?php echo $i ?>" class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>" /></li>
+                <?php if (in_array($i, $synofiIds)): ?>
+                    <?php $x = $i * 70; ?>
+                <div class="pa thumb_frame" style="left:<?php echo $x ?>px;"></div>
+                <?php endif; ?>
             <?php endfor; ?>
             </ul>
         </div>
