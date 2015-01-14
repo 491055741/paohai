@@ -87,10 +87,18 @@
     /*************** Contacts end *************************/
 
     $(function() {
+        LocalitySelection.initSelect();
+        $("#province_select").change(function(){LocalitySelection.select();});
 
         addressBook.setUserName($("#var-user-name").val());
 
         $(document).on("click", "#pop-confirm", function() {
+
+            if ($("#pop-address .province_input").val() == "省份" || $("#pop-address .city_input").val() == "城市") {
+                HC.showError("请选择省/市/区");
+                return;
+            }
+
             var address = new Address();
             address.setVars({
                 "name": $("#pop-address .recipient_input").val(),
@@ -100,18 +108,19 @@
                     + $("#pop-address .address_input").val(),
                 "zipcode": $("#pop-address .postcode_input").val()
             });
-            // var msg = HC.checkAddress(address);
-            // if (msg) {
-            //     HC.showError(msg);
-            //     return;
-            // }
+            var msg = HC.checkAddress(address);
+            if (msg) {
+                 HC.showError(msg);
+                 return;
+            }
 
             addressBook.saveContact(address);
-        });
-
-        $(document).on("click", "#pop-cancel", function() {
             WeixinJSBridge.call('closeWindow');
         });
+
+//        $(document).on("click", "#pop-cancel", function() {
+//
+//        });
     });
 
 })(jQuery);

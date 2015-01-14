@@ -263,29 +263,42 @@ body {background: rgba(0,0,0,0.7);}
 a.on i {display: block;}
 /*弹窗2*/
 .pop2 {}
-.to_who,.postcode {
+.recipient_input {top:100px;}
+.province_input, .city_input, .district_input {top:140px;}
+.address_input {top:180px;}
+.postcode_input {top:220px;}
+.mobile_input {top:260px;}
+.recipient_input,.postcode_input,.address_input,.liuyan,.mobile_input,.province_input,.city_input,.district_input{
     z-index: 5;
     width: 270px;
-    height: 40px;
-    top: 150px;
+    height: 25px;
+    /*top: 150px;*/
     left: 50%;
+    border: 0;
     margin-left: -135px;
-    border-radius: 15px;
-    border: 1px solid #999;
     padding-left: 10px;
-    background: #eee;
 }
-.postcode {top:205px;}
-.to_address,.liuyan {
-    z-index: 5;
+.recipient_input,.postcode_input,.address_input,.mobile_input {
     width: 270px;
+    background:url("../images/edit_contact_input_bg.png") no-repeat;
+    background-size: 100%, 100%;
+}
+.province_input,.city_input,.district_input {
+    width: 80px;
+    background:url("../images/edit_contact_input_short_bg.png") no-repeat;
+    background-size: 100%, 100%;
+}
+.city_input {
+    margin-left: -40px;
+}
+.district_input {
+    margin-left: 55px;
+}
+.postcode_input {top:220px;}
+.liuyan {
     height: 100px;
-    left: 50%;
     top: 255px;
-    margin-left: -135px;
-    border-radius: 15px;
     padding: 5px;
-    background: #eee;
 }
 .save_add,.voice_btn {
     display: inline-block;
@@ -402,7 +415,7 @@ a.on i {display: block;}
     .youchuo_confirm { top: 420px; }
     /*弹出窗2*/
     .pop2 .bgK {top:30px;}
-    .pop2 .to_who,.pop2 .postcode {
+    .pop2 .recipient_input,.pop2 .postcode_input {
         z-index: 5;
         width: 230px;
         height: 30px;
@@ -414,8 +427,8 @@ a.on i {display: block;}
         padding-left: 10px;
         background: #eee;
     }
-    .pop2 .postcode {top: 120px;}
-    .to_address, .liuyan {
+    .pop2 .postcode_input {top: 120px;}
+    .address_input, .liuyan {
         z-index: 5;
         width: 230px;
         height: 100px;
@@ -449,7 +462,7 @@ a.on i {display: block;}
     /*弹出窗3*/
     .pop3 .bgK{top: 30px;margin-left:-155px;}
     .pop3 .bgK img{width:310px;}
-    .pop3 .to_who {top: 70px; }
+    .pop3 .recipient_input {top: 70px; }
     .pop3 .liuyan { width: 270px;height: 100px;top:130px; margin-left: -135px; }
     .pop3 .menu {top: 255px;}
     .pop3 .youchuo_confirm { top: 310px;}
@@ -688,6 +701,8 @@ a.on i {display: block;}
     letter-spacing: 2px;
 }
 /**蒙层and弹出窗end****/
+
+.province_input, .city_input, .district_input {top:140px;}
 
 /**适配iphone 6 和iphone 6 plus**/
 /*iphone 6*/

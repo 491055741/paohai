@@ -10,7 +10,7 @@ use CommonUtil;
 
 class ContactController extends AbstractActionController
 {
-    const JS_TAG = "20150104111111";
+    const JS_TAG = "201501121111";
 
     protected $contactTable;
     protected $util;
@@ -26,12 +26,14 @@ class ContactController extends AbstractActionController
     public function fillAddressAction()
     {
         $userName = $this->getRequest()->getQuery('userName', '');
-        $viewModel = new ViewModel(array('tag' => self::JS_TAG, 'userName' => $userName));
+        $viewModel = new ViewModel(array('tag' => self::JS_TAG,
+            'userName' => $userName));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
         $userName = $this->getRequest()->getPost('userName', '');
         $contactName = $this->getRequest()->getPost('contactName', '');
         if (empty($userName) || empty($contactName)) {
@@ -98,6 +100,7 @@ class ContactController extends AbstractActionController
     }
 
     public function contactsPageAction() {
+
         $userName = $this->getRequest()->getQuery("userName", "");
         if (empty($userName)) {
             $view = new ViewModel(array(
@@ -107,6 +110,7 @@ class ContactController extends AbstractActionController
             $view->setTemplate("postcard/postcard/error");
             return $view;
         }
+        $jsApiSignPackage = $this->getUtil()->getJsApiSignPackage();
 
         $nickName = '';
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->getUtil()->getAccessToken().'&openid='.$userName.'&lang=zh_CN';
@@ -116,9 +120,10 @@ class ContactController extends AbstractActionController
         }
 
         $viewModel = new ViewModel(array(
-            'userName' => $userName,
-            'nickName' => $nickName,
-            'tag' => self::JS_TAG,
+            'userName'  => $userName,
+            'nickName'  => $nickName,
+            'tag'       => self::JS_TAG,
+            'jsApiSignPackage' => $jsApiSignPackage,
         ));
         $viewModel->setTerminal(true);
         return $viewModel;

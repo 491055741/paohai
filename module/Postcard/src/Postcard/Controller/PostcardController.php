@@ -17,7 +17,7 @@ use Postcard\Libs\PinYin;
 use Postcard\Libs\Maps;
 
 define('DEFAULT_PICURL', 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg');
-define('DEFAULT_USER', 'default_user_openid'); // default user (my openid is ocKsTuKbE4QqHbwGEXmVnuLHO_sY)
+define('DEFAULT_USER', 'default_user_openid'); // default user (my openid is ocKsTuKbE4QqHbwGEXmVnuLHO_sY / odVjojqR6SGQPtjU2etk_0-tU0K8)
 
 // order status
 define('CANCEL',   99); // 已取消
@@ -32,6 +32,15 @@ define('CENTER', 2);
 
 define('JS_TAG', '2015010615422');
 
+function addQuotes($str)
+{
+    return sprintf("'%s'", $str);
+}
+
+function convertArray($array)
+{
+    return array_map('addQuotes', $array);
+}
 
 class PostcardController extends AbstractActionController
 {
@@ -40,12 +49,57 @@ class PostcardController extends AbstractActionController
     protected $contactTable;
     protected $util;
 
-    public function makeOrders()
+    public function makeOrdersAction()
     {
+        $error = "ok"; //上传文件出错信息
+        $fileElementName = 'uploadFile';
+        $errCode = $_FILES[$fileElementName]['error'];
+        if (!empty($errCode)) {
+            switch($errCode) {
+                case '1':
+                    $error = '传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值';
+                    break;
+                case '2':
+                    $error = '上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值';
+                    break;
+                case '3':
+                    $error = '文件只有部分被上传';
+                    break;
+                case '4':
+                    $error = '没有文件被上传';
+                    break;
+                case '6':
+                    $error = '找不到临时文件夹';
+                    break;
+                case '7':
+                    $error = '文件写入失败';
+                    break;
+                default:
+                    $error = '未知错误';
+            }
+        } elseif (empty($_FILES[$fileElementName]['tmp_name']) || $_FILES[$fileElementName]['tmp_name'] == 'none') {
+            $error = '没有上传文件.';
+        } else {
+            $isFirstLine = true;
+            $file = fopen($_FILES[$fileElementName]['tmp_name'],"r");
+            while(!feof($file)) {
+                $valArray = fgetcsv($file);
+                if (count($valArray) < 2) {
+                    break;
+                }
 
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+                $newArray = array_map(function ($str){return sprintf("'%s'", $str);}, $valArray);
+                $values = implode(',', $newArray);
+                if ($isFirstLine) {
+                    $isFirstLine = false;
+                    continue;
+                }
+                $sql = 'INSERT INTO `order_table` VALUES ('.$values.')';
+                $this->getOrderTable()->execSQL($sql);
+            }
+            fclose($file);
+        }
+        return $this->errorViewModel(array('code' => 0, 'msg' => $error));
     }
 
     public function voiceAction()
@@ -506,11 +560,11 @@ class PostcardController extends AbstractActionController
         $order = $this->getOrderTable()->getOrder($orderId);
         if ($orderId == '0' || !$order) {
             $code = 1;
-            $msg = 'order '.$orderId.' not exist!';
+            $msg = '订单 '.$orderId.' 不存在!';
         } else {
             $this->getOrderTable()->deleteOrder($orderId);
             $code = 0;
-            $msg = 'order '.$orderId.' delete success!';
+            $msg = '订单 '.$orderId.' 已删除';
         }
 
         $view =  new ViewModel(array('code' => $code, 'msg' => $msg));

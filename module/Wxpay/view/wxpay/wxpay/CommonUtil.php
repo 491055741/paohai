@@ -127,6 +127,40 @@ class CommonUtil
         return $token;
     }
 
+    function getJsapiTicket()
+    {
+        $ticketPara = $this->getWxParaTable()->getWxPara(WxPayConf_pub::JSAPI_TICKET_KEY);
+        $expireTimePara = $this->getWxParaTable()->getWxPara(WxPayConf_pub::JSAPI_TICKET_EXPIRE_TIME_KEY);
+        if (!$ticketPara || !$expireTimePara || $expireTimePara->value <= time()) {
+            $ticket = $this->refreshJsapiTicket();
+        } else {
+            $ticket = $ticketPara->value;
+        }
+        return $ticket;
+    }
+
+    public function getJsApiSignPackage() {
+        $jsapiTicket = $this->getJsApiTicket();
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $timestamp = time();
+        $nonceStr = $this->createNonceStr();
+
+        // 这里参数的顺序要按照 key 值 ASCII 码升序排序
+        $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
+
+        $signature = sha1($string);
+
+        $signPackage = array(
+            "appId"     => WxPayConf_pub::appId(),
+            "nonceStr"  => $nonceStr,
+            "timestamp" => $timestamp,
+            "url"       => $url,
+            "signature" => $signature
+//            "rawString" => $string
+        );
+        return $signPackage;
+    }
+
     function saveAccessToken($token, $expires_in)
     {
         $para = new WxPara();
@@ -139,12 +173,33 @@ class CommonUtil
         $this->getWxParaTable()->savePara($para);
     }
 
+    function saveJsapiTicket($ticket, $expires_in)
+    {
+        $para = new WxPara();
+        $para->paraName = WxPayConf_pub::JSAPI_TICKET_KEY;
+        $para->value = $ticket;
+        $this->getWxParaTable()->savePara($para);
+
+        $para->paraName = WxPayConf_pub::JSAPI_TICKET_EXPIRE_TIME_KEY;
+        $para->value = $expires_in + time();
+        $this->getWxParaTable()->savePara($para);
+    }
+
     function refreshAccessToken()
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.WxPayConf_pub::appId().'&secret='.WxPayConf_pub::appSecret();
         $obj = json_decode(file_get_contents($url));
         $this->saveAccessToken($obj->access_token, $obj->expires_in);
         return $obj->access_token;
+    }
+
+    function refreshJsapiTicket()
+    {
+        $accessToken = $this->getAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$accessToken.'&type=jsapi';
+        $obj = json_decode(file_get_contents($url));
+        $this->saveJsapiTicket($obj->ticket, $obj->expires_in);
+        return $obj->ticket;
     }
 
     function setCertInfo($certFile, $certPasswd, $certType="PEM") {
@@ -172,7 +227,7 @@ class CommonUtil
         return $allUrl;
     }
 
-    function create_noncestr( $length = 16 )
+    function createNoncestr( $length = 16 )
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $str = "";

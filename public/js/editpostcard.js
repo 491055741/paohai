@@ -34,9 +34,9 @@
         }
 
         //弹窗2
-        $(".pop2 .to_who").val(receiptInfo.getName());
-        $(".pop2 .postcode").val(receiptInfo.getZipcode());
-        $(".pop2 .to_address").val(receiptInfo.getAddress());
+        $(".pop2 .recipient_input").val(receiptInfo.getName());
+        $(".pop2 .postcode_input").val(receiptInfo.getZipcode());
+        $(".pop2 .address_input").val(receiptInfo.getAddress());
 
         //弹窗3
         $(".pop3 .to_who").val(messageInfo.getSalutation());
@@ -88,10 +88,19 @@
         });
         $("#pop2_conf").on("click", function() { //确认按钮: 收件人信息弹窗
             // Set postcard object
+            if ($(".pop2 .province_input").val() == "省份" || $(".pop2 .city_input").val() == "城市") {
+                HC.showError("请选择省/市/区");
+                return;
+            }
+
             receiptInfo.setVars({
-                name: $(".pop2 .to_who").val(),
-                address: $(".pop2 .to_address").val(),
-                zipcode: $(".pop2 .postcode").val(),
+                name: $(".pop2 .recipient_input").val(),
+//                address: $(".pop2 .to_address").val(),
+                address: $(".pop2 .province_input").val()
+                    + $(".pop2 .city_input").val()
+                    + $(".pop2 .district_input").val()
+                    + $(".pop2 .address_input").val(),
+                zipcode: $(".pop2 .postcode_input").val()
             });
             var errMsg = HC.checkAddress(receiptInfo);
             if (errMsg) {
@@ -190,6 +199,9 @@
     }
 
     $(function() {
+        LocalitySelection.initSelect();
+        $("#province_select").change(function(){LocalitySelection.select();});
+
         // init data
         order.setOrderId($("#var-order-id").val())
             .setUserName($("#var-user-name").val());

@@ -11,6 +11,7 @@
 <body>
 <input type="hidden" id="var-user-name" value="<?php echo $userName; ?>" />
 <input type="hidden" id="var-nick-name" value="<?php echo $nickName; ?>" />
+
 <div class="container">
 
     <div id="sharetips" class="popbox pa hide" style="padding-top:0">
@@ -66,7 +67,7 @@
         <div class='list-ul-hc pa list-ul-hc-ab address-book'></div>
         <div class='menu-btn-hc menu-btn-hc-ab pa' id='m_btn'>
             <button id="add-contact" class="add_hc w120h50 pa"></button>
-<!--            <button id="share-contact" class="share_hc w120h50 pa"></button>-->
+            <button id="share-contact" class="share_hc w120h50 pa"></button>
         </div>
     </div>
     <!-- 地址簿end -->
@@ -75,8 +76,18 @@
 <script src="/js/google.fastbutton.js"></script>
 <script src="/js/jquery.google.fastbutton.js"></script>
 <script src="/js/common.js?<?php echo $tag; ?>"></script>
-<script src="/js/address-book.js?<?php echo $tag; ?>"></script>
-<script language="javascript" >
+<script src="/js/locality-select.js?<?php echo $tag; ?>"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script language="javascript">
+    wx.config({
+        debug: false,
+        appId: '<?php echo $jsApiSignPackage["appId"]; ?>',
+        timestamp:  <?php echo $jsApiSignPackage["timestamp"];?>,
+        nonceStr:  '<?php echo $jsApiSignPackage["nonceStr"];?>',
+        signature: '<?php echo $jsApiSignPackage["signature"];?>',
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+    });
 </script>
+<script src="/js/address-book.js?<?php echo $tag; ?>"></script>
 </body>
 </html>
