@@ -108,6 +108,12 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false && ($order->picU
             return;
         }
 
+        var payPrice = <?php echo (int) $payPrice; ?>;
+        if (payPrice == 0) {
+            self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
+            return;
+        }
+
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
             <?php echo $jsApiParameters; ?>,

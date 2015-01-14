@@ -30,7 +30,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501141542');
+define('JS_TAG', '201501141634');
 
 class PostcardController extends AbstractActionController
 {
@@ -530,6 +530,13 @@ class PostcardController extends AbstractActionController
             $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
             $view->setTemplate('postcard/postcard/error');
             return $view;
+        }
+
+        // 价格为0，修改状态为已支付
+        if ($order->price == 0 && $order->status == Order::STATUS_UNPAY) {
+            // update order status to 'payed'
+            $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/' . $orderId . '/101';
+            $html = file_get_contents($url);
         }
 
         $viewModel = new ViewModel(array('orderId' => $orderId, 'tag' => JS_TAG));

@@ -19,7 +19,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201412300012');
+define('JS_TAG', '201501081729');
 
 class WxpayController extends AbstractActionController
 {
@@ -45,7 +45,7 @@ class WxpayController extends AbstractActionController
         $util->setServiceLocator($this->getServiceLocator());
         $location = $util->getUserGeoAddress($order->userName);
 
-        $price = $this->getOrderTable()->calculateOrderPrice($order->userName);
+        $price = $this->getOrderTable()->calculateOrderPrice($order);
         $order->price = $price;
         $this->getOrderTable()->saveOrder($order);
         return $this->viewModel(array(
