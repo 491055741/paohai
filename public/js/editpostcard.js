@@ -36,7 +36,9 @@
         //弹窗2
         $(".pop2 .recipient_input").val(receiptInfo.getName());
         $(".pop2 .postcode_input").val(receiptInfo.getZipcode());
-        $(".pop2 .address_input").val(receiptInfo.getAddress());
+
+        var address = receiptInfo.getAddress();
+        $(".pop2 .address_input").val(LocalitySelection.selectWithAddress(receiptInfo.getAddress()));
 
         //弹窗3
         $(".pop3 .to_who").val(messageInfo.getSalutation());
@@ -56,7 +58,7 @@
             order.getUserLnglat();
         });
         $(".shoujianInput").on("click", function() { //显示弹窗2
-            $(".pop2").show().find(".to_who").trigger("focus");
+            $(".pop2").show().find(".recipient_input").trigger("focus");
         });
         $(".voice-tips").on("click" , function() {
             $(".voice-tips").hide();
@@ -95,7 +97,6 @@
 
             receiptInfo.setVars({
                 name: $(".pop2 .recipient_input").val(),
-//                address: $(".pop2 .to_address").val(),
                 address: $(".pop2 .province_input").val()
                     + $(".pop2 .city_input").val()
                     + $(".pop2 .district_input").val()

@@ -30,7 +30,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '2015010615422');
+define('JS_TAG', '2015011415422');
 
 function addQuotes($str)
 {
@@ -1002,7 +1002,7 @@ class PostcardController extends AbstractActionController
         } else {
             // quyou qr code
             $image_qr = imagecreatefromjpeg('public/images/big/qr_quyou.jpg');
-            $text = '趣邮明信片';
+            $text = 'DIY你的明信片';
         }
         $width=$height=250;
         imagecopyresampled($dst, $image_qr, $canvas_w-$width-70, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
