@@ -161,7 +161,12 @@ class WechatController extends AbstractActionController
                         if (strlen($sceneId) > 0) {
                             $order = $this->getOrderTable()->getOrderByQrSceneId($sceneId);
                             if ($order && isset($order->voiceMediaId)) {
-                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?orderId='.$order->id.'&mediaId='.$order->voiceMediaId.'&nonce='.time().'">快来听听你的留言吧</a>';
+                                if ($sceneId == '138') {
+                                    $txt = '聆听自然堂新年明星祝福';
+                                } else {
+                                    $txt = '快来听听你的留言吧';
+                                }
+                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?orderId='.$order->id.'&mediaId='.$order->voiceMediaId.'&nonce='.time().'">'.$txt.'</a>';
                             } else {
                                 $contentStr = '没有找到语音留言,sceneId:'.$sceneId;
                             }

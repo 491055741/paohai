@@ -89,13 +89,13 @@
                 for (k = 0; k < where.length; k++) {
                     if (address.indexOf(where[k].loca) != -1) {
                         selectedIndex = k;
-                        shortAddress = address.substring(where[k].loca.length, address.length - where[k].loca.length);
+                        shortAddress = address.substr(where[k].loca.length, address.length - where[k].loca.length);
                         LocalitySelection.select();
                         loca3 = (where[k].locality).split("|");
                         for (l = 0; l < loca3.length; l++) {
                             if (shortAddress.indexOf(loca3[l]) != -1) {
                                 document.creator.city.selectedIndex = l;
-                                shortAddress = shortAddress.substring(loca3[l].length, shortAddress.length - loca3[l].length);
+                                shortAddress = shortAddress.substr(loca3[l].length, shortAddress.length - loca3[l].length);
                                 break;
                             }
                         }
