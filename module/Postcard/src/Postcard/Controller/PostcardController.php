@@ -270,6 +270,11 @@ class PostcardController extends AbstractActionController
         $canvas_h = 1440.0;
         $image = $this->generateFront($order, $canvas_w, $canvas_h);
         if ($image) {
+            // TODO rotate
+            if ($order->templateId >= 8) {
+                $image = imagerotate($image, 90, 0);
+            }
+
             header("Content-type: image/png");
             imagepng($image);
             imagedestroy($image);
