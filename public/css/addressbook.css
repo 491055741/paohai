@@ -147,7 +147,7 @@ html,body {height: 100%;}
 .mobile_input {top:260px;}
 .menu-btn-hc {z-index: 5;border: 0;}
 
-.edit_title,.recipient_input,.postcode_input,.address_input,.mobile_input,.province_input,.city_input,.district_input {
+.edit_title,.recipient_input,.postcode_input,.address_input,.mobile_input,.province_input,.city_input {
 	z-index: 5;
 	left: 50%;
     margin-left: -135px;
@@ -164,16 +164,13 @@ html,body {height: 100%;}
     background:url("../images/edit_contact_input_bg.png") no-repeat;
     background-size: 100%, 100%;
 }
-.province_input,.city_input,.district_input {
-    width: 80px;
-    background:url("../images/edit_contact_input_short_bg.png") no-repeat;
+.province_input,.city_input {
+    width: 130px;
+    background:url("../images/edit_contact_input_bg_short.png") no-repeat;
     background-size: 100%, 100%;
 }
 .city_input {
-    margin-left: -40px;
-}
-.district_input {
-    margin-left: 55px;
+    margin-left: 5px;
 }
 
 @media all and (max-width: 320px) {
@@ -188,9 +185,9 @@ html,body {height: 100%;}
         padding-left: 10px;
         height: 20px;
     }
-    .province_input,.city_input,.district_input {
-        width: 70px;
-        background:url("../images/edit_contact_input_short_bg.png") no-repeat;
+    .province_input,.city_input {
+        width: 110px;
+        background:url("../images/edit_contact_input_bg_short.png") no-repeat;
         background-size: 100%, 100%;
         height: 20px;
     }
@@ -198,10 +195,7 @@ html,body {height: 100%;}
         margin-left: -115px;
     }
     .city_input {
-        margin-left: -35px;
-    }
-    .district_input {
-        margin-left: 45px;
+        margin-left: 5px;
     }
 	.menu-btn-hc input {
 		width:100px;

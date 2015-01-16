@@ -272,11 +272,11 @@ a.on i {display: block;}
 /*弹窗2*/
 .pop2 {}
 .recipient_input {top:100px;}
-.province_input, .city_input, .district_input {top:140px;}
+.province_input, .city_input {top:140px;}
 .address_input {top:180px;}
 .postcode_input {top:220px;}
 .mobile_input {top:260px;}
-.recipient_input,.postcode_input,.address_input,.liuyan,.mobile_input,.province_input,.city_input,.district_input{
+.recipient_input,.postcode_input,.address_input,.liuyan,.mobile_input,.province_input,.city_input {
     z-index: 5;
     width: 270px;
     height: 25px;
@@ -291,17 +291,15 @@ a.on i {display: block;}
     background:url("../images/edit_contact_input_bg.png") no-repeat;
     background-size: 100%, 100%;
 }
-.province_input,.city_input,.district_input {
-    width: 80px;
-    background:url("../images/edit_contact_input_short_bg.png") no-repeat;
+.province_input,.city_input {
+    width: 130px;
+    background:url("../images/edit_contact_input_bg_short.png") no-repeat;
     background-size: 100%, 100%;
 }
 .city_input {
-    margin-left: -40px;
+    margin-left: 5px;
 }
-.district_input {
-    margin-left: 55px;
-}
+
 .postcode_input {top:220px;}
 .liuyan {
     height: 100px;
@@ -445,7 +443,7 @@ a.on i {display: block;}
         padding-left: 10px;
         height: 20px;
     }
-    .province_input,.city_input,.district_input {
+    .province_input,.city_input {
         width: 70px;
         background:url("../images/edit_contact_input_short_bg.png") no-repeat;
         background-size: 100%, 100%;
@@ -456,9 +454,6 @@ a.on i {display: block;}
     }
     .city_input {
         margin-left: -35px;
-    }
-    .district_input {
-        margin-left: 45px;
     }
 
     .liuyan {
@@ -735,7 +730,7 @@ a.on i {display: block;}
 }
 /**蒙层and弹出窗end****/
 
-.province_input, .city_input, .district_input {top:140px;}
+.province_input, .city_input {top:140px;}
 
 /**适配iphone 6 和iphone 6 plus**/
 /*iphone 6*/

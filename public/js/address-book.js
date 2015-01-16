@@ -194,7 +194,6 @@
                             "name": $("#pop-address .recipient_input").val(),
                             "address": $("#pop-address .province_input").val()
                                        + $("#pop-address .city_input").val()
-                                       + $("#pop-address .district_input").val()
                                        + $("#pop-address .address_input").val(),
                             "zipcode": $("#pop-address .postcode_input").val()
                         });
@@ -214,7 +213,6 @@
                             .find(".mobile_input").val("").end()
                             .find(".province_input").val("").end()
                             .find(".city_input").val("").end()
-                            .find(".district_input").val("").end()
                             .show();
                     });
                     $(document).on("click", "#share-contact", function() {

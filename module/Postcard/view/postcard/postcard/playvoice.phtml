@@ -2,18 +2,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="/css/common.css?<?php echo $tag; ?>"/>
 </head>
 <body style="padding: 0; margin: 0;">
-    <div class="page3 pa">
-        <div style="font-size:10; color:white; position: absolute; top: 10px; left: 10;">
-            看这边“趣邮明信片”<br>
-            <div onclick="javascript:WeixinJSBridge.call('closeWindow');">点击你也可以订制属于你的个性明信片哦</div>
-        </div>
+    <div style="font-size:10; color:white; position: absolute; top: 10px; left: 10;">
+        看这边“趣邮明信片”<br>
+        <div onclick="javascript:WeixinJSBridge.call('closeWindow');">点击你也可以订制属于你的个性明信片哦</div>
+    </div>
 
-	<div align=center style="position: absolute; top: 40px; width: 100%; height: 280px; padding:0 10px; box-sizing: border-box;">
-            <img style="max-width: 100%; max-height:80%;" src=<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/postcard/shareimage/'. $orderId; ?> >
-        </div>
+    <div align=center style="position: absolute; top: 40px; width: 100%; height: 280px; padding:0 10px; box-sizing: border-box;">
+        <img style="max-width: 100%; max-height:80%;" src=<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/postcard/shareimage/'. $orderId; ?> >
     </div>
     <div style="position: absolute; top: 350px; left: 0%; margin-left: 0px; width: 100%">
         <audio src=<?php echo '"'.$file.'"'?> controls="controls" autoplay name="media" style="width: 100%">
