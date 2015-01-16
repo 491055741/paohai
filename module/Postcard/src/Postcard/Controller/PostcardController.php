@@ -30,7 +30,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501151230');
+define('JS_TAG', '201501161416');
 
 class PostcardController extends AbstractActionController
 {
@@ -147,7 +147,7 @@ class PostcardController extends AbstractActionController
                                 $this->JSON(array(
                                                 'touser'  => $order->userName,
                                                 'msgtype' => 'text',
-                                                'text'    => array('content' => '请说出你的语音留言' ),
+                                                'text'    => array('content' => '请说出你的语音留言（点击左下角的语音录入按钮可以开始录音。）' ),
                                                 ))
                                 );
         $array = $this->object2array(json_decode($res));
