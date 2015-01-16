@@ -177,7 +177,7 @@ class OrderTable
         $totalNum = 1000;
         $perNum = 2;            // max number per user
         $beginTime = "2015-01-15 00:00:00";
-        $endTime = "2015-01-16 12:00:00";
+        $endTime = "2015-01-16 20:00:00";
         $currTime = date("Y-m-d H:i:s");
 
         if ( ! in_array($order->templateId, $specifiedTemplateIds)) {
