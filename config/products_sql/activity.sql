@@ -15,6 +15,7 @@ CREATE TABLE `activity` (
     `startTime` DATETIME NOT NULL,
     `endTime` DATETIME NOT NULL,
     `templateIdOrder` VARCHAR(512) NOT NULL DEFAULT '',
+    `priceRuleId` INT(11) UNSIGNED NOT NULL COMMENT 'activity global price rule config id, if template not specify price rule config id, use it',
     `status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-close; 1-open;',
     PRIMARY KEY (`id`),
     KEY `statusTime` (`startTime`, `endTime`, `status`)
@@ -24,7 +25,7 @@ CREATE TABLE `activity` (
 --
 -- activity template price rule config
 --
-CREATE TABLE `activity_template_price_rule` (
+CREATE TABLE `activity_price_rule` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `type` TINYINT(4) UNSIGNED NOT NULL COMMENT 'price rule type, referer to activity setting file',
     `priceConf` text DEFAULT '' COMMENT 'price rule',
@@ -41,7 +42,7 @@ CREATE TABLE `activity_template_config` (
     `imgId` INT(11) UNSIGNED NOT NULL,
     `imgThumbId` INT(11) UNSIGNED NOT NULL,
     `rotate` TINYINT(4) NOT NULL DEFAULT '0' COMMENT 'clockwise. 0-0; 1-90; 2-180; 3-270;',
-    `priceRuleId` INT(11) UNSIGNED NOT NULL COMMENT 'template price rule config id',
+    `priceRuleId` INT(11) UNSIGNED DEFAULT NULL COMMENT 'activity price rule config id, if not null, ignore global activity price rule',
     `status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-unused; 1-used',
     PRIMARY KEY (`id`),
     FOREIGN KEY (`actId`) REFERENCES `activity` (`id`),

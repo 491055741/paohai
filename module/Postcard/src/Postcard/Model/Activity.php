@@ -12,6 +12,7 @@ class Activity
     private $startTime;
     private $endTime;
     private $templateIdOrder;     // template在制作页面显示的顺序
+    private $priceRuleId;
     private $status;
 
 
@@ -20,6 +21,7 @@ class Activity
         $this->startTime = (isset($data["startTime"])) ? $data["startTime"] : null;
         $this->endTime = (isset($data["endTime"])) ? $data["endTime"] : null;
         $this->templateIdOrder = (isset($data["templateIdOrder"])) ? 
+        $this->priceRuleId = (isset($data["priceRuleId"])) ?
             $data["templateIdOrder"] : null;
         $this->status = (isset($data["status"])) ? $data["status"] : null;
     }
@@ -59,6 +61,17 @@ class Activity
 
     public function setTemplateIdOrder($templateIdOrder) {
         $this->templateIdOrder = $templateIdOrder;
+        return $this;
+    }
+
+
+    public function getPriceRuleId() {
+        return $this->priceRuleId;
+    }
+
+
+    public function setPriceruleId($priceRuleId) {
+        $this->priceRuleId = $priceRuleId;
         return $this;
     }
 

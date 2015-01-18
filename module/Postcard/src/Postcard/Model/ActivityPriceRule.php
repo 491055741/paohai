@@ -2,7 +2,7 @@
 namespace Postcard\Model;
 
 
-class ActivityTemplatePriceRule
+class ActivityPriceRule
 {
     const TYPE_DEFAULT = 0;
     const TYPE_FIXED = 1;

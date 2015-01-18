@@ -17,8 +17,8 @@ use Postcard\Module\Activity;
 use Postcard\Module\ActivityTable;
 use Postcard\Module\ActivityTemplateConfig;
 use Postcard\Module\ActivityTemplateConfigTable;
-use Postcard\Module\ActivityTemplatePriceRule;
-use Postcard\Module\ActivityTemplatePriceRuleTable;
+use Postcard\Module\ActivityPriceRule;
+use Postcard\Module\ActivityPriceRuleTable;
 use Postcard\Module\ActivityJoinRecord;
 use Postcard\Module\ActivityJoinRecordTable;
 use Postcard\Module\Image;
@@ -83,9 +83,9 @@ class Module
                     $table = new ActivityTemplateConfigTable($tableGateway);
                     return $table;
                 },
-                'Postcard\Model\ActivityTemplatePriceRuleTable' => function($sm) {
-                    $tableGateway = $sm->get('ActivityTemplatePriceRuleTableGateway');
-                    $table = new ActivityTemplatePriceRuleTable($tableGateway);
+                'Postcard\Model\ActivityPriceRuleTable' => function($sm) {
+                    $tableGateway = $sm->get('ActivityPriceRuleTableGateway');
+                    $table = new ActivityPriceRuleTable($tableGateway);
                     return $table;
                 },
                 'Postcard\Model\ActivityJoinRecordTable' => function($sm) {
@@ -137,10 +137,10 @@ class Module
                     $resultSetPrototype->setArrayObjectPrototype(new ActivityTemplateConfig());
                     return new TableGateway("activity_template_config", $dbAdapter, null, $resultSetPrototype);
                 },
-                'ActivityTemplatePriceRuleTableGateway' => function($sm) {
+                'ActivityPriceRuleTableGateway' => function($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new ActivityTemplatePriceRule());
+                    $resultSetPrototype->setArrayObjectPrototype(new ActivityPriceRule());
                     return new TableGateway("activity_template_price_rule", $dbAdapter, null, $resultSetPrototype);
                 },
                 'ActivityJoinRecordTableGateway' => function($sm) {

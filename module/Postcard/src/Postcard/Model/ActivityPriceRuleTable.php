@@ -3,7 +3,7 @@ namespace Postcard\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Sql\Where;
-use Postcard\Model\ActivityTemplatePriceRule;
+use Postcard\Model\ActivityPriceRule;
 
 
 class ActivityTemplatePriceRuleTable
