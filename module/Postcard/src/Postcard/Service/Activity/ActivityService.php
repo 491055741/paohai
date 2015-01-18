@@ -1,11 +1,18 @@
 <?php
 namespace Postcard\Service\Activity;
 
+use Postcard\Service\AbstractService;
 use Postcard\Service\Activity\TypeDefaultTemplateService;
 use Postcard\Model\ActivityTemplatePriceRule;
 
-class ActivityService
+class ActivityService extends AbstractService
 {
+    private $priceTypeMap = array(
+        ActivityPriceRule::TYPE_FIXED => 'Postcard\Service\Activity\PriceRule\FixedPriceRule',
+        ActivityPriceRule::TYPE_STEP => 'Postcard\Service\Activity\PriceRule\StepPriceRule',
+        );
+
+
     /**
      *
      */
@@ -31,8 +38,16 @@ class ActivityService
      * Caculate price by template type and config
      *
      */
-    public function getTemplatePrice($id) {
+    public function getPrice($id) {
+        $priceRuleConfig = $this->getServiceLocator()
+            ->get("Postcard\Model\ActivityPriceRuleTable")
+            ->getOneById($id);
 
+        $priceRule = new $priceTypeMap[$priceRuleConfig->getType()];
+        $priceRule->setServiceLocator($this->getServiceLocator());
+        $conf = json_decode($priceRuleConfig->getPriceConf(), true);
+
+        return $priceRule->getPrice($conf);
     }
 }
 

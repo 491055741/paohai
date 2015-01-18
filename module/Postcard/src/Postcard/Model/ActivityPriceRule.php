@@ -4,9 +4,8 @@ namespace Postcard\Model;
 
 class ActivityPriceRule
 {
-    const TYPE_DEFAULT = 0;
-    const TYPE_FIXED = 1;
-    const TYPE_STEP = 2;
+    const TYPE_FIXED = 0;
+    const TYPE_STEP = 1;
 
 
     private $id;
