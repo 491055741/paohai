@@ -16,9 +16,10 @@
                 offsetY: $("#var-offset-y").val(),
             });
 
+            var actId = $("#var-activity_id").val();
             console.log(order);
             if (order.getOrderId() == "0") {
-                order.placeOrder(); 
+                order.placeOrder(actId); 
             } else {
                 order.updateImageForOrder();
             }

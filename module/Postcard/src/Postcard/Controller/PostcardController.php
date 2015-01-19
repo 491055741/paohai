@@ -115,6 +115,7 @@ class PostcardController extends AbstractActionController
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
+        $actId = $this->getRequest()->getQuery("actId");
 
         if ($orderId == '0' || !$order) {
             $selectedTemplateIndex = -1;
@@ -134,6 +135,7 @@ class PostcardController extends AbstractActionController
             'orderId' => $this->getRequest()->getQuery('orderId', '0'),
             'picurl'  => $picUrl,
             'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
+            'actId' => $actId,
             'tag' => JS_TAG,
         ));
         $viewModel->setTerminal(true); // disable layout template
@@ -397,6 +399,7 @@ class PostcardController extends AbstractActionController
             }
         }
 
+        $actId = $this->getRequest()->getPost('actId');
         $order = new Order();
         $order->id         = $orderId;
         $order->userName   = $this->getRequest()->getPost('userName',   DEFAULT_USER);
@@ -406,6 +409,7 @@ class PostcardController extends AbstractActionController
         $order->offsetY    = $this->getRequest()->getPost('offsetY', '0');
         $order->status     = UNPAY;
         $order->orderDate  = date('Y-m-d H:i:s');
+        $order->activityId = $actId ?: NULL;
         // var_dump($order);
         $this->getOrderTable()->saveOrder($order);
 

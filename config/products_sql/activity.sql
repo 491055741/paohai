@@ -66,3 +66,6 @@ CREATE TABLE `activity_join_record` (
     FOREIGN KEY (`actId`) REFERENCES `activity` (`id`),
     FOREIGN KEY (`orderId`) REFERENCES `order_table` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `order_table` ADD `activityId` INT(11) UNSIGNED DEFAULT NULL COMMENT 'If activity_id not null, referer to field: id of table activity. Null for not involved any activity';
