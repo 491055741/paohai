@@ -25,12 +25,48 @@ class ActivityService extends AbstractService
      * 
      * @return array $templates. eg:
      *      array(
-     *          id => array(thumbUrl, urla, rotate),
+     *          id => array(
+     *              "imgId" => 123,
+     *              "imgThumbId" => 234,
+     *              "thumbUrl" => xxxxx, 
+     *              "url" => "xxxxxx", 
+     *              "rotate" => "xxxxx"
+     *              ),
      *          ...             
      *      )
      */
     public function getTemplates($actId) {
+        // TODO cache
 
+        $templates = array();
+        $table = $this->getServiceLocator()
+            ->get('Posrcard\Model\ActivityTemplateConfigTable');
+        $res = $table->getAllByActId($actId);
+        $imageIds = array();
+        foreach ($res as $item) {
+            $templates[$item->getId()] = array(
+                "rotate" => $item->getRotate(),
+                "imgId" => $item->getImgId(),
+                "imgThumbId" => $item->getImgThumbId(),
+                );
+            $imageIds[] = $item->getImgId();
+            $imageIds[] = $item->getImgThumbId();
+        }
+        
+        $imgTable = $this->getServiceLocator()
+            ->get('Posrcard\Model\ImageTable');
+        $res = $imgTable->getUrls($imageIds);
+        $imgs = array();
+        foreach ($res as $item) {
+            $imgs[$item->getId()] = $item->getUrl(); 
+        }
+
+        foreach($templates as $id => &$info) {
+            $info["url"] = $imgs[$info["imgId"]];
+            $info["thumbUrl"] = $imgs[$info["imgThumbId"]];
+        }
+
+        return $templates;
     }
 
 

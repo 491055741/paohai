@@ -129,6 +129,10 @@ class PostcardController extends AbstractActionController
             $picUrl = $order->picUrl;
         }
 
+        $activityService = $this->getServiceLocator()
+            ->get('Posrcard\Service\Activity\ActivityService');
+        $imgTemplates = $activityService->getTemplates($order->activityId);
+
         $viewModel =  new ViewModel(array(
             'templateIndex' => $selectedTemplateIndex,
             'offsetX' => $offsetX,
@@ -137,6 +141,7 @@ class PostcardController extends AbstractActionController
             'picurl'  => $picUrl,
             'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
             'actId' => $actId,
+            'imgTemplates' => $imgTemplates,
             'tag' => JS_TAG,
         ));
         $viewModel->setTerminal(true); // disable layout template

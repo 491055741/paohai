@@ -37,11 +37,7 @@ class ActivityTemplateConfigTable
         }
 
         $results = $this->tableGateway->selectWith($select);
-        if ($results) {
-            return $results[0];
-        }
-
-        return NULL;
+        return  $results->current() ?: NULL;
     }
 }
 

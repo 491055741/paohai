@@ -42,6 +42,10 @@
         <!--模板缩略图-->
         <div class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
+            <?php foreach ($imgTemplates as $templateId => $templateInfo): ?>
+                <li><img id="thumb_img_<?php echo $templateId; ?> class="thumb_imgs" src="<?php echo $templateInfo["thumbUrl"] . "?$tag"; ?>" title="背静缩略图<?php echo $templateId; ?>" /></li>
+            <?php endforeach; ?>
+
             <?php for ($i = 0; $i < 15; $i += 1): ?>
                 <li><img id="thumb_img_<?php echo $i ?>" class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>" /></li>
             <?php endfor; ?>

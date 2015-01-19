@@ -4,6 +4,7 @@
 CREATE TABLE `image` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `url` varchar(512) NOT NULL,
+    `description` varchar(128) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
