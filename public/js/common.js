@@ -10,7 +10,6 @@ var HC = {
         var_offset_x : document.getElementById("var-offset-x")||"",
         var_offset_y : document.getElementById("var-offset-y")||"",
         var_template_index : document.getElementById("var-template-index")||"",
-        var_template_rotate_index : document.getElementById("var-template-rotate-index")||"",
         /**/
             bg_layer  : document.getElementsByClassName("bgLayer")[0]||"",
             img_layer : document.getElementsByClassName("imgLayer")[0]||"",
@@ -53,7 +52,8 @@ var HC = {
                 classie.toggle(imgL,"up");
                 classie.toggle(bgLayer_img,"up");
             setTimeout(function () {
-                HC.rotate(tp.var_template_index.value);
+                var rotate = $("#thumb_img_" + tp.var_template_index.value).data("rotate");
+                HC.rotate(rotate);
             },350);
             };
     },
@@ -76,22 +76,13 @@ var HC = {
             i = 0,
             len = ul_imgs.length;
             console.log(len);
-        for ( ; i < len ; i++) {
+        $(document).on("click", ".thumb_imgs", function() {
+            bgLayer_img.src = $(this).attr("src");
+            var rotate = $(this).data("rotate");
+            tp.var_template_index.value = $(this).data("id");
+            HC.rotate(rotate);
+        });
 
-            ul_imgs[i].index = function(n){
-                return function(){
-                    return n;
-                }();
-            }(i);
-
-            ul_imgs[i].onclick = function (e) {
-                e.stopPropagation();
-                bgLayer_img.src = this.src;
-                console.log(this.index);
-                tp.var_template_index.value = this.index;
-                HC.rotate(this.index);
-            };
-        }
     },
     handtouch : function (e) { //
         var tp = HC.touch;
@@ -166,11 +157,9 @@ var HC = {
 
 
     },
-    rotate : function(selectedTemplateIndex){ //旋转
+    rotate : function(rotate){ //旋转
         var tp = HC.touch;
-        console.log("a:"+selectedTemplateIndex);
-        console.log(tp.var_template_rotate_index.value);
-        if( selectedTemplateIndex >= tp.var_template_rotate_index.value ) {
+        if (rotate == -90) {
             tp.s = true;
             HC.scale(tp.s);
             //transform-origin: left bottom
@@ -184,19 +173,14 @@ var HC = {
             tp.imgLayer_img.style.webkitTransform="";
             tp.imgLayer_img.style.transform="";
         }
-        tp.var_template_index.value = selectedTemplateIndex ;
     },
     init : function () {
         var  tp = HC.touch;
         tp.imgLayer_img.onload = function() {
-            if (tp.var_template_index.value == -1) {
-                var w = tp.imgLayer_img.offsetWidth,
-                    h = tp.imgLayer_img.offsetHeight;
-                tp.var_template_index.value = (h > w) ? 0 : 6;
-            }
-            tp.bgLayer_img.src = tp.ul_imgs[tp.var_template_index.value].src;
+            var thumb_img_id = "thumb_img_" + tp.var_template_index.value;
+            tp.bgLayer_img.src = $("#" + thumb_img_id).attr("src");
             //初始化，是否旋转 2014-11-6
-            tp.ul_imgs[tp.var_template_index.value].click();
+            $("#" + thumb_img_id).click();
             //初始化，是否位移 2014-11-6
             tp.img_layer.scrollLeft = (-tp.var_offset_x.value * tp.pic_w);
             tp.img_layer.scrollTop = (-tp.var_offset_y.value * tp.pic_h);

@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '2015010615422');
+define('JS_TAG', '201501192345');
 
 
 class PostcardController extends AbstractActionController
@@ -119,7 +119,7 @@ class PostcardController extends AbstractActionController
         $actId = $this->getRequest()->getQuery("actId", Activity::DEFAULT_ACTIVITY_ID);
 
         if ($orderId == '0' || !$order) {
-            $selectedTemplateIndex = -1;
+            $selectedTemplateIndex = NULL;
             $offsetX = 0;
             $offsetY = 0;
         } else {
@@ -133,6 +133,10 @@ class PostcardController extends AbstractActionController
         $activityService = $this->getServiceLocator()
             ->get('Postcard\Service\Activity\ActivityService');
         $imgTemplates = $activityService->getTemplates($actId);
+
+        if ( ! $selectedTemplateIndex) {
+            $selectedTemplateIndex = array_keys($imgTemplates)[0];
+        }
 
         $viewModel =  new ViewModel(array(
             'templateIndex' => $selectedTemplateIndex,
