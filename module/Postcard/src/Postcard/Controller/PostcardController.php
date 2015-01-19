@@ -13,6 +13,7 @@ use Zend\View\Model\JsonModel;
 use Postcard\Model\Order;
 use Postcard\Model\Contact;
 use Postcard\Model\UserPosition;
+use Posrcard\Model\Activity;
 use Postcard\Libs\PinYin;
 use Postcard\Libs\Maps;
 
@@ -115,7 +116,7 @@ class PostcardController extends AbstractActionController
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
-        $actId = $this->getRequest()->getQuery("actId");
+        $actId = $this->getRequest()->getQuery("actId", Activity::DEFAULT_ACTIVITY_ID);
 
         if ($orderId == '0' || !$order) {
             $selectedTemplateIndex = -1;

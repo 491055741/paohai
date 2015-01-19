@@ -11,7 +11,7 @@ CREATE TABLE `image` (
 -- activity config table 
 --
 CREATE TABLE `activity` (
-    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'auto_increment begin 101, 1 is reserved for default activity',
     `startTime` DATETIME NOT NULL,
     `endTime` DATETIME NOT NULL,
     `templateIdOrder` VARCHAR(512) NOT NULL DEFAULT '',
@@ -19,7 +19,7 @@ CREATE TABLE `activity` (
     `status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-close; 1-open;',
     PRIMARY KEY (`id`),
     KEY `statusTime` (`startTime`, `endTime`, `status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
 
 
 --
@@ -68,4 +68,4 @@ CREATE TABLE `activity_join_record` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-ALTER TABLE `order_table` ADD `activityId` INT(11) UNSIGNED DEFAULT NULL COMMENT 'If activity_id not null, referer to field: id of table activity. Null for not involved any activity';
+ALTER TABLE `order_table` ADD `activityId` INT(11) UNSIGNED NOT NULL COMMENT 'referer to field: id of table activity. 1 for default activity';

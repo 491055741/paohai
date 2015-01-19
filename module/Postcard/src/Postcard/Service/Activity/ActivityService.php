@@ -3,6 +3,7 @@ namespace Postcard\Service\Activity;
 
 use Postcard\Service\AbstractService;
 use Postcard\Service\Activity\TypeDefaultTemplateService;
+use Posrcard\Model\Activity;
 use Postcard\Model\ActivityTemplatePriceRule;
 
 class ActivityService extends AbstractService
@@ -39,7 +40,7 @@ class ActivityService extends AbstractService
      */
     public function getPrice($order) {
         $defaultPrice = 299;
-        if ( ! $order->activityId) {
+        if ($order->activityId == Activity::DEFAULT_ACTIVITY_ID) {
             return $defaultPrice;
         }
 

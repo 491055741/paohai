@@ -4,6 +4,8 @@ namespace Postcard\Model;
 
 class Activity
 {
+    const DEFAULT_ACTIVITY_ID = 1;
+
     const STATUS_CLOSE = 0;
     const STATUS_OPEN = 1;
 
