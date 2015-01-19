@@ -8,7 +8,6 @@ use Postcard\Model\ActivityTemplatePriceRule;
 class ActivityService extends AbstractService
 {
     private $priceTypeMap = array(
-        ActivityPriceRule::TYPE_FIXED => 'Postcard\Service\Activity\PriceRule\FixedPriceRule',
         ActivityPriceRule::TYPE_STEP => 'Postcard\Service\Activity\PriceRule\StepPriceRule',
         );
 
@@ -38,10 +37,28 @@ class ActivityService extends AbstractService
      * Caculate price by template type and config
      *
      */
-    public function getPrice($id) {
+    public function getPrice($order) {
+        $defaultPrice = 299;
+        if ( ! $order->activityId) {
+            return $defaultPrice;
+        }
+
+        // priceRule chosen logic, template config prior to activity config
+        $templateConfig = $this->getServiceLocator()
+            ->get('Postcard\Model\ActivityTemplateConfigTable')
+            ->getOneById($order->templateId);
+        $priceRuleId = $templateConfig->getPriceRuleId();
+
+        if ( ! $priceRuleId) {
+            $activity = $this->getServiceLocator()
+                ->get('Postcard\Model\ActivityTable')
+                ->getActivityById($order->activityId);
+            $priceRuleId = $activity->getPriceRuleId();
+        }
+
         $priceRuleConfig = $this->getServiceLocator()
-            ->get("Postcard\Model\ActivityPriceRuleTable")
-            ->getOneById($id);
+            ->get('Postcard\Model\ActivityPriceRuleTable')
+            ->getOneById($priceRuleId);
 
         $priceRule = new $priceTypeMap[$priceRuleConfig->getType()];
         $priceRule->setServiceLocator($this->getServiceLocator());

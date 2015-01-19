@@ -27,6 +27,22 @@ class ActivityTemplateConfigTable
         });
         return $this->tableGateway->selectWith($select);
     }
+
+    public function getOneById($id)
+    {
+        $select = $this->tableGateway->getSql()->select();
+        $select->where(function($where) use ($id) {
+            $where->equalTo("id", $id);
+            return $where;
+        }
+
+        $results = $this->tableGateway->selectWith($select);
+        if ($results) {
+            return $results[0];
+        }
+
+        return NULL;
+    }
 }
 
 /* End of file */

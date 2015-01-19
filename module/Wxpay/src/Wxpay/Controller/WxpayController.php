@@ -4,11 +4,13 @@ namespace Wxpay\Controller;
 include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/WxPayPubHelper/WxPayPubHelper.php");
 include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/CommonUtil.php");
 
-use Notify_pub;
-use CommonUtil;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
+use Notify_pub;
+use CommonUtil;
 use Postcard\Model\Order;
+
 
 ini_set("display_errors", true);
 
@@ -45,7 +47,10 @@ class WxpayController extends AbstractActionController
         $util->setServiceLocator($this->getServiceLocator());
         $location = $util->getUserGeoAddress($order->userName);
 
-        $price = $this->getOrderTable()->calculateOrderPrice($order);
+        $activityService = $this->getServiceLocator()
+            ->get('Posrcard\Service\Activity\ActivityService');
+        $price = $activityService->getPrice($order);
+        
         $order->price = $price;
         $this->getOrderTable()->saveOrder($order);
         return $this->viewModel(array(
