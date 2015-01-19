@@ -29,3 +29,25 @@ INSERT INTO `image` (`url`, `description`) VALUES
     ('https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoiciaOfPIv04ZCTAzTHZthsy4krCibbA3jJtReTw1e4NzJqz4RxKiciabIECPIhfMSHt8346lp6ic5ZHEgA/0', 'b_h_newyear1'),
     ('http://mmsns.qpic.cn/mmsns/j8WFfyvBAoiciaOfPIv04ZCTAzTHZthsy4s69FcceD1tgMjo3yOHucbw/0', 'b_h_n1'),
     ('https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAoiciaOfPIv04ZCTAzTHZthsy4097DaavMogSmMzPjjxKNThWOUS8c17iaIgZ8FFosVyHuRaQ3EqRSCXA/0', 'b_h_empty');
+
+
+UPDATE order_table SET activityId = 1;
+
+INSERT INTO `activity` (`id`, `startTime`, `endTime`, `status`) VALUES
+    (1, '1970-01-01 00:00:00', '2100-01-01 00:00:00', 1);
+INSERT INTO `activity_template_config` (`actId`, `imgId`, `imgThumbId`, `rotate`, `status`) VALUES
+    (1, 30, 15, 0, 1),
+    (1, 24, 9, -90, 1),
+    (1, 28, 13, 0, 1),
+    (1, 23, 7, -90, 1),
+    (1, 21, 6, -90, 1),
+    (1, 16, 1, -90, 1),
+    (1, 17, 2, -90, 1),
+    (1, 18, 4, -90, 1),
+    (1, 19, 3, -90, 1),
+    (1, 20, 5, -90, 1),
+    (1, 22, 10, 0, 1),
+    (1, 25, 8, 0, 1),
+    (1, 26, 11, 0, 1),
+    (1, 27, 12, 0, 1),
+    (1, 29, 14, 0, 1);

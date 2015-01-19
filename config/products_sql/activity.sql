@@ -16,7 +16,7 @@ CREATE TABLE `activity` (
     `startTime` DATETIME NOT NULL,
     `endTime` DATETIME NOT NULL,
     `templateIdOrder` VARCHAR(512) NOT NULL DEFAULT '',
-    `priceRuleId` INT(11) UNSIGNED NOT NULL COMMENT 'activity global price rule config id, if template not specify price rule config id, use it',
+    `priceRuleId` INT(11) UNSIGNED DEFAULT NULL COMMENT 'activity global price rule config id, if template not specify price rule config id, use it',
     `status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-close; 1-open;',
     PRIMARY KEY (`id`),
     KEY `statusTime` (`startTime`, `endTime`, `status`)
@@ -42,7 +42,7 @@ CREATE TABLE `activity_template_config` (
     `actId` INT(11) UNSIGNED NOT NULL,
     `imgId` INT(11) UNSIGNED NOT NULL,
     `imgThumbId` INT(11) UNSIGNED NOT NULL,
-    `rotate` TINYINT(4) NOT NULL DEFAULT '0' COMMENT 'clockwise. 0-0; 1-90; 2-180; 3-270;',
+    `rotate` TINYINT(4) NOT NULL DEFAULT '0' COMMENT 'rotate angle, clockwise',
     `priceRuleId` INT(11) UNSIGNED DEFAULT NULL COMMENT 'activity price rule config id, if not null, ignore global activity price rule',
     `status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-unused; 1-used',
     PRIMARY KEY (`id`),
