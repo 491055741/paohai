@@ -13,7 +13,7 @@ use Zend\View\Model\JsonModel;
 use Postcard\Model\Order;
 use Postcard\Model\Contact;
 use Postcard\Model\UserPosition;
-use Posrcard\Model\Activity;
+use Postcard\Model\Activity;
 use Postcard\Libs\PinYin;
 use Postcard\Libs\Maps;
 
@@ -127,11 +127,12 @@ class PostcardController extends AbstractActionController
             $offsetX = $order->offsetX;
             $offsetY = $order->offsetY;
             $picUrl = $order->picUrl;
+            $actId = $order->activityId;
         }
 
         $activityService = $this->getServiceLocator()
-            ->get('Posrcard\Service\Activity\ActivityService');
-        $imgTemplates = $activityService->getTemplates($order->activityId);
+            ->get('Postcard\Service\Activity\ActivityService');
+        $imgTemplates = $activityService->getTemplates($actId);
 
         $viewModel =  new ViewModel(array(
             'templateIndex' => $selectedTemplateIndex,

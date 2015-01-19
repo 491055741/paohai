@@ -4,11 +4,6 @@ namespace Postcard\Model;
 
 class ActivityTemplateConfig
 {
-    const ROTATE_0 = 0;
-    const ROTATE_90 = 1;
-    const ROTATE_180 = 2;
-    const ROTATE_270 = 3;
-
     const STATUS_UNUSED = 0;
     const STATUS_USED = 1;
 

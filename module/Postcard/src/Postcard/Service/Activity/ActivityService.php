@@ -3,8 +3,9 @@ namespace Postcard\Service\Activity;
 
 use Postcard\Service\AbstractService;
 use Postcard\Service\Activity\TypeDefaultTemplateService;
-use Posrcard\Model\Activity;
+use Postcard\Model\Activity;
 use Postcard\Model\ActivityTemplatePriceRule;
+use Postcard\Model\ActivityPriceRule;
 
 class ActivityService extends AbstractService
 {
@@ -40,7 +41,7 @@ class ActivityService extends AbstractService
 
         $templates = array();
         $table = $this->getServiceLocator()
-            ->get('Posrcard\Model\ActivityTemplateConfigTable');
+            ->get('Postcard\Model\ActivityTemplateConfigTable');
         $res = $table->getAllByActId($actId);
         $imageIds = array();
         foreach ($res as $item) {
@@ -54,7 +55,7 @@ class ActivityService extends AbstractService
         }
         
         $imgTable = $this->getServiceLocator()
-            ->get('Posrcard\Model\ImageTable');
+            ->get('Postcard\Model\ImageTable');
         $res = $imgTable->getUrls($imageIds);
         $imgs = array();
         foreach ($res as $item) {

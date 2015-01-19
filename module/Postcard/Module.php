@@ -13,16 +13,16 @@ use Postcard\Model\ContactTable;
 use Postcard\Model\UserPosition;
 use Postcard\Model\UserPositionTable;
 
-use Postcard\Module\Activity;
-use Postcard\Module\ActivityTable;
-use Postcard\Module\ActivityTemplateConfig;
-use Postcard\Module\ActivityTemplateConfigTable;
-use Postcard\Module\ActivityPriceRule;
-use Postcard\Module\ActivityPriceRuleTable;
-use Postcard\Module\ActivityJoinRecord;
-use Postcard\Module\ActivityJoinRecordTable;
-use Postcard\Module\Image;
-use Postcard\Module\ImageTable;
+use Postcard\Model\Activity;
+use Postcard\Model\ActivityTable;
+use Postcard\Model\ActivityTemplateConfig;
+use Postcard\Model\ActivityTemplateConfigTable;
+use Postcard\Model\ActivityPriceRule;
+use Postcard\Model\ActivityPriceRuleTable;
+use Postcard\Model\ActivityJoinRecord;
+use Postcard\Model\ActivityJoinRecordTable;
+use Postcard\Model\Image;
+use Postcard\Model\ImageTable;
 
 
 class Module
@@ -131,7 +131,7 @@ class Module
                     $resultSetPrototype->setArrayObjectPrototype(new Activity());
                     return new TableGateway("activity", $dbAdapter, null, $resultSetPrototype);
                 },
-                'ActivityTemplateConfigTable' => function($sm) {
+                'ActivityTemplateConfigTableGateway' => function($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new ActivityTemplateConfig());

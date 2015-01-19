@@ -34,10 +34,9 @@ class ActivityTemplateConfigTable
         $select->where(function($where) use ($id) {
             $where->equalTo("id", $id);
             return $where;
-        }
-
+        });
         $results = $this->tableGateway->selectWith($select);
-        return  $results->current() ?: NULL;
+        return $results->current() ?: NULL;
     }
 }
 

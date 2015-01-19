@@ -23,8 +23,9 @@ class Activity
         $this->startTime = (isset($data["startTime"])) ? $data["startTime"] : null;
         $this->endTime = (isset($data["endTime"])) ? $data["endTime"] : null;
         $this->templateIdOrder = (isset($data["templateIdOrder"])) ? 
-        $this->priceRuleId = (isset($data["priceRuleId"])) ?
             $data["templateIdOrder"] : null;
+        $this->priceRuleId = (isset($data["priceRuleId"])) ?
+            $data["priceRuleId"] : null;
         $this->status = (isset($data["status"])) ? $data["status"] : null;
     }
 

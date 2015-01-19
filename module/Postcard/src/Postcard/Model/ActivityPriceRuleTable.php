@@ -6,7 +6,7 @@ use Zend\Db\Sql\Where;
 use Postcard\Model\ActivityPriceRule;
 
 
-class ActivityTemplatePriceRuleTable
+class ActivityPriceRuleTable
 {
     protected $tableGateway;
 
