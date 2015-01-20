@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501192345');
+define('JS_TAG', '201501201055');
 
 
 class PostcardController extends AbstractActionController
@@ -410,7 +410,6 @@ class PostcardController extends AbstractActionController
             }
         }
 
-        $actId = $this->getRequest()->getPost('actId');
         $order = new Order();
         $order->id         = $orderId;
         $order->userName   = $this->getRequest()->getPost('userName',   DEFAULT_USER);
@@ -420,7 +419,7 @@ class PostcardController extends AbstractActionController
         $order->offsetY    = $this->getRequest()->getPost('offsetY', '0');
         $order->status     = UNPAY;
         $order->orderDate  = date('Y-m-d H:i:s');
-        $order->activityId = $actId ?: NULL;
+        $order->activityId = $this->getRequest()->getPost('actId');
         // var_dump($order);
         $this->getOrderTable()->saveOrder($order);
 
