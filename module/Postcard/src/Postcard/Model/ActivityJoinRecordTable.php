@@ -62,6 +62,18 @@ class ActivityJoinRecordTable
         });
         return $this->tableGateway->selectWith($select);
     }
+
+
+    public function save(ActivityJoinRecord $record) {
+        $this->tableGateway->insert(array(
+            "userName" => $record->getUserName(),
+            "actId" => $record->getActId(),
+            "orderId" => $record->getOrderId(),
+            "joinTime" => $record->getJoinTime(),
+            "price" => $record->getPrice(),
+            "status" => $record->getStatus(),
+            ));
+    }
 }
 
 

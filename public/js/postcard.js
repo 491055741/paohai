@@ -739,12 +739,12 @@
                         HC.showError(data.errmsg, data.code);
                         return;
                     }
-                    if (data.price == 0) {
+                    if (data.data.price == 0) {
                         var completePageUrl = domain + "/postcard/complete/" + self.orderId + "?nonce=" + HC.getNonceStr();
                         HC.goToPage(completePageUrl);
                         return;
                     }
-                    callback(data.payPara);
+                    callback(data.data.payPara);
                 },
                 "json"
             );

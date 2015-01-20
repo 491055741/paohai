@@ -60,6 +60,7 @@ CREATE TABLE `activity_join_record` (
     `actId` INT(11) UNSIGNED NOT NULL,
     `orderId` varchar(12) NOT NULL DEFAULT '',
     `joinTime` DATETIME NOT NULL,
+    `price` INT(11) UNSIGNED DEFAULT '0',
     `status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0-uncomplete; 1-complete; only the order wx notify payed finished or price equal zero can be set 1',
     PRIMARY KEY (`id`),
     UNIQUE KEY `orderId` (`orderId`),

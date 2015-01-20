@@ -6,6 +6,7 @@ use Postcard\Service\Activity\TypeDefaultTemplateService;
 use Postcard\Model\Activity;
 use Postcard\Model\ActivityTemplatePriceRule;
 use Postcard\Model\ActivityPriceRule;
+use Postcard\Model\ActivityJoinRecord;
 
 class ActivityService extends AbstractService
 {
@@ -133,6 +134,33 @@ class ActivityService extends AbstractService
         $conf = json_decode($priceRuleConfig->getPriceConf(), true);
 
         return $priceRule->getPrice($conf);
+    }
+
+
+    /**
+     * Record
+     * If order.activityId is default activity, needn't to record
+     *
+     * @param Postcard\Model\Order $order
+     *
+     */
+    public function joinActivity($order) {
+        if ($order->activityId == Activity::DEFAULT_ACTIVITY_ID) {
+            return true;
+        }
+        $record = new ActivityJoinRecord();
+        $record->setUserName($order->userName)
+            ->setActId($order->activityId)
+            ->setOrderId($order->id)
+            ->setJoinTime()
+            ->setPrice($order->price)
+            ->setStatus(ActivityJoinRecord::STATUS_COMPLETE);
+
+        $table = $this->getServiceLocator()
+            ->get('Postcard\Model\ActivityJoinRecordTable');
+        $table->save($record);
+
+        return true;
     }
 }
 

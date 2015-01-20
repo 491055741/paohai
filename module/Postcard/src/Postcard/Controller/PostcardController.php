@@ -545,6 +545,13 @@ class PostcardController extends AbstractActionController
             if (!$order) {
                 echo "order not exist!";
             } else {
+                // Record activity
+                if ($status == PAYED) {
+                    $actService = $this->getServiceLocator()
+                        ->get('Postcard\Service\Activity\ActivityService');
+                    $actService->joinActivity($order);
+                }
+
                 $order->status = $status;
                 $order->payDate = date('Y-m-d H:i:s');
                 $this->getOrderTable()->saveOrder($order);

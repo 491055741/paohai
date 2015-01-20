@@ -6,6 +6,7 @@ include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/CommonUtil.php");
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 use Notify_pub;
 use CommonUtil;
@@ -21,7 +22,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201501201212');
+define('JS_TAG', '201501202033');
 
 class WxpayController extends AbstractActionController
 {
@@ -73,15 +74,15 @@ class WxpayController extends AbstractActionController
 
         $service = $this->getServiceLocator()
             ->get('Wxpay\Service\WxpayService');
-        list($price, $payPara) = $service->getPayPara($orderId, $payPrice);
+        list($price, $payPara) = $service->getPayPara($orderId);
 
-        return array(
+        return new JsonModel(array(
             "code" => 0,
             "data" => array(
                 "price" => $price,
                 "payPara" => $payPara,
                 ),
-            );
+            ));
     }
 
 
