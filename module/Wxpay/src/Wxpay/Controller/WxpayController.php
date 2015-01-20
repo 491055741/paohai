@@ -21,7 +21,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201501081729');
+define('JS_TAG', '201501201212');
 
 class WxpayController extends AbstractActionController
 {
@@ -48,8 +48,9 @@ class WxpayController extends AbstractActionController
         $location = $util->getUserGeoAddress($order->userName);
 
         $activityService = $this->getServiceLocator()
-            ->get('Posrcard\Service\Activity\ActivityService');
+            ->get('Postcard\Service\Activity\ActivityService');
         $price = $activityService->getPrice($order);
+        $template = $activityService->getOrderTemplate($order);
         
         $order->price = $price;
         $this->getOrderTable()->saveOrder($order);
@@ -58,6 +59,7 @@ class WxpayController extends AbstractActionController
             'order' => $order,
             'tag'   => JS_TAG,
             'city'  => $location ? $location['city'] : '0',
+            'template' => $template,
         ));
     }
 

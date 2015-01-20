@@ -71,6 +71,36 @@ class ActivityService extends AbstractService
     }
 
 
+    public function getOrderTemplate($order) {
+        // TODO cache
+        
+        $templateId = $order->templateId;
+        $table = $this->getServiceLocator()
+            ->get('Postcard\Model\ActivityTemplateConfigTable');
+        $res = $table->getOneById($templateId);
+        $template = array(
+            "rotate" => $res->getRotate(),
+            "imgId" => $res->getImgId(),
+            "imgThumbId" => $res->getImgThumbId(),
+            );
+
+        $imgTable = $this->getServiceLocator()
+            ->get('Postcard\Model\ImageTable');
+        $res = $imgTable->getUrls(array(
+            $template["imgId"], $template["imgThumbId"]
+        ));
+        $imgs = array();
+        foreach ($res as $item) {
+            $imgs[$item->getId()] = $item->getUrl(); 
+        }
+
+        $template["url"] = $imgs[$template["imgId"]];
+        $template["thumbUrl"] = $imgs[$template["imgThumbId"]];
+
+        return $template;
+    }
+
+
     /**
      * Caculate price by template type and config
      *
