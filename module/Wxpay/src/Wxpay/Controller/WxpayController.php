@@ -19,7 +19,7 @@ define('PAYED',   101); // 已支付
 define('PRINTED', 102); // 已打印
 define('SHIPPED', 103); // 已发货
 
-define('JS_TAG', '201501150042');
+define('JS_TAG', '201501201646');
 
 class WxpayController extends AbstractActionController
 {

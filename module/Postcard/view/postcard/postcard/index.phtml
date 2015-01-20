@@ -42,8 +42,8 @@
         <!--模板缩略图-->
         <div class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
-            <?php $synofiIds = array(0, 8, 9); ?>
-            <?php for ($i = 0; $i < 15; $i += 1): ?>
+            <?php $synofiIds = array(); ?>
+            <?php for ($i = 0; $i < 9; $i += 1): ?>
                 <li><img id="thumb_img_<?php echo $i ?>" class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>" /></li>
                 <?php if (in_array($i, $synofiIds)): ?>
                     <?php $x = $i * 70; ?>
@@ -60,7 +60,7 @@
         <input id="var-offset-x" type="hidden" value="<?php echo $offsetX; ?>" />
         <input id="var-offset-y" type="hidden" value="<?php echo $offsetY; ?>" />
         <input id="var-template-index" type="hidden" value="<?php echo $templateIndex; ?>" />
-        <input id="var-template-rotate-index" type="hidden" value="8" />
+        <input id="var-template-rotate-index" type="hidden" value="3" />
         <!-- vars end -->
     </div>
 </div>
