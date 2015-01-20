@@ -14,15 +14,6 @@ class OrderTable
         $this->tableGateway = $tableGateway;
     }
 
-    public function execSQL($sql)
-    {
-//        echo PHP_EOL.'excute SQL: '.$sql. PHP_EOL;
-        $sql = "INSERT INTO `order_table` VALUES ('15010900001','op','https://mmbiz.qlogo.cn/mmbiz/j8WFfyvBAo8DrIlvCYC2uuNqib9RyvPFnzRlBUa2l4zIGcZv0BnWVHMg9SY1mHtu4MicMreqA4EhXhukLu949Irg/0','99j01bJK6ykY5nwcsDA2i5kXVFLdkKTMS9DAo1yZ9PnEhp2m73NY2weTRVxG21Fu','首先祝愿新的一年顺顺利利平平安安。我是片吧的唯心专一，收到后记得召唤我哦！非常喜欢内蒙的辽阔一直都期待能去一次呢。希望能收到来自内蒙的祝福。','100026','北京市朝阳区石佛营炫特区2号楼B2座402室','谢越','亲爱的谢越','鱿鱼君','','','','','0','2015-1-9 00:00:00','2015-1-9 00:00:00','','','101','','8','5','0','0','','129')";
-        $this->tableGateway->adapter->query($sql);
-//        var_dump($this->tableGateway->adapter);
-        return true;
-    }
-
     public function fetchAll()
     {
         $select = $this->tableGateway->getSql()->select();

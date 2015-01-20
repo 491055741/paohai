@@ -100,7 +100,6 @@
                 name: $(".pop2 .recipient_input").val(),
                 address: $(".pop2 .province_input").val()
                     + $(".pop2 .city_input").val()
-                    + $(".pop2 .district_input").val()
                     + $(".pop2 .address_input").val(),
                 zipcode: $(".pop2 .postcode_input").val()
             });
@@ -121,7 +120,7 @@
             messageInfo.setVars({
                 salutation: $(".pop3 .recipient_input").val(),
                 content: $(".pop3 .liuyan").val(),
-                signature: $(".pop3 .myName").val(),
+                signature: $(".pop3 .myName").val()
             });
             $(".pop3").hide();
             setCardInfo();

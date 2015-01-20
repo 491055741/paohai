@@ -39,6 +39,19 @@ class PostcardController extends AbstractActionController
     protected $contactTable;
     protected $util;
 
+    private function postCheck($post)
+    {
+        if (!get_magic_quotes_gpc()) // 判断magic_quotes_gpc是否为打开
+        {
+            $post = addslashes($post); // 进行magic_quotes_gpc没有打开的情况对提交数据的过滤
+        }
+        $post = str_replace("_", "\_", $post); // 把 '_'过滤掉
+        $post = str_replace("%", "\%", $post); // 把' % '过滤掉
+        $post = nl2br($post); // 回车转换
+        $post= htmlspecialchars($post); // html标记转换
+        return $post;
+    }
+
     public function makeOrdersAction()
     {
         $error = "ok"; //上传文件出错信息
@@ -71,21 +84,25 @@ class PostcardController extends AbstractActionController
             $error = '没有上传文件.';
         } else {
             $isFirstLine = true;
-            $file = fopen($_FILES[$fileElementName]['tmp_name'],"r");
-            while(!feof($file)) {
-                $valArray = fgetcsv($file);
-                if (count($valArray) < 2) {
-                    break;
-                }
 
-                $newArray = array_map(function ($str){return sprintf("'%s'", $str);}, $valArray);
-                $values = implode(',', $newArray);
+            $file = fopen($_FILES[$fileElementName]['tmp_name'],"r");
+            while (!feof($file)) {
+
+                $valArray = fgetcsv($file);
                 if ($isFirstLine) {
                     $isFirstLine = false;
                     continue;
                 }
+                if (count($valArray) < 2) {
+                    break;
+                }
+                $newArray = array_map(function ($str){return sprintf("'%s'", $str);}, $valArray);
+                $values = implode(',', $newArray);
+//                $values = $this->postCheck($values);
                 $sql = 'INSERT INTO `order_table` VALUES ('.$values.')';
-                $this->getOrderTable()->execSQL($sql);
+                $sm = $this->getServiceLocator();
+                $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+                $adapter->query($sql, \Zend\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
             }
             fclose($file);
         }
@@ -147,7 +164,7 @@ class PostcardController extends AbstractActionController
                                 $this->JSON(array(
                                                 'touser'  => $order->userName,
                                                 'msgtype' => 'text',
-                                                'text'    => array('content' => '请说出你的语音留言' ),
+                                                'text'    => array('content' => '请说出你的语音留言（点击左下角的语音录入按钮可以开始录音。）' ),
                                                 ))
                                 );
         $array = $this->object2array(json_decode($res));
