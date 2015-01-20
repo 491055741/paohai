@@ -8,7 +8,7 @@
         initOrder();
 
         $("#gotoPayButton").fastClick(function(){
-            jsApiCall();
+            order.pay(jsApiCall);
             var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + order.getOrderId();
             $.get(
                 url,

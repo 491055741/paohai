@@ -208,6 +208,10 @@
         setCardInfo();
 
         $("#next-step").on("click", function() {
+            //TODO for debug
+            order.updateOrderAfterEdit();
+            return;
+
             if (order.getPostcard().getReceiptAddress().isComplete()) {
                 order.updateOrderAfterEdit();
                 return;

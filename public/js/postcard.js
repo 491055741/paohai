@@ -729,6 +729,26 @@
                 }
             );
         },
+        pay: function(callback) {
+            var self = this;
+            var url = domain + "/wxpay/paypara/" + this.orderId;
+            $.get(
+                url,
+                function success(data) {
+                    if (data.code != 0) {
+                        HC.showError(data.errmsg, data.code);
+                        return;
+                    }
+                    if (data.price == 0) {
+                        var completePageUrl = domain + "/postcard/complete/" + self.orderId + "?nonce=" + HC.getNonceStr();
+                        HC.goToPage(completePageUrl);
+                        return;
+                    }
+                    callback(data.payPara);
+                },
+                "json"
+            );
+        },
     });
     /*************** Order end *******************/
 

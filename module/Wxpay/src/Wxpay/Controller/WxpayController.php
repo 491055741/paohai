@@ -63,6 +63,28 @@ class WxpayController extends AbstractActionController
         ));
     }
 
+    
+    /**
+     * Get wx payment parameter
+     */
+    public function payParaAction()
+    {
+        $orderId = $this->params()->fromRoute("id");
+
+        $service = $this->getServiceLocator()
+            ->get('Wxpay\Service\WxpayService');
+        list($price, $payPara) = $service->getPayPara($orderId, $payPrice);
+
+        return array(
+            "code" => 0,
+            "data" => array(
+                "price" => $price,
+                "payPara" => $payPara,
+                ),
+            );
+    }
+
+
     public function asyncMakePictureAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
