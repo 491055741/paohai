@@ -30,7 +30,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501201646');
+define('JS_TAG', '201501201941');
 
 class PostcardController extends AbstractActionController
 {
@@ -288,7 +288,7 @@ class PostcardController extends AbstractActionController
         $image = $this->generateFront($order, $canvas_w, $canvas_h);
         if ($image) {
             // TODO rotate
-            if ($order->templateId >= 8) {
+            if ($order->templateId >= 7) {
                 $image = imagerotate($image, 90, 0);
             }
 
@@ -854,7 +854,7 @@ class PostcardController extends AbstractActionController
             file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
         }
 
-        $angel = ($order->templateId >= 8) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
+        $angel = ($order->templateId >= 7) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
 
         $a = imagesx($image_user);

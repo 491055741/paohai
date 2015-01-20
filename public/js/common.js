@@ -192,7 +192,7 @@ var HC = {
             if (tp.var_template_index.value == -1) {
                 var w = tp.imgLayer_img.offsetWidth,
                     h = tp.imgLayer_img.offsetHeight;
-                tp.var_template_index.value = (h > w) ? 0 : 6;
+                tp.var_template_index.value = (h > w) ? 0 : 7;
             }
             tp.bgLayer_img.src = tp.ul_imgs[tp.var_template_index.value].src;
             //初始化，是否旋转 2014-11-6
