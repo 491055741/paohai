@@ -133,7 +133,7 @@ class ActivityService extends AbstractService
         $priceRule->setServiceLocator($this->getServiceLocator());
         $conf = json_decode($priceRuleConfig->getPriceConf(), true);
 
-        return $priceRule->getPrice($conf);
+        return $priceRule->getPrice($order, $conf);
     }
 
 

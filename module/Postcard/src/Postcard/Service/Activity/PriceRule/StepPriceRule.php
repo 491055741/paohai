@@ -43,11 +43,11 @@ class StepPriceRule implements PriceRuleInterface
      *          }
      *
      */
-    public function getPrice($config) {
+    public function getPrice($order, $config) {
         $price = $config["defaultPrice"];
         $step = ksort($config["step"]);
         foreach ($step as $actPrice => $itemConf) {
-            if ($this->checkItemConf($itemConf)) {
+            if ($this->checkItemConf($order->activityId, $order->userName, $actPrice, $itemConf)) {
                 $price = $actPrice;
                 break;
             }
@@ -57,24 +57,41 @@ class StepPriceRule implements PriceRuleInterface
     }
 
 
-    private function checkItemConf($conf) {
+    private function checkItemConf($actId, $userName, $price, $conf) {
+        $currentTime = date("Y-m-d H:i:s");
+        $beginTime = isset($conf["beginTime"]) ? 
+            $conf["beginTime"] : NULL;
+        $endTime = isset($conf["endTime"]) ?
+            $conf["endTime"] : NULL;
+
+        if ($beginTime && $currentTime < $beginTime) {
+            return false;
+        }
+        if ($endTime && $currentTime > $endTime) {
+            return false;
+        }
+
         $recordTable = $this->getServiceLocator()
             ->get('Postcard\Model\ActivityJoinRecordTable');
-
+        $condition = array("price" => $price);
+        if ($beginTime) {
+            $condition["joinBeginTime"] = $beginTime;
+        }
+        if ($endTime) {
+            $condition["joinEndTime"] = $endTime;
+        }
         if (isset($conf["totalNum"])) {
-
+            $resSet = $recordTable->getRecords($condition);
+            if ($resSet->count() >= $conf["totalNum"]) {
+                return false;
+            }
         }
-
         if (isset($conf["perNum"])) {
-
-        }
-
-        if (isset($conf["beginTime"])) {
-
-        }
-
-        if (isset($conf["endTime"])) {
-
+            $condition["userName"] = $userName;
+            $resSet = $recordTable->getRecords($condition);
+            if ($resSet->count() >= $conf["perNum"]) {
+                return false;
+            }
         }
 
         return true;

@@ -26,6 +26,7 @@ class ActivityJoinRecordTable
      *      actId
      *      userName:       user wx opeinid
      *      orderId:        user order id 
+     *      price:          user payed price
      *      status:         default value is ActivityJoinRecord::STATUS_USED
      *      joinBeginTime:  the min time of user joinTime
      *      joinEndTime:    the max time of user jointime
@@ -40,7 +41,7 @@ class ActivityJoinRecordTable
         $select->where(function($where) use($condition) {
             $where->equalTo("id", $actId);
             $equalFields = array(
-                "actId", "userName", "orderId", "status"
+                "actId", "userName", "orderId", "status", "price"
             );
             foreach ($equalFields as $field) {
                 if (isset($condition[$field])) {
