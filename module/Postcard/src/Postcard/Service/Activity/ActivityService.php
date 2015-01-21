@@ -54,6 +54,9 @@ class ActivityService extends AbstractService
             $imageIds[] = $item->getImgId();
             $imageIds[] = $item->getImgThumbId();
         }
+        if (empty($imageIds)) {
+            return array();
+        }
         
         $imgTable = $this->getServiceLocator()
             ->get('Postcard\Model\ImageTable');
@@ -125,11 +128,16 @@ class ActivityService extends AbstractService
             $priceRuleId = $activity->getPriceRuleId();
         }
 
+        // Activity time check
+        if ( ! $activity->isTimeValid()) {
+            return $defaultPrice;    
+        }
+
         $priceRuleConfig = $this->getServiceLocator()
             ->get('Postcard\Model\ActivityPriceRuleTable')
             ->getOneById($priceRuleId);
 
-        $priceRule = new $priceTypeMap[$priceRuleConfig->getType()];
+        $priceRule = new $this->priceTypeMap[$priceRuleConfig->getType()];
         $priceRule->setServiceLocator($this->getServiceLocator());
         $conf = json_decode($priceRuleConfig->getPriceConf(), true);
 

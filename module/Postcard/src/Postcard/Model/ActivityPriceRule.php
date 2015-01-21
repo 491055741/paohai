@@ -4,7 +4,6 @@ namespace Postcard\Model;
 
 class ActivityPriceRule
 {
-    const TYPE_FIXED = 0;
     const TYPE_STEP = 1;
 
 

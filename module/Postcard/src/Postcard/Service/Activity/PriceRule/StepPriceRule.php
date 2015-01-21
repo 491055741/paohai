@@ -3,6 +3,8 @@ namespace Postcard\Service\Activity\PriceRule;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+use Postcard\Model\Order;
+
 class StepPriceRule implements PriceRuleInterface
 {
     private $services;
@@ -43,10 +45,10 @@ class StepPriceRule implements PriceRuleInterface
      *          }
      *
      */
-    public function getPrice($order, $config) {
+    public function getPrice(Order $order, $config) {
         $price = $config["defaultPrice"];
         $step = ksort($config["step"]);
-        foreach ($step as $actPrice => $itemConf) {
+        foreach ($config["step"] as $actPrice => $itemConf) {
             if ($this->checkItemConf($order->activityId, $order->userName, $actPrice, $itemConf)) {
                 $price = $actPrice;
                 break;
@@ -73,7 +75,10 @@ class StepPriceRule implements PriceRuleInterface
 
         $recordTable = $this->getServiceLocator()
             ->get('Postcard\Model\ActivityJoinRecordTable');
-        $condition = array("price" => $price);
+        $condition = array(
+            "actId" => $actId,
+            "price" => $price,
+        );
         if ($beginTime) {
             $condition["joinBeginTime"] = $beginTime;
         }

@@ -57,6 +57,12 @@ class Activity
     }
 
 
+    public function isTimeValid() {
+        $current = date("Y-m-d H:i:s");
+        return ($current >= $this->startTime && $current <= $this->endTime) ?
+            true : false;
+    }
+
     public function getTemplateIdOrder() {
         return $this->templateIdOrder;
     }

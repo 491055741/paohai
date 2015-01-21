@@ -141,7 +141,7 @@ class Module
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new ActivityPriceRule());
-                    return new TableGateway("activity_template_price_rule", $dbAdapter, null, $resultSetPrototype);
+                    return new TableGateway("activity_price_rule", $dbAdapter, null, $resultSetPrototype);
                 },
                 'ActivityJoinRecordTableGateway' => function($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');

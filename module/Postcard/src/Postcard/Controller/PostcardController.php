@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501201055');
+define('JS_TAG', '201501211623');
 
 
 class PostcardController extends AbstractActionController
@@ -133,6 +133,12 @@ class PostcardController extends AbstractActionController
         $activityService = $this->getServiceLocator()
             ->get('Postcard\Service\Activity\ActivityService');
         $imgTemplates = $activityService->getTemplates($actId);
+        if (empty($imgTemplates)) {
+            return $this->errorViewModel(array(
+                'code' => 1,
+                'msg' => "invalid activity setting: $actId",
+            ));
+        }
 
         if ( ! $selectedTemplateIndex) {
             $selectedTemplateIndex = array_keys($imgTemplates)[0];

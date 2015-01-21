@@ -23,12 +23,9 @@ class ActivityPriceRuleTable
             $where->equalTo("id", $id);
             return $where;
         });
-        $results = $this->tableGateway->selectWith($select);
-        if ($results) {
-            return $results[0];
-        }
+        $resultSet = $this->tableGateway->selectWith($select);
 
-        return NULL;
+        return $resultSet->current() ?: NULL;
     }
 }
 

@@ -1,5 +1,5 @@
 <?php
-namespace Postcard\Service\Activity;
+namespace Postcard\Service\Activity\PriceRule;
 
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 

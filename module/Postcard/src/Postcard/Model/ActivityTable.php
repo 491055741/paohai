@@ -20,11 +20,7 @@ class ActivityTable
             $where->equalTo("id", $id);
             return $where;
         });
-        $results = $this->tableGateway->selectWith($select);
-        if ($results) {
-            return $results[0];
-        }
-
-        return NULL;
+        $resultSet = $this->tableGateway->selectWith($select);
+        return $resultSet->current() ?: NULL;
     }
 }

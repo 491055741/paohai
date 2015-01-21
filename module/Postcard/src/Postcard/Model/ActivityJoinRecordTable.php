@@ -34,12 +34,11 @@ class ActivityJoinRecordTable
     public function getRecords($condition)
     {
         $condition = array_merge(
-            array("status" => ActivityJoinRecord::STATUS_USED),
+            array("status" => ActivityJoinRecord::STATUS_COMPLETE),
             $condition
         );
         $select = $this->tableGateway->getSql()->select();
         $select->where(function($where) use($condition) {
-            $where->equalTo("id", $actId);
             $equalFields = array(
                 "actId", "userName", "orderId", "status", "price"
             );

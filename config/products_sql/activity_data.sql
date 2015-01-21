@@ -51,3 +51,7 @@ INSERT INTO `activity_template_config` (`actId`, `imgId`, `imgThumbId`, `rotate`
     (1, 26, 11, 0, 1),
     (1, 27, 12, 0, 1),
     (1, 29, 14, 0, 1);
+
+-- for debug
+-- INSERT INTO `activity_price_rule` (`type`, `priceConf`) VALUES 
+--    (2, '{"defaultPrice":100,"step":{"5":{"totalNum":3,"perNum":2,"beginTime":"2015-01-21 00:00:00","endTime":"2015-01-21 23:59:59"},"10":{"totalNum":5,"perNum":1}}}');
