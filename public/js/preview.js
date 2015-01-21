@@ -8,7 +8,7 @@
         initOrder();
 
         $("#gotoPayButton").fastClick(function(){
-            jsApiCall();
+            order.pay(jsApiCall);
             var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + order.getOrderId();
             $.get(
                 url,
@@ -58,7 +58,8 @@
 
         var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
-        frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
+        //frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
+        frameImg.src = $("#var-template").data("thumb");
 
         userImage = document.getElementById("previewUserImg");
         userImage.onload = function() {
@@ -78,7 +79,7 @@
 
         var a = pic_orig_w, b = pic_orig_h;
         var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
-        var isRotate = (selectedTemplateIndex >= 7);
+        var isRotate = ($("#var-template").data("rotate") == "-90");
         var imageOffsetX = order.getPostcard().getImage().getOffsetX();
         var imageOffsetY = order.getPostcard().getImage().getOffsetY();
 

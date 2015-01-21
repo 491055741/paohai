@@ -12,6 +12,7 @@ class ActivityJoinRecord
     private $actId;
     private $orderId;
     private $joinTime;
+    private $price;
     private $status;
 
 
@@ -24,6 +25,7 @@ class ActivityJoinRecord
             $data["orderId"] : null;
         $this->joinTime = (isset($data["joinTime"])) ?
             $data["joinTime"] : null;
+        $this->price = (isset($data["price"])) ? $data["price"] : null;
         $this->status = (isset($data["status"])) ? $data["status"] : null;
     }
 
@@ -71,8 +73,18 @@ class ActivityJoinRecord
     }
 
 
-    public function setJoinTime($joinTime) {
-        $this->joinTime = $joinTime;
+    public function setJoinTime() {
+        $this->joinTime = date("Y-m-d H:i:s");
+        return $this;
+    }
+
+    public function getPrice() {
+        return $this->price;
+    }
+
+
+    public function setPrice($price) {
+        $this->price = $price;
         return $this;
     }
 

@@ -4,6 +4,8 @@ namespace Postcard\Model;
 
 class Activity
 {
+    const DEFAULT_ACTIVITY_ID = 1;
+
     const STATUS_CLOSE = 0;
     const STATUS_OPEN = 1;
 
@@ -12,6 +14,7 @@ class Activity
     private $startTime;
     private $endTime;
     private $templateIdOrder;     // template在制作页面显示的顺序
+    private $priceRuleId;
     private $status;
 
 
@@ -21,6 +24,8 @@ class Activity
         $this->endTime = (isset($data["endTime"])) ? $data["endTime"] : null;
         $this->templateIdOrder = (isset($data["templateIdOrder"])) ? 
             $data["templateIdOrder"] : null;
+        $this->priceRuleId = (isset($data["priceRuleId"])) ?
+            $data["priceRuleId"] : null;
         $this->status = (isset($data["status"])) ? $data["status"] : null;
     }
 
@@ -52,6 +57,12 @@ class Activity
     }
 
 
+    public function isTimeValid() {
+        $current = date("Y-m-d H:i:s");
+        return ($current >= $this->startTime && $current <= $this->endTime) ?
+            true : false;
+    }
+
     public function getTemplateIdOrder() {
         return $this->templateIdOrder;
     }
@@ -59,6 +70,17 @@ class Activity
 
     public function setTemplateIdOrder($templateIdOrder) {
         $this->templateIdOrder = $templateIdOrder;
+        return $this;
+    }
+
+
+    public function getPriceRuleId() {
+        return $this->priceRuleId;
+    }
+
+
+    public function setPriceruleId($priceRuleId) {
+        $this->priceRuleId = $priceRuleId;
         return $this;
     }
 

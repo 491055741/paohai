@@ -1,5 +1,10 @@
 <?php
 return array(
+    'service_manager' => array(
+        'invokables' => array(
+            'Postcard\Service\Activity\ActivityService' =>'Postcard\Service\Activity\ActivityService',
+            ),
+        ),
     'controllers' => array(
         'invokables' => array(
             'Postcard\Controller\Postcard' => 'Postcard\Controller\PostcardController',

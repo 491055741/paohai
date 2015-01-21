@@ -4,17 +4,13 @@ namespace Postcard\Model;
 
 class ActivityTemplateConfig
 {
-    const ROTATE_0 = 0;
-    const ROTATE_90 = 1;
-    const ROTATE_180 = 2;
-    const ROTATE_270 = 3;
-
     const STATUS_UNUSED = 0;
     const STATUS_USED = 1;
 
     private $id;
     private $actId;
     private $imgId;
+    private $imgThumbId;
     private $rotate;
     private $priceRuleId;
     private $status;
@@ -24,6 +20,7 @@ class ActivityTemplateConfig
         $this->id = (isset($data["id"])) ? $data["id"] : null;
         $this->actId = (isset($data["actId"])) ? $data["actId"] : null;
         $this->imgId = (isset($data["imgId"])) ? $data["imgId"] : null;
+        $this->imgThumbId = (isset($data["imgThumbId"])) ? $data["imgThumbId"] : null;
         $this->rotate = (isset($data["rotate"])) ? $data["rotate"] : null;
         $this->priceRuleId = (isset($data["priceRuleId"])) ?
             $data["priceRuleId"] : null;
@@ -54,6 +51,17 @@ class ActivityTemplateConfig
 
     public function setImgId($imgId) {
         $this->imgId = $imgId;
+        return $this;
+    }
+
+
+    public function getImgThumbId() {
+        return $this->imgThumbId;
+    }
+
+
+    public function setImgThumbId($imgThumbId) {
+        $this->imgThumbId = $imgThumbId;
         return $this;
     }
 

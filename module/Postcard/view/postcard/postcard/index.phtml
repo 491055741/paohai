@@ -42,25 +42,19 @@
         <!--模板缩略图-->
         <div class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
-            <?php $synofiIds = array(); ?>
-            <?php for ($i = 0; $i < 15; $i += 1): ?>
-                <li><img id="thumb_img_<?php echo $i ?>" class="thumb_imgs" src="<?php echo "/images/small/template$i.png?$tag"; ?>" title="背景缩略图<?php echo $i; ?>" /></li>
-                <?php if (in_array($i, $synofiIds)): ?>
-                    <?php $x = $i * 70; ?>
-                <div class="pa thumb_frame" style="left:<?php echo $x ?>px;"></div>
-                <?php endif; ?>
-            <?php endfor; ?>
+            <?php foreach ($imgTemplates as $templateId => $templateInfo): ?>
+                <li><img id="thumb_img_<?php echo $templateId; ?>" data-id="<?php echo $templateId; ?>" data-rotate="<?php echo $templateInfo["rotate"]; ?>" class="thumb_imgs" src="<?php echo $templateInfo["thumbUrl"] . "?$tag"; ?>" title="背静缩略图<?php echo $templateId; ?>" /></li>
+            <?php endforeach; ?>
             </ul>
         </div>
-
-        <!-- vars begin -->
-        <input id="var-user-name" type="hidden" value="<?php echo $username; ?>" />
+        <!-- vars begin --> 
+        <input id="var-user-name" type="hidden" value="<?php echo $username; ?>" /> 
         <input id="var-order-id" type="hidden" value="<?php echo $orderId; ?>" />
         <input id="var-user-picurl" type="hidden" value="<?php echo $picurl; ?>" />
         <input id="var-offset-x" type="hidden" value="<?php echo $offsetX; ?>" />
         <input id="var-offset-y" type="hidden" value="<?php echo $offsetY; ?>" />
-        <input id="var-template-index" type="hidden" value="<?php echo $templateIndex; ?>" />
-        <input id="var-template-rotate-index" type="hidden" value="7" />
+        <input id="var-template-index" type="hidden" value="<?php echo $templateIndex; ?>" /> 
+        <input id="var-activity-id" type="hidden" value="<?php echo $actId ?: ''; ?>" />
         <!-- vars end -->
     </div>
 </div>

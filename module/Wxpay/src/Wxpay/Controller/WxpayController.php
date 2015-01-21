@@ -4,11 +4,14 @@ namespace Wxpay\Controller;
 include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/WxPayPubHelper/WxPayPubHelper.php");
 include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/CommonUtil.php");
 
-use Notify_pub;
-use CommonUtil;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
+
+use Notify_pub;
+use CommonUtil;
 use Postcard\Model\Order;
+
 
 ini_set("display_errors", true);
 
@@ -45,7 +48,11 @@ class WxpayController extends AbstractActionController
         $util->setServiceLocator($this->getServiceLocator());
         $location = $util->getUserGeoAddress($order->userName);
 
-        $price = $this->getOrderTable()->calculateOrderPrice($order);
+        $activityService = $this->getServiceLocator()
+            ->get('Postcard\Service\Activity\ActivityService');
+        $price = $activityService->getPrice($order);
+        $template = $activityService->getOrderTemplate($order);
+        
         $order->price = $price;
         $this->getOrderTable()->saveOrder($order);
         return $this->viewModel(array(
@@ -53,8 +60,31 @@ class WxpayController extends AbstractActionController
             'order' => $order,
             'tag'   => JS_TAG,
             'city'  => $location ? $location['city'] : '0',
+            'template' => $template,
         ));
     }
+
+    
+    /**
+     * Get wx payment parameter
+     */
+    public function payParaAction()
+    {
+        $orderId = $this->params()->fromRoute("id");
+
+        $service = $this->getServiceLocator()
+            ->get('Wxpay\Service\WxpayService');
+        list($price, $payPara) = $service->getPayPara($orderId);
+
+        return new JsonModel(array(
+            "code" => 0,
+            "data" => array(
+                "price" => $price,
+                "payPara" => $payPara,
+                ),
+            ));
+    }
+
 
     public function asyncMakePictureAction()
     {
