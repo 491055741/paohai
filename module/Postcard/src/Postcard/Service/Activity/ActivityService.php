@@ -82,6 +82,10 @@ class ActivityService extends AbstractService
         $table = $this->getServiceLocator()
             ->get('Postcard\Model\ActivityTemplateConfigTable');
         $res = $table->getOneById($templateId);
+        // Compatial for old version
+        if ( ! $res) {
+            $res = $table->getOneById(1);
+        }
         $template = array(
             "rotate" => $res->getRotate(),
             "imgId" => $res->getImgId(),

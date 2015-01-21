@@ -804,7 +804,11 @@ class PostcardController extends AbstractActionController
             return FALSE;
         }
 
-        $image_template = imagecreatefrompng('public/images/big/template'.$order->templateId.'.png');
+        $actService = $this->getServiceLocator()
+            ->get('Postcard\Service\Activity\ActivityService');
+        $templateInfo = $actService->getOrderTemplate($order);
+        $image_template = imagecreatefrompng($templateInfo["url"]);
+        
         imagealphablending($image_template, false);
         imagesavealpha($image_template, true);
 
@@ -815,7 +819,7 @@ class PostcardController extends AbstractActionController
             file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
         }
 
-        $angel = ($order->templateId >= 8) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
+        $angel = $templateInfo["rotate"]; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
 
         $a = imagesx($image_user);
