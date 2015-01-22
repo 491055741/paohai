@@ -206,13 +206,14 @@ class PostcardController extends AbstractActionController
             $selectedTemplateIndex = array_keys($imgTemplates)[0];
         }
 
+        $userName = $this->getRequest()->getQuery('username') ?: DEFAULT_USER;
         $viewModel =  new ViewModel(array(
             'templateIndex' => $selectedTemplateIndex,
             'offsetX' => $offsetX,
             'offsetY' => $offsetY,
             'orderId' => $this->getRequest()->getQuery('orderId', '0'),
             'picurl'  => $picUrl,
-            'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
+            'username' => $userName,
             'actId' => $actId,
             'imgTemplates' => $imgTemplates,
             'tag' => JS_TAG,
@@ -576,7 +577,7 @@ class PostcardController extends AbstractActionController
         }
 
         // 价格为0，修改状态为已支付
-        if ($order->price == 115 && $order->status == Order::STATUS_UNPAY) {
+        if ($order->price == 0 && $order->status == Order::STATUS_UNPAY) {
             // update order status to 'payed'
             $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/' . $orderId . '/101';
             $html = file_get_contents($url);

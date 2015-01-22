@@ -139,9 +139,9 @@ class CommonUtil
         return $ticket;
     }
 
-    public function getJsApiSignPackage() {
+    public function getJsApiSignPackage($url="") {
         $jsapiTicket = $this->getJsApiTicket();
-        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $url = $url ?: "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $timestamp = time();
         $nonceStr = $this->createNonceStr();
 
@@ -155,8 +155,8 @@ class CommonUtil
             "nonceStr"  => $nonceStr,
             "timestamp" => $timestamp,
             "url"       => $url,
-            "signature" => $signature
-//            "rawString" => $string
+            "signature" => $signature,
+            //"rawString" => $string,
         );
         return $signPackage;
     }

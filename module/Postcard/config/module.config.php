@@ -9,6 +9,7 @@ return array(
         'invokables' => array(
             'Postcard\Controller\Postcard' => 'Postcard\Controller\PostcardController',
             'Postcard\Controller\Contact' => 'Postcard\Controller\ContactController',
+            'Postcard\Controller\Activity' => 'Postcard\Controller\ActivityController',
         ),
     ),
 
@@ -37,8 +38,21 @@ return array(
                         "action" => "[a-zA-Z][a-zA-Z0-9_-]*",
                     ),
                     "defaults" => array(
-                        "controller" => "Postcard\Controller\Contact",
+                        "controller" => 'Postcard\Controller\Contact',
                         "action" => "contactspage",
+                    ),
+                ),
+            ),
+            'activity' => array(
+                'type' => "segment",
+                "options" => array(
+                    'route'    => '/activity[/][:action][/:id]',
+                    "constraints" => array(
+                        "action" => "[a-zA-Z][a-zA-Z0-9_-]*",
+                    ),
+                    "defaults" => array(
+                        "controller" => 'Postcard\Controller\Activity',
+                        "action" => "index",
                     ),
                 ),
             ),
