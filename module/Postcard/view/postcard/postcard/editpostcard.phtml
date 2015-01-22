@@ -142,6 +142,17 @@
 <script src="/js/common.js?<?php echo $tag; ?>"></script>
 <script src="/js/locality-select.js?<?php echo $tag; ?>"></script>
 <script src="/js/postcard.js?<?php echo $tag; ?>"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script language="javascript">
+    wx.config({
+        debug: true,
+        appId: '<?php echo $jsApiSignPackage["appId"]; ?>',
+        timestamp:  <?php echo $jsApiSignPackage["timestamp"];?>,
+        nonceStr:  '<?php echo $jsApiSignPackage["nonceStr"];?>',
+        signature: '<?php echo $jsApiSignPackage["signature"];?>',
+        jsApiList: ['startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice']
+    });
+</script>
 <script src="/js/editpostcard.js?<?php echo $tag; ?>"></script>
 </body>
 </html>

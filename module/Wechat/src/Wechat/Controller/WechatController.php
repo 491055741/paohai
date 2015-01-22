@@ -21,7 +21,6 @@ class WechatController extends AbstractActionController
     protected $orderTable;
     protected $userPositionTable;
 
-
     public function indexAction()
     {
         $this->responseMsg();
@@ -62,7 +61,7 @@ class WechatController extends AbstractActionController
             $toUsername = $postObj->ToUserName;
             $msgType = $postObj->MsgType;
             $time = time();
-
+/*
             if ($msgType == "voice") {
                 $mediaId = $postObj->MediaId;
                 $textTpl = "<xml>
@@ -90,7 +89,7 @@ class WechatController extends AbstractActionController
                 echo $resultStr;
                 return true;
 
-            } else if ($msgType == "image") {
+            } else */if ($msgType == "image") {
                 $newsTpl = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
                             <FromUserName><![CDATA[%s]]></FromUserName>
@@ -107,16 +106,16 @@ class WechatController extends AbstractActionController
                             </Articles>
                             </xml>";
 
-                $picUrl = $postObj->PicUrl;
-                $replyMsgType = "news";
-                $title = "点击创建明信片";
-                $desc = "就是这张么？如果确定了，就戳戳图片开始制作明信片啦~";
-                $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard?picurl='.$picUrl.'&username='.$fromUsername.'&nonce='.time();
-                $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
-                echo $resultStr;
-                return true;
-            } else { // event, txt
-                $textTpl = "<xml>
+                    $picUrl = $postObj->PicUrl;
+                    $replyMsgType = "news";
+                    $title = "点击创建明信片";
+                    $desc = "就是这张么？如果确定了，就戳戳图片开始制作明信片啦~";
+                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard?picurl='.$picUrl.'&username='.$fromUsername.'&nonce='.time();
+                    $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
+                    echo $resultStr;
+                    return true;
+                } else { // event, txt, video
+                    $textTpl = "<xml>
                             <ToUserName><![CDATA[%s]]></ToUserName>
                             <FromUserName><![CDATA[%s]]></FromUserName>
                             <CreateTime>%s</CreateTime>
@@ -124,9 +123,11 @@ class WechatController extends AbstractActionController
                             <Content><![CDATA[%s]]></Content>
                             <FuncFlag>0</FuncFlag>
                             </xml>";
-                $replyMsgType = "text";
-                if ($msgType == "event") {
-                    $event = $postObj->Event;
+                    $replyMsgType = "text";
+                    if ($msgType == "video") {
+                        $contentStr = '您发送的视频id为:'.$postObj->MediaId;
+                    } else if ($msgType == "event") {
+                        $event = $postObj->Event;
 // test
 //                    $newsTpl = "<xml>
 //                                    <ToUserName><![CDATA[%s]]></ToUserName>
@@ -166,7 +167,7 @@ class WechatController extends AbstractActionController
                                 } else {
                                     $txt = '快来听听你的留言吧';
                                 }
-                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?orderId='.$order->id.'&mediaId='.$order->voiceMediaId.'&nonce='.time().'">'.$txt.'</a>';
+                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice/'.$order->id.'?mediaId='.$order->voiceMediaId.'&nonce='.time().'">'.$txt.'</a>';
                             } else {
                                 $contentStr = '没有找到语音留言,sceneId:'.$sceneId;
                             }

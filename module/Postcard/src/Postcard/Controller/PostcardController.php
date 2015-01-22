@@ -30,7 +30,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501161416');
+define('JS_TAG', '2015012214161234');
 
 class PostcardController extends AbstractActionController
 {
@@ -39,6 +39,7 @@ class PostcardController extends AbstractActionController
     protected $contactTable;
     protected $util;
 
+    // 防SQL注入用的，暂未用
     private function postCheck($post)
     {
         if (!get_magic_quotes_gpc()) // 判断magic_quotes_gpc是否为打开
@@ -116,12 +117,17 @@ class PostcardController extends AbstractActionController
             return $this->errorViewModel(array('code' => 1, 'msg' => 'require media id'));
         }
 
-        $fileName = $this->voicePath().$mediaId.'.mp3';
-        if (!file_exists($fileName)) {
+        $fileName = $this->voicePath().$mediaId;
+        if (file_exists($fileName.'.mp3')) {
+            header("Content-type: audio/mp3");
+            echo file_get_contents($fileName.'.mp3');
+        } else if (file_exists($fileName.'.spx')) {
+            header("Content-type: audio/x-speex-with-header-byte; rate=16000");
+            echo file_get_contents($fileName.'.spx');
+        } else {
             return $this->errorViewModel(array('code' => 2, 'msg' => 'file '.$fileName.' not exist!'));
         }
-        header("Content-type: audio/mp3");
-        echo file_get_contents($fileName);
+
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -129,16 +135,12 @@ class PostcardController extends AbstractActionController
 
     public function playVoiceAction()
     {
-        $orderId = $this->getRequest()->getQuery('orderId', '0');
+        $orderId = $this->params()->fromRoute('id', '0');
         $mediaId = $this->getRequest()->getQuery('mediaId', '0');
         if ($mediaId == '0') {
             return $this->errorViewModel(array('code' => 1, 'msg' => 'require media id'));
         }
 
-        $fileName = $this->voicePath().$mediaId.'.mp3';
-        if (!file_exists($fileName)) {
-            return $this->errorViewModel(array('code' => 2, 'msg' => 'file '.$fileName.' not exist!'));
-        }
         $viewModel = new ViewModel(array(
             'orderId' => $orderId,
             'file'    =>'http://'.$_SERVER['HTTP_HOST'].'/postcard/voice?mediaId='.$mediaId,
@@ -215,7 +217,7 @@ class PostcardController extends AbstractActionController
 
         // update mediaId. Media will valid for 3 days on Tecent's server.
         $voiceMediaId = $this->getRequest()->getQuery('voiceMediaId');
-        if ($voiceMediaId) {
+        if ($voiceMediaId && $order->qrSceneId == null) {
             $order->voiceMediaId = $voiceMediaId;
             $order->qrSceneId = $this->getUtil()->getQrSceneId();
 //            echo 'order qr sceneId:'.$order->qrSceneId;
@@ -223,10 +225,12 @@ class PostcardController extends AbstractActionController
             $this->getOrderTable()->saveOrder($order);
         }
 
+        $jsApiSignPackage = $this->getUtil()->getJsApiSignPackage();
         return $this->viewModel(array(
             'order' => $order,
             'tag'   => JS_TAG,
             'userName' => $order->userName,
+            'jsApiSignPackage' => $jsApiSignPackage,
         ));
     }
 
@@ -422,16 +426,34 @@ class PostcardController extends AbstractActionController
 
     public function downloadVoiceMediaAction()
     {
-        $token = $this->getUtil()->getAccessToken();
+        $orderId = $this->params()->fromRoute('id', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+
         $mediaId = $this->getRequest()->getQuery('mediaId', '0');
         if ($mediaId == '0') {
             $view =  new ViewModel(array('code' => 1, 'msg' => 'require mediaId'));
             $view->setTemplate('postcard/postcard/error');
             return $view;
         }
+
+        $order->voiceMediaId = $mediaId;
+        if ($order->qrSceneId == null) {
+            $order->qrSceneId = $this->getUtil()->getQrSceneId();
+//            echo 'order qr sceneId:'.$order->qrSceneId;
+        }
+        $this->getOrderTable()->saveOrder($order);
+        $this->getWXQrImage($order->qrSceneId, $this->voicePath().$mediaId.'.png');
+
+        $token = $this->getUtil()->getAccessToken();
         $url = 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId;
-        $fileName = $this->voicePath().$mediaId.'.amr';
-        $len = file_put_contents($fileName, $this->getUtil()->httpGet($url, 60));
+        $fileName = $this->voicePath().$mediaId;
+//        $len = file_put_contents($fileName, $this->getUtil()->httpGet($url, 60));
+        $this->getUtil()->httpGetFile($url, $fileName);
         // convert from amr to mp3
         $cmd = 'ffmpeg -i '.$fileName.' '.$this->voicePath().$mediaId.'.mp3';
 //        echo 'url: '.$url.PHP_EOL.'len: '.$len.PHP_EOL.'exec: '.$cmd.PHP_EOL;
@@ -931,11 +953,6 @@ class PostcardController extends AbstractActionController
 
     private function generatePostcardBack($order)
     {
-        if ($order->voiceMediaId && !file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
-            echo 'voice qr code image ['.$order->voiceMediaId.'.png] not exist!';
-            return null;
-        }
-
         // 148mm*100mm, 300dpi, 1mm => 11.81px
         $canvas_w = 1748.0;
         $canvas_h = 1181.0;
@@ -1004,7 +1021,12 @@ class PostcardController extends AbstractActionController
         $this->draw_txt_to($dst, $pos, $order->recipient);
 //        unset($pos['font-file']);
         // voice qr code
-        if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
+        if ($order->voiceMediaId) {
+            if (!file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
+                $this->getWXQrImage($order->qrSceneId, $this->voicePath().$order->voiceMediaId.'.png');
+                $this->getOrderTable()->saveOrder($order);
+            }
+
             $image_qr = imagecreatefrompng($this->voicePath().$order->voiceMediaId.'.png');
 
             // add logo onto qr

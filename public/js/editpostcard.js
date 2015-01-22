@@ -3,7 +3,16 @@
  */
 (function($) {
     var receiptInfo = order.getPostcard().getReceiptAddress();
-    var messageInfo = order.getPostcard().getMessage(); 
+    var messageInfo = order.getPostcard().getMessage();
+
+    function is_weixin() {
+        var ua = navigator.userAgent.toLowerCase();
+        if(ua.match(/MicroMessenger/i)=="micromessenger") {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     function setCardInfo() {
         var postmarkIndex = order.getPostcard().getPostmarkIndex();
@@ -127,27 +136,70 @@
         });
 
         var voiceMediaId = $('#var-voice-media-id').val();
-        if (!voiceMediaId || voiceMediaId == '0') {
+        var voiceLocalId = null;
+        var isRecording = false;
+
+//        // to do: for test!!
+//        voiceMediaId = '1';
+
+        if (!voiceMediaId || voiceMediaId == '0') {// no voice, hide play button
             $(".pop3 .play_voice_btn").css("display","none");
-        } else {
+        } else { // show play button, shorten the name input
             $(".pop3 .myName").css({width: 130});
 //            $("#voiceMessageButton").attr({'src': '/images/small/rerecord_voice_btn.png'});
         }
 
-        $(".pop3 .voice_btn").on("click", function() { //语音留言按钮
-            messageInfo.setVars({
-                salutation: $(".pop3 .recipient_input").val(),
-                content: $(".pop3 .liuyan").val(),
-                signature: $(".pop3 .myName").val(),
-            });
-            order.requestVoice();
+        $(".pop3 .voice_btn").on("click", function() { // 语音留言按钮
+//            messageInfo.setVars({
+//                salutation: $(".pop3 .recipient_input").val(),
+//                content: $(".pop3 .liuyan").val(),
+//                signature: $(".pop3 .myName").val(),
+//            });
+//            order.requestVoice();
+            if (isRecording) {
+                isRecording = false;
+                $(".voice_btn").attr("src", "/images/voice_icon.gif");
+
+                wx.stopRecord({  // 停止录音接口
+                    success: function (res) {
+                        // show play button, shorten the name input
+                        $(".pop3 .play_voice_btn").css("display","block");
+                        $(".pop3 .myName").css({width: 130});
+
+                        voiceLocalId = res.localId;
+                        uploadVoice(voiceLocalId);
+                    }
+                });
+                wx.onVoiceRecordEnd({ // 监听录音自动停止接口
+                    // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+                    complete: function (res) {
+                        // show play button, shorten the name input
+                        $(".pop3 .play_voice_btn").css("display","block");
+                        $(".pop3 .myName").css({width: 130});
+
+                        voiceLocalId = res.localId;
+                        uploadVoice(voiceLocalId);
+                    }
+                });
+            } else {
+                isRecording = true;
+                $(".voice_btn").attr("src", "/images/voice_pause.png");
+                wx.startRecord();
+            }
         });
+
         $(".pop3 .play_voice_btn").on("click", function() {
-            var url = 'http://' + window.location.host + '/postcard/playvoice?mediaId=' + voiceMediaId + "&nonce=" + HC.getNonceStr();
-            var audio = document.createElement("audio");
-            if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
-                audio.src = url;
-                audio.play();
+            if (voiceLocalId != null) {
+                wx.playVoice({
+                    localId: voiceLocalId // 需要播放的音频的本地ID，由stopRecord接口获得
+                });
+            } else {
+                var url = 'http://' + window.location.host + '/postcard/playvoice?mediaId=' + voiceMediaId + "&nonce=" + HC.getNonceStr();
+                var audio = document.createElement("audio");
+                if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
+                    audio.src = url;
+                    audio.play();
+                }
             }
         });
         /********** address book **************/
@@ -196,6 +248,18 @@
             }
             $("#address-book").hide();
             setCardInfo();
+        });
+    }
+
+    function uploadVoice(voiceLocalId) {
+        wx.uploadVoice({
+            localId: voiceLocalId,
+            isShowProgressTips: 1, // 默认为1，显示进度提示
+            success: function (res) {
+                // res.serverId : 返回音频的服务器端ID
+                var url = 'http://' + window.location.host + '/postcard/downloadvoicemedia/'+order.getOrderId()+'?mediaId=' + res.serverId;
+                $.get(url);
+            }
         });
     }
 

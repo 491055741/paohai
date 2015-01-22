@@ -386,6 +386,34 @@ class CommonUtil
         }
     }
 
+    function httpGetFile($url, $fileName = '') {
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, TRUE);    //表示需要response header
+        curl_setopt($ch, CURLOPT_NOBODY, FALSE); //表示需要response body
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 120);
+
+        $result = curl_exec($ch);
+        $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+        if (stripos($contentType, 'speex') !== false) {
+            $suffix = '.spx';
+        } else if (stripos($contentType, 'amr') !== false) {
+            $suffix = '.amr';
+        } else if (stripos($contentType, 'text') !== false) {
+            $suffix = '.txt';
+        } else {
+            $suffix = $contentType;
+        }
+
+        file_put_contents($fileName.$suffix, $result);
+        return $suffix;
+    }
+
     private function logger($content)
     {
         file_put_contents($this->logFileName(), date('m/d H:i:s').' '.$content."\n", FILE_APPEND); // notice: use "\n", not '\n'
