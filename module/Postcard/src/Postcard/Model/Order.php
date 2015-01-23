@@ -41,6 +41,7 @@ class Order
     public $offsetY;
     public $refundFee; // 已退款金额
     public $qrSceneId; // 带参数永久二维码的场景id，全局取值范围1～100000，从1递增，用户扫码后根据sceneId来找对应order
+    public $activityId;
 
     public function exchangeArray($data)
     {
@@ -71,5 +72,6 @@ class Order
         $this->offsetY            = (isset($data['offsetY']))            ? $data['offsetY']           : null;
         $this->refundFee          = (isset($data['refundFee']))          ? $data['refundFee']         : null;
         $this->qrSceneId          = (isset($data['qrSceneId']))          ? $data['qrSceneId']         : null;
+        $this->activityId          = (isset($data['activityId']))          ? $data['activityId']         : null;
     }
 }

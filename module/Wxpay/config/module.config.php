@@ -1,5 +1,10 @@
 <?php
 return array(
+    'service_manager' => array(
+        'invokables' => array(
+            'Wxpay\Service\WxpayService' => 'Wxpay\Service\WxpayService',
+            ),
+        ),
     'controllers' => array(
         'invokables' => array(
             'Wxpay\Controller\Wxpay' => 'Wxpay\Controller\WxpayController',

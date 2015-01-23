@@ -480,7 +480,7 @@
         getPostcard: function() {
             return this.postcard;
         },
-        placeOrder: function() {
+        placeOrder: function(actId) {
             var url = domain + "/postcard/placeorder?nonce=" + HC.getNonceStr();
             var params = {
                 templateIndex: this.postcard.getImage().getTemplateIndex(),
@@ -488,6 +488,7 @@
                 offsetY: this.postcard.getImage().getOffsetY(),
                 userName: this.userName,
                 userPicUrl: this.postcard.getImage().getUrl(),
+                actId: actId,
             };
             $.post(
                 url, 
@@ -726,6 +727,26 @@
                 function success(data) {
                     // TODO callpay
                 }
+            );
+        },
+        pay: function(callback) {
+            var self = this;
+            var url = domain + "/wxpay/paypara/" + this.orderId;
+            $.get(
+                url,
+                function success(data) {
+                    if (data.code != 0) {
+                        HC.showError(data.errmsg, data.code);
+                        return;
+                    }
+                    if (data.data.price == 0) {
+                        var completePageUrl = domain + "/postcard/complete/" + self.orderId + "?nonce=" + HC.getNonceStr();
+                        HC.goToPage(completePageUrl);
+                        return;
+                    }
+                    callback(data.data.payPara);
+                },
+                "json"
             );
         },
     });

@@ -1,15 +1,3 @@
-<?php
-ini_set("display_errors", true);
-
-include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/js_api_call.php");
-
-if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false && ($order->picUrl != 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg')) {
-    $jsApiParameters = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id, $payPrice);
-} else {
-    $jsApiParameters = "'simulator'";
-}
-?>
-
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -41,6 +29,7 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false && ($order->picU
 <input id="var-voice-media-id" type="hidden" value="<?php echo $order->voiceMediaId ?>" ></input>
 <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId ?>" ></input>
 <input id="var-city" type="hidden" value="<?php echo $city ?>" ></input>
+<input id="var-template" type="hidden" data-rotate="<?php echo $template["rotate"]; ?>" data-thumb="<?php echo $template["thumbUrl"]; ?>" />
 
 <div class="container">
     <!--菜单条-->
@@ -97,26 +86,11 @@ if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false && ($order->picU
 <script src="/js/preview.js?<?php echo $tag; ?>"></script>
 <script language="javascript">
     //调用微信JS api 支付
-    function jsApiCall()
+    function jsApiCall(payPara)
     {
-        // simulator
-        var url = window.location.host;
-        if (url.indexOf('ikamobile.com') == -1) {
-            var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + order.getOrderId();
-            $.get(url, function success(data) {});
-            self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
-            return;
-        }
-
-        var payPrice = <?php echo (int) $payPrice; ?>;
-        if (payPrice == 115) {
-            self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
-            return;
-        }
-
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
-            <?php echo $jsApiParameters; ?>,
+            payPara,
             function(res){
                 if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
                     self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();

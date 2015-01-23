@@ -13,6 +13,7 @@ use Zend\View\Model\JsonModel;
 use Postcard\Model\Order;
 use Postcard\Model\Contact;
 use Postcard\Model\UserPosition;
+use Postcard\Model\Activity;
 use Postcard\Libs\PinYin;
 use Postcard\Libs\Maps;
 
@@ -30,7 +31,8 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '2015012111512');
+define('JS_TAG', '201501231515');
+
 
 class PostcardController extends AbstractActionController
 {
@@ -176,9 +178,10 @@ class PostcardController extends AbstractActionController
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
         $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
+        $actId = $this->getRequest()->getQuery("actId", Activity::DEFAULT_ACTIVITY_ID);
 
         if ($orderId == '0' || !$order) {
-            $selectedTemplateIndex = -1;
+            $selectedTemplateIndex = NULL;
             $offsetX = 0;
             $offsetY = 0;
         } else {
@@ -186,15 +189,33 @@ class PostcardController extends AbstractActionController
             $offsetX = $order->offsetX;
             $offsetY = $order->offsetY;
             $picUrl = $order->picUrl;
+            $actId = $order->activityId;
         }
 
+        $activityService = $this->getServiceLocator()
+            ->get('Postcard\Service\Activity\ActivityService');
+        $imgTemplates = $activityService->getTemplates($actId);
+        if (empty($imgTemplates)) {
+            return $this->errorViewModel(array(
+                'code' => 1,
+                'msg' => "invalid activity setting: $actId",
+            ));
+        }
+
+        if ( ! $selectedTemplateIndex) {
+            $selectedTemplateIndex = array_keys($imgTemplates)[0];
+        }
+
+        $userName = $this->getRequest()->getQuery('username') ?: DEFAULT_USER;
         $viewModel =  new ViewModel(array(
             'templateIndex' => $selectedTemplateIndex,
             'offsetX' => $offsetX,
             'offsetY' => $offsetY,
             'orderId' => $this->getRequest()->getQuery('orderId', '0'),
             'picurl'  => $picUrl,
-            'username' => $this->getRequest()->getQuery('username', DEFAULT_USER),
+            'username' => $userName,
+            'actId' => $actId,
+            'imgTemplates' => $imgTemplates,
             'tag' => JS_TAG,
         ));
         $viewModel->setTerminal(true); // disable layout template
@@ -472,6 +493,7 @@ class PostcardController extends AbstractActionController
         $order->offsetY    = $this->getRequest()->getPost('offsetY', '0');
         $order->status     = UNPAY;
         $order->orderDate  = date('Y-m-d H:i:s');
+        $order->activityId = $this->getRequest()->getPost('actId');
         // var_dump($order);
         $this->getOrderTable()->saveOrder($order);
 
@@ -517,8 +539,8 @@ class PostcardController extends AbstractActionController
 
             $order->postmarkId = $postmarkId;
             $templateId         ? $order->templateId        = $templateId    : null;
-            $offsetX            ? $order->offsetX           = $offsetX       : null;
-            $offsetY            ? $order->offsetY           = $offsetY       : null;
+            $offsetX !== NULL   ? $order->offsetX           = $offsetX       : null;
+            $offsetY !== NULL   ? $order->offsetY           = $offsetY       : null;
             $zipCode            ? $order->zipCode           = $zipCode       : null;
             $message            ? $order->message           = $message       : null;
             $senderName         ? $order->senderName        = $senderName    : null;
@@ -555,7 +577,7 @@ class PostcardController extends AbstractActionController
         }
 
         // 价格为0，修改状态为已支付
-        if ($order->price == 115 && $order->status == Order::STATUS_UNPAY) {
+        if ($order->price == 0 && $order->status == Order::STATUS_UNPAY) {
             // update order status to 'payed'
             $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/changestatus/' . $orderId . '/101';
             $html = file_get_contents($url);
@@ -597,6 +619,13 @@ class PostcardController extends AbstractActionController
             if (!$order) {
                 echo "order not exist!";
             } else {
+                // Record activity
+                if ($status == PAYED) {
+                    $actService = $this->getServiceLocator()
+                        ->get('Postcard\Service\Activity\ActivityService');
+                    $actService->joinActivity($order);
+                }
+
                 $order->status = $status;
                 $order->payDate = date('Y-m-d H:i:s');
                 $this->getOrderTable()->saveOrder($order);
@@ -843,7 +872,11 @@ class PostcardController extends AbstractActionController
             return FALSE;
         }
 
-        $image_template = imagecreatefrompng('public/images/big/template'.$order->templateId.'.png');
+        $actService = $this->getServiceLocator()
+            ->get('Postcard\Service\Activity\ActivityService');
+        $templateInfo = $actService->getOrderTemplate($order);
+        $image_template = imagecreatefrompng($templateInfo["url"]);
+        
         imagealphablending($image_template, false);
         imagesavealpha($image_template, true);
 
@@ -854,7 +887,7 @@ class PostcardController extends AbstractActionController
             file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
         }
 
-        $angel = ($order->templateId >= 7) ? -90 : 0; // 与web旋转方向一致，为顺时针方向旋转
+        $angel = $templateInfo["rotate"]; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
 
         $a = imagesx($image_user);

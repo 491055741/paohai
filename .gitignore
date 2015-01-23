@@ -3,3 +3,4 @@
 install.sh
 *.bak
 *.bak.js
+public/statics

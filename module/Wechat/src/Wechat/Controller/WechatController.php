@@ -5,6 +5,7 @@ include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/CommonUtil.p
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 use Postcard\Model\Order;
 use Postcard\Model\UserPosition;
@@ -43,6 +44,23 @@ class WechatController extends AbstractActionController
         $util->setServiceLocator($this->getServiceLocator());
         echo $util->getAccessToken();
         return $this->getResponse();
+    }
+
+
+    public function jsApiSignPackageAction() {
+        $invokeUrl = $this->getRequest()->getQuery('invokeUrl');
+
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+
+        $jsApiSignPackage = $util->getJsApiSignPackage($invokeUrl);
+
+        return new JsonModel(array(
+            "code" => 0,
+            "data" => array(
+                "jsApiSignPackage" => $jsApiSignPackage,
+                ),
+            ));
     }
 
     private function responseMsg()
