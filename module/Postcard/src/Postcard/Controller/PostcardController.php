@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501231515');
+define('JS_TAG', '201501231818');
 
 
 class PostcardController extends AbstractActionController
