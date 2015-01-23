@@ -48,7 +48,7 @@ CREATE TABLE `activity_template_config` (
     PRIMARY KEY (`id`),
     FOREIGN KEY (`actId`) REFERENCES `activity` (`id`),
     FOREIGN KEY (`imgId`) REFERENCES `image` (`id`),
-    FOREIGN KEY (`priceRuleId`) REFERENCES `activity_template_price_rule` (`id`)
+    FOREIGN KEY (`priceRuleId`) REFERENCES `activity_price_rule` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -70,4 +70,4 @@ CREATE TABLE `activity_join_record` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-ALTER TABLE `order_table` ADD `activityId` INT(11) UNSIGNED NOT NULL COMMENT 'referer to field: id of table activity. 1 for default activity';
+ALTER TABLE `order_table` ADD `activityId` INT(11) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'referer to field: id of table activity. 1 for default activity';
