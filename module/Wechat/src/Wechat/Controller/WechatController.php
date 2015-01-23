@@ -127,35 +127,7 @@ class WechatController extends AbstractActionController
                 $replyMsgType = "text";
                 if ($msgType == "event") {
                     $event = $postObj->Event;
-// test
-//                    $newsTpl = "<xml>
-//                                    <ToUserName><![CDATA[%s]]></ToUserName>
-//                                    <FromUserName><![CDATA[%s]]></FromUserName>
-//                                    <CreateTime>%s</CreateTime>
-//                                    <MsgType><![CDATA[%s]]></MsgType>
-//                                    <ArticleCount>1</ArticleCount>
-//                                    <Articles>
-//                                        <item>
-//                                            <Title><![CDATA[%s]]></Title>
-//                                            <Description><![CDATA[%s]]></Description>
-//                                            <PicUrl><![CDATA[%s]]></PicUrl>
-//                                            <Url><![CDATA[%s]]></Url>
-//                                        </item>
-//                                    </Articles>
-//                                    </xml>";
-//
-//                    $picUrl = 'http://pic.sc.chinaz.com/files/pic/pic9/201405/apic3699.jpg';
-//                    $replyMsgType = "news";
-//                    $title = "扫码测试";
-//                    $desc = "点击图片收听留言";
-//                    $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/postcard/voice?mediaId='.$order->mediaId;
-//                    $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
 
-//                    $contentStr = $postObj->Event;
-//                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
-//                    echo $resultStr;
-//                    return true;
-// end of test
                     if (($event == "subscribe" || $event == "SCAN") && isset($postObj->Ticket)) {
                         $sceneId = str_replace('qrscene_', '', $postObj->EventKey);
                         if (strlen($sceneId) > 0) {
@@ -299,8 +271,10 @@ PROMOTION_TEXT;
                         $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                         echo $resultStr;
                         return true;
-                    } else {
+                    } else if ($content == '怎么做'){
                         $contentStr = "请上传一张照片";
+                    } else {
+                        return true;
                     }
                 }
 
