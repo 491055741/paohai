@@ -20,6 +20,7 @@ class WechatController extends AbstractActionController
 {
     protected $orderTable;
     protected $userPositionTable;
+    protected $util;
 
     public function indexAction()
     {
@@ -29,19 +30,24 @@ class WechatController extends AbstractActionController
 
     public function refreshAccessTokenAction()
     {
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-        $token = $util->refreshAccessToken();
+        $token = $this->getUtil()->refreshAccessToken();
         echo $token;
         return $this->getResponse();
     }
 
     public function accessTokenAction()
     {
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-        echo $util->getAccessToken();
+        echo $this->getUtil()->getAccessToken();
         return $this->getResponse();
+    }
+
+    private function getUtil()
+    {
+        if ($this->util == null) {
+            $util = new CommonUtil();
+            $util->setServiceLocator($this->getServiceLocator());
+        }
+        return $this->util;
     }
 
     private function responseMsg()
@@ -124,8 +130,14 @@ class WechatController extends AbstractActionController
                             <FuncFlag>0</FuncFlag>
                             </xml>";
                     $replyMsgType = "text";
+                $contentStr = '您发送的视频id为:'.$postObj->MediaId;
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
+                echo $resultStr;
+                return true;
+                
                     if ($msgType == "video") {
                         $contentStr = '您发送的视频id为:'.$postObj->MediaId;
+//                        $contentStr = 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getUtil()->getAccessToken().'&media_id='.$postObj->MediaId;
                     } else if ($msgType == "event") {
                         $event = $postObj->Event;
 // test
