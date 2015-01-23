@@ -143,7 +143,7 @@
             order.requestVoice();
         });
         $(".pop3 .play_voice_btn").on("click", function() {
-            var url = 'http://' + window.location.host + '/postcard/playvoice?mediaId=' + voiceMediaId + "&nonce=" + HC.getNonceStr();
+            var url = 'http://' + window.location.host + '/postcard/voice?mediaId=' + voiceMediaId + "&nonce=" + HC.getNonceStr();
             var audio = document.createElement("audio");
             if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
                 audio.src = url;
