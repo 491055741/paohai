@@ -4,8 +4,9 @@
     EventUtil.addhandler(HC.touch.bg_layer,"touchmove",HC.handtouch);
 
     $(function() {
-        // init order
+        FastClick.attach(document.body);
 
+        // init order
         $("#next-step").on("click", function() {
             order.setOrderId($("#var-order-id").val())
                 .setUserName($("#var-user-name").val());

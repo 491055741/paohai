@@ -81,6 +81,7 @@ var HC = {
             var rotate = $(this).data("rotate");
             tp.var_template_index.value = $(this).data("id");
             HC.rotate(rotate);
+            return false;
         });
 
     },
