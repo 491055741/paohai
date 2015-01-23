@@ -1,3 +1,11 @@
+<?php
+ini_set("display_errors", true); 
+include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelper/js_api_call.php");
+if ($payPrice != 0) {
+    $jsApiParameters = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id, $payPrice);
+}
+
+?>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -86,11 +94,14 @@
 <script src="/js/preview.js?<?php echo $tag; ?>"></script>
 <script language="javascript">
     //调用微信JS api 支付
-    function jsApiCall(payPara)
+    function jsApiCall()
     {
+<?php if ($payPrice == 0): ?>
+        self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
+<?php else: ?>
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest',
-            payPara,
+            <?php echo $jsApiParameters; ?>,  
             function(res){
                 if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
                     self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
@@ -99,6 +110,7 @@
                 }
             }
         );
+<?php endif ?>
     }
 
 </script>
