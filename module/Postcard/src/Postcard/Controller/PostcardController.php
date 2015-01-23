@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501231346');
+define('JS_TAG', '201501231405');
 
 
 class PostcardController extends AbstractActionController
@@ -539,8 +539,8 @@ class PostcardController extends AbstractActionController
 
             $order->postmarkId = $postmarkId;
             $templateId         ? $order->templateId        = $templateId    : null;
-            $offsetX            ? $order->offsetX           = $offsetX       : null;
-            $offsetY            ? $order->offsetY           = $offsetY       : null;
+            $offsetX !== NULL   ? $order->offsetX           = $offsetX       : null;
+            $offsetY !== NULL   ? $order->offsetY           = $offsetY       : null;
             $zipCode            ? $order->zipCode           = $zipCode       : null;
             $message            ? $order->message           = $message       : null;
             $senderName         ? $order->senderName        = $senderName    : null;
