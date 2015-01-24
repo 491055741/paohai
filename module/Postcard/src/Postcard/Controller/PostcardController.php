@@ -308,8 +308,11 @@ class PostcardController extends AbstractActionController
         $canvas_h = 1440.0;
         $image = $this->generateFront($order, $canvas_w, $canvas_h);
         if ($image) {
-            // TODO rotate
-            if ($order->templateId >= 7) {
+            // Rotate
+            $actService = $this->getServiceLocator()
+                ->get('Postcard\Service\Activity\ActivityService');
+            $templateInfo = $actService->getOrderTemplate($order);
+            if ($templateInfo["rotate"] == -90) {
                 $image = imagerotate($image, 90, 0);
             }
 
