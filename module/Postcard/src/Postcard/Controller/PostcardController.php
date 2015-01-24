@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201501231818');
+define('JS_TAG', '201501231714');
 
 
 class PostcardController extends AbstractActionController
@@ -195,6 +195,9 @@ class PostcardController extends AbstractActionController
         $activityService = $this->getServiceLocator()
             ->get('Postcard\Service\Activity\ActivityService');
         $imgTemplates = $activityService->getTemplates($actId);
+        $templatesOrder = $activityService->getTemplatesOrder($actId) 
+            ?: array_keys($imgTemplates);
+
         if (empty($imgTemplates)) {
             return $this->errorViewModel(array(
                 'code' => 1,
@@ -216,6 +219,7 @@ class PostcardController extends AbstractActionController
             'username' => $userName,
             'actId' => $actId,
             'imgTemplates' => $imgTemplates,
+            'templatesOrder' => $templatesOrder,
             'tag' => JS_TAG,
         ));
         $viewModel->setTerminal(true); // disable layout template

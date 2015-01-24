@@ -42,8 +42,13 @@
         <!--模板缩略图-->
         <div class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
-            <?php foreach ($imgTemplates as $templateId => $templateInfo): ?>
-                <li><img id="thumb_img_<?php echo $templateId; ?>" data-id="<?php echo $templateId; ?>" data-rotate="<?php echo $templateInfo["rotate"]; ?>" class="thumb_imgs" src="<?php echo $templateInfo["thumbUrl"] . "?$tag"; ?>" title="背静缩略图<?php echo $templateId; ?>" /></li>
+            <?php foreach ($templatesOrder as $templateId): ?>
+                <li><img id="thumb_img_<?php echo $templateId; ?>" 
+                    data-id="<?php echo $templateId; ?>" 
+                    data-rotate="<?php echo $imgTemplates[$templateId]["rotate"]; ?>" 
+                    class="thumb_imgs" 
+                    src="<?php echo $imgTemplates[$templateId]["thumbUrl"] . "?$tag"; ?>" 
+                    title="背静缩略图<?php echo $templateId; ?>" /></li>
             <?php endforeach; ?>
             </ul>
         </div>

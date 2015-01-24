@@ -63,13 +63,17 @@ class Activity
             true : false;
     }
 
+    /**
+     * @return array $templateOrder
+     */
     public function getTemplateIdOrder() {
-        return $this->templateIdOrder;
+        return $this->templateIdOrder ?
+            json_decode($this->templateIdOrder, true) : array();
     }
 
 
     public function setTemplateIdOrder($templateIdOrder) {
-        $this->templateIdOrder = $templateIdOrder;
+        $this->templateIdOrder = json_encode($templateIdOrder);
         return $this;
     }
 

@@ -75,6 +75,18 @@ class ActivityService extends AbstractService
     }
 
 
+    public function getTemplatesOrder($actId) {
+        $activityTable = $this->getServiceLocator()
+            ->get('Postcard\Model\ActivityTable');
+        $activity = $activityTable->getActivityById($actId);
+        if (empty($activity)) {
+            return array();
+        }
+
+        return $activity->getTemplateIdOrder();
+    }
+
+
     public function getOrderTemplate($order) {
         // TODO cache
         
