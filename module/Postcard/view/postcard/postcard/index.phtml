@@ -42,13 +42,19 @@
         <!--模板缩略图-->
         <div class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
+            <?php $synofiIds = array(22 => 0, 23 => 1, 24 => 2); ?>
             <?php foreach ($templatesOrder as $templateId): ?>
+                <?php if ( ! isset($imgTemplates[$templateId])) { continue; } ?>
                 <li><img id="thumb_img_<?php echo $templateId; ?>" 
                     data-id="<?php echo $templateId; ?>" 
                     data-rotate="<?php echo $imgTemplates[$templateId]["rotate"]; ?>" 
                     class="thumb_imgs" 
                     src="<?php echo $imgTemplates[$templateId]["thumbUrl"] . "?$tag"; ?>" 
                     title="背静缩略图<?php echo $templateId; ?>" /></li>
+                    <?php if (in_array($templateId, array_keys($synofiIds))): ?>
+                        <?php $x = $synofiIds[$templateId] * 70; ?>
+                    <div class="pa thumb_frame" style="left:<?php echo $x ?>px;"></div> 
+                    <?php endif; ?>
             <?php endforeach; ?>
             </ul>
         </div>
