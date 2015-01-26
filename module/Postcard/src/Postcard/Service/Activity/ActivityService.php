@@ -127,9 +127,6 @@ class ActivityService extends AbstractService
      */
     public function getPrice($order) {
         $defaultPrice = 299;
-        if ($order->activityId == Activity::DEFAULT_ACTIVITY_ID) {
-            return $defaultPrice;
-        }
 
         // priceRule chosen logic, template config prior to activity config
         $templateConfig = $this->getServiceLocator()
@@ -137,11 +134,13 @@ class ActivityService extends AbstractService
             ->getOneById($order->templateId);
         $priceRuleId = $templateConfig->getPriceRuleId();
 
+        $activity = $this->getServiceLocator()
+            ->get('Postcard\Model\ActivityTable')
+            ->getActivityById($order->activityId);
+        $priceRuleId = $priceRuleId ?: $activity->getPriceRuleId();
+
         if ( ! $priceRuleId) {
-            $activity = $this->getServiceLocator()
-                ->get('Postcard\Model\ActivityTable')
-                ->getActivityById($order->activityId);
-            $priceRuleId = $activity->getPriceRuleId();
+            return $defaultPrice;
         }
 
         // Activity time check
