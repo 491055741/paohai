@@ -42,8 +42,13 @@ class WechatController extends AbstractActionController
     {
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
-        echo $util->getAccessToken();
-        return $this->getResponse();
+
+        return new JsonModel(array(
+            "code" => 0,
+            "data" => array(
+                "accessToken" => $util->getAccessToken(),
+                ),
+            ));
     }
 
 

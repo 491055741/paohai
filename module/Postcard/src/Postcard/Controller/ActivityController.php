@@ -21,7 +21,7 @@ class ActivityController extends AbstractActionController
 
     public function introAction() {
         $actId = $this->params()->fromRoute('id', '1');
-        $userName = $this->getRequest()->getQuery('userName');
+        $userName = $this->getRequest()->getQuery('userName', '');
 
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
