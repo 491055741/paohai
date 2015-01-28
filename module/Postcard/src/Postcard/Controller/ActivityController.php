@@ -21,7 +21,16 @@ class ActivityController extends AbstractActionController
 
     public function introAction() {
         $actId = $this->params()->fromRoute('id', '1');
-        $userName = $this->getRequest()->getQuery('userName', '');
+        $userName = $this->getRequest()->getQuery('userName');
+        if ( ! $userName) {
+            $currUrl = $this->getCurrentUrl();
+            $oauthUrl = $this->getServiceLocator()
+                ->get("Wechat\Service\OauthService")
+                ->setRequest($this->getRequest())
+                ->getOauthUrl($currUrl); 
+            Header("Location: $oauthUrl");
+            exit;
+        }
 
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
@@ -35,6 +44,23 @@ class ActivityController extends AbstractActionController
         $viewModel->setTerminal(true);
 
         return $viewModel;
+    }
+
+
+    private function getCurrentUrl() {
+        $uri = $this->getRequest()->getUri();
+        $scheme = $uri->getScheme();
+        $host = $uri->getHost();
+        $port = $uri->getPort();
+        $path = $uri->getPath();
+        $query = $uri->getQuery();
+        $query = trim(str_replace(ltrim($path, "/"), '', $query), "&");
+        $currUrl = $scheme . "://" . $host . ":" . $port . $path;
+        if ($query) {
+            $currUrl .= "?" . $query;
+        }
+
+        return $currUrl;
     }
 }
 
