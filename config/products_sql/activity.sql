@@ -71,3 +71,4 @@ CREATE TABLE `activity_join_record` (
 
 
 ALTER TABLE `order_table` ADD `activityId` INT(11) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'referer to field: id of table activity. 1 for default activity';
+ALTER TABLE `order_table` MODIFY `picUrl` varchar(1000) DEFAULT NULL;
