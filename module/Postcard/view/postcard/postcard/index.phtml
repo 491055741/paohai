@@ -61,7 +61,7 @@
         <!-- vars begin --> 
         <input id="var-user-name" type="hidden" value="<?php echo $username; ?>" /> 
         <input id="var-order-id" type="hidden" value="<?php echo $orderId; ?>" />
-        <input id="var-user-picurl" type="hidden" value="<?php echo $picurl; ?>" />
+        <input id="var-user-picurl" type="hidden" value="<?php echo htmlspecialchars($picurl, ENT_QUOTES); ?>" />
         <input id="var-offset-x" type="hidden" value="<?php echo $offsetX; ?>" />
         <input id="var-offset-y" type="hidden" value="<?php echo $offsetY; ?>" />
         <input id="var-template-index" type="hidden" value="<?php echo $templateIndex; ?>" /> 

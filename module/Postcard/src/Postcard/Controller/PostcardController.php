@@ -177,7 +177,7 @@ class PostcardController extends AbstractActionController
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
-        $picUrl = htmlspecialchars($this->getRequest()->getQuery('picurl', DEFAULT_PICURL), ENT_QUOTES);
+        $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
         $actId = $this->getRequest()->getQuery("actId", Activity::DEFAULT_ACTIVITY_ID);
 
         if ($orderId == '0' || !$order) {
@@ -648,9 +648,7 @@ class PostcardController extends AbstractActionController
             }
         }
 
-        $viewModel = new ViewModel();
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
+        return $this->rawViewModel();
     }
 
     public function testDeliverNotifyAction()
@@ -1435,6 +1433,14 @@ class PostcardController extends AbstractActionController
 //        $viewModel->setTerminal(true); // disable layout template
 //        return $viewModel;
 //    }
+
+    private function rawViewModel()
+    {
+        $viewModel = new ViewModel();
+        $viewModel->setTemplate('postcard/postcard/rawresult');
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
 
     private function viewModel($para = null)
     {
