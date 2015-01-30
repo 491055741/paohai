@@ -1,9 +1,13 @@
-<!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>趣邮明信片</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>趣邮明信片</title>
+    <script src="/js/jquery-1.9.0.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="/js/activity-intro.js?<?php echo $JS_TAG; ?>"></script>
+    <?php echo $this->partial("postcard/activity/include/{$actName}.header.phtml", array()); ?>
 </head>
 <body>
     <!-- var begin -->
@@ -11,11 +15,6 @@
         data-username="<?php echo $userName; ?>"
         data-accesstoken="<?php echo $accessToken; ?>" />
     <!-- var end -->
-    
-    <script src="/js/jquery-1.9.0.min.js"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script src="/js/common.js"></script>
-    <script src="/js/activity-intro.js?<?php echo $JS_TAG; ?>"></script>
 
     <?php echo $this->partial("postcard/activity/include/{$actName}.phtml", array()); ?>
 </body>
