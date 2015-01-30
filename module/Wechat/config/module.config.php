@@ -1,8 +1,14 @@
 <?php
 return array(
+    'service_manager' => array(
+        'invokables' => array(
+            'Wechat\Service\OauthService' => 'Wechat\Service\OauthService',
+            ),
+        ),
     'controllers' => array(
         'invokables' => array(
             'Wechat\Controller\Wechat' => 'Wechat\Controller\WechatController',
+            'Wechat\Controller\Oauth' => 'Wechat\Controller\OauthController',
         ),
     ),
 
@@ -18,6 +24,20 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Wechat\Controller\Wechat',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'oauth' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/oauth[/][:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Wechat\Controller\Oauth',
                         'action'     => 'index',
                     ),
                 ),
