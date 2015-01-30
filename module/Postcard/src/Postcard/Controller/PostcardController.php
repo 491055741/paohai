@@ -121,9 +121,9 @@ class PostcardController extends AbstractActionController
         if (file_exists($fileName.'.mp3')) {
             header("Content-type: audio/mp3");
             echo file_get_contents($fileName.'.mp3');
-        } else if (file_exists($fileName.'.spx')) {
-            header("Content-type: audio/x-speex-with-header-byte; rate=16000");
-            echo file_get_contents($fileName.'.spx');
+        } else if (file_exists($fileName.'.amr')) {
+            header("Content-type: audio/amr");
+            echo file_get_contents($fileName.'.amr');
         } else {
             return $this->errorViewModel(array('code' => 2, 'msg' => 'file '.$fileName.' not exist!'));
         }
@@ -136,14 +136,14 @@ class PostcardController extends AbstractActionController
     public function playVoiceAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
-        $mediaId = $this->getRequest()->getQuery('mediaId', '0');
-        if ($mediaId == '0') {
-            return $this->errorViewModel(array('code' => 1, 'msg' => 'require media id'));
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            return $this->errorViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
         }
 
         $viewModel = new ViewModel(array(
             'orderId' => $orderId,
-            'file'    =>'http://'.$_SERVER['HTTP_HOST'].'/postcard/voice?mediaId='.$mediaId,
+            'file'    =>'http://'.$_SERVER['HTTP_HOST'].'/postcard/voice?mediaId='.$order->voiceMediaId,
             'tag'     => JS_TAG
         ));
         $viewModel->setTerminal(true); // disable layout template
@@ -451,7 +451,7 @@ class PostcardController extends AbstractActionController
 
         $token = $this->getUtil()->getAccessToken();
         $url = 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId;
-        $fileName = $this->voicePath().$mediaId;
+        $fileName = $this->voicePath().$mediaId;//.".amr";
 //        $len = file_put_contents($fileName, $this->getUtil()->httpGet($url, 60));
         $this->getUtil()->httpGetFile($url, $fileName);
         // convert from amr to mp3

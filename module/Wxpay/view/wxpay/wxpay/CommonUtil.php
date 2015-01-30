@@ -400,9 +400,7 @@ class CommonUtil
 
         $result = curl_exec($ch);
         $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-        if (stripos($contentType, 'speex') !== false) {
-            $suffix = '.spx';
-        } else if (stripos($contentType, 'amr') !== false) {
+        if (stripos($contentType, 'amr') !== false) {
             $suffix = '.amr';
         } else if (stripos($contentType, 'text') !== false) {
             $suffix = '.txt';

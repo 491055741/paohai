@@ -44,8 +44,8 @@ class WechatController extends AbstractActionController
     private function getUtil()
     {
         if ($this->util == null) {
-            $util = new CommonUtil();
-            $util->setServiceLocator($this->getServiceLocator());
+            $this->util = new CommonUtil();
+            $this->util->setServiceLocator($this->getServiceLocator());
         }
         return $this->util;
     }
@@ -130,10 +130,10 @@ class WechatController extends AbstractActionController
                             <FuncFlag>0</FuncFlag>
                             </xml>";
                     $replyMsgType = "text";
-                $contentStr = '您发送的视频id为:'.$postObj->MediaId;
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
-                echo $resultStr;
-                return true;
+//                $contentStr = '您发送的视频id为:'.$postObj->MediaId;
+//                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $replyMsgType, $contentStr);
+//                echo $resultStr;
+//                return true;
                 
                     if ($msgType == "video") {
                         $contentStr = '您发送的视频id为:'.$postObj->MediaId;
@@ -179,7 +179,7 @@ class WechatController extends AbstractActionController
                                 } else {
                                     $txt = '快来听听你的留言吧';
                                 }
-                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice/'.$order->id.'?mediaId='.$order->voiceMediaId.'&nonce='.time().'">'.$txt.'</a>';
+                                $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice/'.$order->id.'?nonce='.time().'">'.$txt.'</a>';
                             } else {
                                 $contentStr = '没有找到语音留言,sceneId:'.$sceneId;
                             }
