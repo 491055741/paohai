@@ -24,7 +24,10 @@ class ActivityController extends AbstractActionController
         $userName = $this->getRequest()->getQuery('userName');
         $actName = $this->getRequest()->getQuery('actname', '');
         
-
+        if ( ! $this->checkTemplateExist($actName)) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
 
         if ( ! $userName) {
             $currUrl = $this->getCurrentUrl();
@@ -66,6 +69,21 @@ class ActivityController extends AbstractActionController
         }
 
         return $currUrl;
+    }
+
+
+    private function checkTemplateExist($name) {
+        $templateName = "postcard/activity/include/{$name}.phtml";
+        $resolver = $this->getEvent()
+            ->getApplication()
+            ->getServiceManager()
+            ->get('Zend\View\Resolver\TemplatePathStack');
+
+        if ($resolver->resolve($templateName) === false) {
+            return false;
+        }
+
+        return true;
     }
 }
 

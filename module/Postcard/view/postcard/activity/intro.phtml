@@ -7,12 +7,15 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="/js/common.js"></script>
     <script src="/js/activity-intro.js?<?php echo $JS_TAG; ?>"></script>
+    <?php $actName = $this->escapeHtml($actName); ?>
+<?php if ($this->resolver("postcard/activity/include/{$actName}.header.phtml")): ?>    
     <?php echo $this->partial("postcard/activity/include/{$actName}.header.phtml", array()); ?>
+<?php endif; ?>
 </head>
 <body>
     <!-- var begin -->
     <input type="hidden" id="global-var" 
-        data-username="<?php echo $userName; ?>"
+        data-username="<?php echo $this->escapeHtml($userName); ?>"
         data-accesstoken="<?php echo $accessToken; ?>" />
     <!-- var end -->
 
