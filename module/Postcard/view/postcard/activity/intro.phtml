@@ -6,13 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
 <body>
-    <h1>活动介绍示例页面</h1>
-    <p><button id="choose">choose</button></p>
-    <p><a id="dopostcard" href="javascript:void(0);">制作明信片</a></p>
-
     <!-- var begin -->
     <input type="hidden" id="global-var" 
-        data-actid="<?php echo $actId; ?>"
         data-username="<?php echo $userName; ?>"
         data-accesstoken="<?php echo $accessToken; ?>" />
     <!-- var end -->
@@ -20,101 +15,8 @@
     <script src="/js/jquery-1.9.0.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="/js/common.js"></script>
-    <script type="text/javascript">
-        (function($) {
-            var domain = "http://" + window.location.host;
-            var currentUrl = domain + window.location.pathname + window.location.search;
-            var imgurl = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token"
-            var actId = "";
-            var userName = "";
-            var accessToken = "";
+    <script src="/js/activity-intro.js?<?php echo $JS_TAG; ?>"></script>
 
-            // Get jsApiSignPackage
-            function init() {
-                var varObj = $("#global-var");
-                actId = varObj.data("actid");
-                userName = varObj.data("username");
-                accessToken = varObj.data("accesstoken");
-                $.get(
-                    domain + "/wechat/jsapisignpackage",
-                    {
-                        invokeUrl: currentUrl,
-                    },
-                    function success(data) {
-                        if (data.code != 0) {
-                            alert("JS-SDK加载失败"); 
-                            return;
-                        }
-                        var packageParam = data.data.jsApiSignPackage;
-                        wx.config({
-                            // for debug
-                            //debug: true,
-                            appId: packageParam.appId,
-                            timestamp:  packageParam.timestamp,
-                            nonceStr:  packageParam.nonceStr,
-                            signature: packageParam.signature,
-                            jsApiList: ['chooseImage', 'uploadImage']
-                        });
-                    },
-                    "json"
-                );
-            }
-
-            function chooseImage() {
-                wx.chooseImage({
-                    success: function(res) {
-                        var localIds = res.localIds;    // 图片的本地ID
-                        $.each(localIds, function(index, localId) {
-                            uploadImage(localId);
-                        });
-                    }
-                });
-            }
-
-            function uploadImage(imageId) {
-                wx.uploadImage({
-                    localId: imageId,
-                    isShowProgressTips: 1,
-                    success: function(res) {
-                        var serverId = res.serverId;    // 图片的服务器ID
-                        var postcardUrl = genPostcardUrl(serverId);
-                        $("#dopostcard").attr("href", postcardUrl);
-                    }
-                });
-            }
-
-            function genPostcardUrl(serverId) {
-                var picUrl =  "http://file.api.weixin.qq.com/cgi-bin/media/get?"
-                    + "access_token=" + accessToken
-                    + "&media_id=" + serverId;
-                var userName = "";
-
-                var url = domain + "/postcard?"
-                    + "actId=" + encodeURIComponent(actId)
-                    + "&picurl=" + encodeURIComponent(picUrl)
-                    + "&username=" + encodeURIComponent(userName)
-                    + "&nonce=" + HC.getNonceStr();
-
-                return url;
-
-            }
-
-            window.actIntro = {
-                init: init,
-                chooseImage: chooseImage,
-                uploadImage: uploadImage
-            };
-        })(jQuery)
-
-
-        $(function() {
-            actIntro.init();
-
-            $(document).on("click", "#choose", function() {
-                actIntro.chooseImage();
-            });   
-        });
-
-    </script>
+    <?php echo $this->partial("postcard/activity/include/{$actName}.phtml", array()); ?>
 </body>
 </html>

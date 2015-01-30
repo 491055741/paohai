@@ -6,27 +6,12 @@
     var accessToken = "";
 
     // Get jsApiSignPackage
-    function init(actId, userName) {
-        actId = actId ? actId : 1;
-        userName = userName ? userName : "";
-        getAccessToken();
+    function init(inputActId) {
+        var varObj = $("#global-var");
+        actId = inputActId;
+        userName = varObj.data("username");
+        accessToken = varObj.data("accesstoken");
         doWxConfig();
-    }
-
-
-    function getAccessToken() {
-        var url = domain + "/wechat/accessToken";
-        $.get(
-            url, 
-            function success(data) {
-                if (data.code != 0) {
-                    alert("出错了，请退出当前页面重新进入");
-                    return;
-                }
-                accessToken = data.data.accessToken;
-            },
-            "json"
-        );
     }
 
     function doWxConfig() {
@@ -82,7 +67,6 @@
         var picUrl =  "http://file.api.weixin.qq.com/cgi-bin/media/get?"
             + "access_token=" + accessToken
             + "&media_id=" + serverId;
-        var userName = "";
 
         var url = domain + "/postcard?"
             + "actId=" + encodeURIComponent(actId)
@@ -96,8 +80,7 @@
 
     window.actIntro = {
         init: init,
-        chooseImage: chooseImage,
-        uploadImage: uploadImage
+        chooseImage: chooseImage
     };
 })(jQuery)
 

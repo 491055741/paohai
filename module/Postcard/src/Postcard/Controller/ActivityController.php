@@ -8,6 +8,7 @@ use Zend\View\Model\ViewModel;
 use CommonUtil;
 use Postcard\Service\ActivityService;
 
+define('JS_TAG', '201501301522');
 
 class ActivityController extends AbstractActionController
 {
@@ -20,8 +21,11 @@ class ActivityController extends AbstractActionController
 
 
     public function introAction() {
-        $actId = $this->params()->fromRoute('id', '1');
         $userName = $this->getRequest()->getQuery('userName');
+        $actName = $this->getRequest()->getQuery('actname', '');
+        
+
+
         if ( ! $userName) {
             $currUrl = $this->getCurrentUrl();
             $oauthUrl = $this->getServiceLocator()
@@ -37,9 +41,10 @@ class ActivityController extends AbstractActionController
         $accessToken = $util->getAccessToken();
 
         $viewModel = new ViewModel(array(
-            'actId' => $actId,
             'userName' => $userName,
             'accessToken' => $accessToken,
+            'actName' => $actName,
+            'JS_TAG' => JS_TAG,
             ));
         $viewModel->setTerminal(true);
 
