@@ -177,7 +177,7 @@ class PostcardController extends AbstractActionController
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $order = $this->getOrderTable()->getOrder($orderId);
-        $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
+        $picUrl = htmlspecialchars($this->getRequest()->getQuery('picurl', DEFAULT_PICURL), ENT_QUOTES);
         $actId = $this->getRequest()->getQuery("actId", Activity::DEFAULT_ACTIVITY_ID);
 
         if ($orderId == '0' || !$order) {
