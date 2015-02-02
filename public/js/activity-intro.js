@@ -2,12 +2,14 @@
     var domain = "http://" + window.location.host;
     var currentUrl = domain + window.location.pathname + window.location.search;
     var actId = 1;
+    var partnerId = "";
     var userName = "";
     var accessToken = "";
 
     // Get jsApiSignPackage
-    function init(inputActId) {
+    function init(inputActId, inputPartnerId) {
         var varObj = $("#global-var");
+        partnerId = inputPartnerId;
         actId = inputActId;
         userName = varObj.data("username");
         accessToken = varObj.data("accesstoken");
@@ -69,7 +71,8 @@
             + "&media_id=" + serverId;
 
         var url = domain + "/postcard?"
-            + "actId=" + encodeURIComponent(actId)
+            + "partnerId=" + encodeURIComponent(partnerId)
+            + "&actId=" + encodeURIComponent(actId)
             + "&picurl=" + encodeURIComponent(picUrl)
             + "&username=" + encodeURIComponent(userName)
             + "&nonce=" + HC.getNonceStr();
