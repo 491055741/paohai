@@ -179,6 +179,7 @@ class PostcardController extends AbstractActionController
         $order = $this->getOrderTable()->getOrder($orderId);
         $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
         $actId = $this->getRequest()->getQuery("actId", Activity::DEFAULT_ACTIVITY_ID);
+        $partnerId = $this->getRequest()->getQuery("partnerId");
 
         if ($orderId == '0' || !$order) {
             $selectedTemplateIndex = NULL;
@@ -221,6 +222,7 @@ class PostcardController extends AbstractActionController
             'imgTemplates' => $imgTemplates,
             'templatesOrder' => $templatesOrder,
             'tag' => JS_TAG,
+            'partnerId' => $partnerId,
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -501,6 +503,7 @@ class PostcardController extends AbstractActionController
         $order->status     = UNPAY;
         $order->orderDate  = date('Y-m-d H:i:s');
         $order->activityId = $this->getRequest()->getPost('actId');
+        $order->partnerId = trim($this->getRequest()->getPost('partnerId', ''));
         // var_dump($order);
         $this->getOrderTable()->saveOrder($order);
 

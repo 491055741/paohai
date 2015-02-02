@@ -480,7 +480,7 @@
         getPostcard: function() {
             return this.postcard;
         },
-        placeOrder: function(actId) {
+        placeOrder: function(actId, partnerId) {
             var url = domain + "/postcard/placeorder?nonce=" + HC.getNonceStr();
             var params = {
                 templateIndex: this.postcard.getImage().getTemplateIndex(),
@@ -489,6 +489,7 @@
                 userName: this.userName,
                 userPicUrl: this.postcard.getImage().getUrl(),
                 actId: actId,
+                partnerId: partnerId,
             };
             $.post(
                 url, 

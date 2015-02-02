@@ -20,7 +20,8 @@
             var actId = $("#var-activity-id").val();
             console.log(order);
             if (order.getOrderId() == "0") {
-                order.placeOrder(actId); 
+                var partnerId = $("#var-partner-id").val();
+                order.placeOrder(actId, partnerId); 
             } else {
                 order.updateImageForOrder();
             }

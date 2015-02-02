@@ -109,6 +109,7 @@ class OrderTable
             'refundFee'         => $order->refundFee,
             'qrSceneId'         => $order->qrSceneId,
             'activityId'        => $order->activityId,
+            'partnerId'         => $order->partnerId,
         );
 
         if ($this->getOrder($order->id)) {
