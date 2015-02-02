@@ -127,6 +127,7 @@
 
         <input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId !== NULL ? $order->postmarkId : "" ; ?>" />
         <input id="var-voice-media-id" type="hidden" value="<?php echo $order->voiceMediaId; ?>" />
+        <input id="var-partner-id" type="hidden" value="<?php echo $order->partnerId ?: ''; ?>" />
 
         <!-- vars end -->
 </div>

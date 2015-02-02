@@ -4,6 +4,13 @@
 (function($) {
     var receiptInfo = order.getPostcard().getReceiptAddress();
     var messageInfo = order.getPostcard().getMessage(); 
+    var isMediaAvailable = true;
+    if ($("#var-partner-id").val()) {
+        isMediaAvailable = false;
+    }
+    if ( ! isMediaAvailable) {
+        $(".pop3 .voice_btn").hide();
+    }
 
     function setCardInfo() {
         var postmarkIndex = order.getPostcard().getPostmarkIndex();
@@ -49,7 +56,7 @@
 
     function callPop() {
         var postmarkIndex = order.getPostcard().getPostmarkIndex();
-        var isVoiceTipShown = false;
+        var isVoiceTipShown = isMediaAvailable ? false : true;
         $("#memory-stamp-button").on("click", function() { //显示弹窗1
             $(".pop1").show();
             setCardInfo();
