@@ -451,9 +451,9 @@ class PostcardController extends AbstractActionController
 
         $token = $this->getUtil()->getAccessToken();
         $url = 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$mediaId;
-        $fileName = $this->voicePath().$mediaId;//.".amr";
-//        $len = file_put_contents($fileName, $this->getUtil()->httpGet($url, 60));
-        $this->getUtil()->httpGetFile($url, $fileName);
+        $fileName = $this->voicePath().$mediaId.".amr";
+        $len = file_put_contents($fileName, $this->getUtil()->httpGet($url, 60));
+//        $this->getUtil()->httpGetFile($url, $fileName);
         // convert from amr to mp3
         $cmd = 'ffmpeg -i '.$fileName.' '.$this->voicePath().$mediaId.'.mp3';
 //        echo 'url: '.$url.PHP_EOL.'len: '.$len.PHP_EOL.'exec: '.$cmd.PHP_EOL;
