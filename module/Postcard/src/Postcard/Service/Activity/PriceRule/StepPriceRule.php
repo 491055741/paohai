@@ -4,6 +4,7 @@ namespace Postcard\Service\Activity\PriceRule;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Postcard\Model\Order;
+use Postcard\Model\ActivityJoinRecord;
 
 class StepPriceRule implements PriceRuleInterface
 {
@@ -78,6 +79,7 @@ class StepPriceRule implements PriceRuleInterface
         $condition = array(
             "actId" => $actId,
             "price" => $price,
+            "status" => ActivityJoinRecord::STATUS_COMPLETE,
         );
         if ($beginTime) {
             $condition["joinBeginTime"] = $beginTime;

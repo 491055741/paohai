@@ -4,6 +4,7 @@ namespace Postcard\Model;
 
 class ActivityJoinRecord
 {
+    const STATUS_DELETE = -1;
     const STATUS_UNCOMPLETE = 0;
     const STATUS_COMPLETE = 1;
 

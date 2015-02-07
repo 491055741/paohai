@@ -169,7 +169,7 @@ class ActivityService extends AbstractService
      */
     public function joinActivity($order) {
         if ($order->activityId == Activity::DEFAULT_ACTIVITY_ID) {
-            return true;
+            //return true;
         }
         $record = new ActivityJoinRecord();
         $record->setUserName($order->userName)
