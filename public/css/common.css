@@ -60,21 +60,8 @@ body {background: rgba(0,0,0,0.7);}
 }
 .menuBar a{display:inline-block;;margin:0 20px;font-family: "微软雅黑";font-size: 16px;}
 .changeImg {left:0;width:100px;padding-left:28px;background: url("../images/prev_icon.png") no-repeat left 50%;}
-.next {right: 0;width:80px;padding-right:28px;background:url("../images/next_icon.png") no-repeat right 50%;}
-/*面包屑导航*/
-.breadNav {
-    height: 30px;
-    background: #001042;
-    overflow: hidden;
-}
-.breadNav ul {width: 100%;}
-.breadNav ul li {
-    -webkit-box-flex: 1;      /* OLD - iOS 6-, Safari 3.1-6 */
-    -moz-box-flex: 1;         /* OLD - Firefox 19- */
-    width: 30%;               /* For old syntax, otherwise collapses. */
-    -webkit-flex: 1;          /* Chrome */
-    -ms-flex: 1;              /* IE 10 */
-}
+.next {right: 0;width:100px;padding-right:28px;background:url("../images/next_icon.png") no-repeat right 50%;}
+
 #crumbs ul li a {
     display: inline-block;
     height: 31px;
@@ -143,24 +130,6 @@ body {background: rgba(0,0,0,0.7);}
 .up.bgLayer {margin-left: -89px;width: 178px;height: 264px;}
 .up.bgLayer_img {width: 178px;height: 264px;}
 .up.imgLayer {margin-left: -89px;width: 178px;height: 264px;}
-/*选择模板按键*/
-.selectTemp {
-    position: absolute;
-	bottom: 18px;
-    align-self: flex-end;
-    overflow: hidden;
-    background: transparent;
-    transition: all 0.3s ease-in 0;
-}
-.sBtn {
-    right: 0;
-    width: 150px;
-    padding-left: 30px;
-    border: 0;
-    font-size: 14px;
-    color: #fff;
-    background: #0e5a98 url("../images/choose_icon.png") no-repeat 20% 50%;
-}
 
 /*缩略图部分*/
 .thumbImg {
@@ -203,7 +172,6 @@ body {background: rgba(0,0,0,0.7);}
     overflow: hidden;
 }
 .thumbImg ul li img{width: 60px;height: 60px;}
-.up.selectTemp{bottom: 108px;}
 .up.thumbImg{height: 108px;bottom: 0;}
 
 
@@ -213,9 +181,6 @@ body {background: rgba(0,0,0,0.7);}
 .bgK img {width: 350px;height: 500px;}
 
 .infoWrap {z-index: 2;top: 60px;width: 290px;height:100px;left: 50%;margin-left:-145px;}
-.youzhen {z-index: 3;width:213px;height:32px;top: 0;left: 0;}
-.youzhen em {display: inline-block;margin-right: 4px;width: 30px;height: 30px;line-height:30px;background: url("../images/p1.gif") no-repeat center;text-align: center;vertical-align: top;}
-         em.mr0 {margin-right: 0;}
 .youchuo {z-index: 3;top: 0;right: 0;overflow: hidden;}
 .youchuo img {}
 .shoujianren {z-index: 3;width: 203px;height: 38px;line-height:38px;top: 45px;left:0;}
@@ -271,12 +236,13 @@ body {background: rgba(0,0,0,0.7);}
 a.on i {display: block;}
 /*弹窗2*/
 .pop2 {}
+.go_add {top:60px;}
 .recipient_input {top:100px;}
 .province_input, .city_input {top:140px;}
 .address_input {top:180px;}
 .postcode_input {top:220px;}
 .mobile_input {top:260px;}
-.recipient_input,.postcode_input,.address_input,.liuyan,.mobile_input,.province_input,.city_input {
+.go_add,.recipient_input,.postcode_input,.address_input,.liuyan,.mobile_input,.province_input,.city_input {
     z-index: 5;
     width: 270px;
     height: 25px;
@@ -319,20 +285,12 @@ a.on i {display: block;}
 .save_add {background: url("../images/nogou.gif") no-repeat left 50%;}
 .in.save_add {background: url("../images/gou.gif") no-repeat left 50%}
 
-.go_add {
-    width: 140px;
-    height: 40px;
-    border: 0;
-    margin-left: 15px;
-    border-radius: 15px;
-    color: #999;
-}
 .menu {
     z-index: 5;
-    top: 370px;
+    top: 300px;
     left: 50%;
-    width: 270px;
-    margin-left: -135px;
+    width: 120px;
+    margin-left: 0px;
 }
 /*弹窗3*/
 .pop3 {}
@@ -340,13 +298,16 @@ a.on i {display: block;}
 .pop3 .bgK img{width: 320px;}
 .pop3 .menu {height: 50px;line-height: 50px;}
 .liuyan {height:150px;top: 205px;}
-.voice_btn {padding-left: 0;margin-right:10px;width: 50px;height: 50px;}
-.play_voice_btn {padding-left: 0;margin-right:10px;width: 50px;height: 50px;}
+.voice_btn {z-index: 5;top:40px; padding-left:0; left:50%; margin-left:-70px; width:50px; height:50px;}
+.play_voice_btn {z-index: 5;top:40px; padding-left:0; left:50%; margin-left:70px; width:50px; height:50px;}
 .myName {
+    z-index: 5;
     display: inline-block;
     width: 200px;
     height: 40px;
-    padding-left: 5px;
+    top:360px;
+    left:50%;
+    margin-left:-100px;
     vertical-align: 25px;
     border-radius: 15px;
     border: 1px solid #999;
@@ -378,8 +339,6 @@ a.on i {display: block;}
     .up.bgLayer, .up.bgLayer_img, .up.imgLayer {margin-left: -64px;width: 128px;height: 190px;}
     .up.bgLayer_img {margin-left: 0;}
 
-    .up.selectTemp{bottom: 98px;}
-    .up.thumbImg{height: 98px;bottom: 0;}
     .pt20 {padding-top: 16px;}
 
     /*page2*/
@@ -399,12 +358,7 @@ a.on i {display: block;}
         height: 85px;
         margin-left: -140px;
     }
-    .youzhen {
-        width: 203px;
-        height: 32px;
-        top: 0;
-        left: 5px;
-    }
+
     .page2 .w80h80 {width: 70px;height: 70px;}
     .page2 .shoujianren { width: 183px; top: 35px; left: 5px; }
     .zhufu {width: 270px;height: 144px;top: 120px; margin-left: -135px;}
@@ -437,7 +391,7 @@ a.on i {display: block;}
         /*background: #eee;*/
     /*}*/
     /*.pop2 .postcode_input {top: 120px;}*/
-    .recipient_input,.postcode_input,.address_input,.mobile_input {
+    .go_add,.recipient_input,.postcode_input,.address_input,.mobile_input {
         width: 230px;
         margin-left: -115px;
         padding-left: 10px;
@@ -673,10 +627,6 @@ a.on i {display: block;}
     height: 100%;
 }
 .go_add {
-    width: 140px;
-    height: 40px;
-    border: 0;
-    margin-left: 15px;
     border-radius: 15px;
     color: #fff;
     background: #FF362B;

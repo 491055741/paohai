@@ -20,30 +20,19 @@
 <div class="container">
     <!--菜单条-->
     <div class="menuBar h42 pr">
-        <a id="prev-step" href="#" class="changeImg pa">上一步</a>
-        <a id="next-step" href="#" class="next pa">下一步</a>
-    </div>
-    <!--面包屑-->
-    <div class="breadNav" id="crumbs">
-        <ul class="frsb">
-            <li><a href="#1" class="w99p">第一步</a></li>
-            <li><a href="#2" class="current w99p">第二步</a></li>
-            <li><a href="#3" class="w100p">第三步</a></li>
-        </ul>
+        <a id="prev-step" href="#" class="changeImg pa">更换边框</a>
+        <a id="next-step" href="#" class="next pa">去预览</a>
     </div>
     <div class="page2 fg1 ovfw pr" id="page2">
         <div class="bgK pa"><img src="/images/bg.gif"></div>
         <div class="infoWrap pa">
-            <div class="youzhen pa">
-                <em></em><em></em><em></em><em></em><em></em><em class="mr0"></em>
-            </div>
-            <div class="youchuo w80h80 pa"><img class="w80h80" id="post_stamp" src="/images/postmark/small/youchuo2.png"></div>
+<!--            <div class="youchuo w80h80 pa"><img class="w80h80" id="post_stamp" src="/images/postmark/small/youchuo2.png"></div>-->
+            <input type="image" id="memory-stamp-button" class="youchuo pa w80h80" src="/images/y.gif" alt="邮戳"/>
             <div class="shoujianren pa"><input class="shoujianInput" type="text" placeholder="收件人信息"/></div>
         </div>
         <textarea class="pa zhufu" name="祝福语" id="liuyan" cols="30" rows="10" placeholder="祝福语..."></textarea>
         <label class="lab1 pa">少于112字</label>
-        <input type="image" id="memory-stamp-button" class="getJ pa w150h50" src="/images/y.gif" alt="获取纪念戳"/>
-        <input type="image" id="latlng-button" class="getZ pa w150h50" src="/images/r.gif" alt="获取坐标戳"/>
+<!--        <input type="image" id="latlng-button" class="getZ pa w150h50" src="/images/r.gif" alt="获取坐标戳"/>-->
     </div>
 
     <!--弹出窗1 邮戳盒子-->
@@ -60,6 +49,7 @@
 
     <!--弹出窗2 收件人信息-->
     <div class="pop2 pa hide">
+        <button class="go_add pa">去地址簿抓一个</button>
         <div class="bgK pa"><img src="/images/postmark/small/youchuo-bg.png" alt="邮戳盒背景"/></div>
         <input class="recipient_input pa" type="text" placeholder="收件人姓名"/>
         <form name="creator">
@@ -70,24 +60,21 @@
         <input class="postcode_input pa" type="text" placeholder="邮政编码"/>
         <input class="mobile_input pa" type="text" placeholder="联系电话"/>
 
-        <div class="menu pa">
-            <a href="#" class="save_add in">存入地址簿</a>
-            <button class="go_add">去地址簿抓一个</button>
-        </div>
+<!--        <div class="menu pa">-->
+            <a href="#" class="menu pa save_add in">存入地址簿</a>
+
+<!--        </div>-->
         <input id="pop2_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/small/youchuo-sure.png" alt="确定"/>
     </div>
 
     <!--弹出窗3 留言-->
     <div class="pop3 pa hide">
         <div class="bgK pa"><img src="/images/bg3.png" alt="邮戳盒背景"/></div>
+        <input class="voice_btn pa" type="image" src="/images/voice_icon.gif" alt="TTS" />
+        <input class="play_voice_btn pa" type="image" src="/images/speaker.gif" alt="TTS" />
         <input class="recipient_input pa" type="text" placeholder="TA的昵称"/>
-        <textarea class="liuyan pa" maxlength="112" name="你想对TA说的话" cols="30" rows="10" placeholder="你想你对TA说的话..."></textarea>
-        <div class="menu pa">
-            <input class="voice_btn" type="image" src="/images/voice_icon.gif" alt="TTS" />
-            <input class="play_voice_btn" type="image" src="/images/speaker.gif" alt="TTS" />
-            <input class="myName" type="text" placeholder="我的昵称" />
-            <!--<input class="go_add" type="text" placeholder="我的昵称"/>-->
-        </div>
+        <textarea class="liuyan pa" maxlength="112" name="你想对TA说的话" cols="30" rows="10" placeholder="你想对TA说的话..."></textarea>
+        <input class="myName pa" type="text" placeholder="我的昵称" />
         <input id="pop3_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/small/youchuo-sure.png" alt="确定"/>
     </div>
 

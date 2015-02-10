@@ -8,9 +8,9 @@
     if ($("#var-partner-id").val()) {
         isMediaAvailable = false;
     }
-    if ( ! isMediaAvailable) {
-        $(".pop3 .voice_btn").hide();
-    }
+//    if ( ! isMediaAvailable) {
+//        $(".pop3 .voice_btn").hide();
+//    }
 
     function setCardInfo() {
         var postmarkIndex = order.getPostcard().getPostmarkIndex();
@@ -27,11 +27,11 @@
         }
 
         //邮编回填
-        var zipcode = receiptInfo.getZipcode() || "000000";//邮政编码
-        var zipcodeArr = String(zipcode).split("");
-        $(".youzhen em").each(function() {
-            $(this).text(zipcodeArr.shift());
-        });
+//        var zipcode = receiptInfo.getZipcode() || "000000";//邮政编码
+//        var zipcodeArr = String(zipcode).split("");
+//        $(".youzhen em").each(function() {
+//            $(this).text(zipcodeArr.shift());
+//        });
 
         //弹窗1
         if (postmarkIndex != "") {
@@ -135,7 +135,7 @@
 
         var voiceMediaId = $('#var-voice-media-id').val();
         if (!voiceMediaId || voiceMediaId == '0') {
-            $(".pop3 .play_voice_btn").css("display","none");
+//            $(".pop3 .play_voice_btn").css("display","none");
         } else {
             $(".pop3 .myName").css({width: 130});
 //            $("#voiceMessageButton").attr({'src': '/images/small/rerecord_voice_btn.png'});
