@@ -21,23 +21,23 @@ if ($payPrice != 0) {
 <div class="loadMask orientation-tips pa" style="display:none">
     <div><span>亲，竖屏操作体验更好哦</span></div>
 </div>
-<input id="var-user-name" type="hidden" value="" ></input>
-<input id="var-order-id" type="hidden" value="<?php echo $order->id ?>" ></input>
-<input id="var-user-picurl" type="hidden" value="<?php echo $order->picUrl ?>" ></input>
-<input id="var-offset-x" type="hidden" value="<?php echo $order->offsetX ?>" ></input>
-<input id="var-offset-y" type="hidden" value="<?php echo $order->offsetY ?>" ></input>
-<input id="var-template-index" type="hidden" value="<?php echo $order->templateId ?>" ></input>
-<input id="var-salutation" type="hidden" value="<?php echo $order->salutation ?>" ></input>
-<input id="var-message" type="hidden" value="<?php echo $order->message ?>" ></input>
-<input id="var-signature" type="hidden" value="<?php echo $order->signature ?>" ></input>
-<input id="var-recipient" type="hidden" value="<?php echo $order->recipient ?>" ></input>
-<input id="var-address" type="hidden" value="<?php echo $order->address ?>" ></input>
-<input id="var-zipcode" type="hidden" value="<?php echo $order->zipCode ?>" ></input>
-<input id="var-mobile" type="hidden" value="<?php echo $order->recipientMobile ?>" ></input>
-<input id="var-voice-media-id" type="hidden" value="<?php echo $order->voiceMediaId ?>" ></input>
-<input id="var-postmark-index" type="hidden" value="<?php echo $order->postmarkId ?>" ></input>
-<input id="var-city" type="hidden" value="<?php echo $city ?>" ></input>
-<input id="var-template" type="hidden" data-rotate="<?php echo $template["rotate"]; ?>" data-thumb="<?php echo $template["thumbUrl"]; ?>" />
+<input id="var-user-name"       type="hidden" value="" />
+<input id="var-order-id"        type="hidden" value="<?php echo $order->id ?>" />
+<input id="var-user-picurl"     type="hidden" value="<?php echo $order->picUrl ?>" />
+<input id="var-offset-x"        type="hidden" value="<?php echo $order->offsetX ?>" />
+<input id="var-offset-y"        type="hidden" value="<?php echo $order->offsetY ?>" />
+<input id="var-template-index"  type="hidden" value="<?php echo $order->templateId ?>" />
+<input id="var-salutation"      type="hidden" value="<?php echo $order->salutation ?>" />
+<input id="var-message"         type="hidden" value="<?php echo $order->message ?>" />
+<input id="var-signature"       type="hidden" value="<?php echo $order->signature ?>" />
+<input id="var-recipient"       type="hidden" value="<?php echo $order->recipient ?>" />
+<input id="var-address"         type="hidden" value="<?php echo $order->address ?>" />
+<input id="var-zipcode"         type="hidden" value="<?php echo $order->zipCode ?>" />
+<input id="var-mobile"          type="hidden" value="<?php echo $order->recipientMobile ?>" />
+<input id="var-voice-media-id"  type="hidden" value="<?php echo $order->voiceMediaId ?>" />
+<input id="var-postmark-index"  type="hidden" value="<?php echo $order->postmarkId ?>" />
+<input id="var-city"            type="hidden" value="<?php echo $city ?>" />
+<input id="var-template"        type="hidden" data-rotate="<?php echo $template["rotate"]; ?>" data-thumb="<?php echo $template["thumbUrl"]; ?>" />
 
 <div class="container">
     <!--菜单条-->
@@ -73,11 +73,11 @@ if ($payPrice != 0) {
         </div>
 
         <input type="image" id="toggleFaceButton" class="turn_around pa w150h50" src="/images/turn_around_btn.png" alt="翻转"/>
-        <div><a href="#" class="postageChoice pa">平邮（2.99元/张）</a></div>
-        <div><a href="#" class="expressDeliveryChoice pa">专递（9.99元/张）</a></div>
+        <div><a href="#" class="postage_choice pa">平邮（2.99元/张）</a></div>
+        <div><a href="#" class="express_delivery_choice pa">专递（9.99元/张）</a></div>
 
-        <div><a href="#" class="consumerCode pa">输入消费码</a></div>
-        <div><a href="#" class="totalPrice pa">共计2.99元</a></div>
+        <div><a href="#" class="consumer_code pa">输入消费码</a></div>
+        <div><a href="#" class="total_price pa">共计2.99元</a></div>
 
         <input type="image" id="gotoPayButton" class="pay_conf pa" src="/images/querenzhifu.png" alt="确认支付"/>
     </div>

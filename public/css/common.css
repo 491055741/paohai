@@ -492,27 +492,47 @@ a.on i {display: block;}
     top: 230px;
     margin-left: 0px;
 }
-.page3 .postageChoice, .page3 .expressDeliveryChoice, .page3 .consumerCode, .page3 .totalPrice {
+.page3 .postage_choice, .page3 .express_delivery_choice, .page3 .consumer_code, .page3 .total_price {
     color: #000;
     font-size: 11px;
     left:50%;
     width:100px;
 }
-.page3 .postageChoice {
+.page3 .postage_choice {
     top:300px;
     margin-left: -150px;
 }
-.page3 .expressDeliveryChoice {
+.page3 .express_delivery_choice {
     top:300px;
     margin-left: 50px;
 }
-.page3 .consumerCode {
+.page3 .consumer_code {
     top:330px;
     margin-left: -150px;
 }
-.page3 .totalPrice {
+.page3 .total_price {
     top:330px;
     margin-left: 50px;
+}
+.page4 .main_text {
+    font-size: 25px;
+    left:50%;
+    top:50px;
+    width: 200px;
+    margin-left: -100px;
+    color:#fff;
+}
+.page4 .goto_orderlist, .page4 .share_btn {
+    left:50%;
+    width: 200px;
+    height: 40px;
+    margin-left: -100px;
+}
+.page4 .goto_orderlist {
+    top: 100px;
+}
+.page4 .share_btn {
+    top: 140px;
 }
 
 @media (max-width: 320px) and (max-height: 480px){
