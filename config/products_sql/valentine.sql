@@ -12,3 +12,16 @@ INSERT INTO `activity_template_config` (`actId`, `imgId`, `imgThumbId`, `rotate`
 UPDATE `activity_template_config` SET status = 0 WHERE actId = 1;
 UPDATE `activity_template_config` SET status = 1 WHERE id IN (1, 3, 16, 8, 2, 4, 17, 14);
 UPDATE `activity` SET `templateIdOrder` = '[2,4,17,8,1,3,16,14]' WHERE id = 1;
+
+
+
+
+
+--INSERT INTO `activity` (`id`, `startTime`, `endTime`, `templateIdOrder`, `priceRuleId`, `status`) VALUES
+--    (101, '2015-02-14 00:00:00', '2015-03-14 00:00:00', '[2,4,17]', 3, 1);
+
+--INSERT INTO `activity_template_config` (`actId`, `imgId`, `imgThumbId`, `rotate`, `status`) VALUES
+--    ();
+
+INSERT INTO `activity_price_rule` (`id`, `type`, `priceConf`) VALUES
+    (3, 2, '{"defaultPrice":299,"rule":{"0":{"baseNum":1,"beginTime":"2015-02-14 00:00:00","endTime":"2015-03-14 23:59:59"}}}'); 
