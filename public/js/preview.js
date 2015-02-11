@@ -17,10 +17,6 @@
             );
         });
 
-        $("#editButton").fastClick(function(){
-            HC.goToPage(domain + "/postcard/index?orderId=" + order.getOrderId() + "&nonce=" + HC.getNonceStr());
-        });
-
         $("#toggleFaceButton").fastClick(function(){
             toggleFace();
         });
@@ -28,6 +24,7 @@
         $("#prev-step").fastClick(function() {
             order.goToStepTwo();
         });
+
         $(window).on("orientationchange", function() {
             HC.checkOrientation();
         });
@@ -53,12 +50,11 @@
         order.getPostcard().getMessage().setVars({
             salutation: $("#var-salutation").val(),
             content   : $("#var-message").val(),
-            signature : $("#var-signature").val(),
+            signature : $("#var-signature").val()
         });
 
         var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
         var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
-        //frameImg.src = "/images/small/template"+selectedTemplateIndex+".png";
         frameImg.src = $("#var-template").data("thumb");
 
         userImage = document.getElementById("previewUserImg");
@@ -85,7 +81,6 @@
 
         if (isRotate) {
             var temp = a; a = b; b = temp;
-
             $("#previewUserImg").addClass('img_rotate');
         }
         var wRatio = bg_w / a;

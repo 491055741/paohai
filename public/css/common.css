@@ -25,6 +25,11 @@ body {background: rgba(0,0,0,0.7);}
 
 .btlr_radius20 {border-top-left-radius: 20px;border-top-right-radius: 20px;}
 
+.rotate {
+    -webkit-transform:rotate(90deg);
+    transform:rotate(90deg);
+}
+
 .frsb {
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
@@ -453,13 +458,13 @@ a.on i {display: block;}
 .page3{width: 100%; height: 440px;}
 .page3 .bigImg_a, .page3 .frontCover, .page3 .imgLayer_a, .page3 .bgLayer_a, .page3 .bgLayer_img_a {
     position: absolute;
-    width: 203px;
-    height: 300px;
+    width: 300px;
+    height: 208px;
     overflow: hidden;
     z-index: 1;
     top:15px;
     left: 50%;
-    margin-left: -104px;
+    margin-left: -150px;
 }
 .page3 .imgLayer_a {overflow: auto;top:0px;}
 .page3 .img_rotate {
@@ -473,19 +478,42 @@ a.on i {display: block;}
     z-index: 2;
     top:0px;
 }
-.page3 .back_modify, .page3 .pay_conf {
+.page3 .pay_conf {
     left: 50%;
-    top:330px;
-    margin-left: -130px;
+    top:380px;
+    width: 300px;
+    height: 44px;
+    margin-left: -150px;
 }
 .page3 .turn_around {
     left:50%;
     z-index:15;
     opacity:0.6;
-    top: 265px;
-    margin-left: -25px;
+    top: 230px;
+    margin-left: 0px;
 }
-.page3 .pay_conf {margin-left: 10px;}
+.page3 .postageChoice, .page3 .expressDeliveryChoice, .page3 .consumerCode, .page3 .totalPrice {
+    color: #000;
+    font-size: 11px;
+    left:50%;
+    width:100px;
+}
+.page3 .postageChoice {
+    top:300px;
+    margin-left: -150px;
+}
+.page3 .expressDeliveryChoice {
+    top:300px;
+    margin-left: 50px;
+}
+.page3 .consumerCode {
+    top:330px;
+    margin-left: -150px;
+}
+.page3 .totalPrice {
+    top:330px;
+    margin-left: 50px;
+}
 
 @media (max-width: 320px) and (max-height: 480px){
     .page3 .back_modify {margin-left: -100px;}
@@ -500,11 +528,11 @@ a.on i {display: block;}
     height: 208px;
     overflow: hidden;
     z-index: 15;
-    top:46px;
+    top:0px;
     left: 50%;
     margin-left: -150px;
-    -webkit-transform:rotate(90deg);
-    transform:rotate(90deg);
+    /*-webkit-transform:rotate(90deg);*/
+    /*transform:rotate(90deg);*/
     border: 1px solid #ccc;
 }
 #zipcodePreview {
