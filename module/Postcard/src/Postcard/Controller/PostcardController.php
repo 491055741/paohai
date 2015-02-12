@@ -514,6 +514,35 @@ class PostcardController extends AbstractActionController
         return new JsonModel($res);
     }
 
+
+    private function createOrder(Order $order)
+    {  
+        // cancel old order first
+        $orders = $this->getOrderTable()
+            ->getOrdersByUserName($order->userName, 'status='.UNPAY);
+        foreach ($orders as $order) {
+            $order->status = CANCEL;
+            $this->getOrderTable()->saveOrder($order);
+        }
+
+        // new order
+        while (1) {
+            $orderId = date("ymd") . rand(10000, 99999);
+            if (!$this->getOrderTable()->getOrder($orderId)) {
+                break;
+            }
+        }
+
+        $order->id = $orderId;
+        $order->orderDate = date("Y-m-d H:i:s");
+        $order->status = UNPAY;
+
+        $this->getOrderTable()->saveOrder($order);
+
+        return $orderId;
+    }
+
+
     public function updateOrderAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
@@ -593,9 +622,42 @@ class PostcardController extends AbstractActionController
             $html = file_get_contents($url);
         }
 
-        $viewModel = new ViewModel(array('orderId' => $orderId, 'tag' => JS_TAG));
+        $nextFree = false;
+        if ($order->activityId == 101 && $order->price != 0) {
+            $nextFree = true;
+        }
+        $viewModel = new ViewModel(array(
+            'orderId' => $orderId, 
+            'nextFree' => $nextFree,
+            'tag' => JS_TAG
+        ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
+    }
+
+
+    public function redoPostcardAction()
+    {
+        $oldOrderId = $this->getRequest()->getQuery('orderId', '0');
+        $oldOrder = $this->getOrderTable()->getOrder($oldOrderId);
+
+        $order = new Order();
+        $order->userName = $oldOrder->userName;
+        $order->picUrl = $oldOrder->picUrl;
+        $order->templateId = $oldOrder->templateId;
+        $order->offsetX = $oldOrder->offsetX;
+        $order->offsetY = $oldOrder->offsetY;
+        $order->activityId = $oldOrder->activityId;
+        $order->partnerId = $oldOrder->partnerId;
+
+        $orderId = $this->createOrder($order);
+
+        // Goto editpostcard page
+        $url = "http://" . $_SERVER['SERVER_NAME'] . ':' 
+            . $_SERVER["SERVER_PORT"] . "/postcard/editpostcard/" 
+            . $orderId . "?nonce=" . time();
+        // $this->plugin('redirect')->toUrl($url);
+        return $this->redirect()->toUrl($url);
     }
 
     public function deleteAction()

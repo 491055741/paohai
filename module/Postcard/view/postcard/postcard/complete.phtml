@@ -20,7 +20,13 @@
                         <a title="分享到腾讯微博" class="bshare-qqmb"></a>
                         <!-- <a title="分享到QQ" class="bshare-qqim"></a> -->
                     </div>
-
+                    <p>&nbsp;</p>
+                    <?php if ($nextFree): ?>
+                    <div>
+                        <p>情人节特别活动</p>
+                        <p><a href="/postcard/redopostcard?orderId=<?php echo $orderId; ?>">免费再寄一张</a></p>
+                    </div> 
+                    <?php endif; ?>
                     <script src="/js/jquery-1.9.0.min.js"></script>
                     <script src=<?php echo '"/js/complete.js?' . $tag . '"'; ?> ></script>
                     <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=<你的UUID>&style=-1"></script>
