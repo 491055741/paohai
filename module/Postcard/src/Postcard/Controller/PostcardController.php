@@ -593,7 +593,13 @@ class PostcardController extends AbstractActionController
             $html = file_get_contents($url);
         }
 
-        $viewModel = new ViewModel(array('orderId' => $orderId, 'tag' => JS_TAG));
+        $jsApiSignPackage = $this->getUtil()->getJsApiSignPackage();
+
+        $viewModel = new ViewModel(array(
+            'orderId' => $orderId,
+            'tag' => JS_TAG,
+            'jsApiSignPackage' => $jsApiSignPackage,
+        ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
     }
