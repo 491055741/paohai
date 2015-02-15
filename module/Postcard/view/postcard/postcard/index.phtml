@@ -58,18 +58,19 @@
             <?php endforeach; ?>
             </ul>
         </div>
-        <!-- vars begin --> 
-        <input id="var-user-name" type="hidden" value="<?php echo $username; ?>" /> 
-        <input id="var-order-id" type="hidden" value="<?php echo $orderId; ?>" />
-        <input id="var-user-picurl" type="hidden" value="<?php echo htmlspecialchars($picurl, ENT_QUOTES); ?>" />
-        <input id="var-offset-x" type="hidden" value="<?php echo $offsetX; ?>" />
-        <input id="var-offset-y" type="hidden" value="<?php echo $offsetY; ?>" />
-        <input id="var-template-index" type="hidden" value="<?php echo $templateIndex; ?>" /> 
-        <input id="var-activity-id" type="hidden" value="<?php echo $actId ?: ''; ?>" />
-        <input id="var-partner-id" type="hidden" value="<?php echo $partnerId ?: ''; ?>" />
-        <!-- vars end -->
     </div>
 </div>
+<!-- vars begin -->
+<input id="var-user-name" type="hidden" value="<?php echo $username; ?>" />
+<input id="var-order-id" type="hidden" value="<?php echo $orderId; ?>" />
+<input id="var-user-picurl" type="hidden" value="<?php echo htmlspecialchars($picurl, ENT_QUOTES); ?>" />
+<input id="var-offset-x" type="hidden" value="<?php echo $offsetX; ?>" />
+<input id="var-offset-y" type="hidden" value="<?php echo $offsetY; ?>" />
+<input id="var-template-index" type="hidden" value="<?php echo $templateIndex; ?>" />
+<input id="var-activity-id" type="hidden" value="<?php echo $actId ?: ''; ?>" />
+<input id="var-partner-id" type="hidden" value="<?php echo $partnerId ?: ''; ?>" />
+<!-- vars end -->
+
 <script src="/js/jquery-1.9.0.min.js"></script>
 <script type='application/javascript' src='/js/fastclick.js'></script>
 <script src="/js/classie.js?<?php echo $tag; ?>"></script>

@@ -13,6 +13,7 @@
         actId = inputActId;
         userName = varObj.data("username");
         accessToken = varObj.data("accesstoken");
+
         doWxConfig();
     }
 
