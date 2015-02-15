@@ -8,7 +8,7 @@ use Zend\View\Model\ViewModel;
 use CommonUtil;
 use Postcard\Service\ActivityService;
 
-define('JS_TAG', '201502021221');
+define('JS_TAG', '201502141221');
 
 class ActivityController extends AbstractActionController
 {

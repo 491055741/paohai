@@ -214,6 +214,7 @@
         order.setOrderId($("#var-order-id").val())
             .setUserName($("#var-user-name").val());
         order.getPostcard().setPostmarkIndex($("#var-postmark-index").val());
+
         order.getPostcard().getReceiptAddress().setVars({
             name: $("#var-recipient").val(),
             address: $("#var-address").val(),
@@ -225,6 +226,12 @@
             signature: $("#var-signature").val(),
         });
         callPop();
+
+        if ($("#var-activity-id").val() == 102) {  // 长风情人节活动
+            order.getPostcard().setPostmarkIndex('111');
+            $("#memory-stamp-button").hide();
+            $("#latlng-button").hide();
+        }
         setCardInfo();
 
         $("#next-step").on("click", function() {

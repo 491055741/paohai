@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201502021203');
+define('JS_TAG', '201502131605');
 
 
 class PostcardController extends AbstractActionController
@@ -210,20 +210,7 @@ class PostcardController extends AbstractActionController
             $selectedTemplateIndex = array_keys($imgTemplates)[0];
         }
 
-        $userName = $this->getRequest()->getQuery('username');
-        if ( ! $userName) {
-            if ($picUrl == DEFAULT_PICURL) {
-                $userName = DEFAULT_USER;
-            } else {
-                $currUrl = $this->getCurrentUrl();
-                $oauthUrl = $this->getServiceLocator()
-                    ->get("Wechat\Service\OauthService")
-                    ->setRequest($this->getRequest())
-                    ->getOauthUrl($currUrl);
-                Header("Location: $oauthUrl");
-                exit;
-            }
-        }
+        $userName = $this->getRequest()->getQuery('username', DEFAULT_USER);
 
         $viewModel =  new ViewModel(array(
             'templateIndex' => $selectedTemplateIndex,
@@ -240,22 +227,6 @@ class PostcardController extends AbstractActionController
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
-    }
-
-    private function getCurrentUrl() {
-        $uri = $this->getRequest()->getUri();
-        $scheme = $uri->getScheme();
-        $host = $uri->getHost();
-        $port = $uri->getPort();
-        $path = $uri->getPath();
-        $query = $uri->getQuery();
-        $query = trim(str_replace(ltrim($path, "/"), '', $query), "&");
-        $currUrl = $scheme . "://" . $host . ":" . $port . $path;
-        if ($query) {
-            $currUrl .= "?" . $query;
-        }
-
-        return $currUrl;
     }
 
     public function editPostcardAction()
