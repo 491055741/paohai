@@ -9,16 +9,6 @@ CACHE MANIFEST
 /css/wp_icons_light.png
 /css/images/ajax-loader.gif
 /css/images/icons-18-white.png
-/images/small/template1.png
-/images/small/template2.png
-/images/small/template3.png
-/images/small/template4.png
-/images/small/template5.png
-/images/small/template6.png
-/images/small/template7.png
-/images/small/template8.png
-/images/small/template9.png
-/images/small/template10.png
 /images/small/templateVBg.png
 
 #js
@@ -28,8 +18,6 @@ CACHE MANIFEST
 /js/jquery.google.fastbutton.js
 /js/jquery.event.move.js
 /js/jquery.rotate-1.0.1.min.js
-/js/index.js
-#/js/preview.js
 
 
 NETWORK:

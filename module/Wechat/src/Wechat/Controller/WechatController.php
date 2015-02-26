@@ -257,8 +257,6 @@ PROMOTION_TEXT;
 //                            $contentStr = "新用户关注有礼，首次0.01元";
 //                            return true;
                             $contentStr = "订制明信片只需2.99元！";
-                        } else if ($eventKey == "guizhou_activity") {
-                            $contentStr = "活动即将开始，敬请期待。";
                         } else {
                             $contentStr = "请上传一张照片";
                         }
