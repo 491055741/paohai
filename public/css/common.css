@@ -663,8 +663,8 @@ a.on i {display: block;}
 .list-ul-hc a{display:block;position: absolute;right: 0;top: 40%;width:40px;height:40px;background: url("/images/nogou.gif") no-repeat center;}
 .list-ul-hc a.on {background: url("/images/gou.gif") no-repeat center;}
 .menu-btn-hc {height: 50px;background: transparent;border-top: 1px solid #ccc;}
-.menu-btn-hc {bottom: 20px;left:10px;right:10px;height: 50px;text-align: center;padding-top: 5px;}
-.menu-btn-hc input{display:inline-block;width: 40%;}
+.menu-btn-hc {bottom: 20px;left:10px;right:10px;height: 150px;text-align: center;padding-top: 5px;}
+.menu-btn-hc input{display:inline-block;width: 70%;}
 .addr-hc{display: block;margin-left: 40px;}
 .addr_bg {
     top: 0;

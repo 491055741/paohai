@@ -30,6 +30,15 @@
             HC.checkOrientation();
         });
         HC.checkOrientation();
+
+//        $("#showHorizonFrame").on("click", function() {
+//            $("#horizontal").show();
+//            $("#vertical").hide();
+//        });
+//        $("#showVerticalFrame").on("click", function() {
+//            $("#horizontal").hide();
+//            $("#vertical").show();
+//        });
     });
 
 
