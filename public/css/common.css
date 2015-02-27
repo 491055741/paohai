@@ -136,6 +136,16 @@ body {background: rgba(0,0,0,0.7);}
 .up.bgLayer_img {width: 178px;height: 264px;}
 .up.imgLayer {margin-left: -89px;width: 178px;height: 264px;}
 
+#showHorizonFrame, #showVerticalFrame {
+    position: absolute;
+    width: 50%;
+    height: 30px;
+    bottom: 108px;
+}
+#showVerticalFrame {
+    left:50%;
+}
+
 /*缩略图部分*/
 .thumbImg {
     position: absolute;

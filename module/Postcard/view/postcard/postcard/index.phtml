@@ -27,26 +27,48 @@
             <div class="up bgLayer"><img class="up bgLayer_img" src=""></div>
             <div class="up imgLayer"><img class="imgLayer_img" src=""></div>
         </div>
+
+        <input id="showHorizonFrame" type="image" src="/images/back_btn.png?<?php echo $tag; ?>" alt="取消"/>
+        <input id="showVerticalFrame" type="image" src="/images/save_btn.png?<?php echo $tag; ?>" alt="确定"/>
+
         <!--模板缩略图-->
-        <div class="thumbImg up h18 bc0e5a98">
+        <?php $synofiIds = array(22 => 0, 23 => 1, 24 => 2); ?>
+        <div id="horizontal" class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
-            <?php $synofiIds = array(22 => 0, 23 => 1, 24 => 2); ?>
             <?php foreach ($templatesOrder as $templateId): ?>
-                <?php if ( ! isset($imgTemplates[$templateId])) { continue; } ?>
-                <li><img id="thumb_img_<?php echo $templateId; ?>" 
-                    data-id="<?php echo $templateId; ?>" 
-                    data-rotate="<?php echo $imgTemplates[$templateId]["rotate"]; ?>" 
-                    class="thumb_imgs" 
-                    src="<?php echo $imgTemplates[$templateId]["thumbUrl"] . "?$tag"; ?>" 
+                <?php if ( ! isset($imgTemplates[$templateId]) || $imgTemplates[$templateId]["rotate"] == '0') { continue; } ?>
+                <li><img id="thumb_img_<?php echo $templateId; ?>"
+                    data-id="<?php echo $templateId; ?>"
+                    data-rotate="<?php echo $imgTemplates[$templateId]["rotate"]; ?>"
+                    class="thumb_imgs"
+                    src="<?php echo $imgTemplates[$templateId]["thumbUrl"] . "?$tag"; ?>"
                     title="背静缩略图<?php echo $templateId; ?>" /></li>
                     <?php if (in_array($templateId, array_keys($synofiIds))): ?>
                         <?php $x = $synofiIds[$templateId] * 70; ?>
-                    <div class="pa thumb_frame" style="left:<?php echo $x ?>px;"></div> 
+                    <div class="pa thumb_frame" style="left:<?php echo $x ?>px;"></div>
                     <?php endif; ?>
             <?php endforeach; ?>
             </ul>
         </div>
-        <!-- vars begin --> 
+        <div id="vertical" class="thumbImg up h18 bc0e5a98">
+            <ul class="pt20" id="thumb_ul">
+                <?php foreach ($templatesOrder as $templateId): ?>
+                    <?php if ( ! isset($imgTemplates[$templateId]) || $imgTemplates[$templateId]["rotate"] != '0') { continue; } ?>
+                    <li><img id="thumb_img_<?php echo $templateId; ?>"
+                             data-id="<?php echo $templateId; ?>"
+                             data-rotate="<?php echo $imgTemplates[$templateId]["rotate"]; ?>"
+                             class="thumb_imgs"
+                             src="<?php echo $imgTemplates[$templateId]["thumbUrl"] . "?$tag"; ?>"
+                             title="背静缩略图<?php echo $templateId; ?>" /></li>
+                    <?php if (in_array($templateId, array_keys($synofiIds))): ?>
+                        <?php $x = $synofiIds[$templateId] * 70; ?>
+                        <div class="pa thumb_frame" style="left:<?php echo $x ?>px;"></div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <!-- vars begin -->
         <input id="var-user-name" type="hidden" value="<?php echo $username; ?>" /> 
         <input id="var-order-id" type="hidden" value="<?php echo $orderId; ?>" />
         <input id="var-user-picurl" type="hidden" value="<?php echo htmlspecialchars($picurl, ENT_QUOTES); ?>" />
