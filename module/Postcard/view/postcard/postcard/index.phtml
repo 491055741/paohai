@@ -36,7 +36,7 @@
         <div id="horizontal" class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
             <?php foreach ($templatesOrder as $templateId): ?>
-                <?php if ( ! isset($imgTemplates[$templateId]) || $imgTemplates[$templateId]["rotate"] == '0') { continue; } ?>
+                <?php if ( ! isset($imgTemplates[$templateId]) || $imgTemplates[$templateId]["rotate"] != '0') { continue; } ?>
                 <li><img id="thumb_img_<?php echo $templateId; ?>"
                     data-id="<?php echo $templateId; ?>"
                     data-rotate="<?php echo $imgTemplates[$templateId]["rotate"]; ?>"
@@ -53,7 +53,7 @@
         <div id="vertical" class="thumbImg up h18 bc0e5a98">
             <ul class="pt20" id="thumb_ul">
                 <?php foreach ($templatesOrder as $templateId): ?>
-                    <?php if ( ! isset($imgTemplates[$templateId]) || $imgTemplates[$templateId]["rotate"] != '0') { continue; } ?>
+                    <?php if ( ! isset($imgTemplates[$templateId]) || $imgTemplates[$templateId]["rotate"] == '0') { continue; } ?>
                     <li><img id="thumb_img_<?php echo $templateId; ?>"
                              data-id="<?php echo $templateId; ?>"
                              data-rotate="<?php echo $imgTemplates[$templateId]["rotate"]; ?>"

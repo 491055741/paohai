@@ -40,7 +40,7 @@
         <div class="bgK pa"><img src="/images/postmark/small/youchuo-bg.png" alt="邮戳盒背景"/></div>
         <label class="lab2 pa">从邮戳盒子里选一个</label>
         <div class="youchuoWraper pa">
-        <?php for($i = 0; $i < 9; $i++): ?>
+        <?php for($i = 0; $i < 18; $i++): ?>
             <a data-index="<?php echo $i; ?>" href="#1"><img src="/images/postmark/small/youchuo<?php echo $i; ?>.png" alt="邮戳"/><i></i></a>
         <?php endfor; ?>
         </div>
@@ -130,6 +130,17 @@
 <script src="/js/common.js?<?php echo $tag; ?>"></script>
 <script src="/js/locality-select.js?<?php echo $tag; ?>"></script>
 <script src="/js/postcard.js?<?php echo $tag; ?>"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script language="javascript">
+    wx.config({
+        debug: true,
+        appId: '<?php echo $jsApiSignPackage["appId"]; ?>',
+        timestamp:  <?php echo $jsApiSignPackage["timestamp"];?>,
+        nonceStr:  '<?php echo $jsApiSignPackage["nonceStr"];?>',
+        signature: '<?php echo $jsApiSignPackage["signature"];?>',
+        jsApiList: ['startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice']
+    });
+</script>
 <script src="/js/editpostcard.js?<?php echo $tag; ?>"></script>
 </body>
 </html>

@@ -250,10 +250,12 @@ class PostcardController extends AbstractActionController
             $this->getOrderTable()->saveOrder($order);
         }
 
+        $jsApiSignPackage = $this->getUtil()->getJsApiSignPackage();
         return $this->viewModel(array(
             'order' => $order,
             'tag'   => JS_TAG,
             'userName' => $order->userName,
+            'jsApiSignPackage' => $jsApiSignPackage,
         ));
     }
 
@@ -361,7 +363,11 @@ class PostcardController extends AbstractActionController
             return $view;
         }
         $orders = $this->getOrderTable()->getOrdersByUserName($userName, 'status >='.UNPAY);
-        $view = new ViewModel(array('orders' => $orders,));
+        $view = new ViewModel(
+            array(
+                'orders' => $orders,
+                'tag'    => JS_TAG,
+        ));
         $view->setTerminal(true); // disable layout template
         return $view;
     }
