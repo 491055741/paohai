@@ -24,13 +24,9 @@
                 });
             });
             $(document).on("click", ".list-wrap-hc .repeatorder_hc", function() {
-//                        var addressObj = $(this).parents(".list-info-ab");
-//                        $("#pop-address")
-//                            .find(".recipient_input").val(addressObj.find(".addr-name").text()).end() // attr("disabled", true).
-//                            .find(".postcode_input").val(addressObj.find(".addr-post").text()).end()
-//                            .find(".address_input").val(addressObj.find(".addr-addr").text()).end()
-//                            .show();
-                var repeatOrderLink = domain + '/postcard/repeatorder/';
+                var addressObj = $(this).parents(".list-info-ab");
+                var orderId = addressObj.find(".addr-orderid").text();
+                var repeatOrderLink = domain + '/postcard/repeatorder/' + orderId;
                 window.location = repeatOrderLink;
             });
 

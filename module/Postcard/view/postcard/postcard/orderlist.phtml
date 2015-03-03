@@ -8,7 +8,7 @@
 <body>
 
     <div class='list-wrap-hc pa' id='list'  style="display: block;" >
-    <img class="addr_bg pa" src="/images/pop3_bg.png" alt="地址簿背景框"/>
+        <img class="addr_bg pa" src="/images/pop3_bg.png" alt="地址簿背景框"/>
         <h2 class="pa">我的订单</h2>
         <div class='list-ul-hc pa list-ul-hc-ab address-book' style="height: 100%;">
 
@@ -50,7 +50,7 @@
                         ?>
                     </span></li>
                     <li><i>日期：</i><span class='post-hc addr-post'><?php echo substr($order->orderDate, 0, 10); ?></span></li>
-                    <li><i>订单号</i><span class='orderid-hc addr-orderid'><?php echo $order->id ?></span></li>
+                    <li><i>订单号：</i><span class='orderid-hc addr-orderid'><?php echo $order->id ?></span></li>
                     <button class='sel-btn-hc share_hc'></button>
                     <button class='sel-btn-hc repeatorder_hc'></button>
                 </ul>
