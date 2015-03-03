@@ -18,47 +18,39 @@
             <div class="list-info-ab">
                 <p class="addr-title" style="cursor: pointer;">订单</p>
                 <ul style="display: none">
-                    <li><i>姓名：</i><span class='name-hc addr-name'></span></li>
-                    <li><i>地址：</i><span class='addr-hc addr-addr'>test</span></li>
-                    <li><i>邮编：</i><span class='post-hc addr-post'></span></li>
-
-                    <?php
-                    if ($order->status == 100) { // only unpay order could click
-                        echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">'.$order->id.'</a>';
-                    } else {
-                        echo $order->id;
-                    }
-
-                    echo substr($order->orderDate, 0, 10);
-                    echo $this->escapeHtml($order->recipient);
-
-                    switch ($order->status) {
-                        case 99:
-                            echo $this->escapeHtml("已取消");
-                            break;
-                        case 100:// unpay
-                        {
-                            echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">待付款</a>';
-                            break;
-                        }
-                        case 101:
-                        case 102:
-                        case 103:
-                        {
-                            $today = date("Y-m-d");
-                            if (substr($order->orderDate, 0, 10) == $today) {
-                                $status = "处理中";
-                            } else {
-                                $status = "已邮寄";
+                    <li><i>收件人：</i><span class='name-hc addr-name'><?php echo $this->escapeHtml($order->recipient); ?></span></li>
+                    <li><i>状态：</i><span class='addr-hc addr-addr'>
+                        <?php
+                        switch ($order->status) {
+                            case 99:
+                                echo $this->escapeHtml("已取消");
+                                break;
+                            case 100:// unpay
+                            {
+                                echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">待付款</a>';
+                                break;
                             }
-                            echo $this->escapeHtml($status);
-                            break;
+                            case 101:
+                            case 102:
+                            case 103:
+                            {
+                                $today = date("Y-m-d");
+                                if (substr($order->orderDate, 0, 10) == $today) {
+                                    $status = "处理中";
+                                } else {
+                                    $status = "已邮寄";
+                                }
+                                echo $this->escapeHtml($status);
+                                break;
+                            }
+                            default:
+                                echo $this->escapeHtml("已失效");
+                                break;
                         }
-                        default:
-                            echo $this->escapeHtml("已失效");
-                            break;
-                    }
-                    ?>
+                        ?>
+                    </span></li>
+                    <li><i>日期：</i><span class='post-hc addr-post'><?php echo substr($order->orderDate, 0, 10); ?></span></li>
+                    <li><i>订单号</i><span class='orderid-hc addr-orderid'><?php echo $order->id ?></span></li>
                     <button class='sel-btn-hc share_hc'></button>
                     <button class='sel-btn-hc repeatorder_hc'></button>
                 </ul>

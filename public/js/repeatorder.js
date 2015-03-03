@@ -36,7 +36,7 @@
             url          : $("#var-user-picurl").val(),
             templateIndex: $("#var-template-index").val(),
             offsetX      : $("#var-offset-x").val(),
-            offsetY      : $("#var-offset-y").val(),
+            offsetY      : $("#var-offset-y").val()
         });
         order.getPostcard().getReceiptAddress().setVars({
             name   : $("#var-recipient").val(),
