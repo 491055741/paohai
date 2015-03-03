@@ -21,23 +21,6 @@ if ($payPrice != 0) {
 <div class="loadMask orientation-tips pa" style="display:none">
     <div><span>亲，竖屏操作体验更好哦</span></div>
 </div>
-<input id="var-user-name"       type="hidden" value="" />
-<input id="var-order-id"        type="hidden" value="<?php echo $order->id ?>" />
-<input id="var-user-picurl"     type="hidden" value="<?php echo $order->picUrl ?>" />
-<input id="var-offset-x"        type="hidden" value="<?php echo $order->offsetX ?>" />
-<input id="var-offset-y"        type="hidden" value="<?php echo $order->offsetY ?>" />
-<input id="var-template-index"  type="hidden" value="<?php echo $order->templateId ?>" />
-<input id="var-salutation"      type="hidden" value="<?php echo $order->salutation ?>" />
-<input id="var-message"         type="hidden" value="<?php echo $order->message ?>" />
-<input id="var-signature"       type="hidden" value="<?php echo $order->signature ?>" />
-<input id="var-recipient"       type="hidden" value="<?php echo $order->recipient ?>" />
-<input id="var-address"         type="hidden" value="<?php echo $order->address ?>" />
-<input id="var-zipcode"         type="hidden" value="<?php echo $order->zipCode ?>" />
-<input id="var-mobile"          type="hidden" value="<?php echo $order->recipientMobile ?>" />
-<input id="var-voice-media-id"  type="hidden" value="<?php echo $order->voiceMediaId ?>" />
-<input id="var-postmark-index"  type="hidden" value="<?php echo $order->postmarkId ?>" />
-<input id="var-city"            type="hidden" value="<?php echo $city ?>" />
-<input id="var-template"        type="hidden" data-rotate="<?php echo $template["rotate"]; ?>" data-thumb="<?php echo $template["thumbUrl"]; ?>" />
 
 <div class="container">
     <!--菜单条-->
@@ -82,6 +65,25 @@ if ($payPrice != 0) {
         <input type="image" id="gotoPayButton" class="pay_conf pa" src="/images/querenzhifu.png" alt="确认支付"/>
     </div>
 </div>
+
+<!--<input id="var-user-name"       type="hidden" value="" />-->
+<input id="var-order-id"        type="hidden" value="<?php echo $order->id ?>" />
+<input id="var-user-picurl"     type="hidden" value="<?php echo $order->picUrl ?>" />
+<input id="var-offset-x"        type="hidden" value="<?php echo $order->offsetX ?>" />
+<input id="var-offset-y"        type="hidden" value="<?php echo $order->offsetY ?>" />
+<input id="var-template-index"  type="hidden" value="<?php echo $order->templateId ?>" />
+<input id="var-salutation"      type="hidden" value="<?php echo $order->salutation ?>" />
+<input id="var-message"         type="hidden" value="<?php echo $order->message ?>" />
+<input id="var-signature"       type="hidden" value="<?php echo $order->signature ?>" />
+<input id="var-recipient"       type="hidden" value="<?php echo $order->recipient ?>" />
+<input id="var-address"         type="hidden" value="<?php echo $order->address ?>" />
+<input id="var-zipcode"         type="hidden" value="<?php echo $order->zipCode ?>" />
+<input id="var-mobile"          type="hidden" value="<?php echo $order->recipientMobile ?>" />
+<input id="var-voice-media-id"  type="hidden" value="<?php echo $order->voiceMediaId ?>" />
+<input id="var-postmark-index"  type="hidden" value="<?php echo $order->postmarkId ?>" />
+<input id="var-city"            type="hidden" value="<?php echo $city ?>" />
+<input id="var-template"        type="hidden" data-rotate="<?php echo $template["rotate"]; ?>" data-thumb="<?php echo $template["thumbUrl"]; ?>" />
+
 <script src="/js/jquery-1.9.0.min.js"></script>
 <script src="/js/google.fastbutton.js"></script>
 <script src="/js/jquery.google.fastbutton.js"></script>

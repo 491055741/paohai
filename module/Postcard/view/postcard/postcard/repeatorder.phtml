@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>趣邮明信片</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/css/reset.css?<?php echo $tag; ?>"/>
+    <link rel="stylesheet" href="/css/common.css?<?php echo $tag; ?>"/>
+</head>
+<!--onLoad="init()"-->
+<body>
+
+<div class="container">
+
+    <!-- 地址簿 -->
+    <div class='list-wrap-hc pa' id='list'  style="display: block;" >
+        <img class="addr_bg pa" src="/images/pop3_bg.png" alt="地址簿背景框"/><!--huangchun 2014-11-12-->
+        <h2 class="pa">好友管理</h2>
+        <div class="page3 pa">
+            <div class="bigImg_a pa" id="imageFace">
+                <div class="bgLayer_a pa"><img class="bgLayer_img_a"></div>
+                <div class="imgLayer_a pa">
+                    <!--                 <img class="imgLayer_img_a">-->
+                    <img id="previewUserImg" style="position:absolute; left:0"></img>
+                    <!--                <canvas id="previewUserImg" style="position:absolute; left:0"></canvas>-->
+                </div>
+            </div>
+        </div>
+        <div class='menu-btn-hc menu-btn-hc-ab pa' id='m_btn'>
+            <button id="add-contact" class="add_hc w120h50 pa"></button>
+            <button id="share-contact" class="share_hc w120h50 pa"></button>
+        </div>
+    </div>
+    <!-- 地址簿end -->
+</div>
+
+<div style="display: none">
+    <input id="var-order-id"        type="hidden" value="<?php echo $order->id ?>" />
+    <input id="var-user-picurl"     type="hidden" value="<?php echo $order->picUrl ?>" />
+    <input id="var-offset-x"        type="hidden" value="<?php echo $order->offsetX ?>" />
+    <input id="var-offset-y"        type="hidden" value="<?php echo $order->offsetY ?>" />
+    <input id="var-template-index"  type="hidden" value="<?php echo $order->templateId ?>" />
+    <input id="var-template"        type="hidden" data-rotate="<?php echo $template["rotate"]; ?>" data-thumb="<?php echo $template["thumbUrl"]; ?>" />
+</div>
+<script src="/js/jquery-1.9.0.min.js"></script>
+<script src="/js/google.fastbutton.js"></script>
+<script src="/js/jquery.google.fastbutton.js"></script>
+<script src="/js/classie.js"></script>
+<script src="/js/common.js?<?php echo $tag; ?>"></script>
+<script src="/js/postcard.js?<?php echo $tag; ?>"></script>
+<script src="/js/repeatorder.js?<?php echo $tag; ?>"></script>
+</body>
+</html>

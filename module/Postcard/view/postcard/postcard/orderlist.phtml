@@ -3,91 +3,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <meta name="format-detection" content="telephone=no" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <style type="text/css">
-        .table {
-            margin-left: 5px;
-            margin-top:40px;
-        }
-        table tr th, table tr td {
-            font-size: 12;
-        }
-        .background {
-            top: 0;
-            left: 0;
-            bottom: 0;
-            z-index: -1;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/orderlist.css?<?php echo $tag; ?>"/>
 </head>
 <body>
 
-            <img class="background" src="/images/pop3_bg.png" alt="地址簿背景框"/>
     <div class='list-wrap-hc pa' id='list'  style="display: block;" >
-    <!--    <img class="addr_bg pa" src="/images/pop3_bg.png" alt="地址簿背景框"/><!--huangchun 2014-11-12-->-->
+    <img class="addr_bg pa" src="/images/pop3_bg.png" alt="地址簿背景框"/>
         <h2 class="pa">我的订单</h2>
         <div class='list-ul-hc pa list-ul-hc-ab address-book' style="height: 100%;">
 
-<?php foreach ($orders as $order) : ?>
-    <div id="address-template" style="display:block">
-        <div class="list-info-ab">
-            <p class="addr-title" style="cursor: pointer;">订单</p>
-            <ul>
-                <li><i>姓名：</i><span class='name-hc addr-name'></span></li>
-                <li>
-                    <i>地址：</i>
-                    <span class='addr-hc addr-addr'>test</span>
-                </li>
-                <li><i>邮编：</i><span class='post-hc addr-post'></span></li>
-                <button class='sel-btn-hc delete_hc'></button>
-                <button class='sel-btn-hc edit_hc'></button>
-            </ul>
-        </div>
-    </div>
+        <!-- todo: 以后可改为增加一个查询订单的json接口，用ajax查询填充显示，像地址簿一样   -->
+        <?php foreach ($orders as $order) : ?>
+        <div id="address-template" style="display:block">
+            <div class="list-info-ab">
+                <p class="addr-title" style="cursor: pointer;">订单</p>
+                <ul style="display: none">
+                    <li><i>姓名：</i><span class='name-hc addr-name'></span></li>
+                    <li><i>地址：</i><span class='addr-hc addr-addr'>test</span></li>
+                    <li><i>邮编：</i><span class='post-hc addr-post'></span></li>
 
-        <?php
-            if ($order->status == 100) { // only unpay order could click
-                echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">'.$order->id.'</a>';
-            } else {
-                echo $order->id;
-            }
-            ?>
-        <?php echo substr($order->orderDate, 0, 10);?>
-        <?php echo $this->escapeHtml($order->recipient);?>
-
-            <?php
-            switch ($order->status) {
-                case 99:
-                    echo $this->escapeHtml("已取消");
-                    break;
-                case 100:// unpay
-                {
-                    echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">待付款</a>';
-                    break;
-                }
-                case 101:
-                case 102:
-                case 103:
-                {
-                    $today = date("Y-m-d");
-                    if (substr($order->orderDate, 0, 10) == $today) {
-                        $status = "处理中";
+                    <?php
+                    if ($order->status == 100) { // only unpay order could click
+                        echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">'.$order->id.'</a>';
                     } else {
-                        $status = "已邮寄";
+                        echo $order->id;
                     }
-                    echo $this->escapeHtml($status);
-                    break;
-                }
-                default:
-                    echo $this->escapeHtml("已失效");
-                    break;
-            }
 
-            ?>
-<?php endforeach; ?>
+                    echo substr($order->orderDate, 0, 10);
+                    echo $this->escapeHtml($order->recipient);
+
+                    switch ($order->status) {
+                        case 99:
+                            echo $this->escapeHtml("已取消");
+                            break;
+                        case 100:// unpay
+                        {
+                            echo '<a href="'.$this->url('postcard', array('action'=>'index')).'?orderId='.$order->id.'">待付款</a>';
+                            break;
+                        }
+                        case 101:
+                        case 102:
+                        case 103:
+                        {
+                            $today = date("Y-m-d");
+                            if (substr($order->orderDate, 0, 10) == $today) {
+                                $status = "处理中";
+                            } else {
+                                $status = "已邮寄";
+                            }
+                            echo $this->escapeHtml($status);
+                            break;
+                        }
+                        default:
+                            echo $this->escapeHtml("已失效");
+                            break;
+                    }
+                    ?>
+                    <button class='sel-btn-hc share_hc'></button>
+                    <button class='sel-btn-hc repeatorder_hc'></button>
+                </ul>
+            </div>
+        </div>
+        <?php endforeach; ?>
         </div>
     </div>
 
@@ -104,11 +81,9 @@
                 onBridgeReady();
             }
         }
-
         function onBridgeReady() {
             WeixinJSBridge.call('hideOptionMenu');
         }
-
     </script>
     <script src="/js/jquery-1.9.0.min.js"></script>
     <script src="/js/google.fastbutton.js"></script>

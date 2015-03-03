@@ -372,6 +372,28 @@ class PostcardController extends AbstractActionController
         return $view;
     }
 
+    public function repeatOrderAction()
+    {
+        $orderId = $this->params()->fromRoute('id', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        if ($orderId == '0' || !$order) {
+            $view =  new ViewModel(array('code' => 1, 'msg' => 'invalid order id '.$orderId));
+            $view->setTemplate('postcard/postcard/error');
+            return $view;
+        }
+        $activityService = $this->getServiceLocator()
+            ->get('Postcard\Service\Activity\ActivityService');
+        $template = $activityService->getOrderTemplate($order);
+        $view = new ViewModel(
+            array(
+                'order'    => $order,
+                'template' => $template,
+                'tag'      => JS_TAG,
+            ));
+        $view->setTerminal(true); // disable layout template
+        return $view;
+    }
+
     public function ordersToRefundAction()
     {
         $view =  new ViewModel(array('orders' => $this->getOrderTable()->getOrdersToRefund()));

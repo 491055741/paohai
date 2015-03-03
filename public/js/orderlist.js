@@ -25,20 +25,22 @@
                             currentAddress.addClass("on").find("ul").show();
                         }
                     });
-                    $(document).on("click", ".list-wrap-hc .delete_hc", function() {
+                    $(document).on("click", ".list-wrap-hc .share_hc", function() {
                         var addressObj = $(this).parents(".list-info-ab");
                         var contactName = addressObj.find(".addr-name").text();
                         self.deleteContact(contactName, function() {
                             addressObj.remove();
                         });
                     });
-                    $(document).on("click", ".list-wrap-hc .edit_hc", function() {
-                        var addressObj = $(this).parents(".list-info-ab");
-                        $("#pop-address")
-                            .find(".recipient_input").val(addressObj.find(".addr-name").text()).end() // attr("disabled", true).
-                            .find(".postcode_input").val(addressObj.find(".addr-post").text()).end()
-                            .find(".address_input").val(addressObj.find(".addr-addr").text()).end()
-                            .show();
+                    $(document).on("click", ".list-wrap-hc .repeatorder_hc", function() {
+//                        var addressObj = $(this).parents(".list-info-ab");
+//                        $("#pop-address")
+//                            .find(".recipient_input").val(addressObj.find(".addr-name").text()).end() // attr("disabled", true).
+//                            .find(".postcode_input").val(addressObj.find(".addr-post").text()).end()
+//                            .find(".address_input").val(addressObj.find(".addr-addr").text()).end()
+//                            .show();
+                        var repeatOrderLink = domain + '/postcard/repeatorder?userName=' + userName;
+                        window.location = repeatOrderLink;
                     });
 
                     isInited = true;
