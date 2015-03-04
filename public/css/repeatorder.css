@@ -1,6 +1,10 @@
 
+.page3 {
+    height: 100%;
+}
+
 #text {
     width: 90%;
     left: 5%;
-    top: 230px;
+    top: 250px;
 }

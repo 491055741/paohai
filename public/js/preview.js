@@ -1,7 +1,6 @@
 (function($) {
     var domain = "http://" + window.location.host;
     var isShowImageFace = true;
-//    var userImage = new Image();
     var userImage;
     $(function() {
 
@@ -140,76 +139,7 @@
                 break;
         }
     }
-/*
-    function initPreview() {
 
-        var frameImg = document.getElementsByClassName('bgLayer_img_a')[0];
-//        var imageLayer = document.getElementsByClassName('imgLayer_a')[0];
-
-        var pic_orig_w = userImage.width,
-            pic_orig_h = userImage.height,
-            bg_w = frameImg.offsetWidth,
-            bg_h = frameImg.offsetHeight;
-
-        var a = pic_orig_w, b = pic_orig_h;
-        var selectedTemplateIndex = order.getPostcard().getImage().getTemplateIndex();
-        var isRotate = (selectedTemplateIndex >= 6);
-        var imageOffsetX = order.getPostcard().getImage().getOffsetX();
-        var imageOffsetY = order.getPostcard().getImage().getOffsetY();
-        if (isRotate) {
-            temp = a; a = b; b = temp;
-        }
-        var wRatio = bg_w / a;
-        var hRatio = bg_h / b;
-        var ratio = wRatio > hRatio ? wRatio : hRatio;
-        var pic_w = a * ratio;
-        var pic_h = b * ratio;
-
-        var canvas = document.getElementById('previewUserImg');
-        canvas.width = pic_w;
-        canvas.height = pic_h;
-        var ctx = canvas.getContext('2d');
-        if (!isRotate) {
-            ctx.save();
-            ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_w, pic_h);
-            ctx.restore();
-        } else {
-            ctx.save();
-            ctx.translate(pic_w,0);
-            ctx.rotate(90 * Math.PI / 180);
-            ctx.drawImage(userImage, 0, 0, userImage.width, userImage.height, 0, 0, pic_h, pic_w);
-            ctx.restore();
-        }
-        $('#previewUserImg').css({
-            left: imageOffsetX * pic_w,
-            top: imageOffsetY * pic_h,
-        });
-
-        $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
-        $("#messagePreview").text(order.getPostcard().getMessage().getContent());
-        $("#addressPreview").text(order.getPostcard().getReceiptAddress().getAddress());
-        $("#zipcodePreview").text(order.getPostcard().getReceiptAddress().getZipcode());
-        $("#signaturePreview").text('－' + order.getPostcard().getMessage().getSignature());
-        $("#recipientPreview").text(order.getPostcard().getReceiptAddress().getName());
-
-        if ($("#var-voice-media-id").val() != "") {
-            $("#qrImagePreview").css("display","inline");
-            $("#qrImageTextPreview").css("display","inline");
-            $("#qrImageTextPreview").text("扫扫听留言");
-        }
-        if (order.getPostcard().getPostmarkIndex() != "") {
-            $("#postmarkPreview").css("display","inline");
-            $("#postmarkPreview").attr("src","/images/postmark/small/youchuo"+order.getPostcard().getPostmarkIndex()+".png");
-        } else if ($("#var-city").val() != '0') {
-            $("#postmarkPreview").css("display","inline");
-            $("#postmarkCityPreview").css("display","inline");
-            $("#postmarkDatePreview").css("display","inline");
-            $("#postmarkPreview").attr("src","/images/postmark/small/youchuo_empty.png");
-            $("#postmarkCityPreview").text($("#var-city").val());
-            $("#postmarkDatePreview").text(getDateStr());
-        }
-    }
-*/
     function getDateStr() {
         var myDate = new Date();
         var year = myDate.getFullYear();

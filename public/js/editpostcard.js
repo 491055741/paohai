@@ -21,17 +21,8 @@
         $("#liuyan").val(messageInfo.getContent());
         //邮戳
         if (postmarkIndex !== "") {
-            $("#post_stamp").attr("src", "/images/postmark/small/youchuo"+ postmarkIndex +".png").show();
-        } else {
-            $("#post_stamp").hide();
+            $("#memory-stamp-button").attr("src", "/images/postmark/small/youchuo"+ postmarkIndex +".png");
         }
-
-        //邮编回填
-//        var zipcode = receiptInfo.getZipcode() || "000000";//邮政编码
-//        var zipcodeArr = String(zipcode).split("");
-//        $(".youzhen em").each(function() {
-//            $(this).text(zipcodeArr.shift());
-//        });
 
         //弹窗1
         if (postmarkIndex != "") {
@@ -56,7 +47,7 @@
 
     function callPop() {
         var postmarkIndex = order.getPostcard().getPostmarkIndex();
-        var isVoiceTipShown = isMediaAvailable ? false : true;
+        var isVoiceTipShown = true; //isMediaAvailable ? false : true;    新版UI貌似不需要再显示此tips，所以固定设为true
         $("#memory-stamp-button").on("click", function() { //显示弹窗1
             $(".pop1").show();
             setCardInfo();
@@ -137,29 +128,18 @@
         var voiceLocalId = null;
         var isRecording  = false;
 
+        // todo: 设置播放按钮为disable状态
         if (!voiceMediaId || voiceMediaId == '0') {
-//            $(".pop3 .play_voice_btn").css("display","none");
-        } else {
-            $(".pop3 .myName").css({width: 130});
-//            $("#voiceMessageButton").attr({'src': '/images/small/rerecord_voice_btn.png'});
         }
 
         $(".pop3 .voice_btn").on("click", function() { //语音留言按钮
-//            messageInfo.setVars({
-//                salutation: $(".pop3 .recipient_input").val(),
-//                content: $(".pop3 .liuyan").val(),
-//                signature: $(".pop3 .myName").val(),
-//            });
-//            order.requestVoice();
             if (isRecording) {
                 isRecording = false;
                 $(".voice_btn").attr("src", "/images/voice_icon.gif");
 
                 wx.stopRecord({  // 停止录音接口
                     success: function (res) {
-                        // show play button, shorten the name input
-                        $(".pop3 .play_voice_btn").css("display","block");
-                        $(".pop3 .myName").css({width: 130});
+                        // todo: enable the play button
 
                         voiceLocalId = res.localId;
                         uploadVoice(voiceLocalId);
@@ -199,14 +179,6 @@
         /********** address book **************/
         $(".pop2 .save_add").on("click", function() { // 存入地址
             $(this).toggleClass("in");
-            /*
-            receiptInfo.setVars({
-                name: $(".pop2 .recipient_input").val(),
-                address: $(".pop2 .to_address").val(),
-                zipcode: $(".pop2 .postcode").val(),
-            });
-            order.saveContact();
-            */
         });
         $(".pop2 .go_add").on("click", function() { // 唤起地址簿按钮
             order.getContacts(function(contacts) {

@@ -101,30 +101,6 @@
             width: pic_w,
             height: pic_h
         });
-
-        $("#salutationPreview").text(order.getPostcard().getMessage().getSalutation());
-        $("#messagePreview").text(order.getPostcard().getMessage().getContent());
-        $("#addressPreview").text(order.getPostcard().getReceiptAddress().getAddress());
-        $("#zipcodePreview").text(order.getPostcard().getReceiptAddress().getZipcode());
-        $("#signaturePreview").text('－' + order.getPostcard().getMessage().getSignature());
-        $("#recipientPreview").text(order.getPostcard().getReceiptAddress().getName());
-
-        if ($("#var-voice-media-id").val() != "") {
-            $("#qrImagePreview").css("display","inline");
-            $("#qrImageTextPreview").css("display","inline");
-            $("#qrImageTextPreview").text("扫扫听留言");
-        }
-        if (order.getPostcard().getPostmarkIndex() != "") {
-            $("#postmarkPreview").css("display","inline");
-            $("#postmarkPreview").attr("src","/images/postmark/small/youchuo"+order.getPostcard().getPostmarkIndex()+".png");
-        } else if ($("#var-city").val() != '0') {
-            $("#postmarkPreview").css("display","inline");
-            $("#postmarkCityPreview").css("display","inline");
-            $("#postmarkDatePreview").css("display","inline");
-            $("#postmarkPreview").attr("src","/images/postmark/small/youchuo_empty.png");
-            $("#postmarkCityPreview").text($("#var-city").val());
-            $("#postmarkDatePreview").text(getDateStr());
-        }
     }
 
     function handtouch (e) {
