@@ -624,8 +624,7 @@ class PostcardController extends AbstractActionController
         $jsApiSignPackage = $this->getUtil()->getJsApiSignPackage();
 
         $viewModel = new ViewModel(array(
-            'userName'=> $order->userName,
-            'orderId' => $orderId,
+            'order' => $order,
             'tag' => JS_TAG,
             'jsApiSignPackage' => $jsApiSignPackage,
         ));

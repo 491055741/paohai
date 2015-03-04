@@ -22,14 +22,15 @@
         </div>
         <div id="text" class="pa">您可以保留封面及选定的边框，只需输入收件地址及留言等信息即可。</div>
         <div class='menu-btn-hc menu-btn-pop pa'>
-            <input id="pop-cancel" type="image" src="/images/back_btn.png?<?php echo $tag; ?>" alt="取消"/>
-            <input id="pop-confirm" type="image" src="/images/save_btn.png?<?php echo $tag; ?>" alt="确定"/>
+            <input id="cancel-btn" type="image" src="/images/back_btn.png?<?php echo $tag; ?>" alt="取消"/>
+            <input id="confirm-btn" type="image" src="/images/save_btn.png?<?php echo $tag; ?>" alt="确定"/>
         </div>
     </div>
 </div>
 
 <div style="display: none">
     <input id="var-order-id"        type="hidden" value="<?php echo $order->id ?>" />
+    <input id="var-user-name"       type="hidden" value="<?php echo $order->userName ?>" />
     <input id="var-user-picurl"     type="hidden" value="<?php echo $order->picUrl ?>" />
     <input id="var-offset-x"        type="hidden" value="<?php echo $order->offsetX ?>" />
     <input id="var-offset-y"        type="hidden" value="<?php echo $order->offsetY ?>" />

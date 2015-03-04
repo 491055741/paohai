@@ -7,18 +7,17 @@
 
         initOrder();
 
-        $("#gotoPayButton").fastClick(function(){
-            jsApiCall();
-            var url = "http://" + window.location.host + "/wxpay/asyncmakepicture/" + order.getOrderId();
-            $.get(
-                url,
-                function success(data) {
-                }
-            );
+        $("#cancel-btn").fastClick(function() {
+            var nonce = new Date().getTime();
+            var url = "http://" + window.location.host + "/postcard/orderlist?userName=" + $('#var-user-name').val() + "&nonce=" + nonce;
+            window.location = url;
         });
 
-        $("#prev-step").fastClick(function() {
-            order.goToStepTwo();
+        $("#confirm-btn").fastClick(function() {
+            // todo: make new order with this order's image
+            var nonce = new Date().getTime();
+            var url = "http://" + window.location.host + "/postcard?picurl=" + $('#var-user-picurl').val() + "&nonce=" + nonce;
+            window.location = url;
         });
 
         $(window).on("orientationchange", function() {
