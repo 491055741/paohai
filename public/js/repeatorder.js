@@ -14,7 +14,6 @@
         });
 
         $("#confirm-btn").fastClick(function() {
-            // todo: make new order with this order's image
             var nonce = new Date().getTime();
             var url = "http://" + window.location.host + "/postcard?picurl=" + $('#var-user-picurl').val() + "&nonce=" + nonce;
             window.location = url;
