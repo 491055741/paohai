@@ -1,8 +1,10 @@
 (function($) {
-    orderId = $('#orderId').val();
-    $(function() {
-//        var postcardurl = "http://" + window.location.host + "/postcard/shareimage/" + orderId;
-    })
+
+    $(".goto_orderlist").fastClick(function() {
+        var nonce = new Date().getTime();
+        var url = "http://" + window.location.host + "/postcard/orderlist?userName=" + $('#var-user-name').val() + "&nonce=" + nonce;
+        window.location = url;
+    });
 
     wx.ready(function() {
 

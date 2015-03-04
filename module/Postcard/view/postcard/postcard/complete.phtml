@@ -1,6 +1,8 @@
 <!DOCTYPE html  >
 <html>
     <head>
+        <meta charset="UTF-8">
+        <title>趣邮明信片</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/common.css?<?php echo $tag; ?>"/>
@@ -18,8 +20,14 @@
         </div>
     </body>
 
-    <input id="orderId" type="hidden" value=<?php echo $orderId ?> >
+    <div style="display: none">
+    <input id="var-order-id" type="hidden" value=<?php echo $orderId ?> >
+    <input id="var-user-name" type="hidden" value=<?php echo $userName ?> >
+    </div>
+
     <script src="/js/jquery-1.9.0.min.js"></script>
+    <script src="/js/google.fastbutton.js"></script>
+    <script src="/js/jquery.google.fastbutton.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script language="javascript">
         wx.config({
