@@ -99,7 +99,8 @@
                 address: $(".pop2 .province_input").val()
                     + $(".pop2 .city_input").val()
                     + $(".pop2 .address_input").val(),
-                zipcode: $(".pop2 .postcode_input").val()
+                zipcode: $(".pop2 .postcode_input").val(),
+                mobile:  $(".pop2 .mobile_input").val()
             });
             var errMsg = HC.checkAddress(receiptInfo);
             if (errMsg) {
@@ -241,6 +242,7 @@
             name: $("#var-recipient").val(),
             address: $("#var-address").val(),
             zipcode: $("#var-zipcode").val(),
+            mobile:  $("#var-mobile").val()
         });
         order.getPostcard().getMessage().setVars({
             salutation: $("#var-salutation").val(),

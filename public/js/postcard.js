@@ -149,7 +149,8 @@
         this.varCollection = {
             name: "",
             address: "",
-            zipcode: ""
+            zipcode: "",
+            mobile: ""
         };
     }
     $.extend(Address.prototype, {
@@ -182,6 +183,13 @@
         },
         setZipcode: function(zipcode) {
             this.varCollection.zipcode = zipcode;
+            return this;
+        },
+        getMobile: function() {
+            return this.varCollection.mobile;
+        },
+        setMobile: function(mobile) {
+            this.varCollection.mobile = mobile;
             return this;
         }
     });
@@ -544,6 +552,7 @@
                 recipient: this.postcard.getReceiptAddress().getName(),
                 address: this.postcard.getReceiptAddress().getAddress(),
                 zipcode: this.postcard.getReceiptAddress().getZipcode(),
+                mobile: this.postcard.getReceiptAddress().getMobile(),
                 salutation: this.postcard.getMessage().getSalutation(),
                 message: this.postcard.getMessage().getContent(),
                 signature: this.postcard.getMessage().getSignature(),
@@ -677,13 +686,14 @@
                 contactName: this.postcard.getReceiptAddress().getName(),
                 address: this.postcard.getReceiptAddress().getAddress(),
                 zipCode: this.postcard.getReceiptAddress().getZipcode(),
+                mobile:  this.postcard.getReceiptAddress().getMobile()
             };
             $.ajax({
                 url: url,
                 type: "POST",
                 data: params,
                 dataType: "json",
-                timeout: 10000,
+                timeout: 10000
             }).done(function(data) {
                 HC.log("save receiptAddress success");
             }).fail(function(xmlhttprequest, err, e) {
