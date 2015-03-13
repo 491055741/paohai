@@ -7,6 +7,7 @@ class Contact
     public $contactName; // 联系人姓名
     public $zipCode;
     public $address;
+    public $mobile;
 
     public function exchangeArray($data)
     {
@@ -14,5 +15,6 @@ class Contact
         $this->contactName   = (isset($data['contactName'])) ? $data['contactName'] : null;
         $this->zipCode       = (isset($data['zipCode'])) ? $data['zipCode'] : null;
         $this->address       = (isset($data['address'])) ? $data['address'] : null;
+        $this->mobile        = (isset($data['mobile'])) ? $data['mobile'] : null;
     }
 }

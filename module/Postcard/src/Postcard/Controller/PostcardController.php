@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201502131605');
+define('JS_TAG', '201503131605');
 
 
 class PostcardController extends AbstractActionController
@@ -403,6 +403,7 @@ class PostcardController extends AbstractActionController
 
         $contact->address = $this->getRequest()->getPost('address', '');
         $contact->zipCode = $this->getRequest()->getPost('zipCode', '');
+        $contact->mobile  = $this->getRequest()->getPost('mobile', '');
         $this->getContactTable()->saveContact($contact);
 
         $res = array(

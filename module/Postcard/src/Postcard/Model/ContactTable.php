@@ -22,6 +22,7 @@ class ContactTable
             $entry->contactName = $row->contactName;
             $entry->address = $row->address;
             $entry->zipCode = $row->zipCode;
+            $entry->mobiel = $row->mobile;
             $entries[] = $entry;
         }
         return $entries;
@@ -44,6 +45,7 @@ class ContactTable
             'contactName'   => $contact->contactName,
             'zipCode'       => $contact->zipCode,
             'address'       => $contact->address,
+            'mobile'        => $contact->mobile
         );
 
         if ($this->getContact($contact->userName, $contact->contactName)) {
