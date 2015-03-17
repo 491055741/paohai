@@ -233,7 +233,12 @@
             order.getPostcard().setPostmarkIndex('111');
             $("#memory-stamp-button").hide();
             $("#latlng-button").hide();
+        } else if ($("#var-activity-id").val() == 104) {  // 天府童星活动
+            order.getPostcard().setPostmarkIndex('112');
+            $("#memory-stamp-button").hide();
+            $("#latlng-button").hide();
         }
+
         setCardInfo();
 
         $("#next-step").on("click", function() {

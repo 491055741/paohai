@@ -1,0 +1,38 @@
+<style type="text/css">
+    body {
+        margin:0;
+        padding:0;
+    }
+
+    #makePostcardBtn {
+        background: url('/images/activity/guizhou/makePostcardBtn.png') no-repeat;
+        background-size: 100%, 100%;
+        position:absolute;
+        border: none;
+        width:33%;
+        top: 0px;
+        height:10%;
+        left:30%;
+    }
+</style>
+<script type="text/javascript">
+    function initPage() {
+        document.getElementById('makePostcardBtn').style.marginTop = document.body.scrollWidth/600 * 780;
+        document.getElementById('makePostcardBtn').style.height = document.body.clientWidth/600 * 90;
+        $('#makePostcardBtn').show();
+    }
+
+    function makePostcard(data) {
+        window.location.href = data.url;
+    }
+
+    window.onload = initPage;
+
+    $(function() {
+        actIntro.init(104, "00001");
+
+        $(document).on("click", "#makePostcardBtn", function() {
+            actIntro.chooseImage(makePostcard);
+        });
+    });
+</script>
