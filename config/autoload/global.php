@@ -11,7 +11,7 @@
  * file.
  */
 
-if (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false) {
+if (stripos($_SERVER['SERVER_NAME'], 'quyoucard.com') !== false) {
     $dbhost = 'rdsyuqef2yuqef2.mysql.rds.aliyuncs.com';
 } else {
     $dbhost = 'localhost';
