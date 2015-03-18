@@ -66,5 +66,3 @@ class WxPayConf_pub
         return 'http://'.$_SERVER['HTTP_HOST'].'/wxpay/result';
     }
 }
-	
-?>
