@@ -79,4 +79,3 @@ class WXJsPay {
         return $jsApiParameters;
     }
 }
-?>

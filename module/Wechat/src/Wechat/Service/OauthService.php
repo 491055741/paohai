@@ -62,5 +62,3 @@ class OauthService extends AbstractService
         return $url;
     }
 }
-
-/* End of file */

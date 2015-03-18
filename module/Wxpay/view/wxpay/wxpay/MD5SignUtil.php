@@ -31,6 +31,3 @@ class MD5SignUtil {
 	}
 	
 }
-
-
-?>
