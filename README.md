@@ -10,3 +10,6 @@ https://packages.zendframework.com/releases/ZendFramework-2.3.1/ZendFramework-2.
 部署工具 capistrano
 
 php -S 0.0.0.0:8081 -t public/ public/index.php
+
+nohup python /data/postcard_dev/current/public/python/paohai_daemon.py &
+nohup python /data/postcard/current/public/python/quyou_daemon.py &

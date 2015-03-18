@@ -17,7 +17,13 @@ if (stripos($_SERVER['SERVER_NAME'], 'quyoucard.com') !== false) {
     $dbhost = 'localhost';
 }
 
-if (stripos($_SERVER['SERVER_NAME'], 'quyou') !== false) {
+//if (stripos($_SERVER['SERVER_NAME'], 'quyou') !== false) {
+//    $database = 'quyou_postcard';
+//} else {
+//    $database = 'paohai_postcard';
+//}
+
+if ($_SERVER['SERVER_PORT'] == 80) {
     $database = 'quyou_postcard';
 } else {
     $database = 'paohai_postcard';
