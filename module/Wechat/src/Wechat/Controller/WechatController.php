@@ -334,7 +334,6 @@ PROMOTION_TEXT;
         $echoStr = $this->getRequest()->getQuery('echostr');
         //valid signature , option
         if ($this->checkSignature()) {
-            ob_start();
             ob_end_clean();
             echo $echoStr;
             ob_end_flush();
