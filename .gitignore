@@ -4,3 +4,5 @@ install.sh
 *.bak
 *.bak.js
 public/statics
+confog/local.php
+vendor/ZF2
