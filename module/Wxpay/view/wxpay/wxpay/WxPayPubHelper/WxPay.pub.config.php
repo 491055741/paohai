@@ -33,7 +33,7 @@ class WxPayConf_pub
 
     static public function appId()
     {
-        if (stripos($_SERVER['SERVER_NAME'], 'quyou') !== false) {
+        if (stripos($_SERVER['SERVER_NAME'], 'quyou.quyoucard') !== false) {
             return 'wxbd6694a085209f4d';
         } else if (stripos($_SERVER['SERVER_NAME'], 'paohai') !== false) {
             return 'wx4a41ea3d983b4538';
@@ -43,7 +43,7 @@ class WxPayConf_pub
 
     static public function appSecret()
     {
-        if (stripos($_SERVER['SERVER_NAME'], 'quyou') !== false) {
+        if (stripos($_SERVER['SERVER_NAME'], 'quyou.quyoucard') !== false) {
             return '7987f43d80ff0b77b1f966fc52b17ae5';
         } else if (stripos($_SERVER['SERVER_NAME'], 'paohai') !== false) {
             return '424b9f967e50a2711460df2a9c9efaaa';
@@ -53,7 +53,7 @@ class WxPayConf_pub
 
     static public function mchId()
     {
-        if (stripos($_SERVER['SERVER_NAME'], 'quyou') !== false) {
+        if (stripos($_SERVER['SERVER_NAME'], 'quyou.quyoucard') !== false) {
             return '10022343';
         } else if (stripos($_SERVER['SERVER_NAME'], 'paohai') !== false) {
             return '1219350001';
