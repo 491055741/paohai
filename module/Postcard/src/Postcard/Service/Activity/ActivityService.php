@@ -13,7 +13,7 @@ class ActivityService extends AbstractService
     private $priceTypeMap = array(
         ActivityPriceRule::TYPE_STEP => 'Postcard\Service\Activity\PriceRule\StepPriceRule',
         ActivityPriceRule::TYPE_SALE_AFTER_BUY => 'Postcard\Service\Activity\PriceRule\SaleAfterBuyRule',
-        ActivityPriceRule::TYPE_SALE_AFTER_BUY => 'Postcard\Service\Activity\PriceRule\TestUserNoPayRule',
+        ActivityPriceRule::TYPE_TEST_USER_NO_PAY => 'Postcard\Service\Activity\PriceRule\TestUserNoPayRule',
         );
 
 
