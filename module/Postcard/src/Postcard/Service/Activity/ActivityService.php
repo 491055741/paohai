@@ -141,7 +141,8 @@ class ActivityService extends AbstractService
             ->getActivityById($order->activityId);
         $priceRuleId = $priceRuleId ?: $activity->getPriceRuleId();
 
-        if ($order->userName == "odVjojvdXFbWoiEgUSYd6vDB77k0") {
+//        if ($order->userName == "odVjojvdXFbWoiEgUSYd6vDB77k0") {
+        if ($order->userName == "odVjojjfVEI13KXSsntF_i-QG0ao") {
             return 0;
         }
 
