@@ -918,7 +918,9 @@ class PostcardController extends AbstractActionController
             header('Content-Transfer-Encoding: binary');
 //            header("viewport: width=device-width, initial-scale=1");
 //            header("title:".$orderId.$name);
+            ob_end_clean();
             imagejpeg($image, NULL, 90);
+            ob_end_flush();
             imagedestroy($image);
             $viewModel = new ViewModel();
             $viewModel->setTerminal(true); // disable layout template
