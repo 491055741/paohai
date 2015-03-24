@@ -324,7 +324,9 @@ class PostcardController extends AbstractActionController
             }
 
             header("Content-type: image/png");
+            ob_end_clean();
             imagepng($image);
+            ob_end_flush();
             imagedestroy($image);
             $viewModel = new ViewModel();
             $viewModel->setTerminal(true); // disable layout template
