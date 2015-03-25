@@ -5,9 +5,9 @@ set :application, 'postcard'
 set :repo_url, 'https://github.com/491055741/paohai.git'
 
 # Default branch is :master
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
-set :branch, "uiv2"
+#set :branch, "uiv2"
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/data/postcard'

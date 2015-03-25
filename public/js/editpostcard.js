@@ -5,9 +5,9 @@
     var receiptInfo = order.getPostcard().getReceiptAddress();
     var messageInfo = order.getPostcard().getMessage(); 
     var isMediaAvailable = true;
-    if ($("#var-partner-id").val()) {
-        isMediaAvailable = false;
-    }
+    //if ($("#var-partner-id").val()) {
+    //    isMediaAvailable = false;
+    //}
     if ( ! isMediaAvailable) {
         $(".pop3 .voice_btn").hide();
     }
