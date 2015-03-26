@@ -161,6 +161,10 @@ class WechatController extends AbstractActionController
                                 } else {
                                     $txt = '快来听听你的留言吧';
                                 }
+
+                                if ($order->id == 15032323283) {
+                                    // TODO: 甜言蜜语扫码情况
+                                }
                                 $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?orderId='.$order->id.'&mediaId='.$order->voiceMediaId.'&nonce='.time().'">'.$txt.'</a>';
                             } else {
                                 $contentStr = '没有找到语音留言,sceneId:'.$sceneId;
