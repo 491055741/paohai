@@ -12,14 +12,14 @@
  */
 
 if (stripos($_SERVER['SERVER_NAME'], 'quyoucard.com') !== false
-    || (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false || $_ENV['DEBUG'])) {
+    || (stripos($_SERVER['SERVER_NAME'], 'ikamobile.com') !== false || getenv("DEBUG"))) {
     $dbhost = 'rdsyuqef2yuqef2.mysql.rds.aliyuncs.com';
 } else {
     $dbhost = 'localhost';
 }
 
 if (stripos($_SERVER['SERVER_NAME'], 'quyou.quyoucard') !== false
-    || stripos($_SERVER['SERVER_NAME'], 'quyou.ikamobile') !== false || $_ENV['DEBUG']) {
+    || stripos($_SERVER['SERVER_NAME'], 'quyou.ikamobile') !== false || getenv("DEBUG")) {
     $database = 'quyou_postcard';
 } else {
     $database = 'paohai_postcard';
