@@ -79,7 +79,7 @@ class WechatController extends AbstractActionController
         // echo $postStr;
         // extract post data
         if (!empty($postStr)) {
-            logger("GET params: ".var_dump($_GET)."\tPOST params:".$postStr, "wechat-server-request".date("Y-m-d"));
+            logger("GET params: ".var_dump($_GET)."\tPOST params:".$postStr, "wechat-server-request-".date("Y-m-d"));
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $fromUsername = $postObj->FromUserName;
             $toUsername = $postObj->ToUserName;
@@ -162,7 +162,7 @@ class WechatController extends AbstractActionController
                                     $txt = '快来听听你的留言吧';
                                 }
 
-                                logger($order->id.",".$event.",".$postObj->EventKey.",".$postObj->Ticket);
+                                logger($order->id.",".$event.",".$postObj->EventKey.",".$postObj->Ticket, "weixin-scan-".date("Y-m-d"));
 
                                 $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?orderId='.$order->id.'&mediaId='.$order->voiceMediaId.'&nonce='.time().'">'.$txt.'</a>';
                             } else {

@@ -149,6 +149,8 @@ class PostcardController extends AbstractActionController
             'tag'     => JS_TAG
         ));
         $viewModel->setTerminal(true); // disable layout template
+
+        logger($orderId.",".$mediaId, "play-voice-".date("Y-m-d"));
         return $viewModel;
     }
 
