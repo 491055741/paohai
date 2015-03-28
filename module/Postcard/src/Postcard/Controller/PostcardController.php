@@ -968,7 +968,8 @@ class PostcardController extends AbstractActionController
         $util = new CommonUtil();
         $util->setServiceLocator($this->getServiceLocator());
         $accessToken = $util->getAccessToken();
-        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl."&access_token=".$accessToken, 120));
+        $order->picUrl = preg_replace("/access_token=.+?&/", "access_token=".$accessToken."&", $order->picUrl);
+        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
 
         $angel = $templateInfo["rotate"]; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
