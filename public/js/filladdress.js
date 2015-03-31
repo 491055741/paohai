@@ -5,7 +5,8 @@
         this.varCollection = {
             name: "",
             address: "",
-            zipcode: ""
+            zipcode: "",
+            mobile: ""
         };
     }
 
@@ -39,6 +40,13 @@
         },
         setZipcode: function(zipcode) {
             this.varCollection.zipcode = zipcode;
+            return this;
+        },
+        getMobile: function() {
+            return this.varCollection.mobile;
+        },
+        setMobile: function(mobile) {
+            this.varCollection.zipcode = mobile;
             return this;
         }
     });

@@ -1,0 +1,37 @@
+<style type="text/css">
+    body {
+        margin:0;
+        padding:0;
+    }
+
+    #makePostcardBtn {
+        background: url('/images/activity/paopaohai/makePostcardBtn.png') no-repeat;
+        background-size: 100%, 100%;
+        position:absolute;
+        border: none;
+        width:40%;
+        top: 20px;
+        left:30%;
+    }
+</style>
+<script type="text/javascript">
+    function initPage() {
+        document.getElementById('makePostcardBtn').style.marginTop = document.body.scrollWidth/600 * 450;
+        document.getElementById('makePostcardBtn').style.height = document.body.clientWidth/600 * 250;
+        $('#makePostcardBtn').show();
+    }
+
+    function makePostcard(data) {
+        window.location.href = data.url;
+    }
+
+    window.onload = initPage;
+
+    $(function() {
+        actIntro.init(1, "00001");
+
+        $(document).on("click", "#makePostcardBtn", function() {
+            actIntro.chooseImage(makePostcard);
+        });
+    });
+</script>

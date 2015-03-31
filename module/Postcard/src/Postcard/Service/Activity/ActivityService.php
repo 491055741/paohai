@@ -12,6 +12,8 @@ class ActivityService extends AbstractService
 {
     private $priceTypeMap = array(
         ActivityPriceRule::TYPE_STEP => 'Postcard\Service\Activity\PriceRule\StepPriceRule',
+        ActivityPriceRule::TYPE_SALE_AFTER_BUY => 'Postcard\Service\Activity\PriceRule\SaleAfterBuyRule',
+        ActivityPriceRule::TYPE_TEST_USER_NO_PAY => 'Postcard\Service\Activity\PriceRule\TestUserNoPayRule',
         );
 
 
@@ -138,6 +140,11 @@ class ActivityService extends AbstractService
             ->get('Postcard\Model\ActivityTable')
             ->getActivityById($order->activityId);
         $priceRuleId = $priceRuleId ?: $activity->getPriceRuleId();
+
+//        if ($order->userName == "odVjojvdXFbWoiEgUSYd6vDB77k0") {
+        if ($order->userName == "odVjojjfVEI13KXSsntF_i-QG0ao") {
+            return 0;
+        }
 
         if ( ! $priceRuleId) {
             return $defaultPrice;

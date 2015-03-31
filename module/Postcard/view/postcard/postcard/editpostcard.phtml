@@ -40,9 +40,13 @@
         <div class="bgK pa"><img src="/images/postmark/small/youchuo-bg.png" alt="邮戳盒背景"/></div>
         <label class="lab2 pa">从邮戳盒子里选一个</label>
         <div class="youchuoWraper pa">
-        <?php for($i = 0; $i < 18; $i++): ?>
-            <a data-index="<?php echo $i; ?>" href="#1"><img src="/images/postmark/small/youchuo<?php echo $i; ?>.png" alt="邮戳"/><i></i></a>
-        <?php endfor; ?>
+        <?php if ($order->activityId == 105): ?>  <!--甜言蜜语-->
+            <a data-index="<?php echo 105; ?>" href="#1"><img src="/images/postmark/small/youchuo<?php echo 105; ?>.png" alt="邮戳"/><i></i></a>
+        <?php else: ?>
+            <?php for($i = 0; $i < 18; $i++): ?>
+                <a data-index="<?php echo $i; ?>" href="#1"><img src="/images/postmark/small/youchuo<?php echo $i; ?>.png" alt="邮戳"/><i></i></a>
+            <?php endfor; ?>
+        <?php endif; ?>
         </div>
         <input id="pop1_conf" class="youchuo_confirm pa" type="image" src="/images/postmark/small/youchuo-sure.png" alt="确定"/>
     </div>
@@ -56,7 +60,7 @@
             <select id="province_select" name="province" class="province_input pa" placeholder="省"></select>
             <select id="city_select" name="city" class="city_input pa" placeholder="市"> </select>
         </form>
-        <input class="address_input pa" type="text" placeholder="街道地址、门牌号"/>
+        <input id="street_detail" class="address_input pa" type="text" placeholder="街道地址、门牌号"/>
         <input class="postcode_input pa" type="text" placeholder="邮政编码"/>
         <input class="mobile_input pa" type="text" placeholder="联系电话"/>
 

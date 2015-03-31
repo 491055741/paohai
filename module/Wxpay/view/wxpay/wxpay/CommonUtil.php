@@ -396,5 +396,3 @@ class CommonUtil
         return '/tmp/quyou.log';
     }
 }
-
-?>

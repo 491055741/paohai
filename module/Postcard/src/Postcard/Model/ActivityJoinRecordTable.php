@@ -30,8 +30,14 @@ class ActivityJoinRecordTable
      *      status:         default value is ActivityJoinRecord::STATUS_USED
      *      joinBeginTime:  the min time of user joinTime
      *      joinEndTime:    the max time of user jointime
+     *
+     * @param array|int $limit eg:
+     *      array: array($limit, $offset)
+     *      int: $limit
+     *
+     * @param string|array $order referer to zend/db/dql   
      */
-    public function getRecords($condition)
+    public function getRecords($condition, $limit = NULL, $order = NULL)
     {
         $condition = array_merge(
             array("status" => ActivityJoinRecord::STATUS_COMPLETE),
@@ -60,6 +66,21 @@ class ActivityJoinRecordTable
             }
             return $where;
         });
+
+        if ($limit) {
+            $offset = 0;
+            if (is_array($limit)) {
+                @list($limit, $offset) = $limit;
+            }
+            $limit = (int) $limit;
+            $offset = (int) $offset;
+            $select->offset($offset)->limit($limit);
+        }
+
+        if ($order) {
+            $select->order($order);
+        }
+
         return $this->tableGateway->selectWith($select);
     }
 

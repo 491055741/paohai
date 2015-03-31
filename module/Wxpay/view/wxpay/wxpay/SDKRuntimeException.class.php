@@ -7,5 +7,3 @@ class  SDKRuntimeException extends Exception {
 	}
 
 }
-
-?>

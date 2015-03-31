@@ -13,6 +13,7 @@
         actId = inputActId;
         userName = varObj.data("username");
         accessToken = varObj.data("accesstoken");
+
         doWxConfig();
     }
 
@@ -46,6 +47,12 @@
         wx.chooseImage({
             success: function(res) {
                 var localIds = res.localIds;    // 图片的本地ID
+
+                if (localIds.length > 1) {
+                    alert("只能上传一张图片");
+                    return;
+                }
+
                 $.each(localIds, function(index, localId) {
                     uploadImage(localId, callback);
                 });

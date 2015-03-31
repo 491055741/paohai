@@ -79,7 +79,7 @@ class WechatController extends AbstractActionController
         // echo $postStr;
         // extract post data
         if (!empty($postStr)) {
-
+            logger("GET params: ".var_dump($_GET)."\tPOST params:".$postStr, "wechat-server-request-".date("Y-m-d"));
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $fromUsername = $postObj->FromUserName;
             $toUsername = $postObj->ToUserName;
@@ -161,6 +161,9 @@ class WechatController extends AbstractActionController
                                 } else {
                                     $txt = '快来听听你的留言吧';
                                 }
+
+                                logger($order->id.",".$event.",".$postObj->EventKey.",".$postObj->Ticket, "weixin-scan-".date("Y-m-d"));
+
                                 $contentStr = '<a href="http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/postcard/playvoice?orderId='.$order->id.'&mediaId='.$order->voiceMediaId.'&nonce='.time().'">'.$txt.'</a>';
                             } else {
                                 $contentStr = '没有找到语音留言,sceneId:'.$sceneId;
@@ -334,7 +337,9 @@ PROMOTION_TEXT;
         $echoStr = $this->getRequest()->getQuery('echostr');
         //valid signature , option
         if ($this->checkSignature()) {
+            ob_end_clean();
             echo $echoStr;
+            ob_end_flush();
             exit;
         } else {
             echo "checkSignature failed.";
@@ -349,7 +354,7 @@ PROMOTION_TEXT;
 
         $token = TOKEN;
         $tmpArr = array($token, $timestamp, $nonce);
-        sort($tmpArr);
+        sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );
         

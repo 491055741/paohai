@@ -75,11 +75,18 @@
             if (address.getAddress().length > 500) {
                 return "您输入的地址太长啦，请不要超过500个字符哦";
             }
+
             var re= /^[0-9]{6}$/;
             if ( ! re.test(address.getZipcode())) {
                 return "您输入的邮编格式不正确";
             }
 
+            if (address.getMobile()) {
+                var re= /^1[3|5|7|8|9][0-9]{9}$/;
+                if ( ! re.test(address.getMobile())) {
+                    return "您输入的手机号格式不正确";
+                }
+            }
             return "";
         },
     });

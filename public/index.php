@@ -1,5 +1,11 @@
 <?php
+function logger($message, $filename="temp") {
+    $fd = fopen("log/$filename.log", "a＋");
+    fputs($fd, date("Y-m-d H:m:s").",".$message."\n");
+    fclose($fd);
+}
 
+ob_start();
 ini_set("display_errors", true);
 date_default_timezone_set('Asia/Shanghai');
 /**

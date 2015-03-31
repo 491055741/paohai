@@ -5,6 +5,8 @@ namespace Postcard\Model;
 class ActivityPriceRule
 {
     const TYPE_STEP = 1;
+    const TYPE_SALE_AFTER_BUY = 2;
+    const TYPE_TEST_USER_NO_PAY = 3;
 
 
     private $id;

@@ -31,7 +31,7 @@ define('LEFT', 0);
 define('RIGHT', 1);
 define('CENTER', 2);
 
-define('JS_TAG', '201503131605');
+define('JS_TAG', '201503191524');
 
 
 class PostcardController extends AbstractActionController
@@ -123,7 +123,9 @@ class PostcardController extends AbstractActionController
             return $this->errorViewModel(array('code' => 2, 'msg' => 'file '.$fileName.' not exist!'));
         }
         header("Content-type: audio/mp3");
+        ob_end_clean();
         echo file_get_contents($fileName);
+        ob_end_flush();
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -147,6 +149,8 @@ class PostcardController extends AbstractActionController
             'tag'     => JS_TAG
         ));
         $viewModel->setTerminal(true); // disable layout template
+
+        logger($orderId.",".$mediaId, "play-voice-".date("Y-m-d"));
         return $viewModel;
     }
 
@@ -210,7 +214,8 @@ class PostcardController extends AbstractActionController
             $selectedTemplateIndex = array_keys($imgTemplates)[0];
         }
 
-        $userName = $this->getRequest()->getQuery('username') ?: DEFAULT_USER;
+        $userName = $this->getRequest()->getQuery('username', DEFAULT_USER);
+
         $viewModel =  new ViewModel(array(
             'templateIndex' => $selectedTemplateIndex,
             'offsetX' => $offsetX,
@@ -325,7 +330,9 @@ class PostcardController extends AbstractActionController
             }
 
             header("Content-type: image/png");
+            ob_end_clean();
             imagepng($image);
+            ob_end_flush();
             imagedestroy($image);
             $viewModel = new ViewModel();
             $viewModel->setTerminal(true); // disable layout template
@@ -653,10 +660,16 @@ class PostcardController extends AbstractActionController
 
         $jsApiSignPackage = $this->getUtil()->getJsApiSignPackage();
 
+        $nextFree = false;
+        if ($order->activityId == 101 && $order->price != 0) {
+            $nextFree = true;
+        }
         $viewModel = new ViewModel(array(
             'order' => $order,
             'tag' => JS_TAG,
             'jsApiSignPackage' => $jsApiSignPackage,
+            'orderId' => $orderId,
+            'nextFree' => $nextFree,
         ));
         $viewModel->setTerminal(true); // disable layout template
         return $viewModel;
@@ -939,7 +952,9 @@ class PostcardController extends AbstractActionController
             header('Content-Transfer-Encoding: binary');
 //            header("viewport: width=device-width, initial-scale=1");
 //            header("title:".$orderId.$name);
+            ob_end_clean();
             imagejpeg($image, NULL, 90);
+            ob_end_flush();
             imagedestroy($image);
             $viewModel = new ViewModel();
             $viewModel->setTerminal(true); // disable layout template
@@ -980,9 +995,15 @@ class PostcardController extends AbstractActionController
         // save user's original picture
         $dstPath = $this->postcardsPath($order->id);
         $origPicName = $dstPath.$order->id.'_orig.jpg';
-        if (!file_exists($origPicName)) {
-            file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
-        }
+//        if (!file_exists($origPicName)) {
+//
+//        }
+
+        $util = new CommonUtil();
+        $util->setServiceLocator($this->getServiceLocator());
+        $accessToken = $util->getAccessToken();
+        $order->picUrl = preg_replace("/access_token=.+?&/", "access_token=".$accessToken."&", $order->picUrl);
+        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
 
         $angel = $templateInfo["rotate"]; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);

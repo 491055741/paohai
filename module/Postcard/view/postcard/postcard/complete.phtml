@@ -15,6 +15,25 @@
                     <div class="main_text pa">支付成功</div>
                     <input type="image" class="goto_orderlist pa" src="/images/querenzhifu.png" alt="去我的订单看看"/>
                     <input type="image" class="share_btn pa" src="/images/querenzhifu.png" alt="分享"/>
+                    <h3>明信片创建成功，我们将尽快为你邮寄！</h3>
+
+                    <div class="bshare-custom">
+                        <a title="分享到QQ空间" class="bshare-qzone"></a>
+                        <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+                        <a title="分享到腾讯微博" class="bshare-qqmb"></a>
+                        <!-- <a title="分享到QQ" class="bshare-qqim"></a> -->
+                    </div>
+                    <p>&nbsp;</p>
+                    <?php if ($nextFree): ?>
+                    <div>
+                        <p>情人节特别活动</p>
+                        <p><a href="/postcard/redopostcard?orderId=<?php echo $orderId; ?>">免费再寄一张</a></p>
+                    </div> 
+                    <?php endif; ?>
+                    <script src="/js/jquery-1.9.0.min.js"></script>
+                    <script src=<?php echo '"/js/complete.js?' . $tag . '"'; ?> ></script>
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=<你的UUID>&style=-1"></script>
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC3.js"></script>
                 </div>
             </div>
         </div>

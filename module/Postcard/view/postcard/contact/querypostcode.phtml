@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>趣邮明信片</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/css/reset.css?<?php echo $tag; ?>"/>
+</head>
+<body>
+<br/>
+<br/>
+<h1 style="text-align: center;">邮编查询</h1>
+<input id="address" style="display: block; margin: auto;" placeholder="输入乡镇名称"/>
+<br/>
+
+<button style="display: block;margin: auto;" id="query_button">查询</button>
+
+<ul id="list" style="list-style: none; margin: 30px;">
+</ul>
+<script src="/js/jquery-1.9.0.min.js"></script>
+<script language="javascript" >
+    $(document).ready(function () {
+        $("#query_button").on("click", function () {
+            $("#list").html("");
+            $.get(
+                "http://" + window.location.host + "/contact/postcodeList",
+                {
+                    address: $("#address").val()
+                },
+                function success(data) {
+                    if (data.code != 0) {
+                        alert("获取邮编失败");
+                        return;
+                    }
+
+                    if (data.data) {
+                        var html = "";
+                        for (var i = 0; i < data.data.length; i++) {
+                            html += '<li>' + data.data[i].postcode + '|' + data.data[i].address + '</li>';
+                        }
+
+                        $("#list").html(html);
+                    }
+                },
+                "json"
+            );
+        });
+    });
+</script>
+</body>
+</html>

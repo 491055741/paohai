@@ -32,6 +32,12 @@ class ContactController extends AbstractActionController
         return $viewModel;
     }
 
+    public function queryPostcodeAction() {
+        $viewModel = new ViewModel(array('tag' => self::JS_TAG));
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
     public function saveAction()
     {
         $userName = $this->getRequest()->getPost('userName', '');
@@ -127,6 +133,47 @@ class ContactController extends AbstractActionController
         ));
         $viewModel->setTerminal(true);
         return $viewModel;
+    }
+
+    public function postcodeAction() {
+        $address = mb_convert_encoding($this->getRequest()->getQuery("address", ""), "GBK", "UTF-8");
+
+        $result = mb_convert_encoding($this->getUtil()->httpGet("http://opendata.baidu.com/post/s?wd=".urlencode($address)."&p=mini&rn=20"), "UTF-8", "GBK");
+        preg_match("/em>.*?(\d{6}).*?<\/a/", $result, $postcodeArray);
+
+        $postcode = "";
+        if (!empty($postcodeArray[1])) {
+            $postcode = $postcodeArray[1];
+        }
+
+        return new JsonModel(array(
+            "code" => "0",
+            "data" => $postcode
+        ));
+    }
+
+    public function postcodeListAction() {
+        $address = mb_convert_encoding($this->getRequest()->getQuery("address", ""), "GBK", "UTF-8");
+
+        $result = mb_convert_encoding($this->getUtil()->httpGet("http://opendata.baidu.com/post/s?wd=".urlencode($address)."&p=mini&rn=20"), "UTF-8", "GBK");
+        preg_match_all("/<tr><td>\d{6}.+?<\/tr>/", $result, $postcodeArray);
+
+        $postcodeList = array();
+        foreach ($postcodeArray[0] as $element) {
+            preg_match("/\d{6}/", $element, $postcode);
+
+            $temp["postcode"] = $postcode[0];
+
+            preg_match_all("/<td>(.*?)<\/td>/", $element, $matches);
+
+            $temp["address"] = preg_replace("/<(\/?).*?>/", "", $matches[1][1]);
+            array_push($postcodeList, $temp);
+        }
+
+        return new JsonModel(array(
+            "code" => "0",
+            "data" => $postcodeList
+        ));
     }
 
     private function getContactTable()

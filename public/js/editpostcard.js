@@ -5,6 +5,7 @@
     var receiptInfo = order.getPostcard().getReceiptAddress();
     var messageInfo = order.getPostcard().getMessage(); 
     var isMediaAvailable = true;
+
     if ($("#var-partner-id").val()) {
         isMediaAvailable = false;
     }
@@ -87,10 +88,40 @@
             $(".pop1").hide();
             setCardInfo();
         });
+
+        $("#street_detail").on("blur", function () {
+            $.get(
+                "http://" + window.location.host + "/contact/postcode",
+                {
+                    address: $(".pop2 .province_input").val()
+                    + $(".pop2 .city_input").val() + $("#street_detail").val()
+                },
+                function success(data) {
+                    if (data.code != 0) {
+                        alert("获取邮编失败");
+                        return;
+                    }
+
+                    if (data.data) {
+                        $(".postcode_input").val(data.data);
+                    }
+
+                    console.log(data);
+                },
+                "json"
+            );
+        });
+
         $("#pop2_conf").on("click", function() { //确认按钮: 收件人信息弹窗
             // Set postcard object
             if ($(".pop2 .province_input").val() == "省份" || $(".pop2 .city_input").val() == "城市") {
                 HC.showError("请选择省/市/区");
+                return;
+            }
+
+            // 天府童星活动
+            if ($("#var-activity-id").val() == 104 && !$(".pop2 .mobile_input").val()) {
+                HC.showError("请填写手机号");
                 return;
             }
 
@@ -238,6 +269,7 @@
         order.setOrderId($("#var-order-id").val())
             .setUserName($("#var-user-name").val());
         order.getPostcard().setPostmarkIndex($("#var-postmark-index").val());
+
         order.getPostcard().getReceiptAddress().setVars({
             name: $("#var-recipient").val(),
             address: $("#var-address").val(),
@@ -250,6 +282,17 @@
             signature: $("#var-signature").val(),
         });
         callPop();
+
+        if ($("#var-activity-id").val() == 102) {  // 长风情人节活动
+            order.getPostcard().setPostmarkIndex('111');
+            $("#memory-stamp-button").hide();
+            $("#latlng-button").hide();
+        } else if ($("#var-activity-id").val() == 104) {  // 天府童星活动
+            order.getPostcard().setPostmarkIndex('112');
+            $("#memory-stamp-button").hide();
+            $("#latlng-button").hide();
+        }
+
         setCardInfo();
 
         $("#next-step").on("click", function() {
