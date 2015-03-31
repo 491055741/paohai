@@ -11,7 +11,7 @@ def main():
         current_hour = time.strftime('%H', time.localtime(time.time()))
 
         # refresh access token every hour
-        r = requests.get('http://server.quyoucard.com:8080/wechat/refreshaccesstoken')
+        r = requests.get('http://paohai.quyoucard.com/wechat/refreshaccesstoken')
         write_log('AccessToken: %s' % (r.text))
         # print r.text
 
