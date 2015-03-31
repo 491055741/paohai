@@ -32,6 +32,12 @@ class ContactController extends AbstractActionController
         return $viewModel;
     }
 
+    public function queryPostcodeAction() {
+        $viewModel = new ViewModel(array('tag' => self::JS_TAG));
+        $viewModel->setTerminal(true); // disable layout template
+        return $viewModel;
+    }
+
     public function saveAction()
     {
         $userName = $this->getRequest()->getPost('userName', '');
