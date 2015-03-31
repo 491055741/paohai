@@ -96,6 +96,30 @@
             $(".pop1").hide();
             setCardInfo();
         });
+
+        $("#street_detail").on("blur", function () {
+            $.get(
+                "http://" + window.location.host + "/contact/postcode",
+                {
+                    address: $(".pop2 .province_input").val()
+                    + $(".pop2 .city_input").val() + $("#street_detail").val()
+                },
+                function success(data) {
+                    if (data.code != 0) {
+                        alert("获取邮编失败");
+                        return;
+                    }
+
+                    if (data.data) {
+                        $(".postcode_input").val(data.data);
+                    }
+
+                    console.log(data);
+                },
+                "json"
+            );
+        });
+
         $("#pop2_conf").on("click", function() { //确认按钮: 收件人信息弹窗
             // Set postcard object
             if ($(".pop2 .province_input").val() == "省份" || $(".pop2 .city_input").val() == "城市") {
