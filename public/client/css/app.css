@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+}
+
+.active-01 {
+    background-color: #EBEBEB;
+}
+
+#header {
+    height: 40px;
+    background-color: #1EA9F0;
+}
+
+#header button {
+    color: #ffffff;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#header #button_left {
+    margin-left: 20px;
+}
+
+#header #button_right {
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+}
+
+#body {
+    position: absolute;
+    left:0;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+}
+
+/*page selectTemplate start*/
+#selectTemplate {
+    background-color: #F7F7F7;
+    height: 100%;
+}
+
+#selectTemplate #image-container {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    bottom: 160px;
+}
+
+#selectTemplate #image-container img:nth-child(1) {
+    height: 100%;
+    width: 80%;
+    display: block;
+    margin: auto;
+}
+
+#selectTemplate #image-container img:nth-child(2) {
+    height: 100%;
+    width: 80%;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 10%;
+}
+
+#selectTemplate ul {
+    background-color: #676767;
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    bottom: 40px;
+    list-style: none;
+    overflow-x: auto;
+    display: flex;
+}
+
+#selectTemplate ul li {
+    background-color: #ffffff;
+    float: left;
+    width: 50px;
+    min-width: 50px;
+    height: 70px;
+    margin: 15px 10px;
+}
+
+#selectTemplate ul li img {
+    width: 100%;
+    height: 100%;
+}
+
+#selectTemplate #tabView {
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+#selectTemplate #tabView button {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    font-size: 16px;
+}
+
+#selectTemplate #tabView button img {
+    width: 16px;
+    position: absolute;
+    top:-7px;
+    left: 48%;
+}
+
+#selectTemplate #tabView #portrait {
+    left: 0;
+}
+
+#selectTemplate #tabView #landscape {
+    right: 0;
+}
+/*page selectTemplate end */
+
+
+
+
+

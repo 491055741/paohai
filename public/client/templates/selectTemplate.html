@@ -1,0 +1,25 @@
+
+<div id="selectTemplate">
+    <div id="image-container">
+        <img src="http://img0.ph.126.net/L7rPUjbgEK8_YhX1rPXoqw==/6608791660120704504.jpg"/>
+        <img ng-src="{{coverTemplate()}}"/>
+    </div>
+
+
+    <ul id="template-preview">
+        <li ng-repeat="template in showTemplates" ng-click="selectedTemplate($index)" style="background-image: url('http://img0.ph.126.net/L7rPUjbgEK8_YhX1rPXoqw==/6608791660120704504.jpg'); background-size: 100% 100%;">
+            <img src="{{template.thumbUrl}}">
+        </li>
+    </ul>
+
+    <div id="tabView">
+        <button id="portrait" ng-class="getClass(0)" ng-click="reshowTemplates(0)">
+            <img ng-show="showUpTriangle(0)" src="images/up-triangle.png">
+            竖版相框
+        </button>
+        <button id="landscape" ng-class="getClass(1)" ng-click="reshowTemplates(1)">
+            <img ng-show="showUpTriangle(1)" src="images/up-triangle.png">
+            横版相框
+        </button>
+    </div>
+</div>

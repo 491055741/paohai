@@ -46,9 +46,11 @@ class ActivityService extends AbstractService
         $table = $this->getServiceLocator()
             ->get('Postcard\Model\ActivityTemplateConfigTable');
         $res = $table->getAllByActId($actId);
+
         $imageIds = array();
         foreach ($res as $item) {
             $templates[$item->getId()] = array(
+                "id" => $item->getId(),
                 "rotate" => $item->getRotate(),
                 "imgId" => $item->getImgId(),
                 "imgThumbId" => $item->getImgThumbId(),
@@ -73,11 +75,22 @@ class ActivityService extends AbstractService
             $info["thumbUrl"] = $imgs[$info["imgThumbId"]];
         }
 
-        return $templates;
+        $templatesOrder = $this->getTemplatesOrder($actId);
+        $orderedTemplates = array();
+
+        foreach ($templatesOrder as $id) {
+            foreach ($templates as $key => $template) {
+                if ($key == $id) {
+                    array_push($orderedTemplates, $template);
+                }
+            }
+        }
+
+        return $orderedTemplates;
     }
 
 
-    public function getTemplatesOrder($actId) {
+    private function getTemplatesOrder($actId) {
         $activityTable = $this->getServiceLocator()
             ->get('Postcard\Model\ActivityTable');
         $activity = $activityTable->getActivityById($actId);

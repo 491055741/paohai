@@ -177,13 +177,14 @@ class PostcardController extends AbstractActionController
         return new JsonModel($array);
     }
 
-    public function indexAction()
-    {
+    public function getTemplatesAction() {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
-        $order = $this->getOrderTable()->getOrder($orderId);
         $picUrl = $this->getRequest()->getQuery('picurl', DEFAULT_PICURL);
         $actId = $this->getRequest()->getQuery("actId", Activity::DEFAULT_ACTIVITY_ID);
         $partnerId = $this->getRequest()->getQuery("partnerId");
+        $userName = $this->getRequest()->getQuery('username', DEFAULT_USER);
+
+        $order = $this->getOrderTable()->getOrder($orderId);
 
         if ($orderId == '0' || !$order) {
             $selectedTemplateIndex = NULL;
@@ -200,8 +201,6 @@ class PostcardController extends AbstractActionController
         $activityService = $this->getServiceLocator()
             ->get('Postcard\Service\Activity\ActivityService');
         $imgTemplates = $activityService->getTemplates($actId);
-        $templatesOrder = $activityService->getTemplatesOrder($actId) 
-            ?: array_keys($imgTemplates);
 
         if (empty($imgTemplates)) {
             return $this->errorViewModel(array(
@@ -214,23 +213,20 @@ class PostcardController extends AbstractActionController
             $selectedTemplateIndex = array_keys($imgTemplates)[0];
         }
 
-        $userName = $this->getRequest()->getQuery('username', DEFAULT_USER);
-
-        $viewModel =  new ViewModel(array(
-            'templateIndex' => $selectedTemplateIndex,
-            'offsetX' => $offsetX,
-            'offsetY' => $offsetY,
-            'orderId' => $this->getRequest()->getQuery('orderId', '0'),
-            'picurl'  => $picUrl,
-            'username' => $userName,
-            'actId' => $actId,
-            'imgTemplates' => $imgTemplates,
-            'templatesOrder' => $templatesOrder,
-            'tag' => JS_TAG,
-            'partnerId' => $partnerId,
+        return new JsonModel(array(
+            "code" => "0",
+            "data" => array(
+                'templateIndex' => $selectedTemplateIndex,
+                'offsetX' => $offsetX,
+                'offsetY' => $offsetY,
+                'orderId' => $orderId,
+                'picurl'  => $picUrl,
+                'username' => $userName,
+                'actId' => $actId,
+                'imgTemplates' => $imgTemplates,
+                'partnerId' => $partnerId,
+            )
         ));
-        $viewModel->setTerminal(true); // disable layout template
-        return $viewModel;
     }
 
     public function editPostcardAction()
