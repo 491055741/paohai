@@ -2,8 +2,8 @@ var postcardControllers = angular.module("PostcardControllers", ["Util"]);
 
 postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scope", "$http", "$routeParams", "Util",
     function($rootScope, $scope, $http, $routeParams, Util) {
-        $rootScope.leftButtonText = "<更换图片";
-        $rootScope.rightButtonText = "信息填写>";
+        $rootScope.leftButtonText = "&lt; 更换图片";
+        $rootScope.rightButtonText = "信息填写 &gt;";
 
         $rootScope.onHeaderLeftButtonClick = function () {
             console.log("left");
@@ -13,8 +13,6 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         $rootScope.onHeaderRightButtonClick = function () {
             console.log("right");
         };
-
-
 
         $scope.selectTemplateType = 0;
         $scope.selectTemplateIndex = 0;

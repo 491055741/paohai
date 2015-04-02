@@ -5,7 +5,9 @@ util.value("Util", {
         var queryString = "";
         for (var key in object) {
             if (object.hasOwnProperty(key)) {
-                queryString += key + "=" + object[key] + "&";
+                if (object[key] !== undefined) {
+                    queryString += key + "=" + object[key] + "&";
+                }
             }
         }
 
