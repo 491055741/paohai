@@ -1,13 +1,13 @@
 
 <div id="selectTemplate">
     <div id="image-container">
-        <img src="http://img0.ph.126.net/L7rPUjbgEK8_YhX1rPXoqw==/6608791660120704504.jpg"/>
+        <img src="{{data.picurl}}"/>
         <img ng-src="{{coverTemplate()}}"/>
     </div>
 
 
     <ul id="template-preview">
-        <li ng-repeat="template in showTemplates" ng-click="selectedTemplate($index)" style="background-image: url('http://img0.ph.126.net/L7rPUjbgEK8_YhX1rPXoqw==/6608791660120704504.jpg'); background-size: 100% 100%;">
+        <li ng-repeat="template in showTemplates" ng-click="selectedTemplate($index)" style="background-image: url('{{data.picurl}}'); background-size: 100% 100%;">
             <img src="{{template.thumbUrl}}">
         </li>
     </ul>

@@ -134,7 +134,7 @@ class WechatController extends AbstractActionController
                 $replyMsgType = "news";
                 $title = "点击创建明信片";
                 $desc = "就是这张么？如果确定了，就戳戳图片开始制作明信片啦~";
-                $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/postcard?picurl='.$picUrl.'&username='.$fromUsername.'&nonce='.time();
+                $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/client/index.html#/?picurl='.$picUrl.'&username='.$fromUsername.'&nonce='.time();
                 $resultStr = sprintf($newsTpl, $fromUsername, $toUsername, $time, $replyMsgType, $title, $desc, $picUrl, $url);
                 echo $resultStr;
                 return true;

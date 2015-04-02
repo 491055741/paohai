@@ -1,7 +1,7 @@
 var postcardControllers = angular.module("PostcardControllers", ["Util"]);
 
-postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scope", "$http", "Util",
-    function($rootScope, $scope, $http, Util) {
+postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scope", "$http", "$routeParams", "Util",
+    function($rootScope, $scope, $http, $routeParams, Util) {
         $rootScope.leftButtonText = "<更换图片";
         $rootScope.rightButtonText = "信息填写>";
 
@@ -23,10 +23,10 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
         $http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
             //orderId: 0,
-            //picurl: "",
+            picurl: $routeParams.picurl,
             //actId: "",
             //partnerId: "",
-            //username: ""
+            username: $routeParams.username
         })).success(function (data) {
             $scope.data = data.data;
             showTemplate();
