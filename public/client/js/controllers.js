@@ -7,7 +7,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
         $rootScope.onHeaderLeftButtonClick = function () {
             console.log("left");
-            //WeixinJSBridge.call('closeWindow');
+            //TODO: WeixinJSBridge.call('closeWindow');
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
