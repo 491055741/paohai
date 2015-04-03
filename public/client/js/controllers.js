@@ -15,6 +15,8 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             console.log("right");
         };
 
+
+
         $scope.selectTemplateType = 0;
         $scope.selectTemplateIndex = 0;
         $scope.showTemplates = [];
@@ -32,7 +34,53 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         }).error(function () {
         });
 
+        var originWidth = null;
+        var originHeight = null;
+
+        function reLayout() {
+
+            if (!originWidth) {
+                originWidth = parseInt($("#picture").css("width"));
+            }
+
+            if (!originHeight) {
+                originHeight = parseInt($("#picture").css("height"));
+            }
+
+            var height = parseInt($("#coverTemplate").css("height"));
+            $("#coverTemplate").css("width", 1181 * height / 1748);
+            $("#coverTemplate").css("left", parseInt($("#image-container").css("width")) / 2 - parseInt($("#coverTemplate").css("width")) / 2);
+
+
+
+            if ($scope.selectTemplateType == 0 && originHeight && originWidth) {
+                $("#picture").css("height", originHeight);
+                $("#picture").css("width", originWidth);
+                $("#picture").css("left", parseInt($("#image-container").css("width")) / 2 - originWidth / 2);
+            }
+
+            if ($scope.selectTemplateType == 1) {
+                $("#picture").css("width", height);
+                //$("#picture").css("height", originHeight * height / originWidth); // TODO: need to be fixed here.
+                $("#picture").css("left", parseInt($("#image-container").css("width")) / 2 - height / 2);
+            }
+        }
+
+
+        $("#picture").on("load", function () {
+            reLayout();
+        });
+
+        $("#picture").on("click", function () {
+            $("#picture").css("transform", "scale(2)");
+            $("#picture").css("-webkit-transform", "scale(2)");
+            console.log("3232");
+        });
+
+        window.onresize = reLayout;
+
         function showTemplate() {
+
             $scope.showTemplates = [];
             if ($scope.selectTemplateType === 0) {
                 for (var key in $scope.data.imgTemplates) {
@@ -41,6 +89,9 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                         $scope.showTemplates.push(template);
                     }
                 }
+
+                $("#picture").removeClass("rotate-90");
+                reLayout();
             }
 
             if ($scope.selectTemplateType === 1) {
@@ -50,6 +101,9 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                         $scope.showTemplates.push(template);
                     }
                 }
+
+                $("#picture").addClass("rotate-90");
+                reLayout();
             }
         }
 

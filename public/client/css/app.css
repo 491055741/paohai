@@ -17,6 +17,11 @@ button {
     background-color: #EBEBEB;
 }
 
+.rotate-90 {
+    transform: rotate(90deg);
+    transform-origin: center center;
+}
+
 #header {
     height: 40px;
     background-color: #1EA9F0;
@@ -61,19 +66,17 @@ button {
 }
 
 #selectTemplate #image-container img:nth-child(1) {
-    height: 260px;
-    width: 60%;
+    height: 100%;
     display: block;
-    margin: auto;
+    position: absolute;
+    top: 0;
 }
 
 #selectTemplate #image-container img:nth-child(2) {
-    height: 260px;
-    width: 60%;
+    height: 100%;
     position: absolute;
     display: block;
     top: 0;
-    left: 20%;
 }
 
 #selectTemplate ul {
