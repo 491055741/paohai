@@ -1,5 +1,6 @@
 
 var Postcard = angular.module("Postcard", [
+    "ngTouch",
     "ngRoute",
     "PostcardControllers"
 ]);

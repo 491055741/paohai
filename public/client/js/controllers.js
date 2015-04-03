@@ -6,8 +6,9 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         $rootScope.rightButtonText = "信息填写>";
 
         $rootScope.onHeaderLeftButtonClick = function () {
-            console.log("left");
-            //TODO: WeixinJSBridge.call('closeWindow');
+            if (WeixinJSBridge) {
+                WeixinJSBridge.call("closeWindow");
+            }
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
@@ -74,7 +75,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         };
 
         $scope.coverTemplate = function () {
-            return $scope.showTemplates[$scope.selectTemplateIndex].url;
+            return $scope.showTemplates[$scope.selectTemplateIndex] && $scope.showTemplates[$scope.selectTemplateIndex].thumbUrl;
         }
     }
 ]);

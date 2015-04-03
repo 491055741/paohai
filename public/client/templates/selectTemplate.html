@@ -1,14 +1,14 @@
 
 <div id="selectTemplate">
     <div id="image-container">
-        <img src="{{data.picurl}}"/>
+        <img ng-src="{{data.picurl}}"/>
         <img ng-src="{{coverTemplate()}}"/>
     </div>
 
 
     <ul id="template-preview">
         <li ng-repeat="template in showTemplates" ng-click="selectedTemplate($index)" style="background-image: url('{{data.picurl}}'); background-size: 100% 100%;">
-            <img src="{{template.thumbUrl}}">
+            <img ng-src="{{template.thumbUrl}}">
         </li>
     </ul>
 
