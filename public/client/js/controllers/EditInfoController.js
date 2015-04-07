@@ -4,7 +4,7 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
         $rootScope.rightButtonText = "确认预览>";
 
         $rootScope.onHeaderLeftButtonClick = function () {
-            $window.history.back();
+            $location.path("/");
         };
 
         $rootScope.onHeaderRightButtonClick = function () {

@@ -3,24 +3,16 @@
     <div id="addressTitle">
         <p>地址簿</p>
     </div>
-    <ul id="contactList">
-        <li>
-            <p class="name">中国人</p>
-            <p class="postcode">邮编：</p>
-            <p class="address">地址：dsfsafdfsdfasfsafdafsfasfadfasfafafadffdsfasfsdafasfasdfasas</p>
-        </li>
+    <div id="iscrollWrapper">
+        <ul id="contactList" >
+            <li ng-repeat="contact in contacts" ng-click="onClickLi($index)" ng-class="selectedClass($index)">
+                <p class="name">{{contact.name}}</p>
+                <p class="postcode">邮编：{{contact.postcode}}</p>
+                <p class="address">地址：{{contact.address}}</p>
+            </li>
+        </ul>
+    </div>
 
-        <li>
-            <p class="name">中国人</p>
-            <p class="postcode">邮编：</p>
-            <p class="address">地址：</p>
-        </li>
-        <li>
-            <p class="name">中国人</p>
-            <p class="postcode">邮编：</p>
-            <p class="address">地址：</p>
-        </li>
-    </ul>
     <button class="bottomOkButton" ng-click="onOkButtonClick()">
         确&nbsp;&nbsp;认
     </button>

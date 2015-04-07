@@ -4,7 +4,7 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
         $rootScope.rightButtonText = "";
 
         $rootScope.onHeaderLeftButtonClick = function () {
-            $window.history.back();
+            $location.path("/editInfo");
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
@@ -18,7 +18,10 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
             $location.path("/editInfo");
         };
 
-        var myScroll = new IScroll('#iscrollWrapper');
+        var myScroll = new IScroll('#iscrollWrapper', {
+            click: true,
+            scrollbars: true
+        });
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
         //    //orderId: 0,
