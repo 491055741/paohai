@@ -339,6 +339,59 @@ button {
 
 /***********page addressBook end***************************/
 
+/***********page editGreetings start*******************/
+
+#editGreetings #greetingsContainer {
+    width: 100%;
+    position: absolute;
+    top: 20px;
+    bottom: 120px;
+}
+
+#editGreetings #greetingsContainer>div:first-child {
+    padding: 0 15px;
+    background-color: #F9F9F9;
+    height: 100%;
+    position: absolute;
+    left: 15px;
+    right: 15px;
+}
+
+#editGreetings #greetingsTitle {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #DEDDDB;
+}
+
+#editGreetings #greetingsContent {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    top: 51px;
+}
+
+#editGreetings #greetingsContent #text {
+    height: 100%;
+    border: none;
+    background: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+#editGreetings #startVoice {
+    position: absolute;
+    height: 46px;
+    left: 15px;
+    right: 15px;
+    bottom: 55px;
+    color: #ffffff;
+    line-height: 46px;
+    text-align: center;
+    background-color: #43C12F;
+}
+/*************page editGreetings end***********************/
+
 
 
 

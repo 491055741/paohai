@@ -24,6 +24,10 @@ Postcard.config(["$routeProvider",
                 templateUrl: "templates/addressBook.html",
                 controller: "AddressBookController"
             })
+            .when("/editGreetings", {
+                templateUrl: "templates/editGreetings.html",
+                controller: "EditGreetingsController"
+            })
             .otherwise({
                 templateUrl: "templates/404.html"
             });
