@@ -18,6 +18,7 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
             $location.path("/editInfo");
         };
 
+        var myScroll = new IScroll('#iscrollWrapper');
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
         //    //orderId: 0,

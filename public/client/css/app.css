@@ -40,8 +40,11 @@ button {
 }
 
 #header {
+    position: absolute;
     height: 40px;
+    width: 100%;
     background-color: #1EA9F0;
+    z-index: 1000;
 }
 
 #header button {
@@ -66,6 +69,7 @@ button {
     top: 40px;
     right: 0;
     bottom: 0;
+    z-index: 800;
 }
 
 /*page selectTemplate start*/
@@ -198,12 +202,16 @@ button {
 
 
 /***********page editContact start***************************/
+#editContact #iscrollWrapper {
+    top: 0;
+    position: absolute;
+    bottom: 40px;
+}
+
 #editContact #container {
-    top: 10px;
-    margin: 20px 15px;
+    margin: 0 15px;
     position: relative;
     overflow-x: hidden;
-    background-color: #FBFAF8;
 }
 
 #editContact #container #detailAddressInfo {
@@ -250,7 +258,7 @@ button {
     line-height: 40px;
     border: none;
     border-bottom: 1px solid #EEEDEB;
-    background-color: transparent;
+    background-color: #FBFAF8;
     font-size: 14px;
 }
 
