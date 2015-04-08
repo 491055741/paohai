@@ -450,6 +450,172 @@ button {
 
 /*************page selectPostmark end********************/
 
+/*************page preview start**************************/
+#preview {
+    height: 100%;
+}
+
+#preview #iscrollWrapper {
+    left: 0;
+    right: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+#preview #iscrollWrapper>div {
+    height: 460px;
+}
+
+#preview #front {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    top: 20px;
+    height: 200px;
+    background-color: #5bc0de;
+}
+
+#preview #back {
+    position: absolute;
+    top:240px;
+    left: 15px;
+    right: 15px;
+    height: 200px;
+    background-color: #02b4fe;
+}
+/*************page preview end**************************/
+
+/*************page order start**************************/
+#order #iscrollWrapper {
+    position: absolute;
+    top: 0;
+    bottom: 136px;
+    width: 100%;
+    overflow: hidden;
+}
+
+#order #orderInfo {
+    padding: 15px 0;
+    margin: 0 15px;
+}
+
+#order #orderInfo #headerTitle {
+    height: 50px;
+    background-color: #909090;
+    line-height: 50px;
+    color: #ffffff;
+}
+
+#order #orderInfo #headerTitle .orderIcon {
+    display: inline-block;
+    margin-top: 11px;
+    margin-left: 30px;
+    width: 28px;
+    height: 28px;
+    background-color: red;
+}
+
+#order #orderInfo #headerTitle>span {
+    position: relative;
+    top: -8px;
+    left: 8px;
+}
+
+#orderInfo #textInfo>ul {
+    list-style: none;
+}
+
+#orderInfo #textInfo>ul>li {
+    height: 50px;
+    background-color: #FBFAF8;
+    border-bottom: 1px solid #EDEEE9;
+    line-height: 50px;
+    padding: 0 15px;
+    color: #808080;
+}
+
+#orderInfo #textInfo>ul>li .left {
+    display: inline-block;
+    width: 50%;
+}
+
+#orderInfo #textInfo>ul>li .right {
+    display: inline-block;
+}
+
+#order #price {
+    position: absolute;
+    bottom: 56px;
+    height: 80px;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+#order #price>div:first-child {
+    border-top: 1px solid #EDEEE9;
+}
+
+#order #price>div {
+    height: 39px;
+    border-bottom: 1px solid #EDEEE9;
+    position: relative;
+}
+
+#order #price>div .left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    border-right: 1px solid #EDEEE9;;
+}
+
+#order #price>div .right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+}
+
+#order #price>div>div .checkboxIcon {
+    margin-left: 20px;
+    margin-top: 9px;
+    width: 22px;
+    height: 22px;
+    background-color: #02b4fe;
+    border: none;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+#order #price>div>div .normal {
+    position: relative;
+    bottom: 4px;
+    font-size: 12px;
+    color: #949494;
+    letter-spacing: 1px;
+}
+
+#order #price>div>div .price {
+    font-size: 18px;
+    color: #B33767;
+}
+
+#order #sureToPay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 46px;
+    background-color: #42C12F;
+    color: #ffffff;
+    font-size: 18px;
+    text-align: center;
+    line-height: 46px;
+    letter-spacing: 5px;
+}
+/*************page order end**************************/
 
 
 

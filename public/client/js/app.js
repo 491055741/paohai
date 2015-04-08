@@ -32,6 +32,14 @@ Postcard.config(["$routeProvider",
                 templateUrl: "templates/selectPostmark.html",
                 controller: "SelectPostmarkController"
             })
+            .when("/preview", {
+                templateUrl: "templates/preview.html",
+                controller: "PreviewController"
+            })
+            .when("/order", {
+                templateUrl: "templates/order.html",
+                controller: "OrderController"
+            })
             .otherwise({
                 templateUrl: "templates/404.html"
             });
