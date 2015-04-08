@@ -3,22 +3,25 @@
         margin:0;
         padding:0;
     }
-
-    #makePostcardBtn {
-        background: url('/images/activity/paopaohai/makePostcardBtn.png') no-repeat;
-        background-size: 100%, 100%;
-        position:absolute;
-        border: none;
-        width:40%;
-        top: 240px;
-        left:30%;
-    }
 </style>
 <script type="text/javascript">
     function initPage() {
-        document.getElementById('makePostcardBtn').style.marginTop = document.body.scrollWidth/600 * 450;
-        document.getElementById('makePostcardBtn').style.height = document.body.clientWidth/600 * 110;
-        $('#makePostcardBtn').show();
+        var screenWidth = parseInt($("body").css("width"));
+        var imageHeight = parseInt($("#background")[0].height);
+        var realImageWidth = 600;
+        var realImageHeight = 1024;
+        var realX1 = 75;
+        var realY1 = 885;
+        var realX2 = 388;
+        var realY2 = 970;
+
+        var x1 = parseInt(screenWidth *  realX1 / realImageWidth);
+        var y1 = parseInt(imageHeight * realY1 / realImageHeight);
+
+        var x2 = parseInt(screenWidth *  realX2 / realImageWidth);
+        var y2 = parseInt(imageHeight * realY2 / realImageHeight);
+
+        $("#button-area").attr("coords", x1 +"," + y1 + "," + x2 + "," + y2);
     }
 
     function makePostcard(data) {
@@ -30,7 +33,7 @@
     $(function() {
         actIntro.init(1, "00001");
 
-        $(document).on("click", "#makePostcardBtn", function() {
+        $("#button-area").on("click", function () {
             actIntro.chooseImage(makePostcard);
         });
     });
