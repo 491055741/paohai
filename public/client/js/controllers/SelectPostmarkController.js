@@ -1,26 +1,19 @@
-postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "Util",
+postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "Util",
     function($rootScope, $scope, $window, $location, $http, $routeParams, Util) {
-        $rootScope.leftButtonText = "<选择边框";
-        $rootScope.rightButtonText = "确认预览>";
+        $rootScope.leftButtonText = "<取消";
+        $rootScope.rightButtonText = "";
 
         $rootScope.onHeaderLeftButtonClick = function () {
-            $location.path("/");
+            $location.path("/editInfo");
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
         };
 
-        $scope.editContact = function () {
-            $location.path("/editContact");
+        $scope.onOkButtonClick = function () {
+            $location.path("/editInfo");
         };
 
-        $scope.selectPostmark = function () {
-            $location.path("/selectPostmark");
-        };
-
-        $scope.editGreetings = function () {
-            $location.path("/editGreetings");
-        };
 
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
