@@ -8,6 +8,10 @@ html, body {
     height: 100%;
 }
 
+.clear {
+    clear: both;
+}
+
 button {
     border: none;
     background-color: transparent;
@@ -401,6 +405,46 @@ button {
     left: 15px;
     right: 15px;
     bottom: 60px;
+}
+
+#selectPostmark #headerLabel {
+    line-height: 24px;
+    margin: 15px 0;
+    height: 60px;
+    text-align: center;
+    color: #6B7A96;
+    font-size: 16px;
+    border-bottom: 1px solid #EDECEA;
+}
+
+#selectPostmark #iscrollWrapper {
+    top: 77px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+#selectPostmark #postmarkList {
+    list-style: none;
+}
+
+#selectPostmark #postmarkList>li {
+    float: left;
+    width: 54px;
+    height: 54px;
+    margin-left: 15px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: #001042;
+    position: relative;
+}
+
+#selectPostmark #postmarkList>li>p {
+    font-size: 14px;
+    position: relative;
+    bottom: -45px;
+    text-align: center;
 }
 
 

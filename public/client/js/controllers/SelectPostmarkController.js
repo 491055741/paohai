@@ -14,6 +14,13 @@ postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scop
             $location.path("/editInfo");
         };
 
+        setTimeout(function () {
+            var myScroll = new IScroll('#iscrollWrapper', {
+                click: true,
+                scrollbars: true
+            });
+        }, 300);
+
 
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
