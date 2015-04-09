@@ -16,5 +16,29 @@ util.value("Util", {
         }
 
         return queryString;
+    },
+
+    overlay: {
+        init: function (content) {
+            $("#overlay #content").off("click");
+            $("#overlay #content").on("click", function () {
+                return false;
+            });
+
+            $("#overlay").off("click");
+            $("#overlay").on("click", function () {
+                $(this).hide();
+            });
+
+            $("#overlay #content").html(content);
+        },
+
+        show: function () {
+            $("#overlay").show();
+        },
+
+        hide: function () {
+            $("#overlay").hide();
+        }
     }
 });

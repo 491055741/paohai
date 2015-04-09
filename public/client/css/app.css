@@ -43,6 +43,26 @@ button {
     border-radius: 5px;
 }
 
+#overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: none;
+}
+
+#overlay #content {
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    left: 15%;
+    right: 15%;
+    background-color: #ffffff;
+}
+
 #header {
     position: absolute;
     height: 40px;
@@ -768,6 +788,71 @@ button {
     background-color: #D16A85;
 }
 /***********page friendsManager end***************************/
+
+/***********page addContact start***************************/
+#addContact #iscrollWrapper {
+    top: 0;
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+}
+
+#addContact #scroller {
+    padding: 20px 0;
+}
+
+#addContact #container {
+    margin: 0 15px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#addContact #container #optionAddress {
+    background-color: #3B3B3B;
+    height: 40px;
+    position: relative;
+}
+
+#addContact #container #optionAddress .icon {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top:8px;
+    left: 20px;
+    background-color: #ffffff;
+}
+
+#addContact #container #optionAddress p {
+    color: #ffffff;
+    position: relative;
+    left: 60px;
+    top:13px;
+    font-size: 14px;
+}
+
+#addContact #formContainer .input,select {
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    line-height: 40px;
+    border: none;
+    border-bottom: 1px solid #EEEDEB;
+    background-color: #FBFAF8;
+    font-size: 14px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+
+#addContact #formContainer #province {
+    width: 50%;
+}
+
+#addContact #formContainer #city {
+    width: 50%;
+    position: absolute;
+    right: 0;
+}
+/***********page addContact end***************************/
 
 
 

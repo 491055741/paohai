@@ -4,14 +4,9 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
         $rootScope.rightButtonText = "";
 
         $rootScope.onHeaderLeftButtonClick = function () {
-            $location.path("/editContact");
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
-        };
-
-        $scope.onOkButtonClick = function () {
-            $location.path("/editContact");
         };
 
         var contacts = [
@@ -80,6 +75,16 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
 
         $scope.isSelected = function (index) {
             return ($scope.selectedIndex === index);
+        };
+
+        $scope.addContact = function () {
+            $location.path("/addContact");
+        };
+
+        Util.overlay.init("<h2>dkfla;sksadf</h2>");
+
+        $scope.showOverlay = function () {
+            Util.overlay.show();
         };
 
         setTimeout(function () {
