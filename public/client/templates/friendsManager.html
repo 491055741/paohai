@@ -1,0 +1,38 @@
+
+<div id="friendsManager">
+    <div id="addressTitle">
+        <p>好友管理</p>
+        <div class="rightIcon"></div>
+    </div>
+    <div id="iscrollWrapper">
+        <ul id="contactList" >
+            <li ng-repeat="contact in contacts" ng-click="onClickLi($index)" ng-class="selectedClass($index)">
+                <div>
+                    <p>{{contact.name}}</p>
+                    <div class="arrow"></div>
+                </div>
+                <div class="detailArea hide-fade" ng-show="isSelected($index)">
+                    <div class="left">
+                        <p>邮编:{{contact.postcode}}</p>
+                        <p>地址:{{contact.address}}</p>
+                    </div>
+                    <div class="buttonEdit">
+                        编辑
+                    </div>
+                    <div class="buttonDelete">
+                        删除
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div id="tabView">
+        <button id="addContact" ng-class="getClass(0)">
+            添加联系人
+        </button>
+        <button id="requestFromOther" ng-class="getClass(1)">
+            请TA填写
+        </button>
+    </div>
+</div>

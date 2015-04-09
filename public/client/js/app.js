@@ -2,6 +2,7 @@
 var Postcard = angular.module("Postcard", [
     "ngTouch",
     "ngRoute",
+    "ngAnimate",
     "PostcardControllers"
 ]);
 
@@ -39,6 +40,10 @@ Postcard.config(["$routeProvider",
             .when("/order", {
                 templateUrl: "templates/order.html",
                 controller: "OrderController"
+            })
+            .when("/friendsManager", {
+                templateUrl: "templates/friendsManager.html",
+                controller: "FriendsManagerController"
             })
             .otherwise({
                 templateUrl: "templates/404.html"

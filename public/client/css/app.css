@@ -313,6 +313,15 @@ button {
     color: #697996;
 }
 
+#addressBook #addressTitle .rightIcon {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    width: 26px;
+    height: 26px;
+    background-color: red;
+}
+
 #addressBook #contactList>li {
     height: 50px;
     border-bottom: 1px solid #F6F5F4;
@@ -393,6 +402,15 @@ button {
     line-height: 46px;
     text-align: center;
     background-color: #43C12F;
+}
+
+#editGreetings #playVoice {
+    background-color: #0FAAEF;
+    height: 46px;
+    width: 46px;
+    position: absolute;
+    right: 15px;
+    bottom: 55px;
 }
 /*************page editGreetings end***********************/
 
@@ -616,6 +634,140 @@ button {
     letter-spacing: 5px;
 }
 /*************page order end**************************/
+
+/***********page friendsManager start***************************/
+#friendsManager .selected {
+    background-color: #c8dcf0;
+}
+
+#friendsManager #iscrollWrapper {
+    top: 50px;
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    z-index: 0;
+}
+
+#friendsManager #addressTitle {
+    height: 50px;
+    background-color: #EAEAEA;
+    position: relative;
+    z-index: 900;
+    opacity: 0.9;
+}
+
+#friendsManager #addressTitle p {
+    position: absolute;
+    top: 16px;
+    left: 15px;
+    color: #697996;
+}
+
+#friendsManager #addressTitle .rightIcon {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    width: 26px;
+    height: 26px;
+    background-color: red;
+}
+
+#friendsManager #contactList>li {
+    border-bottom: 1px solid #F6F5F4;
+    overflow: hidden;
+}
+
+#friendsManager #contactList>li>div:first-child {
+    position: relative;
+    height: 40px;
+}
+
+#friendsManager #contactList>li>div:first-child>p {
+    padding-top: 11px;
+    margin-left: 15px;
+    color: #5F5F5F;
+    font-size: 16px;
+}
+
+#friendsManager #contactList>li>div:first-child>.arrow {
+    position: absolute;
+    right: 15px;
+    top: 7px;
+    background-color: red;
+    width: 26px;
+    height: 26px;
+}
+
+#friendsManager #contactList>li>.detailArea {
+    height: 60px;
+    background-color: #EAEAEA;
+    position: relative;
+}
+
+#friendsManager #contactList>li>.detailArea>.left>p:first-child {
+    margin-left: 15px;
+    position: relative;
+    top: 12px;
+    font-size: 14px;
+}
+
+#friendsManager #contactList>li>.detailArea>.left>p:last-child {
+    margin-left: 15px;
+    position: relative;
+    top: 20px;
+    font-size: 14px;
+}
+
+#friendsManager #contactList>li>.detailArea>.buttonEdit {
+    position: absolute;
+    right: 70px;
+    top: 0;
+    bottom: 0;
+    width: 70px;
+    background-color: #979797;
+    color: #ffffff;
+    text-align: center;
+    line-height: 60px;
+}
+
+#friendsManager #contactList>li>.detailArea>.buttonDelete {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 70px;
+    background-color: #E02E34;
+    color: #ffffff;
+    text-align: center;
+    line-height: 60px;
+}
+
+#friendsManager #tabView {
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+#friendsManager #tabView button {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+#friendsManager #tabView #addContact {
+    left: 0;
+    background-color: #3186B4;
+}
+
+#friendsManager #tabView #requestFromOther {
+    right: 0;
+    background-color: #D16A85;
+}
+/***********page friendsManager end***************************/
 
 
 
