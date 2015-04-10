@@ -86,6 +86,7 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
         }, 200);
 
         $scope.continueOrder = function (index) {
+            $location.path("/continueOrder");
         };
 
         Util.overlay.init("<h2>dkfla;sksadf</h2>");

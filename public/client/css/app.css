@@ -1013,3 +1013,15 @@ button {
     text-align: center;
 }
 /***********page ordersManager end***************************/
+
+/***********page continueOrder start***************************/
+#continueOrder #cardPreview {
+    background-color: red;
+    width: 60%;
+    position: absolute;
+    top: 10px;
+    left: 20%;
+    right: 20%;
+    bottom: 50px;
+}
+/***********page continueOrder end***************************/

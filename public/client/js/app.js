@@ -53,6 +53,10 @@ Postcard.config(["$routeProvider",
             templateUrl: "templates/ordersManager.html",
             controller: "OrdersManagerController"
         })
+        .when("/continueOrder", {
+            templateUrl: "templates/continueOrder.html",
+            controller: "ContinueOrderController"
+        })
         .otherwise({
             templateUrl: "templates/404.html"
         });
