@@ -855,4 +855,161 @@ button {
 /***********page addContact end***************************/
 
 
+/***********page ordersManager start***************************/
+#ordersManager .selected {
+    background-color: #c8dcf0;
+}
 
+#ordersManager .active-tab {
+    color: #697996 !important;
+}
+
+#ordersManager #iscrollWrapper {
+    top: 80px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 0;
+}
+
+#ordersManager #orderTitle {
+    height: 80px;
+    background-color: #EAEAEA;
+    position: relative;
+    z-index: 900;
+    opacity: 0.9;
+}
+
+#ordersManager #orderTitle p {
+    position: absolute;
+    top: 16px;
+    left: 15px;
+    color: #697996;
+}
+
+#ordersManager #orderTitle .rightIcon {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    width: 26px;
+    height: 26px;
+    background-color: red;
+}
+
+#ordersManager #orderTitle #dateTab {
+    height: 30px;
+    width: 100%;
+    overflow-x: scroll;
+    position: absolute;
+    top: 50px;
+}
+
+#ordersManager #orderTitle #dateTab>ul {
+    list-style: none;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    height: 100%;
+}
+
+#ordersManager #orderTitle #dateTab>ul>li {
+    width: 80px;
+    display: inline-block;
+    line-height: 30px;
+    text-align: center;
+    color: #9CA5B5;
+    font-size: 14px;
+}
+
+#ordersManager #orderList>li {
+    border-bottom: 1px solid #F6F5F4;
+    overflow: hidden;
+}
+
+#ordersManager #orderList>li>div:first-child {
+    position: relative;
+    height: 40px;
+}
+
+#ordersManager #orderList>li>div:first-child>p {
+    padding-top: 11px;
+    margin-left: 15px;
+    color: #5F5F5F;
+    font-size: 16px;
+}
+
+#ordersManager #orderList>li>div:first-child>.arrow {
+    position: absolute;
+    right: 15px;
+    top: 7px;
+    background-color: red;
+    width: 26px;
+    height: 26px;
+}
+
+#ordersManager #orderList>li>.detailArea {
+    height: 160px;
+    background-color: #EAEAEA;
+    position: relative;
+}
+
+#ordersManager #orderList>li>.detailArea .left {
+    position: absolute;
+    top:15px;
+    left: 15px;
+    right: 160px;
+    bottom: 65px;
+    color: #696969;
+}
+
+#ordersManager #orderList>li>.detailArea .left>p:first-child {
+    position: relative;
+    top: 5px;
+    font-size: 18px;
+}
+
+#ordersManager #orderList>li>.detailArea .left>p:nth-child(2) {
+    position: relative;
+    top: 20px;
+    font-size: 14px;
+}
+
+#ordersManager #orderList>li>.detailArea .left>p:nth-child(3) {
+    position: relative;
+    top: 26px;
+    font-size: 14px;
+}
+
+#ordersManager #orderList>li>.detailArea .right {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    height: 80px;
+    width: 130px;
+    background-color: red;
+}
+
+#ordersManager #orderList>li>.detailArea .continueButton {
+    position: absolute;
+    left: 10%;
+    width: 40%;
+    height: 36px;
+    bottom: 15px;
+    background-color: #39B835;
+    color: #ffffff;
+    line-height: 36px;
+    text-align: center;
+}
+
+#ordersManager #orderList>li>.detailArea .shareButton {
+    position: absolute;
+    right: 10%;
+    width: 40%;
+    height: 36px;
+    bottom: 15px;
+    background-color: #C7C7C7;
+    color: #5D5D5D;
+    line-height: 36px;
+    text-align: center;
+}
+/***********page ordersManager end***************************/

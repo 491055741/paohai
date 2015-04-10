@@ -49,6 +49,10 @@ Postcard.config(["$routeProvider",
             templateUrl: "templates/addContact.html",
             controller: "AddContactController"
         })
+        .when("/ordersManager", {
+            templateUrl: "templates/ordersManager.html",
+            controller: "OrdersManagerController"
+        })
         .otherwise({
             templateUrl: "templates/404.html"
         });
