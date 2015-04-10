@@ -1055,3 +1055,72 @@ button {
     background-color: red;
 }
 /***********page like end***************************/
+
+/***********page requestAddress start***************************/
+#requestAddress #iscrollWrapper {
+    top: 0;
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+}
+
+#requestAddress #container {
+    margin: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#requestAddress #container #optionAddress {
+    background-color: #3B3B3B;
+    height: 40px;
+    position: relative;
+    display: none;
+}
+
+#requestAddress #container #optionAddress .icon {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top:8px;
+    left: 20px;
+    background-color: #ffffff;
+}
+
+#requestAddress #container #optionAddress p {
+    color: #ffffff;
+    position: relative;
+    left: 60px;
+    top:13px;
+    font-size: 14px;
+}
+
+#requestAddress #formContainer .input,select {
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    line-height: 40px;
+    border: none;
+    border-bottom: 1px solid #EEEDEB;
+    font-size: 14px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+#requestAddress #formContainer #province {
+    width: 50%;
+}
+
+#requestAddress #formContainer #city {
+    width: 50%;
+    position: absolute;
+    right: 0;
+}
+
+#requestAddress #tips {
+    margin-top: 30px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+}
+/***********page requestAddress end***************************/
