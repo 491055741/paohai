@@ -57,6 +57,10 @@ Postcard.config(["$routeProvider",
             templateUrl: "templates/continueOrder.html",
             controller: "ContinueOrderController"
         })
+        .when("/like", {
+            templateUrl: "templates/like.html",
+            controller: "LikeController"
+        })
         .otherwise({
             templateUrl: "templates/404.html"
         });
