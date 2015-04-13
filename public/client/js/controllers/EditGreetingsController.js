@@ -10,8 +10,14 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
         $rootScope.onHeaderRightButtonClick = function () {
         };
 
-        $scope.editContact = function () {
-            $location.path("/editContact");
+        $scope.startVoice = function () {
+            $("#startVoice").text("正在录制，请说出您的留言...");
+        };
+
+        $scope.endVoice = function () {
+            $("#startVoice").text("按住重录语音");
+            $("#startVoice").css("right", "75px");
+            $("#playVoice").show();
         };
 
         $scope.onOkButtonClick = function () {

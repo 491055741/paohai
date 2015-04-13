@@ -255,10 +255,30 @@ button {
     color: #ffffff;
 }
 
+#editContact #container #mapIcon {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: 25px;
+    height: 25px;
+    background-image: url("../images/map-icon.png");
+    background-size: 100% 100%;
+}
+
 #editContact #container #optionAddress {
     background-color: #3B3B3B;
     height: 40px;
     position: relative;
+}
+
+#editContact #container #optionAddress #locationIcon {
+    position: relative;
+    top: 5px;
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    background-image: url("../images/location.png");
+    background-size: 100% 100%;
 }
 
 #editContact #container #optionAddress button {
@@ -270,14 +290,34 @@ button {
 
 #editContact #container #optionAddress #buttonAddress {
     width: 30%;
-    position: absolute;
     border-right: 1px solid #2C2C2C;
+}
+
+#editContact #container #optionAddress #listIcon {
+    display: inline-block;
+    top: 5px;
+    left: -3px;
+    position: relative;
+    width: 22px;
+    height: 22px;
+    background-image: url("../images/list-icon.png");
+    background-size: 100% 100%;
 }
 
 #editContact #container #optionAddress #buttonAddressBook {
     width: 70%;
     position: absolute;
     right: 0;
+}
+
+#editContact #container #optionAddress #downTriangleIcon {
+    position: absolute;
+    bottom: -7px;
+    left: 40px;
+    width: 14px;
+    height: 7px;
+    background-image: url("../images/down-triangle.png");
+    background-size: 100% 100%;
 }
 
 #editContact #formContainer .input,select {
@@ -318,12 +358,13 @@ button {
     z-index: 0;
 }
 
+
 #addressBook #addressTitle {
     height: 50px;
     background-color: #EAEAEA;
     position: relative;
     z-index: 900;
-    opacity: 0.9;
+    opacity: 0.97;
 }
 
 #addressBook #addressTitle p {
@@ -339,7 +380,18 @@ button {
     top: 12px;
     width: 26px;
     height: 26px;
-    background-color: red;
+    background-image: url("../images/list-icon.png");
+    background-size: 100% 100%;
+}
+
+#addressBook #triangle {
+    width: 16px;
+    height: 8px;
+    position: absolute;
+    bottom: -1px;
+    left: 50px;
+    background-image: url("../images/up-triangle-01.png");
+    background-size: 100% 100%;
 }
 
 #addressBook #contactList>li {
@@ -425,12 +477,14 @@ button {
 }
 
 #editGreetings #playVoice {
-    background-color: #0FAAEF;
     height: 46px;
     width: 46px;
     position: absolute;
     right: 15px;
     bottom: 55px;
+    background-image: url("../images/play.png");
+    background-size: 100% 100%;
+    display: none;
 }
 /*************page editGreetings end***********************/
 
@@ -476,6 +530,16 @@ button {
     margin-bottom: 20px;
     background-color: #001042;
     position: relative;
+}
+
+#selectPostmark #postmarkList>li>.selected {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background-image: url("../images/selected-icon.png");
+    background-size: 100% 100%;
 }
 
 #selectPostmark #postmarkList>li>p {
@@ -543,6 +607,7 @@ button {
     background-color: #909090;
     line-height: 50px;
     color: #ffffff;
+    position: relative;
 }
 
 #order #orderInfo #headerTitle .orderIcon {
@@ -551,13 +616,23 @@ button {
     margin-left: 30px;
     width: 28px;
     height: 28px;
-    background-color: red;
+    background-image: url("../images/list-icon.png");
+    background-size: 100% 100%;
 }
 
 #order #orderInfo #headerTitle>span {
     position: relative;
     top: -8px;
     left: 8px;
+}
+
+#order #orderInfo #headerTitle #downTriangle {
+    position: absolute;
+    bottom: -8px;
+    left: 50px;
+    width: 16px;
+    height: 8px;
+    background-color: red;
 }
 
 #orderInfo #textInfo>ul {
@@ -622,10 +697,15 @@ button {
     margin-top: 9px;
     width: 22px;
     height: 22px;
-    background-color: #02b4fe;
     border: none;
     display: inline-block;
     margin-right: 6px;
+    background-image: url("../images/unchecked.png");
+    background-size: 100% 100%;
+}
+
+#order #price>div>div .checkboxIcon.checked {
+    background-image: url("../images/checked.png");
 }
 
 #order #price>div>div .normal {
@@ -673,7 +753,7 @@ button {
     background-color: #EAEAEA;
     position: relative;
     z-index: 900;
-    opacity: 0.9;
+    opacity: 0.97;
 }
 
 #friendsManager #addressTitle p {
@@ -689,7 +769,18 @@ button {
     top: 12px;
     width: 26px;
     height: 26px;
-    background-color: red;
+    background-image: url("../images/profile.png");
+    background-size: 100% 100%;
+}
+
+#friendsManager #addressTitle #upTriangle {
+    position: absolute;
+    left: 50px;
+    bottom: -1px;
+    width: 16px;
+    height: 8px;
+    background-image: url("../images/up-triangle-01.png");
+    background-size: 100% 100%;
 }
 
 #friendsManager #contactList>li {
@@ -877,7 +968,7 @@ button {
     background-color: #EAEAEA;
     position: relative;
     z-index: 900;
-    opacity: 0.9;
+    opacity: 0.97;
 }
 
 #ordersManager #orderTitle p {
@@ -893,7 +984,8 @@ button {
     top: 12px;
     width: 26px;
     height: 26px;
-    background-color: red;
+    background-image: url("../images/order-list-icon.png");
+    background-size: 100% 100%;
 }
 
 #ordersManager #orderTitle #dateTab {
@@ -919,6 +1011,17 @@ button {
     text-align: center;
     color: #9CA5B5;
     font-size: 14px;
+    position: relative;
+}
+
+#ordersManager #orderTitle #dateTab>ul>li>.triangle {
+    position: absolute;
+    bottom: -1px;
+    left: 32px;
+    width: 16px;
+    height: 8px;
+    background-image: url("../images/up-triangle.png");
+    background-size: 100% 100%;
 }
 
 #ordersManager #orderList>li {
