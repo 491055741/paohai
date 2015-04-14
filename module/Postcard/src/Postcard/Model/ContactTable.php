@@ -22,7 +22,7 @@ class ContactTable
             $entry->contactName = $row->contactName;
             $entry->address = $row->address;
             $entry->zipCode = $row->zipCode;
-            $entry->mobiel = $row->mobile;
+            $entry->mobile = $row->mobile;
             $entries[] = $entry;
         }
         return $entries;

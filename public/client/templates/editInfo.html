@@ -3,7 +3,7 @@
     <div id="headerContainer">
         <div id="receiverInfo" ng-click="editContact()">
             <br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;收件人信息
+            &nbsp;&nbsp;&nbsp;&nbsp;{{targetContact.contactName || "收件人信息"}}
         </div>
 
         <div id="postmark" ng-click="selectPostmark()">

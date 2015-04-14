@@ -11,65 +11,33 @@ postcardControllers.controller("AddressBookController", ["$rootScope", "$scope",
         };
 
         $scope.onOkButtonClick = function () {
+            if ($scope.selectedIndex === null) {
+                alert("请选择一个联系人");
+                return;
+            }
+
+            $rootScope.targetContact = $scope.contacts[$scope.selectedIndex];
+            console.log($rootScope.targetContact);
             $location.path("/editContact");
         };
 
-        var contacts = [
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
+        $http.get("/contact/listcontacts", {
+            params: {
+                userName: $rootScope.username
             }
-        ];
+        }).success(function (data) {
+            $scope.contacts = data.data;
+            setTimeout(function () {
+                var myScroll = new IScroll('#iscrollWrapper', {
+                    click: true,
+                    scrollbars: true
+                });
+            }, 200);
+        }).error(function (error) {
+            alert(error);
+        });
 
         $scope.selectedIndex = null;
-        $scope.contacts = contacts;
-
         $scope.onClickLi = function (index) {
             $scope.selectedIndex = index;
         };
@@ -77,25 +45,5 @@ postcardControllers.controller("AddressBookController", ["$rootScope", "$scope",
         $scope.selectedClass = function (index) {
             return $scope.selectedIndex === index ? "selected" : null;
         };
-
-        setTimeout(function () {
-            var myScroll = new IScroll('#iscrollWrapper', {
-                click: true,
-                scrollbars: true
-            });
-        }, 200);
-
-        //
-        //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
-        //    //orderId: 0,
-        //    picurl: $routeParams.picurl,
-        //    //actId: "",
-        //    //partnerId: "",
-        //    username: $routeParams.username
-        //})).success(function (data) {
-        //    $scope.data = data.data;
-        //    showTemplate();
-        //}).error(function () {
-        //});
     }
 ]);

@@ -8,8 +8,8 @@
     <div id="iscrollWrapper">
         <ul id="contactList" >
             <li ng-repeat="contact in contacts" ng-click="onClickLi($index)" ng-class="selectedClass($index)">
-                <p class="name">{{contact.name}}</p>
-                <p class="postcode">邮编：{{contact.postcode}}</p>
+                <p class="name">{{contact.contactName}}</p>
+                <p class="postcode">邮编：{{contact.zipCode}}</p>
                 <p class="address">地址：{{contact.address}}</p>
             </li>
         </ul>

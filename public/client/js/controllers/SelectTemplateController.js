@@ -26,6 +26,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             username: $routeParams.username
         })).success(function (data) {
             $scope.data = data.data;
+            $rootScope.username = $scope.data.username;
             showTemplate();
         }).error(function () {
         });

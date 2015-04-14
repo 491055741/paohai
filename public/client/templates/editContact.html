@@ -13,26 +13,17 @@
                     <div id="downTriangleIcon"></div>
                 </div>
                 <div id="formContainer">
-                    <input id="name" class="input" placeholder="姓名">
-                    <select id="province" class="input">
-                        <option>选择省份</option>
-                        <option>选择省份</option>
-                        <option>选择省份</option>
-                        <option>选择省份</option>
-                        <option>选择省份</option>
-                        <option>选择省份</option>
+                    <input id="name" class="input" placeholder="姓名" ng-model="name">
+                    <select id="province" class="input" ng-model="selectedProvince">
+                        <option ng-repeat="province in provinces" value="{{province}}">{{province.province}}</option>
                     </select>
-                    <select id="city" class="input">
-                        <option>选择城市</option>
-                        <option>选择城市</option>
-                        <option>选择城市</option>
-                        <option>选择城市</option>
-                        <option>选择城市</option>
+                    <select id="city" class="input" ng-model="selectedCity">
+                        <option ng-repeat="city in cities()">{{city}}</option>
                     </select>
 
-                    <input id="address" class="input" placeholder="详细地址">
-                    <input id="telephone" class="input" placeholder="手机号">
-                    <input id="postcode" class="input" placeholder="邮编">
+                    <input id="address" class="input" placeholder="详细地址" ng-value="address">
+                    <input id="telephone" class="input" placeholder="手机号" ng-model="mobile">
+                    <input id="postcode" class="input" placeholder="邮编" ng-model="zipcode">
                 </div>
             </div>
         </div>
