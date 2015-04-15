@@ -1185,7 +1185,16 @@ class PostcardController extends AbstractActionController
 
         // stamp   82px => 7mm
         $width=$height=300;
-        $image = imagecreatefrompng('public/images/big/stamp.png');
+
+        switch ($order->activityId) {
+            case 107:
+                $stamp = 'guanzhichezhan-stamp.png';
+                break;
+            default:
+                $stamp = 'stamp.png';
+        }
+
+        $image = imagecreatefrompng('public/images/big/'.$stamp);
         imagecopyresampled($dst, $image, $canvas_w-82-$width, 82, 0, 0, $width, $height, imagesx($image), imagesy($image));
 
         // Commemorative Chop
