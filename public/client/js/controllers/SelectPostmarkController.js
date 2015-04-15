@@ -22,17 +22,11 @@ postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scop
         }, 300);
 
 
-        //
-        //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
-        //    //orderId: 0,
-        //    picurl: $routeParams.picurl,
-        //    //actId: "",
-        //    //partnerId: "",
-        //    username: $routeParams.username
-        //})).success(function (data) {
-        //    $scope.data = data.data;
-        //    showTemplate();
-        //}).error(function () {
-        //});
+        $http.get("/postcard/getYouchuoList?" + Util.getQueryStringFromObject({
+            activityId: 0
+        })).success(function (data) {
+            $scope.data = data.data;
+        }).error(function () {
+        });
     }
 ]);

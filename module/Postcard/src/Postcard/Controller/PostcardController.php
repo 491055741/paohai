@@ -39,6 +39,7 @@ class PostcardController extends AbstractActionController
     protected $orderTable;
     protected $userPositionTable;
     protected $contactTable;
+    protected $youchuoTable;
     protected $util;
 
     private function postCheck($post)
@@ -839,6 +840,14 @@ class PostcardController extends AbstractActionController
         return '/tmp/quyou.log';
     }
 
+    private function getYouchuoTable() {
+        if (!$this->youchuoTable) {
+            $sm = $this->getServiceLocator();
+            $this->youchuoTable = $sm->get('Postcard\Model\youchuoTable');
+        }
+        return $this->youchuoTable;
+    }
+
     private function getOrderTable()
     {
         if (!$this->orderTable) {
@@ -962,6 +971,18 @@ class PostcardController extends AbstractActionController
             );
             return new JsonModel($res);
         }
+    }
+
+    public function getYouchuoListAction() {
+        $activityId = $this->getRequest()->getQuery('activityId', Activity::DEFAULT_ACTIVITY_ID);
+
+        $youchuoList = $this->getYouchuoTable()->getYouchuoList($activityId);
+
+        return new JsonModel(array(
+            "code" => "0",
+            "data" => $youchuoList
+            )
+        );
     }
 
     // need imagick module

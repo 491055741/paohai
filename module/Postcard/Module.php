@@ -23,6 +23,8 @@ use Postcard\Model\ActivityJoinRecord;
 use Postcard\Model\ActivityJoinRecordTable;
 use Postcard\Model\Image;
 use Postcard\Model\ImageTable;
+use Postcard\Model\Youchuo;
+use Postcard\Model\YouchuoTable;
 
 
 class Module
@@ -59,6 +61,12 @@ class Module
                 'Postcard\Model\WxParaTable' =>  function($sm) {
                     $tableGateway = $sm->get('WxParaTableGateway');
                     $table = new WxParaTable($tableGateway);
+                    return $table;
+                },
+
+                'Postcard\Model\YouchuoTable' =>  function($sm) {
+                    $tableGateway = $sm->get('YouchuoTableGateway');
+                    $table = new YouchuoTable($tableGateway);
                     return $table;
                 },
 
@@ -110,6 +118,13 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new WxPara());
                     return new TableGateway('wxpara_table', $dbAdapter, null, $resultSetPrototype);
+                },
+
+                'YouchuoTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Youchuo());
+                    return new TableGateway('youchuo', $dbAdapter, null, $resultSetPrototype);
                 },
 
                 'ContactTableGateway' => function ($sm) {
