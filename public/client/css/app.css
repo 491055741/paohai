@@ -168,7 +168,7 @@ button {
 #selectTemplate #tabView button img {
     width: 16px;
     position: absolute;
-    top:-7px;
+    top:-11px;
     left: 48%;
 }
 
@@ -300,7 +300,7 @@ button {
     position: relative;
     width: 22px;
     height: 22px;
-    background-image: url("../images/list-icon.png");
+    background-image: url("../images/list-icon-white.png");
     background-size: 100% 100%;
 }
 
