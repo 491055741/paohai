@@ -10,7 +10,7 @@
             <li ng-repeat="contact in contacts" ng-click="onClickLi($index)" ng-class="selectedClass($index)">
                 <div>
                     <p>{{contact.name}}</p>
-                    <div class="arrow"></div>
+                    <div class="arrow arrow-up"></div>
                 </div>
                 <div class="detailArea hide-fade" ng-show="isSelected($index)">
                     <div class="left">

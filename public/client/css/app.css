@@ -222,6 +222,10 @@ button {
     bottom:0;
 }
 
+#editInfo #greetingsContent>p {
+    margin: 15px;
+}
+
 /***********page editInfo end *******************/
 
 
@@ -804,9 +808,18 @@ button {
     position: absolute;
     right: 15px;
     top: 7px;
-    background-color: red;
     width: 26px;
     height: 26px;
+}
+
+#friendsManager #contactList>li>div:first-child>.arrow-up {
+    background-image: url("../images/arrow-up.png");
+    background-size: 100% 100%;
+}
+
+#friendsManager #contactList>li>div:first-child>.arrow-down {
+    background-image: url("../images/arrow-down.png");
+    background-size: 100% 100%;
 }
 
 #friendsManager #contactList>li>.detailArea {

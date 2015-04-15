@@ -21,8 +21,10 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
         };
 
         $scope.onOkButtonClick = function () {
+            $rootScope.message = $scope.message;
             $location.path("/editInfo");
         };
+
 
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
