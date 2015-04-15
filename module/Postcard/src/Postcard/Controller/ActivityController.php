@@ -43,10 +43,15 @@ class ActivityController extends AbstractActionController
         $util->setServiceLocator($this->getServiceLocator());
         $accessToken = $util->getAccessToken();
 
-        $title = "趣邮明信片";
-
-        if ($actName == "paopaohai") {
-            $title = "泡泡海";
+        switch ($actName) {
+            case "paopaohai":
+                $title = "泡泡海";
+                break;
+            case "guanzhichezhan":
+                $title = "观致汽车";
+                break;
+            default:
+                $title = "趣邮明信片";
         }
 
         $viewModel = new ViewModel(array(
