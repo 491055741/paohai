@@ -7,19 +7,20 @@
 <script type="text/javascript">
     function initPage() {
         var screenWidth = parseInt($("body").css("width"));
-        var imageHeight = parseInt($("#background")[0].height);
         var realImageWidth = 600;
-        var realImageHeight = 1024;
         var realX1 = 194;
-        var realY1 = 459;
+        var realY1 = 520;
+
         var realX2 = 414;
-        var realY2 = 516;
+        var realY2 = 575;
 
-        var x1 = parseInt(screenWidth *  realX1 / realImageWidth);
-        var y1 = parseInt(imageHeight * realY1 / realImageHeight);
+        var scale = screenWidth / realImageWidth;
 
-        var x2 = parseInt(screenWidth *  realX2 / realImageWidth);
-        var y2 = parseInt(imageHeight * realY2 / realImageHeight);
+        var x1 = parseInt(realX1 * scale);
+        var y1 = parseInt(realY1 * scale);
+
+        var x2 = parseInt(realX2 * scale);
+        var y2 = parseInt(realY2 * scale);
 
         $("#button-area").attr("coords", x1 +"," + y1 + "," + x2 + "," + y2);
     }
