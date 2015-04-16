@@ -35,6 +35,11 @@
         actIntro.init(107, "00001");
 
         $("#button-area").on("click", function () {
+            if (new Date().getDate() < 20) {
+                alert("活动在4月20日0点正式启动，敬请期待");
+                return;
+            }
+
             actIntro.chooseImage(makePostcard);
         });
     });

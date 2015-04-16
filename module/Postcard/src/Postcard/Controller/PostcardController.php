@@ -1136,7 +1136,14 @@ class PostcardController extends AbstractActionController
             $logo_height = imagesy($image_qr)*0.15;
             imagecopyresampled($image_qr, $logo_canvas, (imagesx($image_qr)-$logo_width)/2, (imagesy($image_qr)-$logo_height)/2, 0, 0,
                 $logo_width, $logo_height, imagesx($logo_canvas), imagesy($logo_canvas));
-            $text = '听取你的留言';
+
+            switch ($order->activityId) {
+                case 107:
+                    $text = "扫一扫\n听取你的专属留言";
+                    break;
+                default:
+                    $text = '听取你的留言';
+            }
         } else {
             // quyou qr code
             $image_qr = imagecreatefromjpeg('public/images/big/qr_quyou.jpg');
