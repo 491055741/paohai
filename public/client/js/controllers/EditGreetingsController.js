@@ -28,6 +28,14 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
             });
         };
 
+        $("#startVoice").on("mousedown", function () {
+            $scope.startVoice();
+        });
+
+        $("#startVoice").on("mouseup", function () {
+            $scope.endVoice();
+        });
+
         $scope.onOkButtonClick = function () {
             $rootScope.message = $scope.message;
             $location.path("/editInfo");
