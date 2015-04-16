@@ -28,11 +28,11 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
             });
         };
 
-        $("#startVoice").on("mousedown", function () {
+        $("#startVoice").on("touchstart", function () {
             $scope.startVoice();
         });
 
-        $("#startVoice").on("mouseup", function () {
+        $("#startVoice").on("touchend", function () {
             $scope.endVoice();
         });
 
