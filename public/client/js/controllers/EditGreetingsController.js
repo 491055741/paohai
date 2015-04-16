@@ -12,12 +12,20 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
 
         $scope.startVoice = function () {
             $("#startVoice").text("正在录制，请说出您的留言...");
+            wx.startRecord();
         };
 
         $scope.endVoice = function () {
             $("#startVoice").text("按住重录语音");
             $("#startVoice").css("right", "75px");
             $("#playVoice").show();
+
+            wx.stopRecord({
+                success: function (res) {
+                    var localId = res.localId;
+                    alert(localId);
+                }
+            });
         };
 
         $scope.onOkButtonClick = function () {

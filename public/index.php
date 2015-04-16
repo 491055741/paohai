@@ -6,7 +6,7 @@ function logger($message, $filename="temp") {
 }
 
 ob_start();
-ini_set("display_errors", true);
+ini_set("display_errors", false);
 date_default_timezone_set('Asia/Shanghai');
 /**
  * This makes our life easier when dealing with paths. Everything is relative

@@ -261,6 +261,16 @@ class PostcardController extends AbstractActionController
         ));
     }
 
+    public function getWeixinConfigAction() {
+        $url = 'http://'.$_SERVER[HTTP_HOST].'/client/index.html';
+        $jsApiSignPackage = $this->getUtil()->getJsApiSignPackage($url);
+
+        return new JsonModel(array(
+            'code' => 0,
+            'config' => $jsApiSignPackage,
+        ));
+    }
+
     public function userLngLatAction() {
         $orderId = $this->params()->fromRoute("id", "0");
         $order = $this->getOrderTable()->getOrder($orderId);

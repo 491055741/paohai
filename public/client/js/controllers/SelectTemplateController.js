@@ -32,6 +32,20 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         }).error(function () {
         });
 
+        $http.get("/postcard/getWeixinConfig?" + Util.getQueryStringFromObject({
+        })).success(function (data) {
+            var config = data.config;
+            wx.config({
+                debug: true,
+                appId: config.appId,
+                timestamp:  config.timestamp,
+                nonceStr:  config.nonceStr,
+                signature: config.signature,
+                jsApiList: ['startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice']
+            });
+        }).error(function () {
+        });
+
         var originWidth = null;
         var originHeight = null;
 
