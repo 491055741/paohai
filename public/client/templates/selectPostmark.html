@@ -8,78 +8,10 @@
 
         <div id="iscrollWrapper">
             <ul id="postmarkList">
-                <li>
-                    <div class="selected"></div>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
-                </li>
-                <li>
-                    <img/>
-                    <p>纪念戳</p>
+                <li ng-repeat="youchuo in youchuoList" ng-click="onClickLi($index)">
+                    <div ng-class="getClass($index)"></div>
+                    <img ng-src="{{youchuo.path}}"/>
+                    <p>{{youchuo.name}}</p>
                 </li>
                 <div class="clear"></div>
             </ul>

@@ -23,6 +23,8 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
             $location.path("/editGreetings");
         };
 
+        // TODO: 设置一个默认邮戳
+
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
         //    //orderId: 0,

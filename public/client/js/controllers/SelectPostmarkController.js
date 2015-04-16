@@ -10,7 +10,20 @@ postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scop
         $rootScope.onHeaderRightButtonClick = function () {
         };
 
+        $scope.selectedIndex = null;
+
+        $scope.getClass = function ($index) {
+            return {
+                selected: $scope.selectedIndex === $index
+            };
+        };
+
+        $scope.onClickLi = function ($index) {
+            $scope.selectedIndex = $index;
+        };
+
         $scope.onOkButtonClick = function () {
+            $rootScope.youchuo = $scope.youchuoList[$scope.selectedIndex];
             $location.path("/editInfo");
         };
 
@@ -21,11 +34,10 @@ postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scop
             });
         }, 300);
 
-
         $http.get("/postcard/getYouchuoList?" + Util.getQueryStringFromObject({
-            activityId: 0
+            activityId: $rootScope.activityId
         })).success(function (data) {
-            $scope.data = data.data;
+            $scope.youchuoList = data.data;
         }).error(function () {
         });
     }

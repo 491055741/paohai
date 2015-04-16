@@ -27,6 +27,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         })).success(function (data) {
             $scope.data = data.data;
             $rootScope.username = $scope.data.username;
+            $rootScope.activityId = $scope.data.actId;
             showTemplate();
         }).error(function () {
         });
