@@ -10,7 +10,42 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
-            $location.path("/editInfo");
+            if ($rootScope.order && $rootScope.order.id) {
+                $http.post("/postcard/updateOrder/" + $rootScope.order.id + "?nonce=" + Util.getNonceStr(), {
+                    templateIndex: $scope.showTemplates[$scope.selectTemplateIndex].id
+                }).success(function (data) {
+                    if (data.code === 0) {
+                        $location.path("/editInfo");
+                    } else {
+                        alert(data.msg);
+                    }
+                }).error(function (error) {
+                    alert(error);
+                });
+            } else {
+                $http.post("/postcard/placeorder?nonce=" + Util.getNonceStr(), {
+                    templateIndex: $scope.showTemplates[$scope.selectTemplateIndex].id,
+                    offsetX: 0, // TODO: offsetX
+                    offsetY: 0,
+                    userName: $rootScope.username,
+                    userPicUrl: $rootScope.picurl,
+                    actId: $rootScope.activityId,
+                    partnerId: null // TODO: partnerId
+                }).success(function (data) {
+                    if (data.code === 0) {
+                        if (!$rootScope.order) {
+                            $rootScope.order = {};
+                        }
+
+                        $rootScope.order.id = data.orderId;
+                        $location.path("/editInfo");
+                    } else {
+                        alert(data.msg);
+                    }
+                }).error(function (error) {
+                    alert(error);
+                });
+            }
         };
 
         $scope.selectTemplateType = 0;
@@ -19,15 +54,17 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         $scope.data = null;
 
         $http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
-            //orderId: 0,
+            orderId: $rootScope.order && $rootScope.order.id,
             picurl: $routeParams.picurl,
-            //actId: "",
-            //partnerId: "",
+            actId: $rootScope.activityId,
+            partnerId: $rootScope.partnerId,
             username: $routeParams.username
         })).success(function (data) {
             $scope.data = data.data;
             $rootScope.username = $scope.data.username;
             $rootScope.activityId = $scope.data.actId;
+            $rootScope.order = $scope.data.order;
+            $rootScope.picurl = $scope.data.picurl;
             showTemplate();
         }).error(function () {
         });

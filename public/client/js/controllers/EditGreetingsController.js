@@ -14,7 +14,7 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
 
         var timer = null;
         $scope.startVoice = function () {
-            var total = 5;
+            var total = 59;
             $("#startVoice").text("(" + total + ")正在录制，请说出您的留言...");
             wx.startRecord();
             timer = setInterval(function () {
@@ -38,6 +38,23 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
             $("#playVoice").show();
             $scope.voiceId = res.localId;
             clearInterval(timer);
+
+            wx.uploadVoice({
+                localId: $scope.voiceId,
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    $http.get('/postcard/downloadvoicemedia/'+ $rootScope.order.id +'?mediaId=' + res.serverId).success(function (data) {
+                        $http.post("/postcard/updateOrder/" + $rootScope.order.id + "?nonce=" + Util.getNonceStr(), {
+                            voiceMediaId: res.serverId
+                        }).success(function (data) {
+                        }).error(function (error) {
+                            alert(error);
+                        });
+                    }).error(function (error) {
+                        alert(error);
+                    });
+                }
+            });
         }
 
         $scope.endVoice = function () {
@@ -88,19 +105,5 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
             $rootScope.message = $scope.message;
             $location.path("/editInfo");
         };
-
-
-        //
-        //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
-        //    //orderId: 0,
-        //    picurl: $routeParams.picurl,
-        //    //actId: "",
-        //    //partnerId: "",
-        //    username: $routeParams.username
-        //})).success(function (data) {
-        //    $scope.data = data.data;
-        //    showTemplate();
-        //}).error(function () {
-        //});
     }
 ]);

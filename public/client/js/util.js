@@ -40,5 +40,9 @@ util.value("Util", {
         hide: function () {
             $("#overlay").hide();
         }
+    },
+
+    getNonceStr: function() {
+        return "" + new Date().getTime();
     }
 });

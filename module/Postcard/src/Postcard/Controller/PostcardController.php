@@ -220,12 +220,12 @@ class PostcardController extends AbstractActionController
                 'templateIndex' => $selectedTemplateIndex,
                 'offsetX' => $offsetX,
                 'offsetY' => $offsetY,
-                'orderId' => $orderId,
                 'picurl'  => $picUrl,
                 'username' => $userName,
                 'actId' => $actId,
                 'imgTemplates' => $imgTemplates,
                 'partnerId' => $partnerId,
+                'order' => $order
             )
         ));
     }
@@ -618,6 +618,15 @@ class PostcardController extends AbstractActionController
             $status             = $this->getRequest()->getPost('status');
             $bank               = $this->getRequest()->getPost('bank');
             $mobile             = $this->getRequest()->getPost('mobile');
+
+            // update mediaId. Media will valid for 3 days on Tecent's server.
+            $voiceMediaId       = $this->getRequest()->getPost('voiceMediaId');
+            if ($voiceMediaId) {
+                $order->voiceMediaId = $voiceMediaId;
+                $order->qrSceneId = $this->getUtil()->getQrSceneId();
+//            echo 'order qr sceneId:'.$order->qrSceneId;
+                $this->getWXQrImage($order->qrSceneId, $this->voicePath().$voiceMediaId.'.png');
+            }
 
             $order->postmarkId = $postmarkId;
             $templateId         ? $order->templateId        = $templateId    : null;
