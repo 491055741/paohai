@@ -4,7 +4,6 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
         $rootScope.rightButtonText = "";
 
         $rootScope.onHeaderLeftButtonClick = function () {
-            clearInterval(timer);
             $("#startVoice").trigger("touchend");
             $location.path("/editInfo");
         };
@@ -60,6 +59,7 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
         }
 
         $scope.endVoice = function () {
+            clearInterval(timer);
             wx.stopRecord({
                 success: end
             });
@@ -109,7 +109,6 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
         });
 
         $scope.onOkButtonClick = function () {
-            clearInterval(timer);
             $("#startVoice").trigger("touchend");
             $rootScope.message = $scope.message;
             $location.path("/editInfo");
