@@ -50,17 +50,13 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
                 });
                 status = 'playing';
                 $("#playVoice").addClass("pause");
-            }
-
-            if (status === 'pause') {
+            } else if (status === 'pause') {
                 wx.playVoice({
                     localId: $scope.voiceId
                 });
                 status = 'playing';
                 $("#playVoice").addClass("pause");
-            }
-
-            if (status === 'playing') {
+            } else if (status === 'playing') {
                 wx.pauseVoice({
                     localId: $scope.voiceId
                 });
