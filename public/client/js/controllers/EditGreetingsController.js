@@ -12,18 +12,19 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
 
         $scope.voiceId = null;
 
+        var timer = null;
         $scope.startVoice = function () {
+            var total = 5;
+            $("#startVoice").text("(" + total + ")正在录制，请说出您的留言...");
             wx.startRecord();
-            var total = 59;
-            var timer = setInterval(function () {
+            timer = setInterval(function () {
+                total--;
                 if (total >= 0) {
                     $("#startVoice").text("(" + total + ")正在录制，请说出您的留言...");
                 } else {
                     clearInterval(timer);
                     $("#startVoice").trigger("touchend");
                 }
-
-                total--;
             }, 1000);
 
             wx.onVoiceRecordEnd({
@@ -36,6 +37,7 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
             $("#startVoice").css("right", "75px");
             $("#playVoice").show();
             $scope.voiceId = res.localId;
+            clearInterval(timer);
         }
 
         $scope.endVoice = function () {
