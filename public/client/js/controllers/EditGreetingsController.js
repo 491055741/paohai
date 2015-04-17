@@ -13,8 +13,18 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
         $scope.voiceId = null;
 
         $scope.startVoice = function () {
-            $("#startVoice").text("正在录制，请说出您的留言...");
             wx.startRecord();
+            var total = 59;
+            var timer = setInterval(function () {
+                if (total >= 0) {
+                    $("#startVoice").text("(" + total + ")正在录制，请说出您的留言...");
+                } else {
+                    clearInterval(timer);
+                    $("#startVoice").trigger("touchend");
+                }
+
+                total--;
+            }, 1000);
 
             wx.onVoiceRecordEnd({
                 complete: end
