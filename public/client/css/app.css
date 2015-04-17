@@ -494,6 +494,10 @@ button {
     background-size: 100% 100%;
     display: none;
 }
+
+#editGreetings #playVoice.pause {
+    background-image: url("../images/pause.png");
+}
 /*************page editGreetings end***********************/
 
 /*************page selectPostmark start******************/

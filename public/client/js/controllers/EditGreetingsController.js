@@ -17,21 +17,20 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
             wx.startRecord();
 
             wx.onVoiceRecordEnd({
-                complete: function (res) {
-                    $scope.voiceId = res.localId;
-                }
+                complete: end
             });
         };
 
-        $scope.endVoice = function () {
+        function end(res) {
             $("#startVoice").text("按住重录语音");
             $("#startVoice").css("right", "75px");
             $("#playVoice").show();
+            $scope.voiceId = res.localId;
+        }
 
+        $scope.endVoice = function () {
             wx.stopRecord({
-                success: function (res) {
-                    $scope.voiceId = res.localId;
-                }
+                success: end
             });
         };
 
@@ -43,11 +42,39 @@ postcardControllers.controller("EditGreetingsController", ["$rootScope", "$scope
             $scope.endVoice();
         });
 
+        var status = 'normal';
         $scope.playVoice = function () {
-            wx.playVoice({
-                localId: $scope.voiceId
-            });
+            if (status === 'normal') {
+                wx.playVoice({
+                    localId: $scope.voiceId
+                });
+                status = 'playing';
+                $("#playVoice").addClass("pause");
+            }
+
+            if (status === 'pause') {
+                wx.playVoice({
+                    localId: $scope.voiceId
+                });
+                status = 'playing';
+                $("#playVoice").addClass("pause");
+            }
+
+            if (status === 'playing') {
+                wx.pauseVoice({
+                    localId: $scope.voiceId
+                });
+                status = 'pause';
+                $("#playVoice").removeClass("pause");
+            }
         };
+
+        wx.onVoicePlayEnd({
+            success: function (res) {
+                $("#playVoice").removeClass("pause");
+                status = 'normal';
+            }
+        });
 
         $scope.onOkButtonClick = function () {
             $rootScope.message = $scope.message;

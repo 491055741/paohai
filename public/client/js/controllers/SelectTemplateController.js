@@ -36,12 +36,12 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         })).success(function (data) {
             var config = data.config;
             wx.config({
-                debug: true,
+                debug: false,
                 appId: config.appId,
                 timestamp:  config.timestamp,
                 nonceStr:  config.nonceStr,
                 signature: config.signature,
-                jsApiList: ['startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice']
+                jsApiList: ['startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice']
             });
         }).error(function () {
         });
