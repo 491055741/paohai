@@ -10,6 +10,8 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
+            $rootScope.selectedTemplate = $scope.showTemplates[$scope.selectTemplateIndex];
+
             if ($rootScope.order && $rootScope.order.id) {
                 $http.post("/postcard/updateOrder/" + $rootScope.order.id + "?nonce=" + Util.getNonceStr(), {
                     templateIndex: $scope.showTemplates[$scope.selectTemplateIndex].id

@@ -8,3 +8,4 @@ global vars
  $rootScope.partnerId;  
  $rootScope.order 订单
  $rootScope.picurl 图片地址
+ $rootScope.selectedTemplate 选择的模板

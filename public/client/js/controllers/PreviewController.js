@@ -12,7 +12,7 @@ postcardControllers.controller("PreviewController", ["$rootScope", "$scope", "$w
         };
 
         setTimeout(function () {
-            var myScroll = new IScroll('#orderInfo', {
+            var myScroll = new IScroll('#iscrollWrapper', {
                 click: true,
                 scrollbars: true
             });
