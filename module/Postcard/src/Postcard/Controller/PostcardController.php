@@ -1157,6 +1157,7 @@ class PostcardController extends AbstractActionController
         $pos['width']    = $width;
         $pos['font-size'] = 20;
         $pos['font-file'] = "public/fonts/simkai.ttf";
+        $pos['lineSpace'] = 34;
         $this->draw_txt_to($dst, $pos, $text);
 
         // partner Qr code
@@ -1391,7 +1392,7 @@ class PostcardController extends AbstractActionController
             $pos['font-file'] = "public/fonts/Xing.ttf";
         }
         if (!array_key_exists('lineSpace', $pos)) {
-            $pos['lineSpace'] = 10;
+            $pos['lineSpace'] = 50;
         }
 
         $font_color = imagecolorallocate($image, $pos['font-color'][0], $pos['font-color'][1], $pos['font-color'][2]);
