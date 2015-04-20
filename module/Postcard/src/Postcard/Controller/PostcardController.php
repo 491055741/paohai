@@ -1391,7 +1391,7 @@ class PostcardController extends AbstractActionController
             $pos['font-file'] = "public/fonts/Xing.ttf";
         }
         if (!array_key_exists('lineSpace', $pos)) {
-            $pos['lineSpace'] = 50;
+            $pos['lineSpace'] = 10;
         }
 
         $font_color = imagecolorallocate($image, $pos['font-color'][0], $pos['font-color'][1], $pos['font-color'][2]);
