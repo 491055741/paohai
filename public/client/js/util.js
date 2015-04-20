@@ -44,5 +44,28 @@ util.value("Util", {
 
     getNonceStr: function() {
         return "" + new Date().getTime();
+    },
+
+    getProvinceAndCityFromAddress: function (address) {
+        var info = {};
+
+        for (var i = 0, length = Provinces.length; i < length; i++) {
+            item = Provinces[i];
+            if (new RegExp(item.province).test(address)) {
+                info.province = item.province;
+
+                var cities = item.cities.split("|");
+                for (var j = 0, jLength = cities.length; j < jLength; j++) {
+                    var city = cities[j];
+                    if (new RegExp(city).test(address)) {
+                        info.city = city;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        return info;
     }
 });

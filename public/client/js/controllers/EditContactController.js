@@ -14,21 +14,37 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
             $location.path("/addressBook");
         };
 
+        $scope.provinces = Provinces;
+
         var targetContact = $rootScope.targetContact;
         if (targetContact) {
             $scope.name = targetContact.contactName;
             $scope.address = targetContact.address;
             $scope.mobile = targetContact.mobile;
             $scope.zipcode = targetContact.zipCode;
+
+            var info = Util.getProvinceAndCityFromAddress($scope.address);
+
+            if (info.province) {
+                $scope.selectedProvince = info.province;
+                $scope.selectedCity = info.city;
+                $scope.address = $scope.address.replace(new RegExp($scope.selectedProvince, "g"), "");
+                $scope.address = $scope.address.replace(new RegExp($scope.selectedCity, "g"), "");
+            }
         }
 
-        $scope.provinces = Provinces;
         $scope.cities = function () {
             if (!$scope.selectedProvince) {
                 return [];
             }
 
-            return JSON.parse($scope.selectedProvince).cities.split("|");
+            for (var i = 0, length = Provinces.length; i < length; i++) {
+                if (Provinces[i].province === $scope.selectedProvince) {
+                    return Provinces[i].cities.split("|");
+                }
+            }
+
+            return [];
         };
 
         $scope.onOkButtonClick = function () {
@@ -39,17 +55,14 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
                 return;
             }
 
-            if (!$scope.selectedProvince && !$scope.targetContact) {
+            var province = $scope.selectedProvince;
+            if (!$scope.selectedProvince) {
                 alert("请选择省份");
                 return;
             }
 
-            if ($scope.selectedProvince) {
-                var province = JSON.parse($scope.selectedProvince).province;
-            }
-
             var city = $scope.selectedCity;
-            if (!city && !$scope.targetContact) {
+            if (!city) {
                 alert("请选择城市");
                 return;
             }
@@ -73,9 +86,6 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
             }
 
             var detailAddress = province + city + address; // TODO: need to be test here.
-            if (!$scope.targetContact) {
-                detailAddress = address;
-            }
 
             $http.post("/postcard/addcontact", {
                 userName: $rootScope.username,

@@ -15,7 +15,7 @@
                 <div id="formContainer">
                     <input id="name" class="input" placeholder="姓名" ng-model="name">
                     <select id="province" class="input" ng-model="selectedProvince">
-                        <option ng-repeat="province in provinces" value="{{province}}">{{province.province}}</option>
+                        <option ng-repeat="province in provinces">{{province.province}}</option>
                     </select>
                     <select id="city" class="input" ng-model="selectedCity">
                         <option ng-repeat="city in cities()">{{city}}</option>

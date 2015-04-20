@@ -426,8 +426,10 @@ button {
     position: absolute;
     left: 100px;
     top: 30px;
+    right: 10px;
     font-size: 12px;
     white-space: nowrap;
+    overflow: hidden;
 }
 
 /***********page addressBook end***************************/
