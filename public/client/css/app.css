@@ -614,6 +614,64 @@ button {
     height: 200px;
     border: 1px solid #222222;
 }
+
+#preview #back ul {
+    list-style: none;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+#preview #back ul>li {
+    float: left;
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    border: 1px solid #222222;
+    line-height: 18px;
+    text-align: center;
+}
+
+#preview #back #message {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    right: 130px;
+    bottom: 10px;
+}
+
+#preview #back #verticalLine {
+    position: absolute;
+    right: 120px;
+    top:5px;
+    bottom: 5px;
+    width: 0;
+    border-right: 1px solid #222222;
+}
+
+#preview #back #postmark {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 50px;
+    height: 50px;
+}
+
+#preview #back #receiverInfo {
+    position: absolute;
+    top:70px;
+    right: 10px;
+    width: 100px;
+    bottom: 10px;
+    word-break: break-all;
+    word-wrap: break-word;
+    line-height: 30px;
+    font-size: 12px;
+}
+
+#preview #back #receiverInfo u {
+    width: 90px;
+}
+
 /*************page preview end**************************/
 
 /*************page order start**************************/
