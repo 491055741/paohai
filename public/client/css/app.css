@@ -1334,3 +1334,39 @@ button {
     font-size: 14px;
 }
 /***********page requestAddress end***************************/
+
+
+/***********page done start***************************/
+#done #tips {
+    display: block;
+    margin: auto;
+    margin-top: 25%;
+    width: 70%;
+}
+
+#done #tabView {
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+#done #tabView button {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+#done #tabView #orderDetailButton {
+    left: 0;
+    background-color: #3386B5;
+}
+
+#done #tabView #shareToFriendButton {
+    right: 0;
+    background-color: #40C126;
+}
+/***********page done end***************************/

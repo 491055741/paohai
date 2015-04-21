@@ -80,7 +80,19 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                 timestamp:  config.timestamp,
                 nonceStr:  config.nonceStr,
                 signature: config.signature,
-                jsApiList: ['startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice']
+                jsApiList: [
+                    'startRecord',
+                    'stopRecord',
+                    'onVoiceRecordEnd',
+                    'playVoice',
+                    'pauseVoice',
+                    'stopVoice',
+                    'onVoicePlayEnd',
+                    'uploadVoice',
+                    'downloadVoice',
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage'
+                ]
             });
         }).error(function () {
         });
