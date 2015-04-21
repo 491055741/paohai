@@ -85,7 +85,7 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
                 return;
             }
 
-            var detailAddress = province + city + address; // TODO: need to be test here.
+            var detailAddress = province + city + address;
 
             $http.post("/postcard/addcontact", {
                 userName: $rootScope.username,

@@ -21,9 +21,9 @@
                         <option ng-repeat="city in cities()">{{city}}</option>
                     </select>
 
-                    <input id="address" class="input" placeholder="详细地址" ng-value="address">
-                    <input id="telephone" class="input" placeholder="手机号" ng-model="mobile">
-                    <input id="postcode" class="input" placeholder="邮编" ng-model="zipcode">
+                    <input id="address" class="input" ng-model="address" placeholder="详细地址">
+                    <input id="telephone" class="input" ng-model="mobile" placeholder="手机号">
+                    <input id="postcode" class="input" ng-model="zipcode" placeholder="邮编">
                 </div>
             </div>
         </div>
