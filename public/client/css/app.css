@@ -704,7 +704,7 @@ button {
     margin-left: 30px;
     width: 28px;
     height: 28px;
-    background-image: url("../images/list-icon.png");
+    background-image: url("../images/list-icon-white.png");
     background-size: 100% 100%;
 }
 
@@ -807,6 +807,16 @@ button {
 #order #price>div>div .price {
     font-size: 18px;
     color: #B33767;
+}
+
+#order #refundCode {
+    display: block;
+    margin: auto;
+    margin-top: 5px;
+    width: 120px;
+    height: 26px;
+    border: 1px solid #909090;
+    text-align: center;
 }
 
 #order #sureToPay {

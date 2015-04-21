@@ -9,24 +9,24 @@
             <div id="textInfo">
                 <ul>
                     <li>
-                        张小明
+                        {{targetContact.contactName}}
                     </li>
                     <li>
                         <div class="left">
-                            贵州省
+                            {{province}}
                         </div>
                         <div class="right">
-                            贵阳市
+                            {{city}}
                         </div>
                     </li>
                     <li>
-                        人民大道33号11塞纳909
+                        {{address}}
                     </li>
                     <li>
-                        134433443533
+                        {{targetContact.mobile}}
                     </li>
                     <li>
-                        553453
+                        {{targetContact.zipCode}}
                     </li>
                 </ul>
             </div>
@@ -35,23 +35,22 @@
 
     <div id="price">
         <div id="row01">
-            <div class="left">
-                <div class="checkboxIcon"></div>
+            <div class="left" ng-click="selectPrice(2.99)">
+                <div class="checkboxIcon {{checkClass(2.99)}}"></div>
                 <span class="normal">平邮<span class="price">2.99</span>元/张</span>
             </div>
-            <div class="right">
-                <div class="checkboxIcon checked"></div>
-                <span class="normal">平邮<span class="price">2.99</span>元/张</span>
+            <div class="right" ng-click="selectPrice(9.99)">
+                <div class="checkboxIcon {{checkClass(9.99)}}"></div>
+                <span class="normal">专递<span class="price">9.99</span>元/张</span>
             </div>
         </div>
         <div id="row02">
             <div class="left">
-                <div class="checkboxIcon"></div>
-                <span class="normal">输入消费码</span>
+                <input type="text" id="refundCode" ng-model="refundCode" placeholder="输入消费码">
             </div>
             <div class="right">
                 <br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="normal">共计消费:<span class="price">2.99</span>元</span>
+                <span class="normal">共计消费:<span class="price">{{totalPrice()}}</span>元</span>
             </div>
         </div>
     </div>
