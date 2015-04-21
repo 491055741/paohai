@@ -19,18 +19,60 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             $scope.address = $scope.address.replace(new RegExp($scope.city, "g"), "");
         }
 
+
         $scope.selectedPrice = 2.99;
 
         $scope.selectPrice = function (price) {
             $scope.selectedPrice = price;
+            setTotalPrice();
         };
 
         $scope.checkClass = function (price) {
             return $scope.selectedPrice === price ? "checked" : null;
         };
 
-        $scope.totalPrice = function () {
-            return $scope.selectedPrice;
+
+        var payParameters = null;
+        function setTotalPrice() {
+            $scope.totalPrice = $scope.selectedPrice;
+
+            $http.get("/wxpay/paypara/" + $rootScope.order.id, {
+                params: {
+                    orderId: $rootScope.order.id,
+                    selectedPrice: $scope.selectedPrice
+                }
+            }).success(function (data) {
+                if (data.code != 0) {
+                    alert(data.msg);
+                    return;
+                }
+
+                $scope.totalPrice = data.data.price;
+                payParameters = data.data.payPara;
+            }).error(function (error) {
+                console.log(error);
+                alert("获取支付参数失败");
+            });
+        }
+
+        setTotalPrice();
+
+        $scope.pay = function () {
+            if ($scope.totalPrice == 0) {
+                // TODO: go to done page.
+                alert("done");
+            } else {
+                WeixinJSBridge.invoke("getBrandWCPayRequest",
+                    // TODO: payParameters
+                    function(res){
+                    if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
+                        alert("success");
+                        //self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
+                    } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
+                        alert(res.err_msg);
+                    }
+                });
+            }
         };
 
         setTimeout(function () {
@@ -39,18 +81,5 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 scrollbars: true
             });
         }, 300);
-
-        //
-        //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
-        //    //orderId: 0,
-        //    picurl: $routeParams.picurl,
-        //    //actId: "",
-        //    //partnerId: "",
-        //    username: $routeParams.username
-        //})).success(function (data) {
-        //    $scope.data = data.data;
-        //    showTemplate();
-        //}).error(function () {
-        //});
     }
 ]);

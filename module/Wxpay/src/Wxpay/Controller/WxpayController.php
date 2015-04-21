@@ -52,7 +52,7 @@ class WxpayController extends AbstractActionController
             ->get('Postcard\Service\Activity\ActivityService');
         $price = $activityService->getPrice($order);
         $template = $activityService->getOrderTemplate($order);
-        
+
         $order->price = $price;
         $this->getOrderTable()->saveOrder($order);
         return $this->viewModel(array(
@@ -70,7 +70,39 @@ class WxpayController extends AbstractActionController
      */
     public function payParaAction()
     {
-        $orderId = $this->getRequest()->getQuery("orderId");
+        $orderId = $this->getRequest()->getQuery('orderId', '0');
+        $selectedPrice = $this->getRequest()->getQuery('selectedPrice', '0');
+        // TODO: need to be done here.
+
+        $order = $this->getOrderTable()->getOrder($orderId);
+
+        if ($orderId == '0' || !$order) {
+            return new JsonModel(array(
+                "code" => 1,
+                "msg" => "订单已无效"
+            ));
+        }
+
+        if ($order->status == CANCEL) {
+            return new JsonModel(array(
+                "code" => 1,
+                "msg" => "订单已失效，请重新创建明信片"
+            ));
+        }
+
+        return new JsonModel(array( // TODO: need to be done here.
+            "code" => 0,
+            "data" => array(
+                "price" => $selectedPrice == 2.99 ? 0 : $selectedPrice,
+                "payPara" => null,
+            ),
+        ));
+
+        $activityService = $this->getServiceLocator()
+            ->get('Postcard\Service\Activity\ActivityService');
+        $order->price = $activityService->getPrice($order);
+        $this->getOrderTable()->saveOrder($order);
+
         $service = $this->getServiceLocator()
             ->get('Wxpay\Service\WxpayService');
         list($price, $payPara) = $service->getPayPara($orderId);
