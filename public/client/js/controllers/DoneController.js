@@ -15,6 +15,12 @@ postcardControllers.controller("DoneController", ["$rootScope", "$scope", "$wind
             $location.path("/ordersManager");
         };
 
+        $http.get("/postcard/complete/" + $rootScope.order.id + "?" + Util.getQueryStringFromObject({
+            nonce: Util.getNonceStr()
+        })).success(function (data) {
+        }).error(function () {
+        });
+
         $scope.shareToFriend = function () {
             // TODO: share to friend.
             wx.onMenuShareAppMessage({
