@@ -9,61 +9,36 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
         $rootScope.onHeaderRightButtonClick = function () {
         };
 
-        var contacts = [
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
+        $rootScope.username = $routeParams.username;
+        if (!$rootScope.username) {
+            $http.get("/postcard/setOpenId", {
+                params: {
+                    url: $location.absUrl()
+                }
+            }).success(function (data) {
+            }).error(function (error) {
+            });
+
+            return;
+        }
+
+        $http.get("/contact/listcontacts", {
+            params: {
+                userName: $rootScope.username
             }
-        ];
+        }).success(function (data) {
+            $scope.contacts = data.data;
+            setTimeout(function () {
+                var myScroll = new IScroll('#iscrollWrapper', {
+                    click: true,
+                    scrollbars: true
+                });
+            }, 200);
+        }).error(function (error) {
+            alert(error);
+        });
 
         $scope.selectedIndex = null;
-        $scope.contacts = contacts;
 
         $scope.onClickLi = function (index) {
             $scope.selectedIndex = index;
@@ -93,18 +68,5 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
                 scrollbars: true
             });
         }, 200);
-
-        //
-        //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
-        //    //orderId: 0,
-        //    picurl: $routeParams.picurl,
-        //    //actId: "",
-        //    //partnerId: "",
-        //    username: $routeParams.username
-        //})).success(function (data) {
-        //    $scope.data = data.data;
-        //    showTemplate();
-        //}).error(function () {
-        //});
     }
 ]);

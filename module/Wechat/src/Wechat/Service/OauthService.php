@@ -53,8 +53,8 @@ class OauthService extends AbstractService
         list($url, $fragment) = explode("#", $url);
         $url = rtrim($url, "?");
         $url = parse_url($url, PHP_URL_QUERY) ?
-            $url . "&userName=" . $openId :
-            $url . "?userName=" . $openId;
+            $url . "&username=" . $openId :
+            $url . "?username=" . $openId;
         if ($fragment) {
             $url .= "#" . $fragment;
         }
