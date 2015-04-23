@@ -48,18 +48,50 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
 
         $scope.onClickLi = function (index) {
             $scope.selectedIndex = index;
+            $(window).trigger('resize');
         };
 
         $scope.selectedClass = function (index) {
             return $scope.selectedIndex === index ? "selected" : null;
         };
 
+        $scope.selectedArrow = function (index) {
+            return $scope.selectedIndex === index ? "arrow-down" : "arrow-up";
+        };
+
         $scope.isSelected = function (index) {
             return ($scope.selectedIndex === index);
         };
 
-        $scope.addContact = function () {
-            $location.path("/addContact");
+        $scope.editContact = function ($index) {
+            if ($index === undefined) {
+                $location.path("/addContact/false");
+            } else {
+                $rootScope.editContact = $scope.contacts[$index];
+                $location.path("/addContact/" + $index);
+            }
+        };
+
+        $scope.deleteContact = function ($index) {
+            var contact = $scope.contacts[$index];
+            var ok = confirm("您确定要删除  " + contact.contactName + "  吗?");
+
+            if (!ok) {
+                return;
+            }
+
+            $http.post("/contact/delete", {
+                userName: $rootScope.username,
+                contactName: contact.contactName
+            }).success(function (data) {
+                if (data.code == 0) {
+                    $scope.contacts.splice($index, 1);
+                } else {
+                    alert(data.msg);
+                }
+            }).error(function (error) {
+                alert(error);
+            });
         };
 
         Util.overlay.init("<h2>dkfla;sksadf</h2>");
@@ -67,12 +99,5 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
         $scope.showOverlay = function () {
             Util.overlay.show();
         };
-
-        setTimeout(function () {
-            var myScroll = new IScroll('#iscrollWrapper', {
-                click: true,
-                scrollbars: true
-            });
-        }, 200);
     }
 ]);

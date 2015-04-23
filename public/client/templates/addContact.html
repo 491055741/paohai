@@ -8,26 +8,17 @@
                     <p>编辑收件人地址</p>
                 </div>
                 <div id="formContainer">
-                    <input id="name" class="input" placeholder="姓名">
-                    <select id="province" class="input">
-                        <option>选择省份</option>
-                        <option>选择省份</option>
-                        <option>选择省份</option>
-                        <option>选择省份</option>
-                        <option>选择省份</option>
-                        <option>选择省份</option>
+                    <input id="name" class="input" placeholder="姓名" ng-model="name">
+                    <select id="province" class="input" ng-model="selectedProvince">
+                        <option ng-repeat="province in provinces">{{province.province}}</option>
                     </select>
-                    <select id="city" class="input">
-                        <option>选择城市</option>
-                        <option>选择城市</option>
-                        <option>选择城市</option>
-                        <option>选择城市</option>
-                        <option>选择城市</option>
+                    <select id="city" class="input" ng-model="selectedCity">
+                        <option ng-repeat="city in cities()">{{city}}</option>
                     </select>
 
-                    <input id="address" class="input" placeholder="详细地址">
-                    <input id="telephone" class="input" placeholder="手机号">
-                    <input id="postcode" class="input" placeholder="邮编">
+                    <input id="address" class="input" ng-model="address" placeholder="详细地址">
+                    <input id="telephone" class="input" ng-model="mobile" placeholder="手机号">
+                    <input id="postcode" class="input" ng-model="zipcode" placeholder="邮编">
                 </div>
             </div>
         </div>

@@ -89,7 +89,7 @@ Postcard.config(["$routeProvider",
             templateUrl: "templates/friendsManager.html",
             controller: "FriendsManagerController"
         })
-        .when("/addContact", {
+        .when("/addContact/:index", {
             templateUrl: "templates/addContact.html",
             controller: "AddContactController"
         })

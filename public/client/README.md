@@ -9,3 +9,4 @@ global vars
  $rootScope.order 订单
  $rootScope.picurl 图片地址
  $rootScope.selectedTemplate 选择的模板
+ $rootScope.editContact 当前编辑的联系人

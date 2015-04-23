@@ -930,10 +930,15 @@ button {
 }
 
 #friendsManager #contactList>li>.detailArea>.left>p:last-child {
-    margin-left: 15px;
-    position: relative;
-    top: 20px;
+    position: absolute;
+    left: 15px;
+    top: 35px;
+    right: 150px;
+    bottom: 10px;
     font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 #friendsManager #contactList>li>.detailArea>.buttonEdit {
@@ -1017,7 +1022,8 @@ button {
     height: 24px;
     top:8px;
     left: 20px;
-    background-color: #ffffff;
+    background-image: url("../images/list-icon-white.png");
+    background-size: 100% 100%;
 }
 
 #addContact #container #optionAddress p {

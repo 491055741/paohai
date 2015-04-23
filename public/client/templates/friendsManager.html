@@ -9,18 +9,18 @@
         <ul id="contactList" >
             <li ng-repeat="contact in contacts" ng-click="onClickLi($index)" ng-class="selectedClass($index)">
                 <div>
-                    <p>{{contact.name}}</p>
-                    <div class="arrow arrow-up"></div>
+                    <p>{{contact.contactName}}</p>
+                    <div class="arrow {{selectedArrow($index)}}"></div>
                 </div>
                 <div class="detailArea hide-fade" ng-show="isSelected($index)">
                     <div class="left">
-                        <p>邮编:{{contact.postcode}}</p>
+                        <p>邮编:{{contact.zipCode}}</p>
                         <p>地址:{{contact.address}}</p>
                     </div>
-                    <div class="buttonEdit">
+                    <div class="buttonEdit" ng-click="editContact($index)">
                         编辑
                     </div>
-                    <div class="buttonDelete">
+                    <div class="buttonDelete" ng-click="deleteContact($index)">
                         删除
                     </div>
                 </div>
@@ -29,7 +29,7 @@
     </div>
 
     <div id="tabView">
-        <button id="addContact" ng-click="addContact()">
+        <button id="addContact" ng-click="editContact()">
             添加联系人
         </button>
         <button id="requestFromOther" ng-click="showOverlay()">
