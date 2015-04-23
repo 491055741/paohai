@@ -62,6 +62,7 @@ class PostcardController extends AbstractActionController
             ->setRequest($this->getRequest())
             ->getOauthUrl($currUrl);
         Header("Location: $oauthUrl");
+        exit;
     }
 
     public function makeOrdersAction()
