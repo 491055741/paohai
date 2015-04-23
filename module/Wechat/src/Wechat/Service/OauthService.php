@@ -50,12 +50,6 @@ class OauthService extends AbstractService
             return NULL;
         }
 
-        $url.'?username='.$openId;
-
-        logger("code is ". $code);
-        logger('openid is' . $openId);
-        logger($url.'?username='.$openId);
-
-        return $url;
+        return $url.'?username='.$openId;
     }
 }
