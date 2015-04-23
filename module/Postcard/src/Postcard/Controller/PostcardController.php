@@ -55,14 +55,17 @@ class PostcardController extends AbstractActionController
         return $post;
     }
 
-    public function setOpenIdAction() {
+    public function getOauthUrlAction() {
         $currUrl = $this->getRequest()->getQuery('url', '0');
         $oauthUrl = $this->getServiceLocator()
             ->get("Wechat\Service\OauthService")
             ->setRequest($this->getRequest())
             ->getOauthUrl($currUrl);
-        Header("Location: $oauthUrl");
-        exit;
+
+        return new JsonModel(array(
+            "code" => "0",
+            "oauthUrl" => $oauthUrl
+        ));
     }
 
     public function makeOrdersAction()

@@ -11,12 +11,18 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
 
         $rootScope.username = $routeParams.username;
         if (!$rootScope.username) {
-            $http.get("/postcard/setOpenId", {
+            $http.get("/postcard/getOauthUrl", {
                 params: {
                     url: $location.absUrl()
                 }
             }).success(function (data) {
+                if (data.code == 0) {
+                    $window.location.href = data.oauthUrl;
+                } else {
+                    alert("获取授权url错误");
+                }
             }).error(function (error) {
+                alert(error);
             });
 
             return;
