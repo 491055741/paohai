@@ -1119,6 +1119,22 @@ class PostcardController extends AbstractActionController
         $pos['font-size'] = 30;
 //        $pos['font-file'] = "public/fonts/simsun.ttf";
         $this->draw_txt_to($dst, $pos, $order->recipient);
+
+        if ($order->activityId == 109) {
+            $image_qr = imagecreatefrompng('public/images/big/qr_travelzoo.png');
+            $text = 'Travelzoo 旅游族';
+            $width=$height=250;
+            imagecopyresampled($dst, $image_qr, $canvas_w- ($width-70) * 2, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
+            $pos['text-align'] = CENTER;
+            $pos['left']     = $canvas_w- ($width-70) * 2;
+            $pos['top']      = 1100;
+            $pos['width']    = $width;
+            $pos['font-size'] = 20;
+            $pos['font-file'] = "public/fonts/simkai.ttf";
+            $pos['lineSpace'] = 34;
+            $this->draw_txt_to($dst, $pos, $text);
+        }
+
 //        unset($pos['font-file']);
         // voice qr code
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
