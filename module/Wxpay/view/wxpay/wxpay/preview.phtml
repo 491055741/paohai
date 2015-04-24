@@ -80,8 +80,13 @@ if ($payPrice != 0) {
             </div>
         </div>
 
-        <input type="image" id="editButton" class="back_modify getZ pa w150h50" src="/images/fanhuixiugai.png" alt="返回修改"/>
-        <input type="image" id="gotoPayButton" class="pay_conf pa w150h50" src="/images/querenzhifu.png" alt="确认支付"/>
+        <?php if ($payPrice == 0): ?>
+            <input type="image" id="editButton" class="back_modify getZ pa w150h50" src="/images/fanhuixiugai2.png" alt="返回修改"/>
+            <input type="image" id="gotoPayButton" class="pay_conf pa w150h50" src="/images/free_button.png" alt="限量免费"/>
+        <?php else: ?>
+            <input type="image" id="editButton" class="back_modify getZ pa w150h50" src="/images/fanhuixiugai.png" alt="返回修改"/>
+            <input type="image" id="gotoPayButton" class="pay_conf pa w150h50" src="/images/querenzhifu.png" alt="确认支付"/>
+        <?php endif ?>
         <input type="image" id="toggleFaceButton" class="turn_around pa w150h50" src="/images/turn_around_btn.png" alt="翻转"/>
     </div>
 </div>

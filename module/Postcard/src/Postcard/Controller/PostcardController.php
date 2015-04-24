@@ -1124,9 +1124,9 @@ class PostcardController extends AbstractActionController
             $image_qr = imagecreatefrompng('public/images/big/qr_travelzoo.png');
             $text = 'Travelzoo 旅游族';
             $width=$height=250;
-            imagecopyresampled($dst, $image_qr, $canvas_w- ($width-70) * 2, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
+            imagecopyresampled($dst, $image_qr, $canvas_w- ($width + 60) * 2, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
             $pos['text-align'] = CENTER;
-            $pos['left']     = $canvas_w- ($width-70) * 2;
+            $pos['left']     = $canvas_w- ($width + 60) * 2;
             $pos['top']      = 1100;
             $pos['width']    = $width;
             $pos['font-size'] = 20;
