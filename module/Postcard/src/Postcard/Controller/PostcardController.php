@@ -1160,7 +1160,7 @@ class PostcardController extends AbstractActionController
             }
         } else {
             // quyou qr code
-            $image_qr = imagecreatefromjpeg('public/images/big/qr_quyou.jpg');
+            $image_qr = imagecreatefrompng('public/images/big/qr_quyou.png');
             $text = 'DIY你的明信片';
         }
         $width=$height=250;
