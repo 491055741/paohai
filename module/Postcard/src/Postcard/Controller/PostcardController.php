@@ -963,15 +963,13 @@ class PostcardController extends AbstractActionController
         // save user's original picture
         $dstPath = $this->postcardsPath($order->id);
         $origPicName = $dstPath.$order->id.'_orig.jpg';
-//        if (!file_exists($origPicName)) {
-//
-//        }
-
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-        $accessToken = $util->getAccessToken();
-        $order->picUrl = preg_replace("/access_token=.+?&/", "access_token=".$accessToken."&", $order->picUrl);
-        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
+        if (!file_exists($origPicName)) {
+            $util = new CommonUtil();
+            $util->setServiceLocator($this->getServiceLocator());
+            $accessToken = $util->getAccessToken();
+            $order->picUrl = preg_replace("/access_token=.+?&/", "access_token=".$accessToken."&", $order->picUrl);
+            file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
+        }
 
         $angel = $templateInfo["rotate"]; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
