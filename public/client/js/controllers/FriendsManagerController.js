@@ -4,6 +4,9 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
         $rootScope.rightButtonText = "";
 
         $rootScope.onHeaderLeftButtonClick = function () {
+            if (WeixinJSBridge) {
+                WeixinJSBridge.call("closeWindow");
+            }
         };
 
         $rootScope.onHeaderRightButtonClick = function () {

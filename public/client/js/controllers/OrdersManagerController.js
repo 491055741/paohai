@@ -4,67 +4,49 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
         $rootScope.rightButtonText = "";
 
         $rootScope.onHeaderLeftButtonClick = function () {
-            // TODO: back to weixin page.
+            if (WeixinJSBridge) {
+                WeixinJSBridge.call("closeWindow");
+            }
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
         };
 
-        var orders = [
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
-            },
-            {
-                name: "dafsfd",
-                address: "dfasdfs",
-                postcode: "2334234"
+        $rootScope.username = $routeParams.username;
+        if (!$rootScope.username) {
+            $http.get("/postcard/getOauthUrl", {
+                params: {
+                    url: $location.absUrl()
+                }
+            }).success(function (data) {
+                if (data.code == 0) {
+                    $window.location.href = data.oauthUrl;
+                } else {
+                    alert("获取授权url错误");
+                }
+            }).error(function (error) {
+                alert(error);
+            });
+
+            return;
+        }
+
+        $http.get("/postcard/getOrders", {
+            params: {
+                userName: $rootScope.username
             }
-        ];
+        }).success(function (data) {
+            $scope.orders = data.data.orders;
+            setTimeout(function () {
+                var myScroll = new IScroll('#iscrollWrapper', {
+                    click: true,
+                    scrollbars: true
+                });
+            }, 200);
+        }).error(function (error) {
+        });
 
         $scope.selectedIndex = null;
-        $scope.orders = orders;
 
         $scope.onClickLi = function (index) {
             $scope.selectedIndex = index;
@@ -78,13 +60,6 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
             return ($scope.selectedIndex === index);
         };
 
-        setTimeout(function () {
-            var myScroll = new IScroll('#iscrollWrapper', {
-                click: true,
-                scrollbars: true
-            });
-        }, 200);
-
         $scope.continueOrder = function (index) {
             $location.path("/continueOrder");
         };
@@ -93,18 +68,5 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
         $scope.shareOrder = function (index) {
             Util.overlay.show();
         };
-
-        //
-        //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
-        //    //orderId: 0,
-        //    picurl: $routeParams.picurl,
-        //    //actId: "",
-        //    //partnerId: "",
-        //    username: $routeParams.username
-        //})).success(function (data) {
-        //    $scope.data = data.data;
-        //    showTemplate();
-        //}).error(function () {
-        //});
     }
 ]);

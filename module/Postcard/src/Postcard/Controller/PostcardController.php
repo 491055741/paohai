@@ -399,6 +399,29 @@ class PostcardController extends AbstractActionController
         return $view;
     }
 
+    public function getOrdersAction() {
+        $userName = $this->getRequest()->getQuery('userName', '0');
+        if ($userName == '0') {
+            return new JsonModel(array(
+                "code" => 1,
+                'msg' => 'invalid username: '.$userName
+            ));
+        }
+        $orders = $this->getOrderTable()->getOrdersByUserName($userName, 'status >='.UNPAY);
+
+        $ordersList = [];
+        foreach ($orders as $order) {
+            array_push($ordersList, $order);
+        }
+
+        return new JsonModel(array(
+            "code" => 0,
+            "data" => array(
+                'orders' =>$ordersList
+            )
+        ));
+    }
+
     public function repeatOrderAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
