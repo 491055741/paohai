@@ -103,6 +103,13 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
             Util.overlay.show();
         };
 
+        $http.get("/postcard/getWeixinConfig?" + Util.getQueryStringFromObject({
+        })).success(function (data) {
+            var config = data.config;
+            Util.configWeixin(config);
+        }).error(function () {
+        });
+
         wx.ready(function () {
             wx.onMenuShareTimeline({
                 title: 'dfasfd', // 分享标题

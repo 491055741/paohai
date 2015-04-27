@@ -67,5 +67,28 @@ util.value("Util", {
         }
 
         return info;
+    },
+
+    configWeixin: function (config) {
+        wx.config({
+            debug: false,
+            appId: config.appId,
+            timestamp:  config.timestamp,
+            nonceStr:  config.nonceStr,
+            signature: config.signature,
+            jsApiList: [
+                'startRecord',
+                'stopRecord',
+                'onVoiceRecordEnd',
+                'playVoice',
+                'pauseVoice',
+                'stopVoice',
+                'onVoicePlayEnd',
+                'uploadVoice',
+                'downloadVoice',
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage'
+            ]
+        });
     }
 });
