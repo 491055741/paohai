@@ -73,27 +73,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
         $http.get("/postcard/getWeixinConfig?" + Util.getQueryStringFromObject({
         })).success(function (data) {
-            var config = data.config;
-            wx.config({
-                debug: false,
-                appId: config.appId,
-                timestamp:  config.timestamp,
-                nonceStr:  config.nonceStr,
-                signature: config.signature,
-                jsApiList: [
-                    'startRecord',
-                    'stopRecord',
-                    'onVoiceRecordEnd',
-                    'playVoice',
-                    'pauseVoice',
-                    'stopVoice',
-                    'onVoicePlayEnd',
-                    'uploadVoice',
-                    'downloadVoice',
-                    'onMenuShareTimeline',
-                    'onMenuShareAppMessage'
-                ]
-            });
+            Util.configWeixin(data.config);
         }).error(function () {
         });
 

@@ -66,6 +66,19 @@ class ContactController extends AbstractActionController
         return new JsonModel($res);
     }
 
+    public function getUserInfoAction() {
+        $userName = $this->getRequest()->getQuery("userName", "");
+        $nickName = '';
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->getUtil()->getAccessToken().'&openid='.$userName.'&lang=zh_CN';
+        $result = json_decode($this->getUtil()->httpGet($url), true);
+        $res = array(
+            "code" => "0",
+            "data"  => $result,
+        );
+
+        return new JsonModel($res);
+    }
+
     public function deleteAction() {
         $userName = $this->getRequest()->getPost("userName", "");
         $contactName = $this->getRequest()->getPost("contactName", "");

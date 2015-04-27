@@ -105,51 +105,32 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
 
         $http.get("/postcard/getWeixinConfig?" + Util.getQueryStringFromObject({
         })).success(function (data) {
-            var config = data.config;
-            Util.configWeixin(config);
+            Util.configWeixin(data.config);
+        }).error(function () {
+        });
+
+        var nickname = "";
+        $http.get("/contact/getUserInfo?" + Util.getQueryStringFromObject({
+            userName: $rootScope.username
+        })).success(function (data) {
+            nickname = data.data.nickname;
         }).error(function () {
         });
 
         wx.ready(function () {
-            wx.onMenuShareTimeline({
-                title: 'dfasfd', // 分享标题
-                link: 'http://www.baiduc.com', // 分享链接
-                imgUrl: '', // 分享图标
+            var descContent = nickname.length > 0 ? '亲，您的好友[' + nickname + ']在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦' : '亲，您的好友在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦';
+            var shareConfig = {
+                title: "我在趣邮向您索要收件地址",
+                desc: descContent, // 分享描述
+                link: domain + '/contact/filladdress?userName=' + userName, // 分享链接
+                imgUrl: "http://quyou.quyoucard.com/images/small/logo.jpg",
                 success: function () {
-                    // 用户确认分享后执行的回调函数
-                    alert("success");
                 },
                 cancel: function () {
-                    // 用户取消分享后执行的回调函数
-                    alert("cancel");
                 }
-            });
-
-            wx.checkJsApi({
-                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
-                success: function(res) {
-                    alert(JSON.stringify(res));
-                    // 以键值对的形式返回，可用的api值true，不可用为false
-                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
-                }
-            });
-
-            wx.onMenuShareAppMessage({
-                title: 'dfasf', // 分享标题
-                desc: 'dfasdf', // 分享描述
-                link: 'http://www.baiduc.com', // 分享链接
-                imgUrl: 'http://quyou.quyoucard.com/images/small/logo.jpg', // 分享图标
-                type: '', // 分享类型,music、video或link，不填默认为link
-                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                success: function () {
-                    // 用户确认分享后执行的回调函数
-                    alert("success");
-                },
-                cancel: function () {
-                    // 用户取消分享后执行的回调函数
-                    alert("cancel");
-                }
-            });
+            };
+            wx.onMenuShareTimeline(shareConfig);
+            wx.onMenuShareAppMessage(shareConfig);
         });
     }
 ]);
