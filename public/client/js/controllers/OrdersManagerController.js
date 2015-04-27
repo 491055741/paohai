@@ -1,5 +1,5 @@
-postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "Util",
-    function($rootScope, $scope, $window, $location, $http, $routeParams, Util) {
+postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "Util", "$filter",
+    function($rootScope, $scope, $window, $location, $http, $routeParams, Util, $filter) {
         $rootScope.leftButtonText = "<取消";
         $rootScope.rightButtonText = "";
 
@@ -36,20 +36,75 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
                 userName: $rootScope.username
             }
         }).success(function (data) {
-            $scope.orders = data.data.orders;
+            var orders = data.data.orders;
+            $scope.orders = {};
+            $scope.dateGroup = [];
+
+            for (var i = 0, length = orders.length; i < length; i++) {
+                var order = orders[i];
+                var groupDate = $filter('date')(new Date(order.orderDate), 'yyyy年M月');
+                order.date = $filter('date')(new Date(order.orderDate), 'yyyy.M.d');
+
+                switch (order.status) {
+                    case "99":
+                        order.statusText = "已取消";
+                        break;
+                    case "100":
+                        order.statusText = "待支付";
+                        break;
+                    case "101":
+                        order.statusText = "已支付";
+                        break;
+                    case "102":
+                        order.statusText = "已打印";
+                        break;
+                    case "103":
+                        order.statusText = "已发货";
+                        break;
+                    default :
+                        order.statusText = "未知";
+                }
+
+                if (!$scope.orders[groupDate]) {
+                    $scope.orders[groupDate] = [];
+                    $scope.dateGroup.push(groupDate);
+
+                    if ($scope.dateGroup.length === 1) {
+                        $scope.selectedDate = groupDate;
+                        $scope.selectedIndex = 0;
+                    }
+                }
+
+                $scope.orders[groupDate].push(order);
+            }
+
             setTimeout(function () {
                 var myScroll = new IScroll('#iscrollWrapper', {
                     click: true,
                     scrollbars: true
                 });
-            }, 200);
+            }, 500);
         }).error(function (error) {
         });
 
         $scope.selectedIndex = null;
+        $scope.selectedDate = null;
+
+        $scope.onClickDate = function (date) {
+            $scope.selectedDate = date;
+        };
+
+        $scope.activeDate = function (date) {
+            return $scope.selectedDate === date ? "active-tab" : null;
+        };
 
         $scope.onClickLi = function (index) {
+            $(window).trigger('resize');
             $scope.selectedIndex = index;
+        };
+
+        $scope.selectedArrow = function (index) {
+            return $scope.selectedIndex === index ? "arrow-down" : "arrow-up";
         };
 
         $scope.selectedClass = function (index) {
@@ -64,7 +119,8 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
             $location.path("/continueOrder");
         };
 
-        Util.overlay.init("<h2>dkfla;sksadf</h2>");
+        Util.overlay.init("<img style='width: 100%' src='images/share-to-friends.png'/>");
+
         $scope.shareOrder = function (index) {
             Util.overlay.show();
         };
