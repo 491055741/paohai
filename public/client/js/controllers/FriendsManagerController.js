@@ -122,7 +122,7 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
             var shareConfig = {
                 title: "我在趣邮向您索要收件地址",
                 desc: descContent, // 分享描述
-                link: domain + '/contact/filladdress?userName=' + userName, // 分享链接
+                link: 'http://quyou.quyoucard.com/contact/filladdress?userName=' + $rootScope.username, // 分享链接
                 imgUrl: "http://quyou.quyoucard.com/images/small/logo.jpg",
                 success: function () {
                 },
@@ -131,6 +131,7 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
             };
             wx.onMenuShareTimeline(shareConfig);
             wx.onMenuShareAppMessage(shareConfig);
+            alert("ready");
         });
     }
 ]);
