@@ -120,7 +120,7 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
         wx.checkJsApi({
             jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
             success: function(res) {
-                alert(res);
+                alert(JSON.stringify(res));
                 // 以键值对的形式返回，可用的api值true，不可用为false
                 // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
             }
