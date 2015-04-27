@@ -104,14 +104,25 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
         };
 
         wx.onMenuShareTimeline({
-            title: '', // 分享标题
-            link: '', // 分享链接
+            title: 'dfasfd', // 分享标题
+            link: 'http://www.baiduc.com', // 分享链接
             imgUrl: '', // 分享图标
             success: function () {
                 // 用户确认分享后执行的回调函数
+                alert("success");
             },
             cancel: function () {
                 // 用户取消分享后执行的回调函数
+                alert("cancel");
+            }
+        });
+
+        wx.checkJsApi({
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+            success: function(res) {
+                alert(res);
+                // 以键值对的形式返回，可用的api值true，不可用为false
+                // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
             }
         });
 
@@ -124,9 +135,11 @@ postcardControllers.controller("FriendsManagerController", ["$rootScope", "$scop
             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
             success: function () {
                 // 用户确认分享后执行的回调函数
+                alert("success");
             },
             cancel: function () {
                 // 用户取消分享后执行的回调函数
+                alert("cancel");
             }
         });
     }
