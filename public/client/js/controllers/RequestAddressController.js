@@ -84,10 +84,5 @@ postcardControllers.controller("RequestAddressController", ["$rootScope", "$scop
                 });
             }
         };
-
-        var myScroll = new IScroll('#iscrollWrapper', {
-            click: true,
-            scrollbars: true
-        });
     }
 ]);

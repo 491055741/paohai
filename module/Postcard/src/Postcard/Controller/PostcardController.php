@@ -492,7 +492,7 @@ class PostcardController extends AbstractActionController
                     'touser'  => $userName,
                     'msgtype' => 'text',
                     'text'    => array(
-                        'content' => '您好友['.$contactName.']已经回复收件地址了，快去送Ta一张定制版明信片吧！http://'.$_SERVER[HTTP_HOST].'/client/index.html#/friendsManager?&username='.$userName
+                        'content' => '您好友['.$contactName.']已经回复收件地址了，快去送Ta一张定制版明信片吧！<a href="http://'.$_SERVER[HTTP_HOST].'/client/index.html#/friendsManager?&username='.$userName.'">点击查看</a>'
                     )
                 ))
             );
