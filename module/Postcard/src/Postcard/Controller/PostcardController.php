@@ -466,6 +466,8 @@ class PostcardController extends AbstractActionController
     {
         $userName = $this->getRequest()->getPost('userName', '0');
         $contactName = $this->getRequest()->getPost('contactName', '0');
+        $from = $this->getRequest()->getPost('from');
+
         if ($userName == '0' || $contactName == '0') {
             $view =  new ViewModel(array('code' => 1, 'msg' => 'UserName needed.'));
             $view->setTemplate('postcard/postcard/error');
@@ -482,6 +484,19 @@ class PostcardController extends AbstractActionController
         $contact->zipCode = $this->getRequest()->getPost('zipCode', '');
         $contact->mobile  = $this->getRequest()->getPost('mobile', '');
         $this->getContactTable()->saveContact($contact);
+
+        if ($from === 'other') {
+            $token = $this->getUtil()->getAccessToken();
+            $this->getUtil()->httpPost('https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token,
+                $this->JSON(array(
+                    'touser'  => $userName,
+                    'msgtype' => 'text',
+                    'text'    => array(
+                        'content' => '您好友['.$contactName.']已经回复收件地址了，快去送Ta一张定制版明信片吧！http://'.$_SERVER[HTTP_HOST].'/client/index.html#/friendsManager?&username='.$userName
+                    )
+                ))
+            );
+        }
 
         $res = array(
             'code' => 0,

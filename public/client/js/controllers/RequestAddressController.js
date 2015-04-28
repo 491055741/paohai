@@ -75,11 +75,12 @@ postcardControllers.controller("RequestAddressController", ["$rootScope", "$scop
                     contactName: name,
                     address: detailAddress,
                     zipCode: zipcode,
-                    mobile: mobile
+                    mobile: mobile,
+                    from: "other"
                 }).success(function (data) {
-                    $location.path("/friendsManager");
+                    alert("成功提交");
                 }).error(function (error) {
-                    alert(error);
+                    alert("提交失败");
                 });
             }
         };

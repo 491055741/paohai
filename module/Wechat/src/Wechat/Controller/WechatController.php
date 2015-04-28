@@ -22,7 +22,6 @@ class WechatController extends AbstractActionController
     protected $orderTable;
     protected $userPositionTable;
 
-
     public function indexAction()
     {
         $this->responseMsg();
