@@ -189,6 +189,16 @@ class ContactController extends AbstractActionController
         ));
     }
 
+    public function getContactAction() {
+        $userName = $this->getRequest()->getPost('userName', '0');
+        $contactName = $this->getRequest()->getPost('contactName', '0');
+        $contact = $this->getContactTable()->getContact($userName, $contactName);
+        return new JsonModel(array(
+            "code" => "0",
+            "data" => $contact
+        ));
+    }
+
     private function getContactTable()
     {
         if (!$this->contactTable) {

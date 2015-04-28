@@ -495,7 +495,7 @@ class PostcardController extends AbstractActionController
                         "articles" => array(
                             array(
                                 "title" => '您好友['.$contactName.']已经回复收件地址了，快去送Ta一张定制版明信片吧！',
-                                "url" => 'http://'.$_SERVER[HTTP_HOST].'/client/index.html#/friendsManager?&username='.$userName
+                                "url" => 'http://'.$_SERVER[HTTP_HOST].'/client/index.html#/showRequestAddress?&username='.$userName.'&contactname='.$contactName
                             )
                         )
                     )

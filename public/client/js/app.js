@@ -109,6 +109,10 @@ Postcard.config(["$routeProvider",
             templateUrl: "templates/requestAddress.html",
             controller: "RequestAddressController"
         })
+        .when("/showRequestAddress", {
+            templateUrl: "templates/showRequestAddress.html",
+            controller: "ShowRequestAddressController"
+        })
         .when("/done", {
             templateUrl: "templates/done.html",
             controller: "DoneController"
