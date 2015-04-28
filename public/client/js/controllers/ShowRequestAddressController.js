@@ -28,6 +28,7 @@ postcardControllers.controller("ShowRequestAddressController", ["$rootScope", "$
             if (info.province) {
                 $scope.selectedProvince = info.province;
                 $scope.selectedCity = info.city;
+                $scope.address = contact.address;
                 $scope.address = $scope.address.replace(new RegExp($scope.selectedProvince, "g"), "");
                 $scope.address = $scope.address.replace(new RegExp($scope.selectedCity, "g"), "");
             }
