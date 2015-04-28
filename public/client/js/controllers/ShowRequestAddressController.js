@@ -40,7 +40,7 @@ postcardControllers.controller("ShowRequestAddressController", ["$rootScope", "$
         });
 
         $scope.onOkButtonClick = function () {
-            $location.path("/friendsManager/?&username=" + $rootScope.username);
+            $location.path("/friendsManager/?username=" + $rootScope.username);
         };
     }
 ]);
