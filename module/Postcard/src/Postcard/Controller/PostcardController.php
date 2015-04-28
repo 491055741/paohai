@@ -493,8 +493,10 @@ class PostcardController extends AbstractActionController
                     'msgtype' => 'news',
                     "news" => array (
                         "articles" => array(
-                            "title" => '您好友['.$contactName.']已经回复收件地址了，快去送Ta一张定制版明信片吧！',
-                            "url" => 'http://'.$_SERVER[HTTP_HOST].'/client/index.html#/friendsManager?&username='.$userName
+                            array(
+                                "title" => '您好友['.$contactName.']已经回复收件地址了，快去送Ta一张定制版明信片吧！',
+                                "url" => 'http://'.$_SERVER[HTTP_HOST].'/client/index.html#/friendsManager?&username='.$userName
+                            )
                         )
                     )
                 ))
