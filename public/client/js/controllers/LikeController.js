@@ -10,6 +10,10 @@ postcardControllers.controller("LikeController", ["$rootScope", "$scope", "$wind
         $rootScope.onHeaderRightButtonClick = function () {
         };
 
+        var orderId = $routeParams.orderId;
+
+        alert(orderId);
+
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
         //    //orderId: 0,

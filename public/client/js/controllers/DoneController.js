@@ -21,22 +21,40 @@ postcardControllers.controller("DoneController", ["$rootScope", "$scope", "$wind
         }).error(function () {
         });
 
-        $scope.shareToFriend = function () {
-            // TODO: share to friend.
-            wx.onMenuShareAppMessage({
-                title: '标题', // 分享标题
-                desc: '分享描述', // 分享描述
-                link: 'http://www.baidu.com', // 分享链接
-                imgUrl: '', // 分享图标
-                type: '', // 分享类型,music、video或link，不填默认为link
-                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        $http.get("/postcard/getWeixinConfig?" + Util.getQueryStringFromObject({
+        })).success(function (data) {
+            Util.configWeixin(data.config);
+        }).error(function () {
+        });
+
+        //var nickname = "";
+        //$http.get("/contact/getUserInfo?" + Util.getQueryStringFromObject({
+        //    userName: $rootScope.username
+        //})).success(function (data) {
+        //    nickname = data.data.nickname;
+        //}).error(function () {
+        //});
+
+        wx.ready(function () {
+            //var descContent = nickname.length > 0 ? '亲，您的好友[' + nickname + ']在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦' : '亲，您的好友在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦';
+            var shareConfig = {
+                title: "订单分享",
+                desc: "分享描述", // 分享描述
+                link: "http://" + $location.host() + ":" + $location.port() + "/client/index.html#/like?orderId=" + $rootScope.order.id,// 分享链接
+                imgUrl: "http://quyou.quyoucard.com/images/small/logo.jpg",
                 success: function () {
-                    // 用户确认分享后执行的回调函数
                 },
                 cancel: function () {
-                    // 用户取消分享后执行的回调函数
                 }
-            });
+            };
+            wx.onMenuShareTimeline(shareConfig);
+            wx.onMenuShareAppMessage(shareConfig);
+        });
+
+        Util.overlay.init("<img style='width: 100%' src='images/share-to-friends.png'/>");
+
+        $scope.shareToFriend = function () {
+            Util.overlay.show();
         };
     }
 ]);

@@ -124,5 +124,36 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
         $scope.shareOrder = function (index) {
             Util.overlay.show();
         };
+
+        $http.get("/postcard/getWeixinConfig?" + Util.getQueryStringFromObject({
+        })).success(function (data) {
+            Util.configWeixin(data.config);
+        }).error(function () {
+        });
+
+        //var nickname = "";
+        //$http.get("/contact/getUserInfo?" + Util.getQueryStringFromObject({
+        //    userName: $rootScope.username
+        //})).success(function (data) {
+        //    nickname = data.data.nickname;
+        //}).error(function () {
+        //});
+
+        wx.ready(function () {
+            var selectedOrder = $scope.orders[$scope.selectedDate][$scope.selectedIndex];
+            //var descContent = nickname.length > 0 ? '亲，您的好友[' + nickname + ']在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦' : '亲，您的好友在趣邮向您索要收件地址，快去填写吧，可能有惊喜礼物收哦';
+            var shareConfig = {
+                title: "订单分享",
+                desc: "分享描述", // 分享描述
+                link: "http://" + $location.host() + ":" + $location.port() + "/client/index.html#/like?orderId=" + selectedOrder.id,// 分享链接
+                imgUrl: "http://quyou.quyoucard.com/images/small/logo.jpg",
+                success: function () {
+                },
+                cancel: function () {
+                }
+            };
+            wx.onMenuShareTimeline(shareConfig);
+            wx.onMenuShareAppMessage(shareConfig);
+        });
     }
 ]);
