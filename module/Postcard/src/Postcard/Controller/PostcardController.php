@@ -490,9 +490,12 @@ class PostcardController extends AbstractActionController
             $this->getUtil()->httpPost('https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$token,
                 $this->JSON(array(
                     'touser'  => $userName,
-                    'msgtype' => 'text',
-                    'text'    => array(
-                        'content' => '您好友['.$contactName.']已经回复收件地址了，快去送Ta一张定制版明信片吧！<a href="http://'.$_SERVER[HTTP_HOST].'/client/index.html#/friendsManager?&username='.$userName.'">点击查看</a>'
+                    'msgtype' => 'news',
+                    "news" => array (
+                        "articles" => array(
+                            "title" => '您好友['.$contactName.']已经回复收件地址了，快去送Ta一张定制版明信片吧！',
+                            "url" => 'http://'.$_SERVER[HTTP_HOST].'/client/index.html#/friendsManager?&username='.$userName
+                        )
                     )
                 ))
             );
