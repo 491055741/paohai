@@ -1104,15 +1104,13 @@ class PostcardController extends AbstractActionController
         // save user's original picture
         $dstPath = $this->postcardsPath($order->id);
         $origPicName = $dstPath.$order->id.'_orig.jpg';
-//        if (!file_exists($origPicName)) {
-//
-//        }
-
-        $util = new CommonUtil();
-        $util->setServiceLocator($this->getServiceLocator());
-        $accessToken = $util->getAccessToken();
-        $order->picUrl = preg_replace("/access_token=.+?&/", "access_token=".$accessToken."&", $order->picUrl);
-        file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
+        if (!file_exists($origPicName)) {
+            $util = new CommonUtil();
+            $util->setServiceLocator($this->getServiceLocator());
+            $accessToken = $util->getAccessToken();
+            $order->picUrl = preg_replace("/access_token=.+?&/", "access_token=".$accessToken."&", $order->picUrl);
+            file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
+        }
 
         $angel = $templateInfo["rotate"]; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
@@ -1262,6 +1260,22 @@ class PostcardController extends AbstractActionController
         $pos['font-size'] = 30;
 //        $pos['font-file'] = "public/fonts/simsun.ttf";
         $this->draw_txt_to($dst, $pos, $order->recipient);
+
+        if ($order->activityId == 109) {
+            $image_qr = imagecreatefrompng('public/images/big/qr_travelzoo.png');
+            $text = 'Travelzoo 旅游族';
+            $width=$height=250;
+            imagecopyresampled($dst, $image_qr, $canvas_w- ($width + 60) * 2, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
+            $pos['text-align'] = CENTER;
+            $pos['left']     = $canvas_w- ($width + 60) * 2;
+            $pos['top']      = 1100;
+            $pos['width']    = $width;
+            $pos['font-size'] = 20;
+            $pos['font-file'] = "public/fonts/simkai.ttf";
+            $pos['lineSpace'] = 34;
+            $this->draw_txt_to($dst, $pos, $text);
+        }
+
 //        unset($pos['font-file']);
         // voice qr code
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {
@@ -1277,10 +1291,17 @@ class PostcardController extends AbstractActionController
             $logo_height = imagesy($image_qr)*0.15;
             imagecopyresampled($image_qr, $logo_canvas, (imagesx($image_qr)-$logo_width)/2, (imagesy($image_qr)-$logo_height)/2, 0, 0,
                 $logo_width, $logo_height, imagesx($logo_canvas), imagesy($logo_canvas));
-            $text = '听取你的留言';
+
+            switch ($order->activityId) {
+                case 107:
+                    $text = "扫一扫\n听取你的专属留言";
+                    break;
+                default:
+                    $text = '听取你的留言';
+            }
         } else {
             // quyou qr code
-            $image_qr = imagecreatefromjpeg('public/images/big/qr_quyou.jpg');
+            $image_qr = imagecreatefrompng('public/images/big/qr_quyou.png');
             $text = 'DIY你的明信片';
         }
         $width=$height=250;
@@ -1291,6 +1312,7 @@ class PostcardController extends AbstractActionController
         $pos['width']    = $width;
         $pos['font-size'] = 20;
         $pos['font-file'] = "public/fonts/simkai.ttf";
+        $pos['lineSpace'] = 34;
         $this->draw_txt_to($dst, $pos, $text);
 
         // partner Qr code
@@ -1326,7 +1348,16 @@ class PostcardController extends AbstractActionController
 
         // stamp   82px => 7mm
         $width=$height=300;
-        $image = imagecreatefrompng('public/images/big/stamp.png');
+
+        switch ($order->activityId) {
+            case 107:
+                $stamp = 'guanzhichezhan-stamp.png';
+                break;
+            default:
+                $stamp = 'stamp.png';
+        }
+
+        $image = imagecreatefrompng('public/images/big/'.$stamp);
         imagecopyresampled($dst, $image, $canvas_w-82-$width, 82, 0, 0, $width, $height, imagesx($image), imagesy($image));
 
         // Commemorative Chop

@@ -125,6 +125,11 @@
                 return;
             }
 
+            if ($("#var-activity-id").val() == 107 && !$(".pop2 .mobile_input").val()) {
+                HC.showError("请填写手机号");
+                return;
+            }
+
             receiptInfo.setVars({
                 name: $(".pop2 .recipient_input").val(),
                 address: $(".pop2 .province_input").val()
