@@ -1256,8 +1256,14 @@ button {
 /***********page continueOrder end***************************/
 
 /***********page like start***************************/
+#like .number {
+    position: relative;
+    bottom: -50px;
+    width: 100%;
+    text-align: center;
+}
+
 #like #cardPreview {
-    background-color: red;
     width: 60%;
     position: absolute;
     top: 10px;
@@ -1266,22 +1272,44 @@ button {
     bottom: 100px;
 }
 
+#like #cardPreview>img {
+    width: 100%;
+}
+
 #like #likeButton {
     position: absolute;
     bottom: 50px;
-    left: 25%;
-    width: 25%;
+    left: 30%;
+    width: 40px;
     height: 40px;
-    background-color: red;
+}
+
+#like .like-inactive {
+    background-image: url("../images/good-icon-inactive.png");
+    background-size: 100% 100%;
+}
+
+#like .like-active {
+    background-image: url("../images/good-icon-active.png");
+    background-size: 100% 100%;
 }
 
 #like #unlikeButton {
     position: absolute;
     bottom: 50px;
-    right: 25%;
-    width: 25%;
+    right: 30%;
+    width: 40px;
     height: 40px;
-    background-color: red;
+}
+
+#like .unlike-inactive {
+    background-image: url("../images/bad-icon-inactive.png");
+    background-size: 100% 100%;
+}
+
+#like .unlike-active {
+    background-image: url("../images/bad-icon-active.png");
+    background-size: 100% 100%;
 }
 /***********page like end***************************/
 

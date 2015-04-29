@@ -1,13 +1,13 @@
 <div id="like">
     <div id="cardPreview">
-
+        <img ng-src="{{order.front}}">
     </div>
 
-    <div id="likeButton">
-
+    <div id="likeButton" class="{{likeActive()}}" ng-click="onClickLikeButton()">
+        <div class="number">{{order.like}}</div>
     </div>
 
-    <div id="unlikeButton">
-
+    <div id="unlikeButton" class="{{unlikeActive()}}" ng-click="onClickUnlikeButton()">
+        <div class="number">{{order.unlike}}</div>
     </div>
 </div>

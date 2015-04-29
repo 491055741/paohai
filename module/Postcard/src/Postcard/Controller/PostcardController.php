@@ -422,6 +422,17 @@ class PostcardController extends AbstractActionController
         ));
     }
 
+    public function getOrderAction() {
+        $orderId = $this->getRequest()->getQuery('orderId', '0');
+        $order = $this->getOrderTable()->getOrder($orderId);
+        return new JsonModel(array(
+            "code" => 0,
+            "data" => array(
+                'order' =>$order
+            )
+        ));
+    }
+
     public function repeatOrderAction()
     {
         $orderId = $this->params()->fromRoute('id', '0');
@@ -674,6 +685,8 @@ class PostcardController extends AbstractActionController
             $status             = $this->getRequest()->getPost('status');
             $bank               = $this->getRequest()->getPost('bank');
             $mobile             = $this->getRequest()->getPost('mobile');
+            $like               = $this->getRequest()->getPost('like');
+            $unlike             = $this->getRequest()->getPost('unlike');
 
             // update mediaId. Media will valid for 3 days on Tecent's server.
             $voiceMediaId       = $this->getRequest()->getPost('voiceMediaId');
@@ -701,6 +714,8 @@ class PostcardController extends AbstractActionController
             $status             ? $order->status            = $status        : null;
             $bank               ? $order->bank              = $bank          : null;
             $mobile             ? $order->recipientMobile   = $mobile        : null;
+            $like               ? $order->like              += 1             : null;
+            $unlike             ? $order->unlike            += 1             : null;
             $this->getOrderTable()->saveOrder($order);
             $this->logger('msg:['.$order->message.']');
             $res = array(

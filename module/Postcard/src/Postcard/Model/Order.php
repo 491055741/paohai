@@ -43,6 +43,8 @@ class Order
     public $qrSceneId; // 带参数永久二维码的场景id，全局取值范围1～100000，从1递增，用户扫码后根据sceneId来找对应order
     public $activityId;
     public $partnerId;
+    public $like;
+    public $unlike;
 
     public function exchangeArray($data)
     {
@@ -75,5 +77,7 @@ class Order
         $this->qrSceneId          = (isset($data['qrSceneId']))          ? $data['qrSceneId']         : null;
         $this->activityId         = (isset($data['activityId']))         ? $data['activityId']        : null;
         $this->partnerId          = (isset($data['partnerId']))          ? $data['partnerId']         : null;
+        $this->like               = (isset($data['like']))               ? $data['like']              : null;
+        $this->unlike             = (isset($data['unlike']))             ? $data['unlike']            : null;
     }
 }

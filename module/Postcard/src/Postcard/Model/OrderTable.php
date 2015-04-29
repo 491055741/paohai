@@ -110,6 +110,8 @@ class OrderTable
             'qrSceneId'         => $order->qrSceneId,
             'activityId'        => $order->activityId,
             'partnerId'         => $order->partnerId,
+            'like'              => $order->like,
+            'unlike'            => $order->unlike
         );
 
         if ($this->getOrder($order->id)) {
