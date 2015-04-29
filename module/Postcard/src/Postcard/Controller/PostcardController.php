@@ -613,7 +613,9 @@ class PostcardController extends AbstractActionController
         $order->status     = UNPAY;
         $order->orderDate  = date('Y-m-d H:i:s');
         $order->activityId = $this->getRequest()->getPost('actId');
-        $order->partnerId = trim($this->getRequest()->getPost('partnerId', ''));
+        $order->partnerId  = trim($this->getRequest()->getPost('partnerId', ''));
+        $order->like       = 0;
+        $order->unlike     = 0;
         // var_dump($order);
         $this->getOrderTable()->saveOrder($order);
 
