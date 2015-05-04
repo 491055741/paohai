@@ -14,6 +14,8 @@ postcardControllers.controller("ContinueOrderController", ["$rootScope", "$scope
             $location.path("/editInfo");
         };
 
+        $scope.url = Util.getFrontUrl($rootScope.templateOrder);
+
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
         //    //orderId: 0,

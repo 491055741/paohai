@@ -4,6 +4,7 @@ postcardControllers.controller("LikeController", ["$rootScope", "$scope", "$wind
         $rootScope.rightButtonText = "";
 
         $rootScope.onHeaderLeftButtonClick = function () {
+            $rootScope.templateOrder = $scope.order;
             $location.path("/editInfo");
         };
 
@@ -16,10 +17,7 @@ postcardControllers.controller("LikeController", ["$rootScope", "$scope", "$wind
             orderId: orderId
         })).success(function (data) {
             $scope.order = data.data.order;
-            var year = $scope.order.orderDate.slice(0, 4);
-            var month = $scope.order.orderDate.slice(5, 7);
-            var day = $scope.order.orderDate.slice(8, 10);
-            $scope.order.front = "/postcards/" + year + month + day + "/" + $scope.order.id + "_front.jpg";
+            $scope.order.front = Util.getFrontUrl($scope.order);
         }).error(function () {
         });
 

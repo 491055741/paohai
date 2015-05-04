@@ -1245,7 +1245,6 @@ button {
 
 /***********page continueOrder start***************************/
 #continueOrder #cardPreview {
-    background-color: red;
     width: 60%;
     position: absolute;
     top: 10px;

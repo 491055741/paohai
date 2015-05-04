@@ -23,6 +23,31 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
             $location.path("/editGreetings");
         };
 
+        if (!$rootScope.order) {
+            $http.post("/postcard/placeorder?nonce=" + Util.getNonceStr(), {
+                templateIndex: $rootScope.templateOrder.templatedId,
+                offsetX: $rootScope.templateOrder.offsetX,
+                offsetY: $rootScope.templateOrder.offsetY,
+                userName: $rootScope.username,
+                userPicUrl: $rootScope.templateOrder.picUrl,
+                actId: $rootScope.templateOrder.activityId,
+                partnerId: null // TODO: partnerId
+            }).success(function (data) {
+                if (data.code === 0) {
+                    if (!$rootScope.order) {
+                        $rootScope.order = {};
+                    }
+
+                    $rootScope.order.id = data.orderId;
+                    $location.path("/editInfo");
+                } else {
+                    alert(data.msg);
+                }
+            }).error(function (error) {
+                alert(error);
+            });
+        }
+
         // TODO: 设置一个默认邮戳
 
         //
