@@ -72,8 +72,6 @@ class WxpayController extends AbstractActionController
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $selectedPrice = $this->getRequest()->getQuery('selectedPrice', '0');
-        // TODO: need to be done here.
-
         $order = $this->getOrderTable()->getOrder($orderId);
 
         if ($orderId == '0' || !$order) {
@@ -90,30 +88,29 @@ class WxpayController extends AbstractActionController
             ));
         }
 
-        return new JsonModel(array( // TODO: need to be done here.
-            "code" => 0,
-            "data" => array(
-                "price" => $selectedPrice == 2.99 ? 0 : $selectedPrice,
-                "payPara" => null,
-            ),
-        ));
-
         $activityService = $this->getServiceLocator()
             ->get('Postcard\Service\Activity\ActivityService');
-        $order->price = $activityService->getPrice($order);
+
+        if ($selectedPrice == 2.99) {
+            $order->price = $activityService->getPrice($order);
+            $order->price = 0;
+        } else {
+            $order->price = 1;
+        }
+
         $this->getOrderTable()->saveOrder($order);
 
         $service = $this->getServiceLocator()
             ->get('Wxpay\Service\WxpayService');
         list($price, $payPara) = $service->getPayPara($orderId);
 
-        return new JsonModel(array(
+        return new JsonModel(array( // TODO: need to be done here.
             "code" => 0,
             "data" => array(
                 "price" => $price,
                 "payPara" => $payPara,
-                ),
-            ));
+            ),
+        ));
     }
 
 

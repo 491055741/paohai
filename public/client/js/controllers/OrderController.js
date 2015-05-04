@@ -59,15 +59,13 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
 
         $scope.pay = function () {
             if ($scope.totalPrice == 0) {
-                // TODO: go to done page.
                 $location.path("/done");
             } else {
                 WeixinJSBridge.invoke("getBrandWCPayRequest",
-                    // TODO: payParameters
+                    payParameters,
                     function(res){
                     if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
                         $location.path("/done");
-                        //self.location = "http://" + window.location.host + "/postcard/complete/" + <?php echo '"'.$order->id.'"' ?> + "?nonce=" + HC.getNonceStr();
                     } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
                         alert(res.err_msg);
                     }
