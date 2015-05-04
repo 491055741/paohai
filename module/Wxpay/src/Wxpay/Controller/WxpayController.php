@@ -93,9 +93,9 @@ class WxpayController extends AbstractActionController
 
         if ($selectedPrice == 2.99) {
             $order->price = $activityService->getPrice($order);
-            $order->price = 0;
+            $order->price = 0; // TODO: need to removed here.
         } else {
-            $order->price = 1;
+            $order->price = 1; // TODO: need to set 999;
         }
 
         $this->getOrderTable()->saveOrder($order);
@@ -104,7 +104,7 @@ class WxpayController extends AbstractActionController
             ->get('Wxpay\Service\WxpayService');
         list($price, $payPara) = $service->getPayPara($orderId);
 
-        return new JsonModel(array( // TODO: need to be done here.
+        return new JsonModel(array(
             "code" => 0,
             "data" => array(
                 "price" => $price,
