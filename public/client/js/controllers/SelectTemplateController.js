@@ -69,7 +69,8 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
             var imgX = 0;
             var imgY = 0;
-            var imgScale = 1;
+
+            var imgScale = 0.7;
             function drawImage(){
                 context.clearRect(0,0,canvas.width,canvas.height);
                 context.drawImage(picture, 0, 0,picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
@@ -80,10 +81,10 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             var templateCanvas = document.getElementById("templateCanvas");
 
             templateCanvas.ontouchstart = function(event){
-                var pos = windowToCanvas(templateCanvas, event.clientX, event.clientY);
+                var pos = windowToCanvas(templateCanvas, event.touches[0].clientX, event.touches[0].clientY);
 
                 templateCanvas.ontouchmove=function(event){
-                    var pos1 = windowToCanvas(templateCanvas,event.clientX, event.clientY);
+                    var pos1 = windowToCanvas(templateCanvas,event.touches[0].clientX, event.touches[0].clientY);
                     var x = pos1.x-pos.x;
                     var y = pos1.y-pos.y;
                     pos = pos1;
