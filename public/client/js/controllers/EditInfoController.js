@@ -63,7 +63,10 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
             });
         }
 
-        // TODO: 设置一个默认邮戳
+        if (! $rootScope.youchuo) {
+            $rootScope.youchuo = {};
+            $rootScope.youchuo.path = "images/postmark/default.png";
+        }
 
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
