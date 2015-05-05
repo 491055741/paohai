@@ -7,11 +7,6 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
             $location.path("/");
         };
 
-        $rootScope.targetContact.contactName = name;
-        $rootScope.targetContact.address = detailAddress;
-        $rootScope.targetContact.mobile = mobile;
-        $rootScope.targetContact.zipCode = zipcode;
-
         $rootScope.onHeaderRightButtonClick = function () {
             $http.post("/postcard/updateOrder/" + $rootScope.order.id + "?nonce=" + Util.getNonceStr(), {
                 zipcode: $rootScope.targetContact.zipCode,
