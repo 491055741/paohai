@@ -42,8 +42,12 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
 
             for (var i = 0, length = orders.length; i < length; i++) {
                 var order = orders[i];
-                var groupDate = $filter('date')(new Date(order.orderDate), 'yyyy年M月');
-                order.date = $filter('date')(new Date(order.orderDate), 'yyyy.M.d');
+                var year = order.orderDate.slice(0, 4);
+                var month = order.orderDate.slice(5, 7);
+                var day = order.orderDate.slice(8, 10);
+
+                var groupDate = year + "年" + month + "月";
+                order.date = year + "." + month + "." + day;
 
                 switch (order.status) {
                     case "99":
