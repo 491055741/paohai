@@ -79,6 +79,7 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
                     }
                 }
 
+                order.front = Util.getFrontUrl(order);
                 $scope.orders[groupDate].push(order);
             }
 
