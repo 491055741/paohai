@@ -55,6 +55,51 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         $scope.showTemplates = [];
         $scope.data = null;
 
+        function windowToCanvas(canvas, x, y){
+            var bbox = canvas.getBoundingClientRect();
+            return {
+                x:x - bbox.left - (bbox.width - canvas.width) / 2,
+                y:y - bbox.top - (bbox.height - canvas.height) / 2
+            };
+        }
+
+        function draw() {
+            var canvas = document.getElementById("pictureCanvas");
+            var context = canvas.getContext("2d");
+
+            var imgX = 0;
+            var imgY = 0;
+            var imgScale = 1;
+            function drawImage(){
+                context.clearRect(0,0,canvas.width,canvas.height);
+                context.drawImage(picture, 0, 0,picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
+            }
+
+            drawImage();
+
+            var templateCanvas = document.getElementById("templateCanvas");
+
+            templateCanvas.ontouchstart = function(event){
+                var pos = windowToCanvas(templateCanvas, event.clientX, event.clientY);
+
+                templateCanvas.ontouchmove=function(event){
+                    var pos1 = windowToCanvas(templateCanvas,event.clientX, event.clientY);
+                    var x = pos1.x-pos.x;
+                    var y = pos1.y-pos.y;
+                    pos = pos1;
+                    imgX += x;
+                    imgY += y;
+                    drawImage();
+                };
+
+                templateCanvas.ontouchend=function(){
+                    templateCanvas.onmousemove=null;
+                    templateCanvas.onmouseup=null;
+                };
+            }
+        }
+
+        var picture = new Image();
         $http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
             orderId: $rootScope.order && $rootScope.order.id,
             picurl: $routeParams.picurl,
@@ -68,6 +113,10 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             $rootScope.order = $scope.data.order;
             $rootScope.picurl = $scope.data.picurl;
             showTemplate();
+            picture.src = $rootScope.picurl;
+            picture.onload = function () {
+                draw();
+            };
         }).error(function () {
         });
 
@@ -77,48 +126,19 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         }).error(function () {
         });
 
-        var originWidth = null;
-        var originHeight = null;
-
         function reLayout() {
+            var height = parseInt($("#templateCanvas").css("height"));
+            $("#templateCanvas").css("width", 1181 * height / 1748);
+            $("#templateCanvas").css("left", parseInt($("#image-container").css("width")) / 2 - parseInt($("#templateCanvas").css("width")) / 2);
 
-            if (!originWidth) {
-                originWidth = parseInt($("#picture").css("width"));
-            }
+            $("#pictureCanvas").css("width", $("#templateCanvas").css("width"));
+            $("#pictureCanvas").css("left", $("#templateCanvas").css("left"));
 
-            if (!originHeight) {
-                originHeight = parseInt($("#picture").css("height"));
-            }
+            $("#pictureCanvas").attr("width", parseInt($("#pictureCanvas").css("width")));
+            $("#pictureCanvas").attr("height", parseInt($("#pictureCanvas").css("height")));
 
-            var height = parseInt($("#coverTemplate").css("height"));
-            $("#coverTemplate").css("width", 1181 * height / 1748);
-            $("#coverTemplate").css("left", parseInt($("#image-container").css("width")) / 2 - parseInt($("#coverTemplate").css("width")) / 2);
-
-
-
-            if ($scope.selectTemplateType == 0 && originHeight && originWidth) {
-                $("#picture").css("height", originHeight);
-                $("#picture").css("width", originWidth);
-                $("#picture").css("left", parseInt($("#image-container").css("width")) / 2 - originWidth / 2);
-            }
-
-            if ($scope.selectTemplateType == 1) {
-                $("#picture").css("width", height);
-                //$("#picture").css("height", originHeight * height / originWidth); // TODO: need to be fixed here.
-                $("#picture").css("left", parseInt($("#image-container").css("width")) / 2 - height / 2);
-            }
+            draw();
         }
-
-
-        $("#picture").on("load", function () {
-            reLayout();
-        });
-
-        $("#picture").on("click", function () {
-            $("#picture").css("transform", "scale(2)");
-            $("#picture").css("-webkit-transform", "scale(2)");
-            console.log("3232");
-        });
 
         window.onresize = reLayout;
 
@@ -133,7 +153,6 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                     }
                 }
 
-                $("#picture").removeClass("rotate-90");
                 reLayout();
             }
 
@@ -145,7 +164,6 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                     }
                 }
 
-                $("#picture").addClass("rotate-90");
                 reLayout();
             }
         }
@@ -169,10 +187,15 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
         $scope.selectedTemplate = function (index) {
             $scope.selectTemplateIndex = index;
-        };
 
-        $scope.coverTemplate = function () {
-            return $scope.showTemplates[$scope.selectTemplateIndex] && $scope.showTemplates[$scope.selectTemplateIndex].thumbUrl;
-        }
+            var canvas = document.getElementById("templateCanvas");
+            var context = canvas.getContext("2d");
+            var img = new Image();
+            img.src = $scope.showTemplates[$scope.selectTemplateIndex] && $scope.showTemplates[$scope.selectTemplateIndex].thumbUrl;
+            img.onload = function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+        };
     }
 ]);

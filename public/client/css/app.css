@@ -110,14 +110,14 @@ button {
     bottom: 160px;
 }
 
-#selectTemplate #image-container img:nth-child(1) {
+#selectTemplate #image-container #pictureCanvas {
     height: 100%;
-    display: block;
     position: absolute;
+    display: block;
     top: 0;
 }
 
-#selectTemplate #image-container img:nth-child(2) {
+#selectTemplate #image-container #templateCanvas {
     height: 100%;
     position: absolute;
     display: block;
