@@ -58,46 +58,83 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         function windowToCanvas(canvas, x, y){
             var bbox = canvas.getBoundingClientRect();
             return {
-                x:x - bbox.left - (bbox.width - canvas.width) / 2,
-                y:y - bbox.top - (bbox.height - canvas.height) / 2
+                x:x - bbox.left,
+                y:y - bbox.top
             };
         }
 
         function draw() {
             var canvas = document.getElementById("pictureCanvas");
             var context = canvas.getContext("2d");
-
             var imgX = 0;
             var imgY = 0;
-
-            var imgScale = 0.7;
+            var imgScale = 0.5;
             function drawImage(){
-                context.clearRect(0,0,canvas.width,canvas.height);
-                context.drawImage(picture, 0, 0,picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
             }
-
             drawImage();
 
             var templateCanvas = document.getElementById("templateCanvas");
 
-            templateCanvas.ontouchstart = function(event){
+            var center = {
+                x: 0,
+                y: 0
+            };
+            templateCanvas.ontouchstart = function (event){
+                var startImageX = imgX;
+                var startImageY = imgY;
+
                 var pos = windowToCanvas(templateCanvas, event.touches[0].clientX, event.touches[0].clientY);
 
-                templateCanvas.ontouchmove=function(event){
-                    var pos1 = windowToCanvas(templateCanvas,event.touches[0].clientX, event.touches[0].clientY);
-                    var x = pos1.x-pos.x;
-                    var y = pos1.y-pos.y;
-                    pos = pos1;
-                    imgX += x;
-                    imgY += y;
-                    drawImage();
-                };
+                if (event.touches.length === 2) {
+                    var pos2 = windowToCanvas(templateCanvas, event.touches[1].clientX, event.touches[1].clientY);
+                    center.x = (pos.x + pos2.x) / 2;
+                    center.y = (pos.y + pos2.y) / 2;
+                }
 
-                templateCanvas.ontouchend=function(){
-                    templateCanvas.onmousemove=null;
-                    templateCanvas.onmouseup=null;
+                var distance = 0;
+                templateCanvas.ontouchmove = function(event){
+
+                    if (event.touches.length === 1) {
+                        var pos1 = windowToCanvas(templateCanvas,event.touches[0].clientX, event.touches[0].clientY);
+                        var x = pos1.x - pos.x;
+                        var y = pos1.y - pos.y;
+                        pos = pos1;
+                        imgX += x;
+                        imgY += y;
+                    }
+
+                    if (event.touches.length === 2) {
+                        var x1 = event.touches[0].clientX;
+                        var y1 = event.touches[0].clientY;
+
+                        var x2 = event.touches[1].clientX;
+                        var y2 = event.touches[1].clientY;
+
+                        var deltaDistance = 0;
+                        if (distance === 0) {
+                            distance = Math.pow(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 0.5);
+                            return;
+                        } else {
+                            deltaDistance = Math.pow(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 0.5) - distance;
+                        }
+
+                        if(deltaDistance > 0){
+                            imgScale *= 1.01;
+                            imgX = center.x - imgScale * (center.x - startImageX);
+                            imgY = center.y - imgScale * (center.y - startImageY);
+                        }else{
+                            imgScale *= 0.99;
+                            imgX = center.x - imgScale * (center.x - startImageX);
+                            imgY = center.y - imgScale * (center.y - startImageY);
+                        }
+                    }
+
+                    drawImage();
+                    //$("#data").html(imgX + "<br/>" + imgY + "<br/>" + imgScale);
                 };
-            }
+            };
         }
 
         var picture = new Image();
