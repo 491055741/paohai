@@ -4,6 +4,7 @@ postcardControllers.controller("ContinueOrderController", ["$rootScope", "$scope
         $rootScope.rightButtonText = "";
 
         $rootScope.onHeaderLeftButtonClick = function () {
+            $rootScope.username = null;
             $location.path("/ordersManager");
         };
 
