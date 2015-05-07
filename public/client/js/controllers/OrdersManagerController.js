@@ -12,7 +12,7 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
         $rootScope.onHeaderRightButtonClick = function () {
         };
 
-        $rootScope.username = $routeParams.username;
+        $rootScope.username = null;
         if (!$rootScope.username) {
             $http.get("/postcard/getOauthUrl", {
                 params: {
@@ -88,7 +88,7 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
                     click: true,
                     scrollbars: true
                 });
-            }, 1500);
+            }, 1000);
         }).error(function (error) {
         });
 
