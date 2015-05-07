@@ -15,6 +15,7 @@ postcardControllers.controller("ContinueOrderController", ["$rootScope", "$scope
         };
 
         $scope.url = Util.getFrontUrl($rootScope.templateOrder);
+        $rootScope.picurl = $scope.url;
 
         //
         //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
