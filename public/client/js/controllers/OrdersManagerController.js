@@ -31,19 +31,12 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
             return;
         }
 
-        alert($rootScope.username);
-
-        window.onerror = function (error) {
-            alert(JSON.stringify(error));
-        };
-
         $http.get("/postcard/getOrders", {
             params: {
                 userName: $rootScope.username
             }
         }).success(function (data) {
             var orders = data.data.orders;
-            alert(orders.length);
             $scope.orders = {};
             $scope.dateGroup = [];
 
@@ -95,7 +88,7 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
                     click: true,
                     scrollbars: true
                 });
-            }, 500);
+            }, 1500);
         }).error(function (error) {
         });
 
