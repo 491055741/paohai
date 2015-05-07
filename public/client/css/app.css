@@ -716,11 +716,12 @@ button {
 
 #order #orderInfo #headerTitle #downTriangle {
     position: absolute;
-    bottom: -8px;
+    bottom: -10px;
     left: 50px;
     width: 16px;
-    height: 8px;
-    background-color: red;
+    height: 10px;
+    background-image: url("../images/down-triangle-gray.png");
+    background-size: 100% 100%;
 }
 
 #orderInfo #textInfo>ul {
