@@ -70,10 +70,21 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             var imgY = 0;
             var imgScale = 0.5;
             function drawImage(){
-                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.clearRect(-300, -300, canvas.width * 5, canvas.height * 5);
                 context.drawImage(picture, 0, 0, picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
             }
-            drawImage();
+
+            if ($scope.selectTemplateType === 0) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.rotate(0);
+                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
+            } else {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.rotate(Math.PI / 2);
+                imgX = 0;
+                imgY = - picture.height * imgScale;
+                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
+            }
 
             var templateCanvas = document.getElementById("templateCanvas");
 
@@ -101,8 +112,13 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                         var x = pos1.x - pos.x;
                         var y = pos1.y - pos.y;
                         pos = pos1;
-                        imgX += x;
-                        imgY += y;
+                        if ($scope.selectTemplateType === 0) {
+                            imgX += x;
+                            imgY += y;
+                        } else {
+                            imgX += y;
+                            imgY -= x;
+                        }
                     }
 
                     if (event.touches.length === 2) {
