@@ -229,7 +229,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             var canvas = document.getElementById("templateCanvas");
             var context = canvas.getContext("2d");
             var img = new Image();
-            img.src = $scope.showTemplates[$scope.selectTemplateIndex] && $scope.showTemplates[$scope.selectTemplateIndex].thumbUrl;
+            img.src = $scope.showTemplates[$scope.selectTemplateIndex] && $scope.showTemplates[$scope.selectTemplateIndex].url;
             img.onload = function () {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(img, 0, 0, canvas.width, canvas.height);
