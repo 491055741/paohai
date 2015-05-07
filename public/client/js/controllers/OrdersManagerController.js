@@ -12,7 +12,7 @@ postcardControllers.controller("OrdersManagerController", ["$rootScope", "$scope
         $rootScope.onHeaderRightButtonClick = function () {
         };
 
-        $rootScope.username = null;
+        $rootScope.username = $routeParams.username;
         if (!$rootScope.username) {
             $http.get("/postcard/getOauthUrl", {
                 params: {

@@ -12,7 +12,7 @@ postcardControllers.controller("DoneController", ["$rootScope", "$scope", "$wind
         };
 
         $scope.orderDetail = function () {
-            $location.url("/ordersManager?username=" + $rootScope.username);
+            $location.url("/ordersManager");
         };
 
         $http.get("/postcard/complete/" + $rootScope.order.id + "?" + Util.getQueryStringFromObject({
