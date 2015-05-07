@@ -47,6 +47,22 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
             return [];
         };
 
+        $scope.fillZipcode = function () {
+            var province = $scope.selectedProvince;
+            var city = $scope.selectedCity;
+            var address = $scope.address;
+
+            $http.get("/contact/postcode", {
+                params: {
+                    address: province + city + address
+                }
+            }).success(function (data) {
+                if (data.code == 0) {
+                    $scope.zipcode = data.data;
+                }
+            });
+        };
+
         $scope.onOkButtonClick = function () {
 
             var name = $scope.name;
