@@ -96,6 +96,6 @@ util.value("Util", {
         var year = order.orderDate.slice(0, 4);
         var month = order.orderDate.slice(5, 7);
         var day = order.orderDate.slice(8, 10);
-        return "/postcards/" + year + month + day + "/" + order.id + "_front.jpg";
+        return "/postcards/postcards/" + year + month + day + "/" + order.id + "_orig.jpg";
     }
 });
