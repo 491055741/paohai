@@ -8,6 +8,11 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
         };
 
         $rootScope.onHeaderRightButtonClick = function () {
+            if (!$rootScope.targetContact || !$rootScope.targetContact.contactName) {
+                alert("请选择或填写一个收件人");
+                return;
+            }
+
             $http.post("/postcard/updateOrder/" + $rootScope.order.id + "?nonce=" + Util.getNonceStr(), {
                 zipcode: $rootScope.targetContact.zipCode,
                 message: $rootScope.message,
