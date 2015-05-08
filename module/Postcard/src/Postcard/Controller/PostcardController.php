@@ -621,6 +621,16 @@ class PostcardController extends AbstractActionController
         // var_dump($order);
         $this->getOrderTable()->saveOrder($order);
 
+        $dstPath = $this->postcardsPath($order->id);
+        $origPicName = $dstPath.$order->id.'_orig.jpg';
+        if (!file_exists($origPicName)) {
+            $util = new CommonUtil();
+            $util->setServiceLocator($this->getServiceLocator());
+            $accessToken = $util->getAccessToken();
+            $order->picUrl = preg_replace("/access_token=.+?&/", "access_token=".$accessToken."&", $order->picUrl);
+            file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
+        }
+
         $res = array(
             'code' => 0,
             'orderId' => $orderId,
