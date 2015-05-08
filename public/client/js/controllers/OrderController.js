@@ -51,7 +51,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 $scope.totalPrice = data.data.price;
                 payParameters = data.data.payPara;
             }).error(function (error) {
-                console.log(error);
+                alert(JSON.stringify(error));
                 alert("获取支付参数失败");
             });
         }
