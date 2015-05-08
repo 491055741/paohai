@@ -59,6 +59,26 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
                     }
 
                     $rootScope.order.id = data.orderId;
+
+                    $http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
+                        orderId: $rootScope.order && $rootScope.order.id,
+                        picurl: $rootScope.templateOrder.picUrl,
+                        actId: $rootScope.templateOrder.activityId,
+                        partnerId: $rootScope.partnerId,
+                        username: $routeParams.username
+                    })).success(function (data) {
+                        $scope.data = data.data;
+
+                        for (var i = 0, length = $scope.data.imgTemplates.length; i < length; i++) {
+                            var template = $scope.data.imgTemplat[i];
+                            if ($rootScope.templateOrder.templateId == template.id) {
+                                $rootScope.selectedTemplate = template;
+                                break;
+                            }
+                        }
+                    }).error(function () {
+                    });
+
                     $location.path("/editInfo");
                 } else {
                     alert(data.msg);
@@ -68,22 +88,9 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
             });
         }
 
-        if (! $rootScope.youchuo) {
+        if (!$rootScope.youchuo) {
             $rootScope.youchuo = {};
             $rootScope.youchuo.path = "images/postmark/default.png";
         }
-
-        //
-        //$http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
-        //    //orderId: 0,
-        //    picurl: $routeParams.picurl,
-        //    //actId: "",
-        //    //partnerId: "",
-        //    username: $routeParams.username
-        //})).success(function (data) {
-        //    $scope.data = data.data;
-        //    showTemplate();
-        //}).error(function () {
-        //});
     }
 ]);
