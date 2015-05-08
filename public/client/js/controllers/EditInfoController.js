@@ -76,8 +76,6 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
                                 break;
                             }
                         }
-
-                        console.log($rootScope.selectedTemplate);
                     }).error(function () {
                     });
 
