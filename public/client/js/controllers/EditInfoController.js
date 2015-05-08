@@ -70,12 +70,14 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
                         $scope.data = data.data;
 
                         for (var i = 0, length = $scope.data.imgTemplates.length; i < length; i++) {
-                            var template = $scope.data.imgTemplat[i];
+                            var template = $scope.data.imgTemplates[i];
                             if ($rootScope.templateOrder.templateId == template.id) {
                                 $rootScope.selectedTemplate = template;
                                 break;
                             }
                         }
+
+                        console.log($rootScope.selectedTemplate);
                     }).error(function () {
                     });
 
