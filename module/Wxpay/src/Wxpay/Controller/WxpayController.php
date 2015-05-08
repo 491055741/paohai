@@ -1,6 +1,7 @@
 <?php
 namespace Wxpay\Controller;
 
+include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/WxPayPubHelper/js_api_call.php");
 include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/WxPayPubHelper/WxPayPubHelper.php");
 include_once(dirname(__FILE__)."/../../../view/wxpay/wxpay/CommonUtil.php");
 
@@ -11,6 +12,7 @@ use Zend\View\Model\JsonModel;
 use Notify_pub;
 use CommonUtil;
 use Postcard\Model\Order;
+use WXJsPay;
 
 
 ini_set("display_errors", true);
@@ -132,15 +134,13 @@ class WxpayController extends AbstractActionController
 
         $this->getOrderTable()->saveOrder($order);
 
-        $service = $this->getServiceLocator()
-            ->get('Wxpay\Service\WxpayService');
-        list($price, $payPara) = $service->getPayPara($orderId);
+
 
         return new JsonModel(array(
             "code" => 0,
             "data" => array(
-                "price" => $price,
-                "payPara" => $payPara,
+                "price" => $order->price,
+                "payPara" => WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id, $order->price),
             ),
         ));
     }
