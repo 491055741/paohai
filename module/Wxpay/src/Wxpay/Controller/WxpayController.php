@@ -136,6 +136,7 @@ class WxpayController extends AbstractActionController
 
 
 
+        logger(var_dump(WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id, $order->price)));
         return new JsonModel(array(
             "code" => 0,
             "data" => array(
