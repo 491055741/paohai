@@ -45,7 +45,7 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
 
         if (!$rootScope.order) {
             $http.post("/postcard/placeorder?nonce=" + Util.getNonceStr(), {
-                templateIndex: $rootScope.templateOrder.templatedId,
+                templateIndex: $rootScope.templateOrder.templateId,
                 offsetX: $rootScope.templateOrder.offsetX,
                 offsetY: $rootScope.templateOrder.offsetY,
                 userName: $rootScope.username,
