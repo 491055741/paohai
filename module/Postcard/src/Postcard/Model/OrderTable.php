@@ -111,7 +111,8 @@ class OrderTable
             'activityId'        => $order->activityId,
             'partnerId'         => $order->partnerId,
             'like'              => $order->like,
-            'unlike'            => $order->unlike
+            'unlike'            => $order->unlike,
+            'couponId'          => $order->couponId
         );
 
         if ($this->getOrder($order->id)) {

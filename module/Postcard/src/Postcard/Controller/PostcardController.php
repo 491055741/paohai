@@ -6,6 +6,7 @@ include_once(dirname(__FILE__)."/../../../../Wxpay/view/wxpay/wxpay/WxPayPubHelp
 
 use Imagick;
 use CommonUtil;
+use Postcard\Model\Coupon;
 use WxPayConf_pub;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -41,6 +42,7 @@ class PostcardController extends AbstractActionController
     protected $contactTable;
     protected $youchuoTable;
     protected $util;
+    protected $couponTable;
 
     private function postCheck($post)
     {
@@ -825,6 +827,12 @@ class PostcardController extends AbstractActionController
                     $actService = $this->getServiceLocator()
                         ->get('Postcard\Service\Activity\ActivityService');
                     $actService->joinActivity($order);
+
+                    if (!empty($order->couponId)) {
+                        $coupon = $this->getCouponTable()->getCouponById($order->couponId);
+                        $coupon->status = Coupon::USED;
+                        $this->getCouponTable()->saveCoupon($coupon);
+                    }
                 }
 
                 $order->status = $status;
@@ -843,6 +851,14 @@ class PostcardController extends AbstractActionController
         }
 
         return $this->rawViewModel();
+    }
+
+    private function getCouponTable() {
+        if (!$this->couponTable) {
+            $sm = $this->getServiceLocator();
+            $this->couponTable = $sm->get('Postcard\Model\couponTable');
+        }
+        return $this->couponTable;
     }
 
     public function testDeliverNotifyAction()

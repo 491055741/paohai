@@ -25,6 +25,8 @@ use Postcard\Model\Image;
 use Postcard\Model\ImageTable;
 use Postcard\Model\Youchuo;
 use Postcard\Model\YouchuoTable;
+use Postcard\Model\Coupon;
+use Postcard\Model\CouponTable;
 
 
 class Module
@@ -67,6 +69,12 @@ class Module
                 'Postcard\Model\YouchuoTable' =>  function($sm) {
                     $tableGateway = $sm->get('YouchuoTableGateway');
                     $table = new YouchuoTable($tableGateway);
+                    return $table;
+                },
+
+                'Postcard\Model\CouponTable' =>  function($sm) {
+                    $tableGateway = $sm->get('CouponTableGateway');
+                    $table = new CouponTable($tableGateway);
                     return $table;
                 },
 
@@ -125,6 +133,13 @@ class Module
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Youchuo());
                     return new TableGateway('youchuo', $dbAdapter, null, $resultSetPrototype);
+                },
+
+                'CouponTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Coupon());
+                    return new TableGateway('coupon', $dbAdapter, null, $resultSetPrototype);
                 },
 
                 'ContactTableGateway' => function ($sm) {

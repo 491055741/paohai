@@ -27,6 +27,8 @@ define('JS_TAG', '201501231818');
 class WxpayController extends AbstractActionController
 {
     protected $orderTable;
+    protected $couponTable;
+
     public function previewAction()
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
@@ -72,6 +74,7 @@ class WxpayController extends AbstractActionController
     {
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $selectedPrice = $this->getRequest()->getQuery('selectedPrice', '0');
+        $couponCode = $this->getRequest()->getQuery('coupon');
         $order = $this->getOrderTable()->getOrder($orderId);
 
         if ($orderId == '0' || !$order) {
@@ -88,6 +91,27 @@ class WxpayController extends AbstractActionController
             ));
         }
 
+        $coupon = null;
+        if (!empty($couponCode)) {
+            $coupon = $this->getCouponTable()->getCoupon($couponCode);
+        }
+
+        if (!empty($coupon)) {
+            if ($coupon->status == 1) {
+                return new JsonModel(array(
+                    "code" => 1,
+                    "msg" => "消费码已使用"
+                ));
+            }
+
+            if ($coupon->expiredAt < time()) {
+                return new JsonModel(array(
+                    "code" => 1,
+                    "msg" => "消费码已过期"
+                ));
+            }
+        }
+
         $activityService = $this->getServiceLocator()
             ->get('Postcard\Service\Activity\ActivityService');
 
@@ -96,6 +120,14 @@ class WxpayController extends AbstractActionController
             $order->price = 0; // TODO: need to removed here.
         } else {
             $order->price = 1; // TODO: need to set 999;
+        }
+
+        if (!empty($coupon)) {
+            $price = $order->price - $coupon->price;
+            $order->price = $price < 0 ? 0: $price;
+            $order->couponId = $coupon->id;
+        } else {
+            $order->couponId = null;
         }
 
         $this->getOrderTable()->saveOrder($order);
@@ -507,6 +539,14 @@ respend:
             $this->orderTable = $sm->get('Postcard\Model\orderTable');
         }
         return $this->orderTable;
+    }
+
+    private function getCouponTable() {
+        if (!$this->couponTable) {
+            $sm = $this->getServiceLocator();
+            $this->couponTable = $sm->get('Postcard\Model\couponTable');
+        }
+        return $this->couponTable;
     }
 
     private function viewModel($para = null)

@@ -39,7 +39,8 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             $http.get("/wxpay/paypara/" + $rootScope.order.id, {
                 params: {
                     orderId: $rootScope.order.id,
-                    selectedPrice: $scope.selectedPrice
+                    selectedPrice: $scope.selectedPrice,
+                    coupon: $scope.refundCode
                 }
             }).success(function (data) {
                 if (data.code != 0) {
@@ -56,6 +57,10 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
         }
 
         setTotalPrice();
+
+        $scope.checkCoupon = function () {
+            setTotalPrice();
+        };
 
         $scope.pay = function () {
             if ($scope.totalPrice == 0) {

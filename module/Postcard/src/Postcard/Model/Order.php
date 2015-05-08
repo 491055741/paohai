@@ -45,6 +45,7 @@ class Order
     public $partnerId;
     public $like;
     public $unlike;
+    public $couponId;
 
     public function exchangeArray($data)
     {
@@ -79,5 +80,6 @@ class Order
         $this->partnerId          = (isset($data['partnerId']))          ? $data['partnerId']         : null;
         $this->like               = (isset($data['like']))               ? $data['like']              : null;
         $this->unlike             = (isset($data['unlike']))             ? $data['unlike']            : null;
+        $this->couponId           = (isset($data['couponId']))           ? $data['couponId']          : null;
     }
 }
