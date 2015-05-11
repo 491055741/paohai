@@ -11,5 +11,3 @@ global vars
  $rootScope.selectedTemplate 选择的模板
  $rootScope.editContact 当前编辑的联系人
  $rootScope.templateOrder 模板订单
- $rootScope.code 授权的code
- $rootScope.openId 授权的openId

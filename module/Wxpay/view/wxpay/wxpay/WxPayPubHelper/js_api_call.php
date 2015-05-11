@@ -23,32 +23,12 @@ class WXJsPay {
 
     static public function getPayPara($redirectUri, $orderId, $payPrice)
     {
-        //使用jsapi接口
-        $jsApi = new JsApi_pub();
-
-        //=========步骤1：网页授权获取用户openid============
-        //通过code获得openid
-        if (!isset($_GET['code']))
-        {
-        //    触发微信返回code码
-            $url = $jsApi->createOauthUrlForCode($redirectUri, $orderId);
-            Header("Location: $url");
-        }else
-        {
-        //    获取code码，以获取openid
-            $code = $_GET['code'];
-
-            $jsApi->setCode($code);
-            $openid = $jsApi->getOpenId();
-
-            logger("openId is: $openid");
-
-
-        }
+        $openid = $_GET['openId'];
 
         //=========步骤2：使用统一支付接口，获取prepay_id============
         //使用统一支付接口
         $unifiedOrder = new UnifiedOrder_pub();
+
 
         //设置统一支付接口参数
         //设置必填参数
@@ -75,12 +55,15 @@ class WXJsPay {
         $prepay_id = $unifiedOrder->getPrepayId();
         if ($prepay_id != '') {
         //=========步骤3：使用jsapi调起支付============
+            $jsApi = new JsApi_pub();
             $jsApi->setPrepayId($prepay_id);
             $jsApiParameters = $jsApi->getParameters();
             // echo $jsApiParameters;
         } else {
             $jsApiParameters = 'error';
         }
+
+        logger($jsApiParameters);
         return $jsApiParameters;
     }
 }

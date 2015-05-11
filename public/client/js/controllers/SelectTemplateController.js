@@ -50,9 +50,8 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             }
         };
 
-        $rootScope.code = $routeParams.code;
-        $rootScope.openId = $routeParams.openId;
-        if (!$rootScope.code) {
+        $rootScope.username = $routeParams.username;
+        if (!$rootScope.username) {
             $http.get("/postcard/getOauthUrl", {
                 params: {
                     url: $location.absUrl()
