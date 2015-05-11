@@ -40,8 +40,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
 
             if (!$routeParams.getCode) {
                 var url = $location.absUrl();
-                $scope.authURL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbd6694a085209f4d&redirect_uri="+url+"&response_type=code&scope=snsapi_base&state="+$rootScope.order.id+"#wechat_redirect";
-                alert("first return");
+                $window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbd6694a085209f4d&redirect_uri="+url+"&response_type=code&scope=snsapi_base&state="+$rootScope.order.id+"#wechat_redirect";
                 return;
             } else {
                 alert($location.absUrl());
