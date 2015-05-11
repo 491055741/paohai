@@ -35,12 +35,15 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
         var payParameters = null;
         function setTotalPrice() {
             $scope.totalPrice = $scope.selectedPrice;
-
             $http.get("/wxpay/paypara/" + $rootScope.order.id, {
                 params: {
                     orderId: $rootScope.order.id,
                     selectedPrice: $scope.selectedPrice,
-                    coupon: $scope.refundCode
+                    coupon: $scope.refundCode,
+                    response_type: 'code',
+                    scope: 'snsapi_base',
+                    state: $rootScope.order.id,
+                    connect_redirect: 1
                 }
             }).success(function (data) {
                 if (data.code != 0) {
