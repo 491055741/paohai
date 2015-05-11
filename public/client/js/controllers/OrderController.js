@@ -41,12 +41,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     orderId: $rootScope.order.id,
                     selectedPrice: $scope.selectedPrice,
                     coupon: $scope.refundCode,
-                    response_type: 'code',
-                    scope: 'snsapi_base',
-                    state: $rootScope.order.id,
-                    code: $routeParams.code,
-                    openId: $routeParams.openId || $rootScope.username,
-                    connect_redirect: 1
+                    openId: $rootScope.username
                 }
             }).success(function (data) {
                 if (data.code != 0) {
@@ -54,7 +49,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     return;
                 }
 
-                $scope.totalPrice = data.data.price;
+                $scope.totalPrice = (data.data.price / 100).toFixed(2);
                 payParameters = JSON.parse(data.data.payPara);
             }).error(function (error) {
                 alert(JSON.stringify(error));

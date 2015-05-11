@@ -18,7 +18,6 @@ class OauthController extends AbstractActionController
             ->get("Wechat\Service\OauthService");
         $redirectUrl = $service->OauthCallback($code, $state);
 
-        logger("callbackAction => Location: $redirectUrl");
         if ($redirectUrl) {
             Header("Location: $redirectUrl");
             exit;

@@ -63,7 +63,6 @@ class WXJsPay {
             $jsApiParameters = 'error';
         }
 
-        logger($jsApiParameters);
         return $jsApiParameters;
     }
 }
