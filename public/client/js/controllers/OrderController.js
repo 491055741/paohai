@@ -44,6 +44,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     scope: 'snsapi_base',
                     state: $rootScope.order.id,
                     code: $rootScope.code,
+                    openId: $rootScope.openId || $rootScope.username,
                     connect_redirect: 1
                 }
             }).success(function (data) {
