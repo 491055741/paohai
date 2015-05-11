@@ -15,6 +15,11 @@ postcardControllers.controller("DoneController", ["$rootScope", "$scope", "$wind
             $location.url("/ordersManager");
         };
 
+        if (!$rootScope.order) {
+            $rootScope.order = {};
+            $rootScope.order.id = $routeParams.orderId;
+        }
+
         $http.get("/postcard/complete/" + $rootScope.order.id + "?" + Util.getQueryStringFromObject({
             nonce: Util.getNonceStr()
         })).success(function (data) {
