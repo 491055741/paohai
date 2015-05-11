@@ -41,10 +41,12 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             if (!$routeParams.code) {
                 var url = $location.absUrl();
                 $scope.authURL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbd6694a085209f4d&redirect_uri="+url+"&response_type=code&scope=snsapi_base&state="+$rootScope.order.id+"#wechat_redirect";
+                alert("first return");
                 return;
             } else {
+                alert($location.absUrl());
                 alert($routeParams.code);
-                alert($routeParams.state);
+                alert($rootScope.order.id);
             }
 
             $http.get("/wxpay/paypara/" + $rootScope.order.id, {
@@ -54,7 +56,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     coupon: $scope.refundCode,
                     response_type: 'code',
                     scope: 'snsapi_base',
-                    state: $routeParams.state,
+                    state: $rootScope.order.id,
                     code: $routeParams.code,
                     openId: $rootScope.openId || $rootScope.username,
                     connect_redirect: 1
