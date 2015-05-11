@@ -92,6 +92,10 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     success: function (res) {
                         alert(JSON.stringify(res));
                         // 支付成功后的回调函数
+                    },
+                    fail: function (res) {
+                        alert(JSON.stringify(res));
+
                     }
                 });
 
