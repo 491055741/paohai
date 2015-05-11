@@ -33,6 +33,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
 
 
         var payParameters = null;
+
         function setTotalPrice() {
             $scope.totalPrice = $scope.selectedPrice;
 
@@ -50,7 +51,12 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 }
 
                 $scope.totalPrice = (data.data.price / 100).toFixed(2);
-                payParameters = JSON.parse(data.data.payPara);
+
+                if (data.data.price > 0) {
+                    payParameters = JSON.parse(data.data.payPara);
+                } else {
+                    payParameters = -1;
+                }
             }).error(function (error) {
                 alert(JSON.stringify(error));
                 alert("获取支付参数失败");
@@ -64,7 +70,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
         };
 
         $scope.pay = function () {
-            if ($scope.totalPrice == 0) {
+            if (payParameters === -1) {
                 $location.path("/done");
             } else {
                 wx.chooseWXPay({
@@ -74,8 +80,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     signType: payParameters.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                     paySign: payParameters.paySign, // 支付签名
                     success: function (res) {
-                        alert(JSON.stringify(res));
-                        if (res.err_msg == 'chooseWXPay:ok') { // pay success
+                        if (res.errMsg === 'chooseWXPay:ok') { // pay success
                             $location.path("/done");
                         } else if (res.err_msg != 'chooseWXPay:cancel') { // fail with other reason, exclude user cancel
                             alert(res.err_msg);

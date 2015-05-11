@@ -134,11 +134,16 @@ class WxpayController extends AbstractActionController
 
         $this->getOrderTable()->saveOrder($order);
 
+        $payParam = null;
+        if ($order->price > 0) {
+            $payParam = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id, $order->price);
+        }
+
         return new JsonModel(array(
             "code" => 0,
             "data" => array(
-                "price" => $order->price,
-                "payPara" => WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id, $order->price),
+                "price" => $order->price,  //单位分
+                "payPara" => $payParam,
             ),
         ));
     }
