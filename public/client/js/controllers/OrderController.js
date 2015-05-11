@@ -54,8 +54,6 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     return;
                 }
 
-
-
                 $scope.totalPrice = data.data.price;
                 payParameters = data.data.payPara;
             }).error(function (error) {
@@ -74,6 +72,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             if ($scope.totalPrice == 0) {
                 $location.path("/done");
             } else {
+                alert(JSON.stringify(payParameters));
                 WeixinJSBridge.invoke("getBrandWCPayRequest",
                     payParameters,
                     function(res){
