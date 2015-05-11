@@ -50,6 +50,28 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             }
         };
 
+        $rootScope.code = $routeParams.code;
+        $rootScope.openId = $routeParams.openId;
+        if (!$rootScope.code) {
+            $http.get("/postcard/getOauthUrl", {
+                params: {
+                    url: $location.absUrl()
+                }
+            }).success(function (data) {
+                if (data.code == 0) {
+                    $window.location.href = data.oauthUrl;
+                } else {
+                    alert("获取授权url错误");
+                }
+            }).error(function (error) {
+                alert(error);
+            });
+
+            return;
+        }
+
+        alert($rootScope.code);
+
         $scope.selectTemplateType = 0;
         $scope.selectTemplateIndex = 0;
         $scope.showTemplates = [];
