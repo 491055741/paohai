@@ -72,7 +72,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             if ($scope.totalPrice == 0) {
                 $location.path("/done");
             } else {
-                alert(JSON.stringify(payParameters));
+                alert(payParameters.paySign);
                 WeixinJSBridge.invoke("getBrandWCPayRequest",
                     payParameters,
                     function(res){
