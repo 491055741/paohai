@@ -69,7 +69,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             setTotalPrice();
         };
 
-        $scope.pay = function () {
+        $("#sureToPay").on("click", function () {
             alert("click pay");
             if (payParameters === -1) {
                 $location.path("/done");
@@ -91,6 +91,9 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     }
                 });
             }
+        });
+        $scope.pay = function () {
+
         };
 
         setTimeout(function () {
