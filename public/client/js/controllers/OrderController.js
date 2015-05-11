@@ -36,18 +36,6 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
         function setTotalPrice() {
             $scope.totalPrice = $scope.selectedPrice;
 
-            //$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".WxPayConf_pub::appId()."&redirect_uri=$redirectUrl&response_type=code&scope=snsapi_base&state=$state#wechat_redirect";
-
-            if (!$routeParams.code) {
-                var url = $location.absUrl();
-                $window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbd6694a085209f4d&redirect_uri="+url+"&response_type=code&scope=snsapi_base&state="+$rootScope.order.id+"#wechat_redirect";
-                return;
-            } else {
-                alert($location.absUrl());
-                alert($routeParams.code);
-                alert($rootScope.order.id);
-            }
-
             $http.get("/wxpay/paypara/" + $rootScope.order.id, {
                 params: {
                     orderId: $rootScope.order.id,
@@ -56,8 +44,8 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     response_type: 'code',
                     scope: 'snsapi_base',
                     state: $rootScope.order.id,
-                    code: $routeParams.getCode,
-                    openId: $rootScope.openId || $rootScope.username,
+                    code: $routeParams.code,
+                    openId: $routeParams.openId || $rootScope.username,
                     connect_redirect: 1
                 }
             }).success(function (data) {

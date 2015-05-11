@@ -38,12 +38,12 @@ class WXJsPay {
         //    获取code码，以获取openid
             $code = $_GET['code'];
 
-            if (isset($_GET['openId'])) {
-                $openid = $_GET['openId'];
-            } else {
-                $jsApi->setCode($code);
-                $openid = $jsApi->getOpenId();
-            }
+            $jsApi->setCode($code);
+            $openid = $jsApi->getOpenId();
+
+            logger("openId is: $openid");
+
+
         }
 
         //=========步骤2：使用统一支付接口，获取prepay_id============
