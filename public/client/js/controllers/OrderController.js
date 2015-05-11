@@ -71,7 +71,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
 
         $("#sureToPay").on("touchstart", function () {
             if (payParameters === -1) {
-                $location.path("/done");
+                $window.location.href = "http://" + $location.host() + ":" + $location.port() + "/client/index.html#/done?orderId=" + $rootScope.order.id;
             } else {
                 wx.chooseWXPay({
                     timestamp: payParameters.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
