@@ -72,43 +72,24 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             if ($scope.totalPrice == 0) {
                 $location.path("/done");
             } else {
-                alert(JSON.stringify(payParameters));
-                var params = {
-                    "appId": payParameters.appId,
-                    "timeStamp": payParameters.timeStamp,
-                    "nonceStr": payParameters.nonceStr,
-                    "package": payParameters.package,
-                    "signType": payParameters.signType,
-                    "paySign": payParameters.paySign
-                };
-
-
                 wx.chooseWXPay({
-                    timestamp: params.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                    nonceStr: params.nonceStr, // 支付签名随机串，不长于 32 位
-                    package: params.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                    signType: params.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                    paySign: params.paySign, // 支付签名
+                    timestamp: payParameters.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                    nonceStr: payParameters.nonceStr, // 支付签名随机串，不长于 32 位
+                    package: payParameters.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                    signType: payParameters.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                    paySign: payParameters.paySign, // 支付签名
                     success: function (res) {
                         alert(JSON.stringify(res));
-                        // 支付成功后的回调函数
+                        if (res.err_msg == 'chooseWXPay:ok') { // pay success
+                            $location.path("/done");
+                        } else if (res.err_msg != 'chooseWXPay:cancel') { // fail with other reason, exclude user cancel
+                            alert(res.err_msg);
+                        }
                     },
                     fail: function (res) {
                         alert(JSON.stringify(res));
-
                     }
                 });
-
-                //WeixinJSBridge.invoke("getBrandWCPayRequest",
-                //    params,
-                //    function(res){
-                //        alert(JSON.stringify(res));
-                //    if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
-                //        $location.path("/done");
-                //    } else if (res.err_msg != 'get_brand_wcpay_request:cancel') { // fail with other reason, exclude user cancel
-                //        alert(res.err_msg);
-                //    }
-                //});
             }
         };
 
