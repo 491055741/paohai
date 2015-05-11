@@ -83,7 +83,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 };
 
                 WeixinJSBridge.invoke("getBrandWCPayRequest",
-                    JSON.stringify(params),
+                    params,
                     function(res){
                     if (res.err_msg == 'get_brand_wcpay_request:ok') { // pay success
                         $location.path("/done");
