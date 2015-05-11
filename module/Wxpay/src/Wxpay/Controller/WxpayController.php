@@ -119,9 +119,8 @@ class WxpayController extends AbstractActionController
 
         if ($selectedPrice == 2.99) {
             $order->price = $activityService->getPrice($order);
-            $order->price = 0; // TODO: need to removed here.
         } else {
-            $order->price = 1; // TODO: need to set 999;
+            $order->price = 999;
         }
 
         if (!empty($coupon)) {
