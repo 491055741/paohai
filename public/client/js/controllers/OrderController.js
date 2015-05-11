@@ -70,6 +70,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
         };
 
         $scope.pay = function () {
+            alert("click pay");
             if (payParameters === -1) {
                 $location.path("/done");
             } else {
