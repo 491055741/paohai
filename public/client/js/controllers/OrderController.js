@@ -69,8 +69,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             setTotalPrice();
         };
 
-        $("#sureToPay").on("click", function () {
-            alert("click pay");
+        $("#sureToPay").on("touchstart", function () {
             if (payParameters === -1) {
                 $location.path("/done");
             } else {
@@ -81,10 +80,10 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     signType: payParameters.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                     paySign: payParameters.paySign, // 支付签名
                     success: function (res) {
-                        alert("success");
                         if (res.errMsg === 'chooseWXPay:ok') { // pay success
                             $location.path("/done");
                         }
+                        alert("success");
                     },
                     fail: function (res) {
                         alert(JSON.stringify(res));
@@ -92,9 +91,6 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 });
             }
         });
-        $scope.pay = function () {
-
-        };
 
         setTimeout(function () {
             var myScroll = new IScroll('#iscrollWrapper', {
