@@ -12,7 +12,7 @@ include_once("WxPayPubHelper.php");
 
 
 define('_ADDR_URL', 'http://'.$_SERVER['SERVER_NAME'].'/wxpay/address');
-define('_PREVIEW_URL', 'http://'.$_SERVER['SERVER_NAME'].'/wxpay/preview');
+define('_PREVIEW_URL', 'http://'.$_SERVER['SERVER_NAME'].'/client/index.html#/order');
 
 class WXJsPay {
 
