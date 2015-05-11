@@ -44,19 +44,20 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 $window.location.href = data.oauthUrl;
             } else {
                 alert($routeParams.code);
+                alert($routeParams.state);
             }
 
             $http.get("/wxpay/paypara/" + $rootScope.order.id, {
                 params: {
                     orderId: $rootScope.order.id,
                     selectedPrice: $scope.selectedPrice,
-                    coupon: $scope.refundCode
-                    //response_type: 'code',
-                    //scope: 'snsapi_base',
-                    //state: $rootScope.order.id,
-                    //code: $rootScope.code,
-                    //openId: $rootScope.openId || $rootScope.username,
-                    //connect_redirect: 1
+                    coupon: $scope.refundCode,
+                    response_type: 'code',
+                    scope: 'snsapi_base',
+                    state: $routeParams.state,
+                    code: $routeParams.code,
+                    openId: $rootScope.openId || $rootScope.username,
+                    connect_redirect: 1
                 }
             }).success(function (data) {
                 if (data.code != 0) {
