@@ -73,6 +73,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             if (payParameters === -1) {
                 $location.path("/done");
             } else {
+                var success = false;
                 wx.chooseWXPay({
                     timestamp: payParameters.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                     nonceStr: payParameters.nonceStr, // 支付签名随机串，不长于 32 位
@@ -80,12 +81,21 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     signType: payParameters.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                     paySign: payParameters.paySign, // 支付签名
                     success: function (res) {
+                        success = true;
                         $location.url("/done");
                     },
                     fail: function (res) {
                         alert(JSON.stringify(res));
                     }
                 });
+
+                clearInterval(timer);
+                var timer = setInterval(function () { // this is a trick for fix a bug.
+                    if (success) {
+                        clearInterval(timer);
+                        $location.url("/done");
+                    }
+                }, 500);
             }
         });
 
