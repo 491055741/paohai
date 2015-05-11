@@ -1,5 +1,5 @@
-postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scope", "$location", "$http", "$routeParams", "Util",
-    function($rootScope, $scope, $location, $http, $routeParams, Util) {
+postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "Util",
+    function($rootScope, $scope, $window, $location, $http, $routeParams, Util) {
         $rootScope.leftButtonText = "<更换图片";
         $rootScope.rightButtonText = "信息填写>";
 
