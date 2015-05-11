@@ -31,9 +31,6 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             return $scope.selectedPrice === price ? "checked" : null;
         };
 
-
-        var payParameters = null;
-
         function setTotalPrice() {
             $scope.totalPrice = $scope.selectedPrice;
 
@@ -42,7 +39,8 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     orderId: $rootScope.order.id,
                     selectedPrice: $scope.selectedPrice,
                     coupon: $scope.refundCode,
-                    openId: $rootScope.username
+                    openId: $rootScope.username,
+                    truePay: 0
                 }
             }).success(function (data) {
                 if (data.code != 0) {
@@ -51,12 +49,6 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 }
 
                 $scope.totalPrice = (data.data.price / 100).toFixed(2);
-
-                if (data.data.price > 0) {
-                    payParameters = JSON.parse(data.data.payPara);
-                } else {
-                    payParameters = -1;
-                }
             }).error(function (error) {
                 alert(JSON.stringify(error));
                 alert("获取支付参数失败");
@@ -70,23 +62,42 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
         };
 
         $("#sureToPay").on("touchstart", function () {
-            if (payParameters === -1) {
-                $window.location.href = "http://" + $location.host() + ":" + $location.port() + "/client/index.html#/done?orderId=" + $rootScope.order.id;
-            } else {
-                wx.chooseWXPay({
-                    timestamp: payParameters.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                    nonceStr: payParameters.nonceStr, // 支付签名随机串，不长于 32 位
-                    package: payParameters.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                    signType: payParameters.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                    paySign: payParameters.paySign, // 支付签名
-                    success: function (res) {
-                        $window.location.href = "http://" + $location.host() + ":" + $location.port() + "/client/index.html#/done?orderId=" + $rootScope.order.id;
-                    },
-                    fail: function (res) {
-                        alert(JSON.stringify(res));
-                    }
-                });
-            }
+            $http.get("/wxpay/paypara/" + $rootScope.order.id, {
+                params: {
+                    orderId: $rootScope.order.id,
+                    selectedPrice: $scope.selectedPrice,
+                    coupon: $scope.refundCode,
+                    openId: $rootScope.username,
+                    truePay: 1
+                }
+            }).success(function (data) {
+                if (data.code != 0) {
+                    alert(data.msg);
+                    return;
+                }
+
+                if (data.data.price > 0) {
+                    var payParameters = JSON.parse(data.data.payPara);
+                    wx.chooseWXPay({
+                        timestamp: payParameters.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                        nonceStr: payParameters.nonceStr, // 支付签名随机串，不长于 32 位
+                        package: payParameters.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                        signType: payParameters.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                        paySign: payParameters.paySign, // 支付签名
+                        success: function (res) {
+                            $window.location.href = "http://" + $location.host() + ":" + $location.port() + "/client/index.html#/done?orderId=" + $rootScope.order.id;
+                        },
+                        fail: function (res) {
+                            alert(JSON.stringify(res));
+                        }
+                    });
+                } else {
+                    $window.location.href = "http://" + $location.host() + ":" + $location.port() + "/client/index.html#/done?orderId=" + $rootScope.order.id;
+                }
+            }).error(function (error) {
+                alert(JSON.stringify(error));
+                alert("获取支付参数失败");
+            });
         });
 
         setTimeout(function () {

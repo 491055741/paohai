@@ -77,6 +77,7 @@ class WxpayController extends AbstractActionController
         $orderId = $this->getRequest()->getQuery('orderId', '0');
         $selectedPrice = $this->getRequest()->getQuery('selectedPrice', '0');
         $couponCode = $this->getRequest()->getQuery('coupon');
+        $truePay = $this->getRequest()->getQuery('truePay');
         $order = $this->getOrderTable()->getOrder($orderId);
 
         if ($orderId == '0' || !$order) {
@@ -134,7 +135,7 @@ class WxpayController extends AbstractActionController
         $this->getOrderTable()->saveOrder($order);
 
         $payParam = null;
-        if ($order->price > 0) {
+        if ($order->price > 0 && $truePay == 1) {
             $payParam = WXJsPay::getPayPara(WXJsPay::JS_API_CALL_PREVIEW_URL, $order->id, $order->price);
         }
 
