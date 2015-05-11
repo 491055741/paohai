@@ -80,10 +80,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     signType: payParameters.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                     paySign: payParameters.paySign, // 支付签名
                     success: function (res) {
-                        $location.path("/done");
-                        setTimeout(function () {
-                            $location.path("/done");
-                        }, 100);
+                        $location.url("/done");
                     },
                     fail: function (res) {
                         alert(JSON.stringify(res));
