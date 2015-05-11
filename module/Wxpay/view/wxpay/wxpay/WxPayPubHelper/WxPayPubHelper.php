@@ -378,7 +378,6 @@ class UnifiedOrder_pub extends Wxpay_client_pub
             $prepay_id = $this->result['prepay_id'];
         } else {
             $prepay_id = '';
-            var_dump($this->result);
         }
 		return $prepay_id;
 	}
