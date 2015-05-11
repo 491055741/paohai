@@ -41,7 +41,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
             if (!$routeParams.code) {
                 var url = $location.absUrl();
                 $scope.authURL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxbd6694a085209f4d&redirect_uri="+url+"&response_type=code&scope=snsapi_base&state="+$rootScope.order.id+"#wechat_redirect";
-                $window.location.href = data.oauthUrl;
+                return;
             } else {
                 alert($routeParams.code);
                 alert($routeParams.state);
