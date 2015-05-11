@@ -47,10 +47,13 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     connect_redirect: 1
                 }
             }).success(function (data) {
+                alert(JSON.stringify(data));
                 if (data.code != 0) {
                     alert(data.msg);
                     return;
                 }
+
+
 
                 $scope.totalPrice = data.data.price;
                 payParameters = data.data.payPara;
