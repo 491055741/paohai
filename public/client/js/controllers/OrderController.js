@@ -94,8 +94,9 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     if (success) {
                         clearInterval(timer);
                         $location.url("/done");
+                        alert(success);
                     }
-                }, 500);
+                }, 1000);
             }
         });
 
