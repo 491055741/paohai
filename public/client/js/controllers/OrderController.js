@@ -80,10 +80,9 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     signType: payParameters.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                     paySign: payParameters.paySign, // 支付签名
                     success: function (res) {
+                        alert("success");
                         if (res.errMsg === 'chooseWXPay:ok') { // pay success
                             $location.path("/done");
-                        } else if (res.err_msg != 'chooseWXPay:cancel') { // fail with other reason, exclude user cancel
-                            alert(res.err_msg);
                         }
                     },
                     fail: function (res) {
