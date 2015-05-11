@@ -70,8 +70,6 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             return;
         }
 
-        alert($rootScope.code);
-
         $scope.selectTemplateType = 0;
         $scope.selectTemplateIndex = 0;
         $scope.showTemplates = [];

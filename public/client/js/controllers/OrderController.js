@@ -43,6 +43,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                     response_type: 'code',
                     scope: 'snsapi_base',
                     state: $rootScope.order.id,
+                    code: $rootScope.code,
                     connect_redirect: 1
                 }
             }).success(function (data) {
