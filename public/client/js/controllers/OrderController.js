@@ -83,7 +83,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                         if (res.errMsg === 'chooseWXPay:ok') { // pay success
                             $location.path("/done");
                         }
-                        alert("success");
+                        $("#sureToPay").trigger("touchstart"); // this is a trick to fix a bug.
                     },
                     fail: function (res) {
                         alert(JSON.stringify(res));
