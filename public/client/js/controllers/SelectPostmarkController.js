@@ -24,12 +24,16 @@ postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scop
             if ($scope.selectedIndex === 0) {
                 wx.getLocation({
                     success: function (res) {
-                        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                        var speed = res.speed; // 速度，以米/每秒计
-                        var accuracy = res.accuracy; // 位置精度
-
-                        alert(JSON.stringify(res));
+                        $http.post("/postcard/clientreportlnglat/" + $rootScope.order.id, {
+                            username: $rootScope.username,
+                            latitude: res.latitude,
+                            longitude: res.longitude
+                        }).success(function (data) {
+                            alert(JSON.stringify(data));
+                            alert("您已经获取定位戳，请到预览页面查看");
+                        }).error(function (error) {
+                            alert(error);
+                        });
                     },
                     fail: function (res) {
                         alert("fail: " + JSON.stringify(res));
