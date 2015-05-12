@@ -1,0 +1,43 @@
+<style type="text/css">
+    body {
+        margin:0;
+        padding:0;
+    }
+</style>
+<script type="text/javascript">
+    function initPage() {
+        var screenWidth = parseInt($("body").css("width"));
+        var realImageWidth = 900;
+        var realX1 = 131;
+        var realY1 = 548;
+
+        var realX2 = 427;
+        var realY2 = 673;
+
+        var scale = screenWidth / realImageWidth;
+
+        var x1 = parseInt(realX1 * scale);
+        var y1 = parseInt(realY1 * scale);
+
+        var x2 = parseInt(realX2 * scale);
+        var y2 = parseInt(realY2 * scale);
+
+        $("#button-area").attr("coords", x1 +"," + y1 + "," + x2 + "," + y2);
+    }
+
+    function makePostcard(data) {
+        window.location.href = data.url;
+    }
+
+    window.onload = initPage;
+
+    $(function() {
+        actIntro.init(110, "00001");
+
+
+        $("#button-area").on("click", function () {
+            console.log("clicked");
+            actIntro.chooseImage(makePostcard);
+        });
+    });
+</script>
