@@ -83,14 +83,14 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         }
 
         var canvas = document.getElementById("pictureCanvas");
-        canvas.width *= 4;
-        canvas.height *= 4;
+        canvas.width *= 2;
+        canvas.height *= 2;
 
         function draw() {
             var context = canvas.getContext("2d");
             var imgX = 0;
             var imgY = 0;
-            var imgScale = 0.5;
+            var imgScale = 1;
             function drawImage(){
                 context.clearRect(-300, -300, canvas.width * 5, canvas.height * 5);
                 context.drawImage(picture, 0, 0, picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
@@ -210,8 +210,8 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             $("#pictureCanvas").css("width", $("#templateCanvas").css("width"));
             $("#pictureCanvas").css("left", $("#templateCanvas").css("left"));
 
-            $("#pictureCanvas").attr("width", parseInt($("#pictureCanvas").css("width")));
-            $("#pictureCanvas").attr("height", parseInt($("#pictureCanvas").css("height")));
+            $("#pictureCanvas").attr("width", parseInt($("#pictureCanvas").css("width")) * 2);
+            $("#pictureCanvas").attr("height", parseInt($("#pictureCanvas").css("height")) * 2);
 
             draw();
         }
