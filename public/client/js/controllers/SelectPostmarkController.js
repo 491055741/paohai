@@ -30,6 +30,9 @@ postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scop
                         var accuracy = res.accuracy; // 位置精度
 
                         alert(JSON.stringify(res));
+                    },
+                    fail: function (res) {
+                        alert("fail: " + JSON.stringify(res));
                     }
                 });
             }

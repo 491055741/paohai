@@ -87,7 +87,8 @@ util.value("Util", {
                 'uploadVoice',
                 'downloadVoice',
                 'onMenuShareTimeline',
-                'onMenuShareAppMessage'
+                'onMenuShareAppMessage',
+                'getLocation'
             ]
         });
     },
