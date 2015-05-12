@@ -21,7 +21,7 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
             $http.post("/postcard/updateOrder/" + $rootScope.order.id + "?nonce=" + Util.getNonceStr(), {
                 zipcode: $rootScope.targetContact.zipCode,
                 message: $rootScope.message,
-                $address: $rootScope.targetContact.address,
+                address: $rootScope.targetContact.address,
                 recipient: $rootScope.targetContact.contactName,
                 mobile: $rootScope.targetContact.mobile,
                 postmarkId: postmarkId
