@@ -13,12 +13,18 @@ postcardControllers.controller("EditInfoController", ["$rootScope", "$scope", "$
                 return;
             }
 
+            var postmarkId = "";
+            if ($rootScope.youchuo.path !== "images/postmark/locate.png") {
+                postmarkId = $rootScope.youchuo.id;
+            }
+
             $http.post("/postcard/updateOrder/" + $rootScope.order.id + "?nonce=" + Util.getNonceStr(), {
                 zipcode: $rootScope.targetContact.zipCode,
                 message: $rootScope.message,
                 $address: $rootScope.targetContact.address,
                 recipient: $rootScope.targetContact.contactName,
-                mobile: $rootScope.targetContact.mobile
+                mobile: $rootScope.targetContact.mobile,
+                postmarkId: postmarkId
             }).success(function (data) {
                 if (data.code === 0) {
                 } else {

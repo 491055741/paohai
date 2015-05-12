@@ -29,7 +29,6 @@ postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scop
                             latitude: res.latitude,
                             longitude: res.longitude
                         }).success(function (data) {
-                            alert(JSON.stringify(data));
                             alert("您已经获取定位戳，请到预览页面查看");
                         }).error(function (error) {
                             alert(error);
