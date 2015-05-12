@@ -82,8 +82,11 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             };
         }
 
+        var canvas = document.getElementById("pictureCanvas");
+        canvas.width *= 4;
+        canvas.height *= 4;
+
         function draw() {
-            var canvas = document.getElementById("pictureCanvas");
             var context = canvas.getContext("2d");
             var imgX = 0;
             var imgY = 0;
@@ -258,16 +261,18 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             return $scope.selectTemplateType === templateType;
         };
 
+
+        var templateCanvas = document.getElementById("templateCanvas");
+        templateCanvas.width *= 4;
+        templateCanvas.height *= 4;
         $scope.selectedTemplate = function (index) {
             $scope.selectTemplateIndex = index;
-
-            var canvas = document.getElementById("templateCanvas");
-            var context = canvas.getContext("2d");
+            var context = templateCanvas.getContext("2d");
             var img = new Image();
             img.src = $scope.showTemplates[$scope.selectTemplateIndex] && $scope.showTemplates[$scope.selectTemplateIndex].url;
             img.onload = function () {
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                context.clearRect(0, 0, templateCanvas.width, templateCanvas.height);
+                context.drawImage(img, 0, 0, templateCanvas.width, templateCanvas.height);
             };
         };
     }
