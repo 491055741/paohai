@@ -1388,7 +1388,8 @@ class PostcardController extends AbstractActionController
 
         // Commemorative Chop
         if ($order->postmarkId != null) {
-            $image = imagecreatefrompng('public/images/postmark/big/youchuo'.$order->postmarkId.'.png');
+            $youchuo = $this->getYouchuoTable()->getYouchuoById($order->postmarkId);
+            $image = imagecreatefrompng('public/client/'.$youchuo->path);
             $postmark_w = 306;
             $postmark_h = imagesy($image) / imagesx($image) * $postmark_w;
             $postmark_x = 1150;
@@ -1400,7 +1401,6 @@ class PostcardController extends AbstractActionController
             if ($textAttr != NULL) {
                 $this->draw_txt_to($dst, $textAttr, date($textAttr['dateFormat'], time()));
             }
-
         } else {
 
             // location postmark

@@ -25,4 +25,18 @@ class YouchuoTable
 
         return $result;
     }
+
+    public function getYouchuoById($id) {
+        $select = $this->tableGateway->getSql()->select();
+        $select->where('id='.$id);;
+        $resultSet = $this->tableGateway->selectWith($select);
+
+        $result = [];
+        foreach ($resultSet as $row) {
+            array_push($result, $row);
+            break;
+        }
+
+        return $result[0];
+    }
 }
