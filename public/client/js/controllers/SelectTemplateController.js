@@ -178,8 +178,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
         var picture = new Image();
 
-        alert($location.absUrl());
-        alert($routeParams.picurl);
+        alert(decodeURIComponent($routeParams.picurl));
         $http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
             orderId: $rootScope.order && $rootScope.order.id,
             picurl: $routeParams.picurl,
@@ -191,8 +190,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             $rootScope.username = $scope.data.username;
             $rootScope.activityId = $scope.data.actId;
             $rootScope.order = $scope.data.order;
-            $rootScope.picurl = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=53q3eCw6b8n7LrBy8P1C5B-jWLdwLhIR2ioJfHIqHCHOv9LM-77OLHSgg9dxikvBHl9mS4ksc6RkMreNHWyzaQhxKB0L8a5k9buzmfRxOiA&media_id=emy99b5wAY_hgBvlRCWnIzliPZnN-b0QbSchpJnork8W68Oj7400rWRfxYm8kv4z";
-            //$rootScope.picurl = $scope.data.picurl;
+            $rootScope.picurl = decodeURIComponent($scope.data.picurl);
             showTemplate();
             picture.src = $rootScope.picurl;
             picture.onload = function () {
