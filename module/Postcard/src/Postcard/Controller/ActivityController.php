@@ -21,7 +21,7 @@ class ActivityController extends AbstractActionController
 
 
     public function introAction() {
-        $userName = $this->getRequest()->getQuery('userName');
+        $userName = $this->getRequest()->getQuery('username');
         $actName = $this->getRequest()->getQuery('actname', '');
         
         if ( ! $this->checkTemplateExist($actName)) {
