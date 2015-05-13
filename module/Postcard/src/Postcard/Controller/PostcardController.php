@@ -1303,7 +1303,7 @@ class PostcardController extends AbstractActionController
         }
 
         if ($order->activityId == 110) {
-            $image_qr = imagecreatefromjpeg('public/images/big/qr_xinshijie.jpg');
+            $image_qr = imagecreatefrompng('public/images/big/qr_xinshijie.png');
             $text = '大丸';
             $width=$height=250;
             imagecopyresampled($dst, $image_qr, $canvas_w- ($width + 60) * 2, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
