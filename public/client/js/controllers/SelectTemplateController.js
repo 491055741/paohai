@@ -196,7 +196,6 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             }
 
             showTemplate();
-            alert($rootScope.picurl);
             picture.src = $rootScope.picurl;
             picture.onload = function () {
                 draw();

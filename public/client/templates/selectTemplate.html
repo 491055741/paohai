@@ -1,14 +1,12 @@
 
 <div id="selectTemplate">
     <div id="image-container">
-        <div id="data" style="width: 300px; height: 400px; margin-top: -20px; overflow: scroll;">{{picurl}}</div>
         <canvas id="pictureCanvas">Your browser does not support the canvas element.</canvas>
         <canvas id="templateCanvas">Your browser does not support the canvas element.</canvas>
     </div>
 
     <ul id="template-preview">
-        <li> <img ng-src="{{picurl}}"></li>
-        <li ng-repeat="template in showTemplates" ng-click="selectedTemplate($index)" style="background-image: url('{{data.picurl}}'); background-size: 100% 100%;">
+        <li ng-repeat="template in showTemplates" ng-click="selectedTemplate($index)" style="background-image: url('{{picurl}}'); background-size: 100% 100%;">
             <img ng-src="{{template.url}}">
         </li>
     </ul>
