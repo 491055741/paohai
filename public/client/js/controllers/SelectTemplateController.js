@@ -177,6 +177,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         }
 
         var picture = new Image();
+        alert($location.absUrl());
         alert($routeParams.picurl);
         $http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
             orderId: $rootScope.order && $rootScope.order.id,
