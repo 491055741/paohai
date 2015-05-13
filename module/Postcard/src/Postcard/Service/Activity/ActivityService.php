@@ -141,7 +141,6 @@ class ActivityService extends AbstractService
      *
      */
     public function getPrice($order) {
-        $defaultPrice = 299;
 
         // priceRule chosen logic, template config prior to activity config
         $templateConfig = $this->getServiceLocator()
@@ -160,12 +159,12 @@ class ActivityService extends AbstractService
         }
 
         if ( ! $priceRuleId) {
-            return $defaultPrice;
+            return $order->price;
         }
 
         // Activity time check
         if ( ! $activity->isTimeValid()) {
-            return $defaultPrice;    
+            return $order->price;
         }
 
         $priceRuleConfig = $this->getServiceLocator()
