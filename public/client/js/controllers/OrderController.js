@@ -49,7 +49,6 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 }
 
                 $scope.totalPrice = (data.data.price / 100).toFixed(2);
-                alert($scope.totalPrice);
             }).error(function (error) {
                 alert(JSON.stringify(error));
                 alert("获取支付参数失败");
