@@ -119,6 +119,7 @@ class WxpayController extends AbstractActionController
             ->get('Postcard\Service\Activity\ActivityService');
 
         if ($selectedPrice == 2.99) {
+            $order->price = 299;
             $order->price = $activityService->getPrice($order);
         } else {
             $order->price = 999;
