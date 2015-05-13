@@ -78,7 +78,7 @@
             + "&media_id=" + serverId;
 
         //'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/client/index.html#/?picurl='.$picUrl.'&username='.$fromUsername.'&nonce='.time();
-        var url = domain + "/client/index.html#/?picurl="+ picUrl
+        var url = domain + "/client/index.html#/?picurl="+ encodeURIComponent(picUrl)
             + "&actId=" + actId
             + "&nonce=" + (new Date().getTime());
 
