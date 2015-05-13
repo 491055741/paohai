@@ -83,7 +83,6 @@
             + "&nonce=" + (new Date().getTime());
 
         return url;
-
     }
 
     window.actIntro = {
