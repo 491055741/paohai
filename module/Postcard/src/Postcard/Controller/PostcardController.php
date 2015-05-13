@@ -1302,6 +1302,21 @@ class PostcardController extends AbstractActionController
             $this->draw_txt_to($dst, $pos, $text);
         }
 
+        if ($order->activityId == 110) {
+            $image_qr = imagecreatefromjpeg('public/images/big/qr_xinshijie.jpg');
+            $text = '大丸';
+            $width=$height=250;
+            imagecopyresampled($dst, $image_qr, $canvas_w- ($width + 60) * 2, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
+            $pos['text-align'] = CENTER;
+            $pos['left']     = $canvas_w- ($width + 60) * 2;
+            $pos['top']      = 1100;
+            $pos['width']    = $width;
+            $pos['font-size'] = 20;
+            $pos['font-file'] = "public/fonts/simkai.ttf";
+            $pos['lineSpace'] = 34;
+            $this->draw_txt_to($dst, $pos, $text);
+        }
+
 //        unset($pos['font-file']);
         // voice qr code
         if ($order->voiceMediaId && file_exists($this->voicePath().$order->voiceMediaId.'.png')) {

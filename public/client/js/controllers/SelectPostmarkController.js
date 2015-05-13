@@ -21,7 +21,9 @@ postcardControllers.controller("SelectPostmarkController", ["$rootScope", "$scop
         $scope.onClickLi = function ($index) {
             $scope.selectedIndex = $index;
 
-            if ($scope.selectedIndex === 0) {
+            var youchuo = $scope.youchuoList[$scope.selectedIndex];
+
+            if (youchuo.path === "images/postmark/locate.png") {
                 wx.getLocation({
                     success: function (res) {
                         $http.post("/postcard/clientreportlnglat/" + $rootScope.order.id, {
