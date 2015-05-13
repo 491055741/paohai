@@ -7,6 +7,7 @@
     </div>
 
     <ul id="template-preview">
+        <li> <img ng-src="{{picurl}}"></li>
         <li ng-repeat="template in showTemplates" ng-click="selectedTemplate($index)" style="background-image: url('{{data.picurl}}'); background-size: 100% 100%;">
             <img ng-src="{{template.url}}">
         </li>
