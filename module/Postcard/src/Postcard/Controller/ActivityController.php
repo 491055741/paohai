@@ -21,22 +21,11 @@ class ActivityController extends AbstractActionController
 
 
     public function introAction() {
-        $userName = $this->getRequest()->getQuery('username');
         $actName = $this->getRequest()->getQuery('actname', '');
         
         if ( ! $this->checkTemplateExist($actName)) {
             $this->getResponse()->setStatusCode(404);
             return;
-        }
-
-        if ( ! $userName) {
-            $currUrl = $this->getCurrentUrl();
-            $oauthUrl = $this->getServiceLocator()
-                ->get("Wechat\Service\OauthService")
-                ->setRequest($this->getRequest())
-                ->getOauthUrl($currUrl); 
-            Header("Location: $oauthUrl");
-            exit;
         }
 
         $util = new CommonUtil();
@@ -55,7 +44,6 @@ class ActivityController extends AbstractActionController
         }
 
         $viewModel = new ViewModel(array(
-            'userName' => $userName,
             'accessToken' => $accessToken,
             'actName' => $actName,
             'JS_TAG' => JS_TAG,
