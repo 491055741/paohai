@@ -27,12 +27,13 @@ while ($count > 0) {
     }
 
     $code = join("", $temp);
-    echo $code."\n";
     $sql = "insert into coupon(code, expiredAt, price, status) values('$code', $expiredAt, $price, $status)";
     if (mysql_query($sql, $conn)) {
-        echo $code."\n";
+        echo $code."\r\n";
         $count--;
     }
 }
 
 mysql_close($conn);
+
+// how to use : php tools/generateCoupon.php>coupon.txt
