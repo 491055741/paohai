@@ -178,7 +178,6 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
         var picture = new Image();
 
-        alert(decodeURIComponent($routeParams.picurl));
         $http.get("/postcard/getTemplates?" + Util.getQueryStringFromObject({
             orderId: $rootScope.order && $rootScope.order.id,
             picurl: $routeParams.picurl,
@@ -191,6 +190,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             $rootScope.activityId = $scope.data.actId;
             $rootScope.order = $scope.data.order;
             $rootScope.picurl = decodeURIComponent($scope.data.picurl);
+            alert($rootScope.picurl);
             showTemplate();
             picture.src = $rootScope.picurl;
             picture.onload = function () {
