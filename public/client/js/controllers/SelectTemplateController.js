@@ -51,6 +51,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         };
 
         $rootScope.username = $routeParams.username;
+        $rootScope.activityId = $routeParams.actId;
         if (!$rootScope.username) {
             $http.get("/postcard/getOauthUrl", {
                 params: {

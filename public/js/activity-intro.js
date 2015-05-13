@@ -77,12 +77,10 @@
             + "access_token=" + accessToken
             + "&media_id=" + serverId;
 
-        var url = domain + "/postcard?"
-            + "partnerId=" + encodeURIComponent(partnerId)
+        //'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/client/index.html#/?picurl='.$picUrl.'&username='.$fromUsername.'&nonce='.time();
+        var url = domain + "/client/index.html#/?picurl="+ encodeURIComponent(picUrl)
             + "&actId=" + encodeURIComponent(actId)
-            + "&picurl=" + encodeURIComponent(picUrl)
-            + "&username=" + encodeURIComponent(userName)
-            + "&nonce=" + HC.getNonceStr();
+            + "&nonce=" + (new Date().getTime());
 
         return url;
 
@@ -92,6 +90,5 @@
         init: init,
         chooseImage: chooseImage
     };
-})(jQuery)
-
+})(jQuery);
 
