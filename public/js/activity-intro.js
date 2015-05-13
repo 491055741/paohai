@@ -80,6 +80,7 @@
         //'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"]. '/client/index.html#/?picurl='.$picUrl.'&username='.$fromUsername.'&nonce='.time();
         var url = domain + "/client/index.html#/?picurl="+ encodeURIComponent(picUrl)
             + "&actId=" + actId
+            + "&mediaId=" + serverId
             + "&nonce=" + (new Date().getTime());
 
         return url;

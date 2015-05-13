@@ -190,8 +190,13 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             $rootScope.activityId = $scope.data.actId;
             $rootScope.order = $scope.data.order;
             $rootScope.picurl = decodeURIComponent($scope.data.picurl);
-            alert($rootScope.picurl);
+
+            if ($routeParams.mediaId) {
+                $rootScope.picurl += "&media_id=" + $routeParams.mediaId;
+            }
+
             showTemplate();
+            alert($rootScope.picurl);
             picture.src = $rootScope.picurl;
             picture.onload = function () {
                 draw();
