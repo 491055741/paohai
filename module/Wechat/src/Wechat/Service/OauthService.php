@@ -50,6 +50,6 @@ class OauthService extends AbstractService
             return NULL;
         }
 
-        return $url.'?username='.$openId.'&code='.$code.'&openId='.$openId;
+        return $url.'?&username='.$openId.'&openId='.$openId;
     }
 }
