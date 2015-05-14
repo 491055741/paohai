@@ -122,6 +122,9 @@ button {
     position: absolute;
     display: block;
     top: 0;
+    -webkit-box-shadow:0 0 10px rgba(104, 104, 104, 0.7);
+    -moz-box-shadow:0 0 10px rgba(104, 104, 104, 0.7);
+    box-shadow:0 0 10px rgba(104, 104, 104, 0.7);
 }
 
 #selectTemplate ul {

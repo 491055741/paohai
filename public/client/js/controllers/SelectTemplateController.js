@@ -84,29 +84,101 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         }
 
         var canvas = document.getElementById("pictureCanvas");
-        canvas.width *= 2;
-        canvas.height *= 2;
+        canvas.width = 2000;
+        canvas.height = 2000;
 
         function draw() {
             var context = canvas.getContext("2d");
             var imgX = 0;
             var imgY = 0;
             var imgScale = 1;
+            var pixelRatio = Util.getPixelRatio();
             function drawImage(){
-                context.clearRect(-300, -300, canvas.width * 5, canvas.height * 5);
-                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
+                context.clearRect(-500, -1000, 2000, 2000);
+
+                if ($scope.selectTemplateType === 0) {
+                    if (imgX <= 0 && picture.width * imgScale < canvas.width / pixelRatio) {
+                        imgX = 0;
+                    }
+
+                    if (imgX <= 0 && imgX + picture.width * imgScale < canvas.width / pixelRatio && picture.width * imgScale >= canvas.width / pixelRatio) {
+                        imgX = canvas.width / pixelRatio - (imgX + picture.width * imgScale) + imgX;
+                    }
+
+                    if (imgX > 0 && imgX + picture.width * imgScale > canvas.width / pixelRatio && picture.width * imgScale < canvas.width / pixelRatio) {
+                        imgX = canvas.width / pixelRatio - picture.width * imgScale;
+                    }
+
+                    if (imgX > 0 && imgX + picture.width * imgScale > canvas.width / pixelRatio && picture.width * imgScale >= canvas.width / pixelRatio) {
+                        imgX = 0;
+                    }
+
+                    if (imgY <= 0 && picture.height * imgScale < canvas.height / pixelRatio) {
+                        imgY = 0;
+                    }
+
+                    if (imgY <= 0 && imgY + picture.height * imgScale < canvas.height / pixelRatio && picture.height * imgScale >= canvas.height / pixelRatio) {
+                        imgY = canvas.height / pixelRatio - (imgY + picture.height * imgScale) + imgY;
+                    }
+
+                    if (imgY > 0 && imgY + picture.height * imgScale > canvas.height / pixelRatio && picture.height * imgScale < canvas.height / pixelRatio) {
+                        imgY = canvas.height / pixelRatio - picture.height * imgScale;
+                    }
+
+                    if (imgY > 0 && imgY + picture.height * imgScale > canvas.height / pixelRatio && picture.height * imgScale >= canvas.height / pixelRatio) {
+                        imgY = 0;
+                    }
+                } else {
+
+                    var offset = - picture.height * imgScale;
+                    if (imgY >= offset && picture.height * imgScale < canvas.width / pixelRatio) {
+                        imgY = offset;
+                    }
+
+                    if (imgY > offset && imgY >= -canvas.width / pixelRatio && picture.height * imgScale >= canvas.width / pixelRatio) {
+                        imgY = - canvas.width / pixelRatio;
+                    }
+
+                    if (imgY <= offset && imgY < - canvas.width / pixelRatio && picture.height * imgScale < canvas.width / pixelRatio) {
+                        imgY =  - canvas.width / pixelRatio ;
+                    }
+
+                    if (imgY <= offset && picture.height * imgScale >= canvas.width / pixelRatio) {
+                        imgY = offset;
+                    }
+
+                    if (imgX <= 0 && picture.width * imgScale < canvas.height / pixelRatio) {
+                        imgX = 0;
+                    }
+
+                    if (imgX <= 0 && imgX + picture.width * imgScale < canvas.height / pixelRatio && picture.width * imgScale >= canvas.height / pixelRatio) {
+                        imgX = canvas.height / pixelRatio - (imgX + picture.width * imgScale) + imgX;
+                    }
+
+                    if (imgX > 0 && imgX + picture.width * imgScale > canvas.height / pixelRatio && picture.width * imgScale < canvas.height / pixelRatio) {
+                        imgX = canvas.height / pixelRatio - picture.width * imgScale;
+                    }
+
+                    if (imgX > 0 && imgX + picture.width * imgScale > canvas.height / pixelRatio && picture.width * imgScale >= canvas.height / pixelRatio) {
+                        imgX = 0;
+                    }
+
+                }
+
+
+                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX * pixelRatio, imgY * pixelRatio, picture.width * imgScale * pixelRatio, picture.height * imgScale * pixelRatio);
             }
 
             if ($scope.selectTemplateType === 0) {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.rotate(0);
-                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
+                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX * pixelRatio, imgY * pixelRatio, picture.width * imgScale * pixelRatio, picture.height * imgScale * pixelRatio);
             } else {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.rotate(Math.PI / 2);
                 imgX = 0;
                 imgY = - picture.height * imgScale;
-                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX, imgY, picture.width * imgScale, picture.height * imgScale);
+                context.drawImage(picture, 0, 0, picture.width, picture.height, imgX * pixelRatio, imgY * pixelRatio, picture.width * imgScale * pixelRatio, picture.height * imgScale * pixelRatio);
             }
 
             var templateCanvas = document.getElementById("templateCanvas");
@@ -270,8 +342,8 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
 
         var templateCanvas = document.getElementById("templateCanvas");
-        templateCanvas.width *= 4;
-        templateCanvas.height *= 4;
+        templateCanvas.width = 2000;
+        templateCanvas.height = 2000;
         $scope.selectedTemplate = function (index) {
             $scope.selectTemplateIndex = index;
             var context = templateCanvas.getContext("2d");
