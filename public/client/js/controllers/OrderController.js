@@ -33,6 +33,7 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
 
         function setTotalPrice() {
             $scope.totalPrice = $scope.selectedPrice;
+            $scope.priceTitle = "共计消费";
 
             $http.get("/wxpay/paypara/" + $rootScope.order.id, {
                 params: {
@@ -49,6 +50,9 @@ postcardControllers.controller("OrderController", ["$rootScope", "$scope", "$win
                 }
 
                 $scope.totalPrice = (data.data.price / 100).toFixed(2);
+                if ($scope.totalPrice == "0.00") {
+                    $scope.priceTitle = "活动价";
+                }
             }).error(function (error) {
                 alert(JSON.stringify(error));
                 alert("获取支付参数失败");
