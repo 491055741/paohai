@@ -354,5 +354,13 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                 context.drawImage(img, 0, 0, templateCanvas.width, templateCanvas.height);
             };
         };
+
+
+        Util.overlay.init("<img style='width: 100%' src='images/tips.png'/><div id='closeIcon' style='width: 50px; height: 50px; position: absolute; top: 0; right: 0;'></div>", {transparent: true});
+        Util.overlay.show();
+
+        $("#closeIcon").on("click", function () {
+            Util.overlay.hide();
+        });
     }
 ]);

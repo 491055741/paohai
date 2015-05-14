@@ -19,7 +19,12 @@ util.value("Util", {
     },
 
     overlay: {
-        init: function (content) {
+        init: function (content, option) {
+
+            if (option && option.transparent) {
+                $("#overlay #content").css("background-color", "transparent");
+            }
+
             $("#overlay #content").off("click");
             $("#overlay #content").on("click", function () {
                 return false;
