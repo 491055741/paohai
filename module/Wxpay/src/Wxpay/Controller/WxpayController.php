@@ -149,6 +149,38 @@ class WxpayController extends AbstractActionController
         ));
     }
 
+    public function payQRParaAction()
+    {
+        // new order
+        while (1) {
+            $orderId = date("ymd") . rand(10000, 99999);
+            if (!$this->getOrderTable()->getOrder($orderId)) {
+                break;
+            }
+        }
+
+        // create an order.
+        $order = new Order();
+        $order->id         = $orderId;
+        $order->userName   = $this->getRequest()->getPost('userName',   "test_scan_qr_to_pay");
+        $order->status     = UNPAY;
+        $order->activityId = 0;
+        $order->orderDate  = date('Y-m-d H:i:s');
+        $order->partnerId  = 0;
+        $order->like       = 0;
+        $order->unlike     = 0;
+        $order->price      = 1;
+        $this->getOrderTable()->saveOrder($order);
+
+        return new JsonModel(array(
+            "code" => 0,
+            "data" => array(
+                "price" => $order->price,  //单位分
+                "codeURL" => WXJsPay::getCodeURL($order->id, $order->price),
+            ),
+        ));
+    }
+
 
     public function asyncMakePictureAction()
     {

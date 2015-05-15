@@ -117,6 +117,10 @@ Postcard.config(["$routeProvider",
             templateUrl: "templates/done.html",
             controller: "DoneController"
         })
+        .when("/scanToPay", {
+            templateUrl: "templates/scanToPay.html",
+            controller: "ScanToPayController"
+        })
 
         .otherwise({
             templateUrl: "templates/404.html"

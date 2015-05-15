@@ -381,6 +381,17 @@ class UnifiedOrder_pub extends Wxpay_client_pub
         }
 		return $prepay_id;
 	}
+
+	function getCodeUrl() {
+		$this->postXml();
+		$this->result = $this->xmlToArray($this->response);
+		if ($this->result['return_code'] == 'SUCCESS' && isset($this->result['code_url'])) {
+			$code_url = $this->result['code_url'];
+		} else {
+			$code_url = '';
+		}
+		return $code_url;
+	}
 	
 }
 
