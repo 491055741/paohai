@@ -14,9 +14,6 @@ postcardControllers.controller("ScanToPayController", ["$rootScope", "$scope", "
             height : 150
         });
 
-        qrcode.makeCode("weixin://wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id= XXXXXX &time_stamp=XXXXXX&nonce_str=XXXXX");
-        qrcode.makeCode("http://www.qq.com");
-
         $http.get("/wxpay/payQRpara/", {
             params: {
             }
@@ -25,6 +22,10 @@ postcardControllers.controller("ScanToPayController", ["$rootScope", "$scope", "
                 alert(data.msg);
                 return;
             }
+
+            $scope.price = (data.data.price / 100).toFixed(2);
+
+            qrcode.makeCode(data.data.codeURL);
         }).error(function (error) {
             alert(JSON.stringify(error));
             alert("获取支付参数失败");
