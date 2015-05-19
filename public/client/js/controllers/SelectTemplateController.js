@@ -91,7 +91,7 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             var context = canvas.getContext("2d");
             var imgX = 0;
             var imgY = 0;
-            var imgScale = 1;
+            var imgScale = 0.5;
             var pixelRatio = Util.getPixelRatio();
             function drawImage(){
                 context.clearRect(-500, -1000, 2000, 2000);
@@ -232,13 +232,9 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                         }
 
                         if(deltaDistance > 0){
-                            imgScale *= 1.01;
-                            imgX = center.x - imgScale * (center.x - startImageX);
-                            imgY = center.y - imgScale * (center.y - startImageY);
+                            imgScale *= 1.02;
                         }else{
-                            imgScale *= 0.99;
-                            imgX = center.x - imgScale * (center.x - startImageX);
-                            imgY = center.y - imgScale * (center.y - startImageY);
+                            imgScale *= 0.98;
                         }
                     }
 
