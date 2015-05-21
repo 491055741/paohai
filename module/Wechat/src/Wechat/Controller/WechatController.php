@@ -471,4 +471,13 @@ PRESET_CARD_TEXT;
             'cityCode' => $data['result']['cityCode'],
         );
     }
+
+    private function getUtil()
+    {
+        if (!$this->util) {
+            $this->util = new CommonUtil();
+            $this->util->setServiceLocator($this->getServiceLocator());
+        }
+        return $this->util;
+    }
 }
