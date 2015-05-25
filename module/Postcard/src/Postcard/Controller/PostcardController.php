@@ -1350,13 +1350,17 @@ class PostcardController extends AbstractActionController
                 default:
                     $text = '听取你的留言';
             }
+
+            $width=$height=250;
+            imagecopyresampled($dst, $image_qr, $canvas_w-$width-70, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
         } else {
             // quyou qr code
             $image_qr = imagecreatefrompng('public/images/big/qr_quyou.png');
             $text = 'DIY你的明信片';
+
+            $width=$height=250;
+            imagecopyresampled($dst, $image_qr, $canvas_w-$width-70, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
         }
-        $width=$height=250;
-        imagecopyresampled($dst, $image_qr, $canvas_w-$width-70, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
         $pos['text-align'] = CENTER;
         $pos['left']     = $canvas_w-$width-70;
         $pos['top']      = 1100;
