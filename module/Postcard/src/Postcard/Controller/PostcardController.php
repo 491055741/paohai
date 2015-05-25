@@ -1094,6 +1094,10 @@ class PostcardController extends AbstractActionController
     public function getYouchuoListAction() {
         $activityId = $this->getRequest()->getQuery('activityId', Activity::DEFAULT_ACTIVITY_ID);
 
+        if ($activityId == 109) {
+            $activityId = Activity::DEFAULT_ACTIVITY_ID; // 使用默认的邮戳列表
+        }
+
         $youchuoList = $this->getYouchuoTable()->getYouchuoList($activityId);
 
         return new JsonModel(array(

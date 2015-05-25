@@ -28,7 +28,7 @@ class YouchuoTable
 
     public function getYouchuoById($id) {
         $select = $this->tableGateway->getSql()->select();
-        $select->where('id='.$id);;
+        $select->where('id='.$id);
         $resultSet = $this->tableGateway->selectWith($select);
 
         $result = [];
