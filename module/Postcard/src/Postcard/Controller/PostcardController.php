@@ -1351,8 +1351,8 @@ class PostcardController extends AbstractActionController
                     $text = '听取你的留言';
             }
 
-            $width=$height=250;
-            imagecopyresampled($dst, $image_qr, $canvas_w-$width-70, $canvas_h-$height-110, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
+            $width=$height=318;
+            imagecopyresampled($dst, $image_qr, $canvas_w-$width-55, $canvas_h-$height-77, 0, 0, $width, $height, imagesx($image_qr), imagesy($image_qr));
         } else {
             // quyou qr code
             $image_qr = imagecreatefrompng('public/images/big/qr_quyou.png');
