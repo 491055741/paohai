@@ -1142,6 +1142,11 @@ class PostcardController extends AbstractActionController
             file_put_contents($origPicName, $this->getUtil()->httpGet($order->picUrl, 120));
         }
 
+        $data = file_get_contents($origPicName); // 由于微信防盗处理，部份图片无法正常获取，取存在本服务器上的图片代替
+        if (empty($data)) {
+            $origPicName = dirname(__FILE__).'/../../../../../public'.$order->picUrl;
+        }
+
         $angel = $templateInfo["rotate"]; // 与web旋转方向一致，为顺时针方向旋转
         $image_user = $this->getAutoRotatedImg($origPicName, $angel);
 
@@ -1186,6 +1191,7 @@ class PostcardController extends AbstractActionController
 
     private function getAutoRotatedImg($imgName, $angelAdjust)
     {
+
         $exif = exif_read_data($imgName, 'IFD0');
         if ($exif === false) {
             $orientation = 0;
