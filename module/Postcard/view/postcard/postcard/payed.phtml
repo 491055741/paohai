@@ -7,10 +7,46 @@ $this->headTitle($title);
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base target="_blank">
+    <script type="text/javascript" src="/client/js/zepto.min.js"></script>
     <script language="javascript">
     function deleteDiv(ele){
      ele.parentNode.parentNode.removeChild(ele.parentNode);
     }
+        $(document).ready(function() {
+            $("a").on('click', function () {
+                $(this).css('color', 'gray');
+            });
+
+            $('#activityId').on('keyup', function () {
+                var value = $(this).val();
+                if (!value) {
+                    $("tr[activityId]").show();
+                } else {
+                    $("tr[activityId]").hide();
+                    $("tr[activityId=" + value + "]").show();
+                }
+            });
+
+            $('#payDate').on('keyup', function () {
+                var value = $(this).val();
+                if (!value) {
+                    $("tr[payDate]").show();
+                } else {
+                    $("tr[payDate]").hide();
+                    $("tr[payDate*=" + value + "]").show();
+                }
+            });
+
+            $('#orderId').on('keyup', function () {
+                var value = $(this).val();
+                if (!value) {
+                    $("tr[orderId]").show();
+                } else {
+                    $("tr[orderId]").hide();
+                    $("tr[orderId*=" + value + "]").show();
+                }
+            });
+        });
     </script>
 </head>
 
@@ -18,9 +54,9 @@ $this->headTitle($title);
     <h1><?php echo $this->escapeHtml($title); ?></h1>
     <table class="table">
     <tr>
-        <th>活动id</th>
-        <th>支付日期</th>
-        <th>订单号</th>
+        <th>活动id<input type="text" id="activityId" /></th>
+        <th>支付日期<input type="text" id="payDate" ></th>
+        <th>订单号<input type="text" id="orderId" /></th>
         <th>价格</th>
         <th>收信地址</th>
         <th>收信人</th>
@@ -28,7 +64,7 @@ $this->headTitle($title);
         <th>实时生成图片</th>
     </tr>
     <?php foreach ($orders as $order) : ?>
-    <tr>
+    <tr activityId="<?php echo $this->escapeHtml($order->activityId);?>" payDate="<?php echo $this->escapeHtml($order->payDate);?>" orderId="<?php echo $this->escapeHtml($order->id);?>">
         <td><?php echo $this->escapeHtml($order->activityId);?></td>
         <td><?php echo $this->escapeHtml($order->payDate);?></td>
         <td><?php echo $this->escapeHtml($order->id);?></td>
