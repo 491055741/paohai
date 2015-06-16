@@ -1,6 +1,8 @@
 <div id="like">
     <div id="cardPreview">
-        <img ng-src="{{order.front}}">
+        <canvas id="pictureCanvas">Your browser does not support the canvas element.</canvas>
+        <canvas id="templateCanvas">Your browser does not support the canvas element.</canvas>
+        <!--<img ng-src="{{order.picUrl}}">-->
     </div>
 
     <div id="likeButton" class="{{likeActive()}}" ng-click="onClickLikeButton()">

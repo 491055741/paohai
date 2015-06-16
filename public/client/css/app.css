@@ -1284,16 +1284,28 @@ button {
 }
 
 #like #cardPreview {
-    width: 60%;
     position: absolute;
-    top: 10px;
-    left: 20%;
-    right: 20%;
-    bottom: 100px;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 160px;
 }
 
-#like #cardPreview>img {
+#like #cardPreview #pictureCanvas {
     width: 100%;
+    position: absolute;
+    display: block;
+    top: 0;
+}
+
+#like #cardPreview #templateCanvas {
+    height: 100%;
+    position: absolute;
+    display: block;
+    top: 0;
+    -webkit-box-shadow:0 0 10px rgba(104, 104, 104, 0.7);
+    -moz-box-shadow:0 0 10px rgba(104, 104, 104, 0.7);
+    box-shadow:0 0 10px rgba(104, 104, 104, 0.7);
 }
 
 #like #likeButton {
