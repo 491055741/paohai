@@ -1,15 +1,15 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
-//var clean = require('gulp-clean');
+var clean = require('gulp-clean');
 
-//gulp.task('clean', function() {
-//    return gulp.src([
-//            'public/client/build/*',
-//            'public/client/release/all.min.js'
-//        ], {read: false})
-//        .pipe(clean());
-//});
+gulp.task('clean', function() {
+    return gulp.src([
+            'public/client/build/*',
+            'public/client/release/all.min.js'
+        ], {read: false})
+        .pipe(clean());
+});
 
 gulp.task('uglify', function() {
     return gulp.src([
@@ -33,4 +33,4 @@ gulp.task('concat', function() {
         .pipe(gulp.dest('public/client/release'));
 });
 
-gulp.task('build', ['uglify', 'concat']);
+gulp.task('build', gulp.series('clean', 'uglify', 'concat'));
