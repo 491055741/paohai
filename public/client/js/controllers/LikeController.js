@@ -86,7 +86,7 @@ postcardControllers.controller("LikeController", ["$rootScope", "$scope", "$wind
             var context = canvas.getContext("2d");
             var imgX = 0;
             var imgY = 0;
-            var imgScale = 0.5;
+            var imgScale = 1.0;
             var pixelRatio = Util.getPixelRatio();
 
             function drawImage(){
