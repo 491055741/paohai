@@ -94,7 +94,11 @@ postcardControllers.controller("LikeController", ["$rootScope", "$scope", "$wind
                 context.drawImage(picture, 0, 0, picture.width, picture.height, imgX * pixelRatio, imgY * pixelRatio, picture.width * imgScale * pixelRatio, picture.height * imgScale * pixelRatio);
             }
 
-            $scope.selectTemplateType = 0;
+            if (targetTemplate.rotate == -90) {
+                $scope.selectTemplateType = 1;
+            } else {
+                $scope.selectTemplateType = 0;
+            }
 
             if ($scope.selectTemplateType === 0) {
                 context.clearRect(0, 0, canvas.width, canvas.height);
