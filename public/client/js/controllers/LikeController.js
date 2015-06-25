@@ -83,22 +83,25 @@ postcardControllers.controller("LikeController", ["$rootScope", "$scope", "$wind
             canvas.width = 1181;
             canvas.height = 1748;
 
+            var imgScale = 1.0;
+            var pixelRatio = Util.getPixelRatio();
+            if (targetTemplate.rotate == -90) {
+                $scope.selectTemplateType = 1;
+                imgScale = canvas.width / picture.width / pixelRatio;
+            } else {
+                $scope.selectTemplateType = 0;
+                imgScale = canvas.width / picture.height / pixelRatio;
+            }
+
             var context = canvas.getContext("2d");
             var imgX = 0;
             var imgY = 0;
-            var imgScale = 1.0;
-            var pixelRatio = Util.getPixelRatio();
-
             function drawImage(){
                 context.clearRect(-500, -1000, 2000, 2000);
                 context.drawImage(picture, 0, 0, picture.width, picture.height, imgX * pixelRatio, imgY * pixelRatio, picture.width * imgScale * pixelRatio, picture.height * imgScale * pixelRatio);
             }
 
-            if (targetTemplate.rotate == -90) {
-                $scope.selectTemplateType = 1;
-            } else {
-                $scope.selectTemplateType = 0;
-            }
+
 
             if ($scope.selectTemplateType === 0) {
                 context.clearRect(0, 0, canvas.width, canvas.height);
@@ -135,7 +138,7 @@ postcardControllers.controller("LikeController", ["$rootScope", "$scope", "$wind
             $("#pictureCanvas").css("width", $("#templateCanvas").css("width"));
             $("#pictureCanvas").css("height", $("#templateCanvas").css("height"));
             $("#pictureCanvas").css("left", $("#templateCanvas").css("left"));
-            draw();
+            //draw();
         }
 
         reLayout();
