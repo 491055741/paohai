@@ -87,10 +87,10 @@ postcardControllers.controller("LikeController", ["$rootScope", "$scope", "$wind
             var pixelRatio = Util.getPixelRatio();
             if (targetTemplate.rotate == -90) {
                 $scope.selectTemplateType = 1;
-                imgScale = canvas.width / picture.width / pixelRatio;
+                imgScale = canvas.width / picture.height / pixelRatio;
             } else {
                 $scope.selectTemplateType = 0;
-                imgScale = canvas.width / picture.height / pixelRatio;
+                imgScale = canvas.width / picture.width / pixelRatio;
             }
 
             var context = canvas.getContext("2d");
