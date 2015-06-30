@@ -57,7 +57,7 @@ postcardControllers.controller("EditContactController", ["$rootScope", "$scope",
                     address: province + city + address
                 }
             }).success(function (data) {
-                if (data.code == 0) {
+                if (data.code == 0 && data.data && data.data.length > 0) {
                     $scope.zipcode = data.data;
                 }
             });

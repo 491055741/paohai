@@ -11,6 +11,8 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
         $rootScope.onHeaderRightButtonClick = function () {
             $rootScope.selectedTemplate = $scope.showTemplates[$scope.selectTemplateIndex];
+            $rootScope.selectedTemplate.selectTemplateIndex = $scope.selectTemplateIndex;
+            $rootScope.selectedTemplate.templateType = $scope.selectTemplateType;
 
             if ($rootScope.order && $rootScope.order.id) {
                 $http.post("/postcard/updateOrder/" + $rootScope.order.id + "?nonce=" + Util.getNonceStr(), {
@@ -71,7 +73,13 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
         }
 
         $scope.selectTemplateType = 0;
-        $scope.selectTemplateIndex = 0;
+        if ($rootScope.selectedTemplate && $rootScope.selectedTemplate.selectTemplateIndex !== undefined) {
+            $scope.selectTemplateIndex = $rootScope.selectedTemplate.selectTemplateIndex;
+            $scope.selectTemplateType = $rootScope.selectedTemplate.templateType;
+        } else {
+            $scope.selectTemplateIndex = 0;
+        }
+
         $scope.showTemplates = [];
         $scope.data = null;
 
@@ -83,16 +91,22 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             };
         }
 
-        var canvas = document.getElementById("pictureCanvas");
-        canvas.width = 2000;
-        canvas.height = 2000;
-
         function draw() {
+            var canvas = document.getElementById("pictureCanvas");
+            canvas.width = 1181;
+            canvas.height = 1748;
+
+            var imgScale = 1.0;
+            var pixelRatio = Util.getPixelRatio();
+            if ($scope.selectTemplateType === 1) {
+                imgScale = canvas.height / picture.width / pixelRatio;
+            } else {
+                imgScale = canvas.width / picture.width / pixelRatio;
+            }
+
             var context = canvas.getContext("2d");
             var imgX = 0;
             var imgY = 0;
-            var imgScale = 0.5;
-            var pixelRatio = Util.getPixelRatio();
             function drawImage(){
                 context.clearRect(-500, -1000, 2000, 2000);
 
@@ -165,7 +179,6 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
 
                 }
 
-
                 context.drawImage(picture, 0, 0, picture.width, picture.height, imgX * pixelRatio, imgY * pixelRatio, picture.width * imgScale * pixelRatio, picture.height * imgScale * pixelRatio);
             }
 
@@ -187,61 +200,32 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                 x: 0,
                 y: 0
             };
-            templateCanvas.ontouchstart = function (event){
-                var startImageX = imgX;
-                var startImageY = imgY;
-
-                var pos = windowToCanvas(templateCanvas, event.touches[0].clientX, event.touches[0].clientY);
-
-                if (event.touches.length === 2) {
-                    var pos2 = windowToCanvas(templateCanvas, event.touches[1].clientX, event.touches[1].clientY);
-                    center.x = (pos.x + pos2.x) / 2;
-                    center.y = (pos.y + pos2.y) / 2;
-                }
-
-                var distance = 0;
-                templateCanvas.ontouchmove = function(event){
-
-                    if (event.touches.length === 1) {
-                        var pos1 = windowToCanvas(templateCanvas,event.touches[0].clientX, event.touches[0].clientY);
-                        var x = pos1.x - pos.x;
-                        var y = pos1.y - pos.y;
-                        pos = pos1;
-                        if ($scope.selectTemplateType === 0) {
-                            imgX += x;
-                            imgY += y;
-                        } else {
-                            imgX += y;
-                            imgY -= x;
-                        }
-                    }
-
-                    if (event.touches.length === 2) {
-                        var x1 = event.touches[0].clientX;
-                        var y1 = event.touches[0].clientY;
-
-                        var x2 = event.touches[1].clientX;
-                        var y2 = event.touches[1].clientY;
-
-                        var deltaDistance = 0;
-                        if (distance === 0) {
-                            distance = Math.pow(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 0.5);
-                            return;
-                        } else {
-                            deltaDistance = Math.pow(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 0.5) - distance;
-                        }
-
-                        if(deltaDistance > 0){
-                            imgScale *= 1.02;
-                        }else{
-                            imgScale *= 0.98;
-                        }
-                    }
-
-                    drawImage();
-                    //$("#data").html(imgX + "<br/>" + imgY + "<br/>" + imgScale);
-                };
-            };
+            //templateCanvas.ontouchstart = function (event){
+            //    var pos = windowToCanvas(templateCanvas, event.touches[0].clientX, event.touches[0].clientY);
+            //
+            //    if (event.touches.length === 2) {
+            //        var pos2 = windowToCanvas(templateCanvas, event.touches[1].clientX, event.touches[1].clientY);
+            //        center.x = (pos.x + pos2.x) / 2;
+            //        center.y = (pos.y + pos2.y) / 2;
+            //    }
+            //
+            //    templateCanvas.ontouchmove = function(event){
+            //        if (event.touches.length === 1) {
+            //            var pos1 = windowToCanvas(templateCanvas,event.touches[0].clientX, event.touches[0].clientY);
+            //            var x = pos1.x - pos.x;
+            //            var y = pos1.y - pos.y;
+            //            pos = pos1;
+            //            if ($scope.selectTemplateType === 0) {
+            //                imgX += x;
+            //                imgY += y;
+            //            } else {
+            //                imgX += y;
+            //                imgY -= x;
+            //            }
+            //        }
+            //        drawImage();
+            //    };
+            //};
         }
 
         var picture = new Image();
@@ -267,6 +251,8 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
             picture.src = $rootScope.picurl;
             picture.onload = function () {
                 draw();
+                $scope.selectedTemplate($scope.selectTemplateIndex);
+                $scope.reshowTemplates($scope.selectTemplateType);
             };
         }).error(function () {
         });
@@ -350,13 +336,5 @@ postcardControllers.controller("SelectTemplateController", ["$rootScope", "$scop
                 context.drawImage(img, 0, 0, templateCanvas.width, templateCanvas.height);
             };
         };
-
-
-        Util.overlay.init("<img style='width: 100%' src='images/tips.png'/><div id='closeIcon' style='width: 50px; height: 50px; position: absolute; top: 0; right: 0;'></div>", {transparent: true});
-        Util.overlay.show();
-
-        $("#closeIcon").on("click", function () {
-            Util.overlay.hide();
-        });
     }
 ]);
