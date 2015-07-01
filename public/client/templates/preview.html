@@ -3,8 +3,10 @@
     <div id="iscrollWrapper">
         <div>
             <div id="front">
-                <img ng-src="{{picurl}}">
-                <img id="template" ng-src="{{selectedTemplate.url}}">
+                <div id="cardPreview">
+                    <canvas id="pictureCanvas">Your browser does not support the canvas element.</canvas>
+                    <canvas id="templateCanvas">Your browser does not support the canvas element.</canvas>
+                </div>
             </div>
 
             <div id="back">
@@ -26,9 +28,9 @@
                 <img id="postmark" ng-src="{{youchuo.path}}" />
 
                 <div id="receiverInfo">
-                    <u>{{targetContact.address}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{targetContact.contactName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+                    <u>{{targetContact.address}}&nbsp;&nbsp;&nbsp;&nbsp;{{targetContact.contactName}}(收)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div>h
