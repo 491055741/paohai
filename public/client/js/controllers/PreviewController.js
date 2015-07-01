@@ -11,13 +11,6 @@ postcardControllers.controller("PreviewController", ["$rootScope", "$scope", "$w
             $location.path("/order");
         };
 
-        setTimeout(function () {
-            var myScroll = new IScroll('#iscrollWrapper', {
-                click: true,
-                scrollbars: true
-            });
-        }, 300);
-
         var picture = new Image();
         picture.src =  $rootScope.picurl;
         picture.onload = function () {
@@ -72,6 +65,10 @@ postcardControllers.controller("PreviewController", ["$rootScope", "$scope", "$w
                 img.onload = function () {
                     context.clearRect(0, 0, templateCanvas.width, templateCanvas.height);
                     context.drawImage(img, 0, 0, templateCanvas.width, templateCanvas.height);
+                    var myScroll = new IScroll('#iscrollWrapper', {
+                        click: true,
+                        scrollbars: true
+                    });
                 };
             }
         }
