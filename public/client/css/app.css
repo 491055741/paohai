@@ -1321,7 +1321,7 @@ button {
 
 #like #likeButton {
     position: absolute;
-    bottom: 50px;
+    bottom: 100px;
     left: 30%;
     width: 40px;
     height: 40px;
@@ -1339,7 +1339,7 @@ button {
 
 #like #unlikeButton {
     position: absolute;
-    bottom: 50px;
+    bottom: 100px;
     right: 30%;
     width: 40px;
     height: 40px;
@@ -1353,6 +1353,20 @@ button {
 #like .unlike-active {
     background-image: url("../images/bad-icon-active.png");
     background-size: 100% 100%;
+}
+
+#like #qr {
+    position: absolute;
+    bottom: -250px;
+    left: 30px;
+    right: 30px;
+}
+
+#like #qr img {
+    display: block;
+    margin: auto;
+    width: 160px;
+    height: 160px;
 }
 /***********page like end***************************/
 

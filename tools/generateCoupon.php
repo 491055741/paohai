@@ -4,10 +4,10 @@ $conn = mysql_connect("localhost", "root", "");
 mysql_query("set names 'utf8'");
 mysql_select_db("paohai_postcard");
 
-$count = 5000;
+$count = 6000;
 
 $year = 2015;
-$month = 8;
+$month = 10;
 $day = 30;
 
 $hour = 23;
