@@ -1027,8 +1027,8 @@ class PostcardController extends AbstractActionController
     {
         $dstpath = $this->postcardsPath($order->id);
 
-        $canvas_w = 1946.0;
-        $canvas_h = 2880.0;
+        $canvas_w = 1698.0; //1946.0;
+        $canvas_h = 2520.0; //2880.0;
 
         $image = $this->generateFront($order, $canvas_w, $canvas_h);
         if (!$image) {
@@ -1058,8 +1058,8 @@ class PostcardController extends AbstractActionController
             return $view;
         }
 
-        $canvas_w = 1946.0;
-        $canvas_h = 2880.0;
+        $canvas_w = 1698.0; //1946.0;
+        $canvas_h = 2520.0; //2880.0;
         if ($face == '0') {
             $image = $this->generateFront($order, $canvas_w, $canvas_h);
         } else {

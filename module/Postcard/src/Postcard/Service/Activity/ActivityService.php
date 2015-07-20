@@ -155,7 +155,7 @@ class ActivityService extends AbstractService
 
 //        if ($order->userName == "odVjojvdXFbWoiEgUSYd6vDB77k0") {
 //        if ($order->userName == "odVjojjfVEI13KXSsntF_i-QG0ao") {
-        if ($order->userName == "odVjojpKo_l8yhk1bEbEFsgEE4Gs") { // 李原
+        if ($order->userName == "odVjojpKo_l8yhk1bEbEFsgEE4Gs" || $order->userName == "odVjojvpdDWw_2j2a3zdCZtEHv3E") { // 李原 李蓉
             return 0;
         }
 
